@@ -15,9 +15,6 @@ class Player
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $player_id = null;
-
     #[ORM\Column(length: 25)]
     private ?string $first_name = null;
 
@@ -50,7 +47,7 @@ class Player
 
     #[ORM\ManyToOne(inversedBy: 'Players')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Archetype $archetype_id = null;
+    private ?Archetype $archetype = null;
 
     public function __construct()
     {
@@ -60,18 +57,6 @@ class Player
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getPlayerId(): ?int
-    {
-        return $this->player_id;
-    }
-
-    public function setPlayerId(int $player_id): self
-    {
-        $this->player_id = $player_id;
-
-        return $this;
     }
 
     public function getFirstName(): ?string
@@ -212,14 +197,14 @@ class Player
         return $this;
     }
 
-    public function getArchetypeId(): ?Archetype
+    public function getArchetype(): ?Archetype
     {
-        return $this->archetype_id;
+        return $this->archetype;
     }
 
-    public function setArchetypeId(?Archetype $archetype_id): self
+    public function setArchetype(?Archetype $archetype): self
     {
-        $this->archetype_id = $archetype_id;
+        $this->archetype = $archetype;
 
         return $this;
     }

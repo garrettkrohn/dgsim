@@ -30,7 +30,7 @@ class HoleResult
 
     #[ORM\ManyToOne(inversedBy: 'holeResults')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?round $round_id = null;
+    private ?round $round = null;
 
     public function getId(): ?int
     {
@@ -97,14 +97,14 @@ class HoleResult
         return $this;
     }
 
-    public function getRoundId(): ?round
+    public function getRound(): ?round
     {
-        return $this->round_id;
+        return $this->round;
     }
 
-    public function setRoundId(?round $round_id): self
+    public function setRound(?round $round): self
     {
-        $this->round_id = $round_id;
+        $this->round = $round;
 
         return $this;
     }

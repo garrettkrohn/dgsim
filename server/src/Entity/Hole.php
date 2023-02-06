@@ -26,11 +26,11 @@ class Hole
     private ?float $c2_rate = null;
 
     #[ORM\Column]
-    private ?float $scarmble_rate = null;
+    private ?float $scramble_rate = null;
 
     #[ORM\ManyToOne(inversedBy: 'holes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?course $course_id = null;
+    private ?course $course = null;
 
     public function getId(): ?int
     {
@@ -85,26 +85,26 @@ class Hole
         return $this;
     }
 
-    public function getScarmbleRate(): ?float
+    public function getScrambleRate(): ?float
     {
-        return $this->scarmble_rate;
+        return $this->scramble_rate;
     }
 
-    public function setScarmbleRate(float $scarmble_rate): self
+    public function setScrambleRate(float $scramble_rate): self
     {
-        $this->scarmble_rate = $scarmble_rate;
+        $this->scramble_rate = $scramble_rate;
 
         return $this;
     }
 
-    public function getCourseId(): ?course
+    public function getCourse(): ?course
     {
-        return $this->course_id;
+        return $this->course;
     }
 
-    public function setCourseId(?course $course_id): self
+    public function setCourse(?course $course): self
     {
-        $this->course_id = $course_id;
+        $this->course = $course;
 
         return $this;
     }

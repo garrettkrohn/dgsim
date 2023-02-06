@@ -25,13 +25,9 @@ class User
     #[ORM\Column(length: 25)]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'role_id', targetEntity: Role::class)]
-    private Collection $role_id;
-
-    public function __construct()
-    {
-        $this->role_id = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Role $role = null;
 
     public function getId(): ?int
     {
@@ -74,32 +70,14 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Role>
-     */
-    public function getRoleId(): Collection
+    public function getRole(): ?Role
     {
-        return $this->role_id;
+        return $this->role;
     }
 
-    public function addRoleId(Role $roleId): self
+    public function setRole(?Role $role): self
     {
-        if (!$this->role_id->contains($roleId)) {
-            $this->role_id->add($roleId);
-            $roleId->setRoleId($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoleId(Role $roleId): self
-    {
-        if ($this->role_id->removeElement($roleId)) {
-            // set the owning side to null (unless already changed)
-            if ($roleId->getRoleId() === $this) {
-                $roleId->setRoleId(null);
-            }
-        }
+        $this->role = $role;
 
         return $this;
     }

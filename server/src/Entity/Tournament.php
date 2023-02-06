@@ -24,7 +24,7 @@ class Tournament
 
     #[ORM\ManyToOne(inversedBy: 'Tournaments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Course $course_id = null;
+    private ?Course $course = null;
 
     public function getId(): ?int
     {
@@ -67,14 +67,14 @@ class Tournament
         return $this;
     }
 
-    public function getCourseId(): ?Course
+    public function getCourse(): ?Course
     {
-        return $this->course_id;
+        return $this->course;
     }
 
-    public function setCourseId(?Course $course_id): self
+    public function setCourse(?Course $course): self
     {
-        $this->course_id = $course_id;
+        $this->course = $course;
 
         return $this;
     }

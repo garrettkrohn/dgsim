@@ -15,37 +15,37 @@ class UserPlayer
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user_id = null;
+    private ?user $user = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
-    private ?player $player_id = null;
+    private ?player $player = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUserId(): ?user
+    public function getUser(): ?user
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?user $user_id): self
+    public function setUser(?user $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getPlayerId(): ?player
+    public function getPlayer(): ?player
     {
-        return $this->player_id;
+        return $this->player;
     }
 
-    public function setPlayerId(player $player_id): self
+    public function setPlayerId(player $player): self
     {
-        $this->player_id = $player_id;
+        $this->player = $player;
 
         return $this;
     }
