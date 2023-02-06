@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
+#[ORM\Table('Course')]
 class Course
 {
     #[ORM\Id]
@@ -24,9 +25,13 @@ class Course
     #[ORM\OneToMany(mappedBy: 'course_id', targetEntity: Hole::class)]
     private Collection $holes;
 
+    #[ORM\OneToMany(mappedBy: 'course_id', targetEntity: Tournament::class)]
+    private Collection $Tournaments;
+
     public function __construct()
     {
         $this->holes = new ArrayCollection();
+        $this->Tournaments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +87,36 @@ class Course
             // set the owning side to null (unless already changed)
             if ($hole->getCourseId() === $this) {
                 $hole->setCourseId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tournament>
+     */
+    public function getTournaments(): Collection
+    {
+        return $this->Tournaments;
+    }
+
+    public function addTournament(Tournament $tournament): self
+    {
+        if (!$this->Tournaments->contains($tournament)) {
+            $this->Tournaments->add($tournament);
+            $tournament->setCourseId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTournament(Tournament $tournament): self
+    {
+        if ($this->Tournaments->removeElement($tournament)) {
+            // set the owning side to null (unless already changed)
+            if ($tournament->getCourseId() === $this) {
+                $tournament->setCourseId(null);
             }
         }
 

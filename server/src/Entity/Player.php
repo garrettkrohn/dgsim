@@ -48,6 +48,10 @@ class Player
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: round::class)]
     private Collection $round_id;
 
+    #[ORM\ManyToOne(inversedBy: 'Players')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Archetype $archetype_id = null;
+
     public function __construct()
     {
         $this->round_id = new ArrayCollection();
@@ -204,6 +208,18 @@ class Player
                 $roundId->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getArchetypeId(): ?Archetype
+    {
+        return $this->archetype_id;
+    }
+
+    public function setArchetypeId(?Archetype $archetype_id): self
+    {
+        $this->archetype_id = $archetype_id;
 
         return $this;
     }
