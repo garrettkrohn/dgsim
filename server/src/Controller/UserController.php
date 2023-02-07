@@ -37,10 +37,9 @@ class UserController extends AbstractController
     public function createNewUser(Request $request, EntityManagerInterface $entityManager, RoleRepository $roleRepository): Response
     {
         $requestReceived = json_decode($request->getContent(), true);
-//        $userService->createUser($requestReceived);
         $newUser = new User();
-        $newUser->setUsername('user4');
-        $newUser->setPassword('notpassword');
+        $newUser->setUsername($requestReceived['userName']);
+        $newUser->setPassword($requestReceived['password']);
 
         $userRole = $roleRepository->findOneBy(array('id' => 2));
         var_dump($userRole);
