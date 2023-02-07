@@ -42,7 +42,7 @@ class Player
     #[ORM\Column]
     private ?int $banked_skill_points = null;
 
-    #[ORM\OneToMany(mappedBy: 'player', targetEntity: round::class)]
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: Round::class)]
     private Collection $round_id;
 
     #[ORM\ManyToOne(inversedBy: 'Players')]
