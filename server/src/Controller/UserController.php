@@ -6,9 +6,11 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +18,7 @@ class UserController extends AbstractController
 {
     //not getting the role back
     #[Route('/api/users', methods: ['GET'])]
-    public function returnAllUsers(UserRepository $userRepository, RoleRepository $roleRepository): Response
+    public function returnAllUsers(UserRepository $userRepository): Response
     {
         $allUsers = $userRepository->findAll();
         $userArray = [];
@@ -31,6 +33,22 @@ class UserController extends AbstractController
         return new JsonResponse($userArray);
     }
 
+    #[Route('api/users', methods: ('POST'))]
+    public function createNewUser(Request $request, EntityManagerInterface $entityManager, RoleRepository $roleRepository): Response
+    {
+        $requestReceived = json_decode($request->getContent(), true);
+//        $userService->createUser($requestReceived);
+        $newUser = new User();
+        $newUser->setUsername('user4');
+        $newUser->setPassword('notpassword');
 
+        $userRole = $roleRepository->findOneBy(array('id' => 2));
+        var_dump($userRole);
+        $newUser->setRole($userRole);
+
+        $entityManager->persist($newUser);
+        $entityManager->flush();
+        return new JsonResponse();
+    }
 
 }
