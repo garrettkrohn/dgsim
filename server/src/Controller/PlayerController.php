@@ -27,6 +27,13 @@ class PlayerController extends AbstractController
                 'name' => $player->getFirstName() . ' ' . $player->getLastName(),
                 'ArchetypeId' => $player->getArchetype()->getId(),
                 'ArchetypeName' => $player->getArchetype()->getName(),
+                'putt_skill' => $player->getPuttSkill(),
+                'throw_power_skill' => $player->getThrowPowerSkill(),
+                'throw_accuracy_skill' => $player->getThrowAccuracySkill(),
+                'scramble_skill' => $player->getScrambleSkill(),
+                'start_season' => $player->getStartSeason(),
+                'is_active' => $player->isIsActive(),
+                'banked_skill_points' => $player->getBankedSkillPoints()
             ];
         }
         return new JsonResponse($playerArray);
