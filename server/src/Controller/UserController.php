@@ -32,6 +32,13 @@ class UserController extends AbstractController
         return new JsonResponse($userArray);
     }
 
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param RoleRepository $roleRepository
+     * @return Response
+     * Request body needs to include userName and password
+     */
     #[Route('api/users', methods: ('POST'))]
     public function createNewUser(Request $request, EntityManagerInterface $entityManager, RoleRepository $roleRepository): Response
     {
