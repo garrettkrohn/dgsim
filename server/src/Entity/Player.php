@@ -13,7 +13,7 @@ class Player
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $player_id = null;
 
     #[ORM\Column(length: 25)]
     private ?string $first_name = null;
@@ -43,6 +43,7 @@ class Player
     private ?int $banked_skill_points = null;
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: Round::class)]
+    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private Collection $round_id;
 
     #[ORM\ManyToOne(inversedBy: 'Players')]
@@ -54,9 +55,9 @@ class Player
         $this->round_id = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getPlayerId(): ?int
     {
-        return $this->id;
+        return $this->player_id;
     }
 
     public function getFirstName(): ?string

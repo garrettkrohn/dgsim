@@ -13,7 +13,7 @@ class Round
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $round_id = null;
 
     #[ORM\Column]
     private ?int $player_id = null;
@@ -31,7 +31,7 @@ class Round
     private ?int $luck_score = null;
 
     #[ORM\ManyToOne(inversedBy: 'round_id')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
     private ?Player $player = null;
 
     #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class)]
@@ -42,9 +42,9 @@ class Round
         $this->holeResults = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getRoundId(): ?int
     {
-        return $this->id;
+        return $this->round_id;
     }
 
     public function getPlayerId(): ?int

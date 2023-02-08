@@ -29,7 +29,7 @@ class HoleResult
     private ?bool $scramble = null;
 
     #[ORM\ManyToOne(inversedBy: 'holeResults')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private ?round $round = null;
 
     public function getId(): ?int

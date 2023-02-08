@@ -18,7 +18,7 @@ class UserPlayer
     private ?user $user = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
     private ?player $player = null;
 
     public function getId(): ?int
