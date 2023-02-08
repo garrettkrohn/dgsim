@@ -18,5 +18,5 @@ class PlayerResponseDto
     public int $start_season;
     public bool $is_active;
     public int $banked_skill_points;
-    public Archetype $archetype;
+    public ArchetypeResponseDto $archetype;
 }
