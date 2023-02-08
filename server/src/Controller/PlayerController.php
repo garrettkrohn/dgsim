@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
@@ -21,26 +22,11 @@ use Symfony\Component\Serializer\Serializer;
 class PlayerController extends AbstractController
 {
     #[Route('api/players', methods: ('GET'))]
-    public function getAllPlayers(PlayerRepository $playerRepository,): Response
+    public function getAllPlayers(PlayerRepository $playerRepository, PlayerResponseDtoTransformer $transformer): Response
     {
         $allPlayers = $playerRepository->findAll();
-        $playerArray = [];
-        foreach ($allPlayers as $player) {
-            $playerArray[] = [
-                'id' => $player->getId(),
-                'name' => $player->getFirstName() . ' ' . $player->getLastName(),
-                'ArchetypeId' => $player->getArchetype()->getId(),
-                'ArchetypeName' => $player->getArchetype()->getName(),
-                'putt_skill' => $player->getPuttSkill(),
-                'throw_power_skill' => $player->getThrowPowerSkill(),
-                'throw_accuracy_skill' => $player->getThrowAccuracySkill(),
-                'scramble_skill' => $player->getScrambleSkill(),
-                'start_season' => $player->getStartSeason(),
-                'is_active' => $player->isIsActive(),
-                'banked_skill_points' => $player->getBankedSkillPoints()
-            ];
-        }
-        return new JsonResponse($playerArray);
+        $allPlayersTransformed = $transformer->transformFromObjects($allPlayers);
+        return new JsonResponse($allPlayersTransformed);
     }
 
     #[Route('api/playersNames', methods: ('GET'))]
