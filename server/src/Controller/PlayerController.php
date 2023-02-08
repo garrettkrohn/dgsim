@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class PlayerController extends AbstractController
 {
@@ -72,5 +76,24 @@ class PlayerController extends AbstractController
 
         $response = new Response();
         return $response->setStatusCode(Response::HTTP_ACCEPTED);
+    }
+
+    #[Route('api/players/{id}', methods: ('GET'))]
+    public function getPlayerById(int $id, PlayerRepository $playerRepository): Response
+    {
+        $player = $playerRepository->findOneBy(array('id' => $id));
+        $playerJson = ['id' => $player->getId(),
+                'name' => $player->getFirstName() . ' ' . $player->getLastName(),
+                'ArchetypeId' => $player->getArchetype()->getId(),
+                'ArchetypeName' => $player->getArchetype()->getName(),
+                'putt_skill' => $player->getPuttSkill(),
+                'throw_power_skill' => $player->getThrowPowerSkill(),
+                'throw_accuracy_skill' => $player->getThrowAccuracySkill(),
+                'scramble_skill' => $player->getScrambleSkill(),
+                'start_season' => $player->getStartSeason(),
+                'is_active' => $player->isIsActive(),
+                'banked_skill_points' => $player->getBankedSkillPoints()
+            ];
+        return new JsonResponse($playerJson);
     }
 }
