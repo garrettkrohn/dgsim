@@ -44,15 +44,15 @@ class PlayerController extends AbstractController
     {
         $request = json_decode($request->getContent(), true);
         $newPlayer = new Player();
-        $arch = $archetypeRepository->findOneBy(array('id' => 1));
+        $arch = $archetypeRepository->findOneBy(array('name' => $request['archetypeName']));
         $newPlayer->setArchetype($arch);
-        $newPlayer->setFirstName('Ricky');
-        $newPlayer->setLastName('Wysocki');
-        $newPlayer->setPuttSkill(100);
-        $newPlayer->setThrowPowerSkill(100);
-        $newPlayer->setThrowAccuracySkill(100);
-        $newPlayer->setScrambleSkill(100);
-        $newPlayer->setStartSeason(1);
+        $newPlayer->setFirstName($request['firstName']);
+        $newPlayer->setLastName($request['lastName']);
+        $newPlayer->setPuttSkill($request['puttSkill']);
+        $newPlayer->setThrowPowerSkill($request['throwPowerSkill']);
+        $newPlayer->setThrowAccuracySkill($request['throwAccuracySkill']);
+        $newPlayer->setScrambleSkill($request['scrambleSkill']);
+        $newPlayer->setStartSeason($request['startSeason']);
         $newPlayer->setIsActive(true);
         $newPlayer->setBankedSkillPoints(0);
 
