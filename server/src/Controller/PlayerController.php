@@ -6,6 +6,7 @@ use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,18 +22,32 @@ use Symfony\Component\Serializer\Serializer;
 
 class PlayerController extends AbstractController
 {
-    #[Route('api/players', methods: ('GET'))]
-    public function getAllPlayers(PlayerRepository $playerRepository, PlayerResponseDtoTransformer $transformer): Response
+    private PlayerRepository $playerRepository;
+    private ArchetypeRepository $archetypeRepository;
+    private EntityManagerInterface $entityManager;
+    private PlayerResponseDtoTransformer $transformer;
+
+    public function __construct(PlayerRepository $playerRepository, ArchetypeRepository $archetypeRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $transformer)
     {
-        $allPlayers = $playerRepository->findAll();
-        $allPlayersTransformed = $transformer->transformFromObjects($allPlayers);
+        $this->playerRepository = $playerRepository;
+        $this->archetypeRepository = $archetypeRepository;
+        $this->entityManager = $entityManager;
+        $this->transformer = $transformer;
+    }
+
+
+    #[Route('api/players', methods: ('GET'))]
+    public function getAllPlayers(): Response
+    {
+        $allPlayers = $this->playerRepository->findAll();
+        $allPlayersTransformed = $this->transformer->transformFromObjects($allPlayers);
         return new JsonResponse($allPlayersTransformed);
     }
 
     #[Route('api/playersNames', methods: ('GET'))]
-    public function getAllPlayerNames(PlayerRepository $playerRepository): Response
+    public function getAllPlayerNames(): Response
     {
-        $allPlayers = $playerRepository->findAll();
+        $allPlayers = $this->playerRepository->findAll();
         $playerNamesArray = [];
         foreach ($allPlayers as $player) {
             $playerNamesArray[] = ['name' => $player->getFirstName() . " " . $player->getLastName()];
@@ -41,11 +56,11 @@ class PlayerController extends AbstractController
     }
 
     #[Route('api/players', methods: ('POST'))]
-    public function createNewPlayer(Request $request, ArchetypeRepository $archetypeRepository, EntityManagerInterface $entityManager): Response
+    public function createNewPlayer(Request $request): Response
     {
         $request = json_decode($request->getContent(), true);
         $newPlayer = new Player();
-        $arch = $archetypeRepository->findOneBy(array('name' => $request['archetypeName']));
+        $arch = $this->archetypeRepository->findOneBy(array('name' => $request['archetypeName']));
         $newPlayer->setArchetype($arch);
         $newPlayer->setFirstName($request['firstName']);
         $newPlayer->setLastName($request['lastName']);
@@ -57,18 +72,18 @@ class PlayerController extends AbstractController
         $newPlayer->setIsActive(true);
         $newPlayer->setBankedSkillPoints(0);
 
-        $entityManager->persist($newPlayer);
-        $entityManager->flush();
+        $this->entityManager->persist($newPlayer);
+        $this->entityManager->flush();
 
         $response = new Response();
         return $response->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
     #[Route('api/players/{id}', methods: ('GET'))]
-    public function getPlayerById(int $id, PlayerRepository $playerRepository, PlayerResponseDtoTransformer $transformer): Response
+    public function getPlayerById(int $id): Response
     {
-        $player = $playerRepository->findOneBy(array('id' => $id));
-        $playerTransformed = $transformer->transformFromObject($player);
+        $player = $this->playerRepository->findOneBy(array('id' => $id));
+        $playerTransformed = $this->transformer->transformFromObject($player);
         return new JsonResponse($playerTransformed);
     }
 }
