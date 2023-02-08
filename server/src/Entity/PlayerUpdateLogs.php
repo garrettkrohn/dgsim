@@ -12,7 +12,7 @@ class PlayerUpdateLogs
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $player_update_log_id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $update_time = null;
@@ -38,9 +38,9 @@ class PlayerUpdateLogs
     #[ORM\Column]
     private ?int $post_bank = null;
 
-    public function getId(): ?int
+    public function getPlayerupdatelogId(): ?int
     {
-        return $this->id;
+        return $this->player_update_log_id;
     }
 
     public function getUpdateTime(): ?\DateTimeInterface
