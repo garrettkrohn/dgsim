@@ -37,7 +37,7 @@ class Player
     private ?int $start_season = null;
 
     #[ORM\Column]
-    private ?bool $is_active = null;
+    private ?bool $active = null;
 
     #[ORM\Column]
     private ?int $banked_skill_points = null;
@@ -146,12 +146,12 @@ class Player
 
     public function isIsActive(): ?bool
     {
-        return $this->is_active;
+        return $this->active;
     }
 
-    public function setIsActive(bool $is_active): self
+    public function setActive(bool $active): self
     {
-        $this->is_active = $is_active;
+        $this->active = $active;
 
         return $this;
     }

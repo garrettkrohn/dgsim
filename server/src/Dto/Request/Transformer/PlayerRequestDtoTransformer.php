@@ -29,7 +29,7 @@ class PlayerRequestDtoTransformer
         $newPlayer->setThrowAccuracySkill($request['throwAccuracySkill']);
         $newPlayer->setScrambleSkill($request['scrambleSkill']);
         $newPlayer->setStartSeason($request['startSeason']);
-        $newPlayer->setIsActive(true);
+        $newPlayer->setActive(true);
         $newPlayer->setBankedSkillPoints(0);
 
         return $newPlayer;
