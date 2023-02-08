@@ -14,7 +14,7 @@ class ArchetypeResponseDtoTransformer extends AbstractResponseDtoTransformer
     public function transformFromObject($archetype): ArchetypeResponseDto
     {
         $dto = new ArchetypeResponseDto();
-        $dto->id = $archetype->getId();
+        $dto->id = $archetype->getArchetypeId();
         $dto->name = $archetype->getName();
         $dto->min_putt_skill = $archetype->getMinPuttSkill();
         $dto->min_throw_power_skill = $archetype->getMinThrowPowerSkill();

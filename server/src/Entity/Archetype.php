@@ -13,7 +13,7 @@ class Archetype
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $archetype_id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -50,9 +50,9 @@ class Archetype
         $this->Players = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getArchetypeId(): ?int
     {
-        return $this->id;
+        return $this->archetype_id;
     }
 
     public function getName(): ?string

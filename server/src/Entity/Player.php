@@ -46,7 +46,7 @@ class Player
     private Collection $round_id;
 
     #[ORM\ManyToOne(inversedBy: 'Players')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "archetype_id", referencedColumnName: "archetype_id")]
     private ?Archetype $archetype = null;
 
     public function __construct()
