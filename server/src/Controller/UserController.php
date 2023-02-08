@@ -25,7 +25,7 @@ class UserController extends AbstractController
             $userArray[] = ['id' =>$user->getId(),
                 'username' => $user->getUsername(),
                 'password' => $user->getPassword(),
-                'roleId' => $user->getRole()->getId(),
+                'roleId' => $user->getRole()->getRoleId(),
                 'roleName' => $user->getRole()->getName()
             ];
         }

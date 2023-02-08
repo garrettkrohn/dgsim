@@ -23,7 +23,7 @@ class User
     private ?string $password = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private ?Role $role = null;
 
     public function getId(): ?int

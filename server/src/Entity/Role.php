@@ -13,7 +13,7 @@ class Role
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $role_id = null;
 
     #[ORM\Column(length: 25)]
     private ?string $name = null;
@@ -26,9 +26,9 @@ class Role
 //        $this->users = new ArrayCollection();
 //    }
 
-    public function getId(): ?int
+    public function getRoleId(): ?int
     {
-        return $this->id;
+        return $this->role_id;
     }
 
     public function getName(): ?string
