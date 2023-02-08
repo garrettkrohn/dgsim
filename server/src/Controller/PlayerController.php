@@ -45,16 +45,11 @@ class PlayerController extends AbstractController
         return new JsonResponse($response);
     }
 //
-//    #[Route('api/players', methods: ('POST'))]
-//    public function createNewPlayer(Request $request): Response
-//    {
-//        $newPlayer = $this->playerRequestDtoTransformer->transformObject($request);
-//        $this->entityManager->persist($newPlayer);
-//        $this->entityManager->flush();
-//
-//        $response = new Response();
-//        return $response->setStatusCode(Response::HTTP_ACCEPTED);
-//    }
+    #[Route('api/players', methods: ('POST'))]
+    public function createNewPlayer(Request $request): Response
+    {
+        return $this->playerService->createNewPlayer($request);
+    }
 //
 //    #[Route('api/players/{id}', methods: ('GET'))]
 //    public function getPlayerById(int $id): Response

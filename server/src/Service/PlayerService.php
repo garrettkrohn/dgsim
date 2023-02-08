@@ -7,6 +7,8 @@ use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PlayerService
 {
@@ -14,7 +16,7 @@ class PlayerService
     private ArchetypeRepository $archetypeRepository;
     private EntityManagerInterface $entityManager;
     private PlayerResponseDtoTransformer $transformer;
-    private PlayerRequestDtoTransformer $PlayerRequestDtoTransformer;
+    private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
 
     public function __construct(PlayerRepository $playerRepository,
                                 ArchetypeRepository $archetypeRepository,
@@ -26,7 +28,7 @@ class PlayerService
     $this->archetypeRepository = $archetypeRepository;
     $this->entityManager = $entityManager;
     $this->transformer = $transformer;
-    $this->PlayerRequestDtoTransformer = $playerRequestDtoTransformer;
+    $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
     }
 
     public function getAllPlayers(): iterable
@@ -45,6 +47,14 @@ class PlayerService
         return $playerNamesArray;
     }
 
+    public function createNewPlayer(Request $request): Response
+    {
+        $newPlayer = $this->playerRequestDtoTransformer->transformObject($request);
+        $this->entityManager->persist($newPlayer);
+        $this->entityManager->flush();
 
+        $response = new Response();
+        return $response->setStatusCode(Response::HTTP_ACCEPTED);
+    }
 
 }
