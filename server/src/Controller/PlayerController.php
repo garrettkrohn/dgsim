@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
@@ -26,15 +27,16 @@ class PlayerController extends AbstractController
     private ArchetypeRepository $archetypeRepository;
     private EntityManagerInterface $entityManager;
     private PlayerResponseDtoTransformer $transformer;
+    private PlayerRequestDtoTransformer $PlayerRequestDtoTransformer;
 
-    public function __construct(PlayerRepository $playerRepository, ArchetypeRepository $archetypeRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $transformer)
+    public function __construct(PlayerRepository $playerRepository, ArchetypeRepository $archetypeRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $transformer, PlayerRequestDtoTransformer $playerRequestDtoTransformer)
     {
         $this->playerRepository = $playerRepository;
         $this->archetypeRepository = $archetypeRepository;
         $this->entityManager = $entityManager;
         $this->transformer = $transformer;
+        $this->PlayerRequestDtoTransformer = $playerRequestDtoTransformer;
     }
-
 
     #[Route('api/players', methods: ('GET'))]
     public function getAllPlayers(): Response
@@ -58,20 +60,7 @@ class PlayerController extends AbstractController
     #[Route('api/players', methods: ('POST'))]
     public function createNewPlayer(Request $request): Response
     {
-        $request = json_decode($request->getContent(), true);
-        $newPlayer = new Player();
-        $arch = $this->archetypeRepository->findOneBy(array('name' => $request['archetypeName']));
-        $newPlayer->setArchetype($arch);
-        $newPlayer->setFirstName($request['firstName']);
-        $newPlayer->setLastName($request['lastName']);
-        $newPlayer->setPuttSkill($request['puttSkill']);
-        $newPlayer->setThrowPowerSkill($request['throwPowerSkill']);
-        $newPlayer->setThrowAccuracySkill($request['throwAccuracySkill']);
-        $newPlayer->setScrambleSkill($request['scrambleSkill']);
-        $newPlayer->setStartSeason($request['startSeason']);
-        $newPlayer->setIsActive(true);
-        $newPlayer->setBankedSkillPoints(0);
-
+        $newPlayer = $this->PlayerRequestDtoTransformer->transformObject($request);
         $this->entityManager->persist($newPlayer);
         $this->entityManager->flush();
 
