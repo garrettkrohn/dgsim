@@ -28,7 +28,7 @@ class PlayerResponseDtoTransformer extends AbstractResponseDtoTransformer
     public function transformFromObject($player): PlayerResponseDto
     {
         $dto = new PlayerResponseDto();
-        $dto->id = $player->getPlayerId();
+        $dto->player_id = $player->getPlayerId();
         $dto->first_name = $player->getFirstName();
         $dto->last_name = $player->getLastName();
         $dto->putt_skill = $player->getPuttSkill();

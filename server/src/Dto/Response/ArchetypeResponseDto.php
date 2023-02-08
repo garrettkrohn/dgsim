@@ -6,7 +6,7 @@ namespace App\Dto\Response;
 
 class ArchetypeResponseDto
 {
-    public int $id;
+    public int $archetype_id;
     public string $name;
     public int $min_putt_skill;
     public int $min_throw_power_skill;

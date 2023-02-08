@@ -8,7 +8,7 @@ use App\Entity\Archetype;
 
 class PlayerResponseDto
 {
-    public int $id;
+    public int $player_id;
     public string $first_name;
     public string $last_name;
     public int $putt_skill;
