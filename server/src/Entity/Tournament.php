@@ -23,7 +23,7 @@ class Tournament
     private ?int $season = null;
 
     #[ORM\ManyToOne(inversedBy: 'Tournaments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?Course $course = null;
 
     public function getId(): ?int

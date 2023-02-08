@@ -14,7 +14,7 @@ class Course
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $course_id = null;
 
     #[ORM\Column(length: 50)]
     private ?string $name = null;
@@ -34,9 +34,9 @@ class Course
         $this->Tournaments = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getCourseId(): ?int
     {
-        return $this->id;
+        return $this->course_id;
     }
 
     public function getName(): ?string
