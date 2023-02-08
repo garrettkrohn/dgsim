@@ -6,7 +6,7 @@ use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 
-class PlayerRequestDtoTransformer
+class PlayerRequestDtoTransformer extends AbstractRequestDtoTransformer
 {
     private ArchetypeRepository $archetypeRepository;
 
@@ -16,9 +16,9 @@ class PlayerRequestDtoTransformer
     }
 
 
-    public function transformObject(Request $request): Player
+    public function transformFromObject($object): Player
     {
-        $request = json_decode($request->getContent(), true);
+        $request = json_decode($object->getContent(), true);
         $newPlayer = new Player();
         $arch = $this->archetypeRepository->findOneBy(array('name' => $request['archetypeName']));
         $newPlayer->setArchetype($arch);

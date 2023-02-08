@@ -50,7 +50,7 @@ class PlayerService
 
     public function createNewPlayer(Request $request): Response
     {
-        $newPlayer = $this->playerRequestDtoTransformer->transformObject($request);
+        $newPlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
         $this->entityManager->persist($newPlayer);
         $this->entityManager->flush();
 
