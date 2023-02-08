@@ -11,7 +11,7 @@ class UserPlayer
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $user_player_id = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
@@ -21,9 +21,9 @@ class UserPlayer
     #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
     private ?player $player = null;
 
-    public function getId(): ?int
+    public function getUserplayerId(): ?int
     {
-        return $this->id;
+        return $this->user_player_id;
     }
 
     public function getUser(): ?user

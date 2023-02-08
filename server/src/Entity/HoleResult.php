@@ -11,7 +11,7 @@ class HoleResult
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $hole_result_id = null;
 
     #[ORM\Column]
     private ?int $score = null;
@@ -32,9 +32,9 @@ class HoleResult
     #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private ?round $round = null;
 
-    public function getId(): ?int
+    public function getHoleresultId(): ?int
     {
-        return $this->id;
+        return $this->hole_result_id;
     }
 
     public function getScore(): ?int
