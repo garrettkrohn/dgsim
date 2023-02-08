@@ -51,11 +51,10 @@ class PlayerController extends AbstractController
         return $this->playerService->createNewPlayer($request);
     }
 //
-//    #[Route('api/players/{id}', methods: ('GET'))]
-//    public function getPlayerById(int $id): Response
-//    {
-//        $player = $this->playerRepository->findOneBy(array('id' => $id));
-//        $playerTransformed = $this->transformer->transformFromObject($player);
-//        return new JsonResponse($playerTransformed);
-//    }
+    #[Route('api/players/{id}', methods: ('GET'))]
+    public function getPlayerById(int $id): Response
+    {
+        $response = $this->playerService->getPlayerById($id);
+        return new JsonResponse($response);
+    }
 }

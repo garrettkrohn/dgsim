@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
+use App\Dto\Response\PlayerResponseDto;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
@@ -57,4 +58,9 @@ class PlayerService
         return $response->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
+    public function getPlayerById(int $id): PlayerResponseDto
+    {
+        $player = $this->playerRepository->findOneBy(array('player_id' => $id));
+        return $this->transformer->transformFromObject($player);
+    }
 }
