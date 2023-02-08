@@ -10,10 +10,6 @@ class PlayerResponseDtoTransformer extends AbstractResponseDtoTransformer
 {
     private ArchetypeResponseDtoTransformer $ArchetypeResponseDtoTransformer;
 
-    /**
-     * PlayerResponseDtoTransformer constructor
-     * @param ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer
-     */
     public function __construct(
         ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer
     )

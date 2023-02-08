@@ -6,6 +6,7 @@ use App\Entity\Role;
 use App\Entity\User;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,20 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/api/users', methods: ['GET'])]
-    public function returnAllUsers(UserRepository $userRepository): Response
+    private UserService $userService;
+
+    public function __construct(UserService $userService)
     {
-        $allUsers = $userRepository->findAll();
-        $userArray = [];
-        foreach ($allUsers as $user) {
-            $userArray[] = ['id' =>$user->getUserId(),
-                'username' => $user->getUsername(),
-                'password' => $user->getPassword(),
-                'roleId' => $user->getRole()->getRoleId(),
-                'roleName' => $user->getRole()->getName()
-            ];
-        }
-        return new JsonResponse($userArray);
+        $this->userService = $userService;
+    }
+
+
+    #[Route('/api/users', methods: ['GET'])]
+    public function returnAllUsers(): Response
+    {
+        $allUsers = $this->userService->getAllUsers();
+        return new JsonResponse($allUsers);
     }
 
     /**
