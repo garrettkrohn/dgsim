@@ -11,7 +11,7 @@ class Hole
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $hole_id = null;
 
     #[ORM\Column]
     private ?int $par = null;
@@ -32,9 +32,9 @@ class Hole
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?course $course = null;
 
-    public function getId(): ?int
+    public function getHoleId(): ?int
     {
-        return $this->id;
+        return $this->hole_id;
     }
 
     public function getPar(): ?int
