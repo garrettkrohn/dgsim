@@ -32,10 +32,18 @@ class PlayerService
     public function getAllPlayers(): iterable
     {
         $allPlayers = $this->playerRepository->findAll();
-        $response = $this->transformer->transformFromObjects($allPlayers);
-        return $response;
+        return $this->transformer->transformFromObjects($allPlayers);
     }
 
+    public function getAllPlayerNames(): array
+    {
+        $allPlayers = $this->playerRepository->findAll();
+        $playerNamesArray = [];
+        foreach ($allPlayers as $player) {
+            $playerNamesArray[] = ['name' => $player->getFirstName() . " " . $player->getLastName()];
+        }
+        return $playerNamesArray;
+    }
 
 
 

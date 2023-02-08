@@ -34,22 +34,16 @@ class PlayerController extends AbstractController
     #[Route('api/players', methods: ('GET'))]
     public function getAllPlayers(): Response
     {
-//        $allPlayers = $this->playerRepository->findAll();
-//        $allPlayersTransformed = $this->transformer->transformFromObjects($allPlayers);
         $response = $this->playerService->getAllPlayers();
         return new JsonResponse($response);
     }
 //
-//    #[Route('api/playersNames', methods: ('GET'))]
-//    public function getAllPlayerNames(): Response
-//    {
-//        $allPlayers = $this->playerRepository->findAll();
-//        $playerNamesArray = [];
-//        foreach ($allPlayers as $player) {
-//            $playerNamesArray[] = ['name' => $player->getFirstName() . " " . $player->getLastName()];
-//        }
-//        return new JsonResponse($playerNamesArray);
-//    }
+    #[Route('api/playersNames', methods: ('GET'))]
+    public function getAllPlayerNames(): Response
+    {
+        $response = $this->playerService->getAllPlayerNames();
+        return new JsonResponse($response);
+    }
 //
 //    #[Route('api/players', methods: ('POST'))]
 //    public function createNewPlayer(Request $request): Response
