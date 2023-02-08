@@ -39,6 +39,17 @@ class PlayerController extends AbstractController
         return new JsonResponse($playerArray);
     }
 
+    #[Route('api/playersNames', methods: ('GET'))]
+    public function getAllPlayerNames(PlayerRepository $playerRepository): Response
+    {
+        $allPlayers = $playerRepository->findAll();
+        $playerNamesArray = [];
+        foreach ($allPlayers as $player) {
+            $playerNamesArray[] = ['name' => $player->getFirstName() . " " . $player->getLastName()];
+        }
+        return new JsonResponse($playerNamesArray);
+    }
+
     #[Route('api/players', methods: ('POST'))]
     public function createNewPlayer(Request $request, ArchetypeRepository $archetypeRepository, EntityManagerInterface $entityManager): Response
     {
