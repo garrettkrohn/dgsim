@@ -11,7 +11,7 @@ class Tournament
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $tournament_id = null;
 
     #[ORM\Column(length: 50)]
     private ?string $name = null;
@@ -26,9 +26,9 @@ class Tournament
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?Course $course = null;
 
-    public function getId(): ?int
+    public function getTournamentId(): ?int
     {
-        return $this->id;
+        return $this->tournament_id;
     }
 
     public function getName(): ?string

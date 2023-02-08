@@ -22,7 +22,7 @@ class UserController extends AbstractController
         $allUsers = $userRepository->findAll();
         $userArray = [];
         foreach ($allUsers as $user) {
-            $userArray[] = ['id' =>$user->getId(),
+            $userArray[] = ['id' =>$user->getUserId(),
                 'username' => $user->getUsername(),
                 'password' => $user->getPassword(),
                 'roleId' => $user->getRole()->getRoleId(),

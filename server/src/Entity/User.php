@@ -14,7 +14,7 @@ class User
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $user_id = null;
 
     #[ORM\Column(length: 25)]
     private ?string $username = null;
@@ -26,9 +26,9 @@ class User
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private ?Role $role = null;
 
-    public function getId(): ?int
+    public function getUserId(): ?int
     {
-        return $this->id;
+        return $this->user_id;
     }
 
     public function getUsername(): ?string

@@ -14,7 +14,7 @@ class UserPlayer
     private ?int $user_player_id = null;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
     private ?user $user = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
