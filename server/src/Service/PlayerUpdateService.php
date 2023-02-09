@@ -26,7 +26,7 @@ class PlayerUpdateService
     #[NoReturn] public function updatePlayer($request): void
     {
         $updatePlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
-//        $currentPlayer = $this->playerRepository->findOneBy($updatePlayer->getId());
+        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => $updatePlayer->getPlayerId()));
         //get the current player entity
         //compare then
         //create the player update log

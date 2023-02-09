@@ -6,7 +6,6 @@ use App\Dto\Response\ArchetypeResponseDto;
 
 class PlayerRequestDto
 {
-    public int $player_id;
     public string $first_name;
     public string $last_name;
     public int $putt_skill;
@@ -14,7 +13,14 @@ class PlayerRequestDto
     public int $throw_accuracy_skill;
     public int $scramble_skill;
     public int $start_season;
-    public bool $active;
-    public int $banked_skill_points;
-    public ArchetypeResponseDto $archetype;
+    public string $archetypeName;
 }
+//{"firstName": "Garrett",
+//"lastName": "Gurthie",
+//"puttSkill": "100",
+//"throwPowerSkill": "100",
+//"throwAccuracySkill": "100",
+//"scrambleSkill": "100",
+//"startSeason": "1",
+//"bankedSkillPoints": "0",
+//"archetypeName": "putter"}
