@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
+use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\Request;

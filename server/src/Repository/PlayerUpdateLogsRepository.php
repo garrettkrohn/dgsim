@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\PlayerUpdateLogs;
+use App\Entity\PlayerUpdateLog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<PlayerUpdateLogs>
+ * @extends ServiceEntityRepository<PlayerUpdateLog>
  *
- * @method PlayerUpdateLogs|null find($id, $lockMode = null, $lockVersion = null)
- * @method PlayerUpdateLogs|null findOneBy(array $criteria, array $orderBy = null)
- * @method PlayerUpdateLogs[]    findAll()
- * @method PlayerUpdateLogs[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PlayerUpdateLog|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PlayerUpdateLog|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PlayerUpdateLog[]    findAll()
+ * @method PlayerUpdateLog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PlayerUpdateLogsRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, PlayerUpdateLogs::class);
+        parent::__construct($registry, PlayerUpdateLog::class);
     }
 
-    public function save(PlayerUpdateLogs $entity, bool $flush = false): void
+    public function save(PlayerUpdateLog $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class PlayerUpdateLogsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(PlayerUpdateLogs $entity, bool $flush = false): void
+    public function remove(PlayerUpdateLog $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class PlayerUpdateLogsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return PlayerUpdateLogs[] Returns an array of PlayerUpdateLogs objects
+//     * @return PlayerUpdateLog[] Returns an array of PlayerUpdateLog objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class PlayerUpdateLogsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?PlayerUpdateLogs
+//    public function findOneBySomeField($value): ?PlayerUpdateLog
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')
