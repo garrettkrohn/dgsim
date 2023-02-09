@@ -3,8 +3,10 @@
 namespace App\Service;
 
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
+use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,24 +15,41 @@ class PlayerUpdateService
 {
     private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
     private PlayerRepository $playerRepository;
+    private EntityManagerInterface $entityManager;
 
-    /**
-     * @param PlayerRequestDtoTransformer $playerRequestDtoTransformer
-     * @param PlayerRepository $playerRepository
-     */
-    public function __construct(PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerRepository $playerRepository)
+    public function __construct(PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerRepository $playerRepository, EntityManagerInterface $entityManager)
     {
         $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
         $this->playerRepository = $playerRepository;
+        $this->entityManager = $entityManager;
     }
+
 
     #[NoReturn] public function updatePlayer($request): void
     {
         $updatePlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
-        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => $updatePlayer->getPlayerId()));
-        //get the current player entity
-        //compare then
-        //create the player update log
+        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => 5));
+        $playerUpdateLog = $this->playerUpdateLogBuilder($updatePlayer, $currentPlayer);
+
+        $this->entityManager->persist($playerUpdateLog);
+        $this->entityManager->flush();
+
         //persist the player update
+    }
+
+    public function playerUpdateLogBuilder(Player $updatePlayer, Player $currentPlayer): PlayerUpdateLog
+    {
+        $playerUpdateLog = new PlayerUpdateLog();
+        $timestamp = time();
+        $playerUpdateLog->setUpdateTime($timestamp);
+        $playerUpdateLog->setPlayerId($currentPlayer->getPlayerId());
+        $playerUpdateLog->setPuttIncrement($updatePlayer->getPuttSkill() - $currentPlayer->getPuttSkill());
+        $playerUpdateLog->setThrowPowerIncrement($updatePlayer->getThrowPowerSkill() - $currentPlayer->getThrowPowerSkill());
+        $playerUpdateLog->setThrowAccuracyIncrement($updatePlayer->getThrowAccuracySkill() - $currentPlayer->getThrowAccuracySkill());
+        $playerUpdateLog->setScrambleIncrement($updatePlayer->getScrambleSkill() - $currentPlayer->getScrambleSkill());
+        $playerUpdateLog->setPreviousBank(0);
+        $playerUpdateLog->setPostBank(0);
+
+        return $playerUpdateLog;
     }
 }

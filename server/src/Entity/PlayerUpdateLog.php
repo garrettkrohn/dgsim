@@ -14,8 +14,8 @@ class PlayerUpdateLog
     #[ORM\Column]
     private ?int $player_update_log_id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $update_time = null;
+    #[ORM\Column]
+    private ?int $update_time = null;
 
     #[ORM\Column]
     private ?int $player_id = null;
@@ -43,12 +43,12 @@ class PlayerUpdateLog
         return $this->player_update_log_id;
     }
 
-    public function getUpdateTime(): ?\DateTimeInterface
+    public function getUpdateTime(): ?int
     {
         return $this->update_time;
     }
 
-    public function setUpdateTime(\DateTimeInterface $update_time): self
+    public function setUpdateTime(int $update_time): self
     {
         $this->update_time = $update_time;
 
