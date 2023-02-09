@@ -14,7 +14,7 @@ class PlayerRequestDto
     public int $throw_accuracy_skill;
     public int $scramble_skill;
     public int $start_season;
-    public bool $is_active;
+    public bool $active;
     public int $banked_skill_points;
     public ArchetypeResponseDto $archetype;
 }

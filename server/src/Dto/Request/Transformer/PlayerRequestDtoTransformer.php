@@ -15,7 +15,12 @@ class PlayerRequestDtoTransformer extends AbstractRequestDtoTransformer
         $this->archetypeRepository = $archetypeRepository;
     }
 
-
+    /**
+     * This function brings in the front end player request object and transorms
+     * it to a Player object to be persisted into the database
+     * @param $object
+     * @return Player
+     */
     public function transformFromObject($object): Player
     {
         $request = json_decode($object->getContent(), true);

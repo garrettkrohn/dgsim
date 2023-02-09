@@ -8,6 +8,7 @@ use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
 use App\Service\PlayerService;
+use App\Service\PlayerUpdateService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -25,10 +26,12 @@ use Symfony\Component\Serializer\Serializer;
 class PlayerController extends AbstractController
 {
     private PlayerService $playerService;
+    private PlayerUpdateService $playerUpdateService;
 
-    public function __construct(PlayerService $playerService)
+    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService)
     {
         $this->playerService = $playerService;
+        $this->playerUpdateService = $playerUpdateService;
     }
 
     #[Route('api/players', methods: ('GET'))]
@@ -56,5 +59,11 @@ class PlayerController extends AbstractController
     {
         $response = $this->playerService->getPlayerById($id);
         return new JsonResponse($response);
+    }
+
+    #[Route('api/players/update', methods: ('POST'))]
+    public function updatePlayer(Request $request)
+    {
+        $this->playerUpdateService->updatePlayer($request);
     }
 }
