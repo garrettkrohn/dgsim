@@ -17,9 +17,6 @@ class Tournament
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $winner = null;
-
-    #[ORM\Column]
     private ?int $season = null;
 
     #[ORM\ManyToOne(inversedBy: 'Tournaments')]
@@ -39,18 +36,6 @@ class Tournament
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getWinner(): ?int
-    {
-        return $this->winner;
-    }
-
-    public function setWinner(int $winner): self
-    {
-        $this->winner = $winner;
 
         return $this;
     }

@@ -50,6 +50,10 @@ class Player
     #[ORM\JoinColumn(name: "archetype_id", referencedColumnName: "archetype_id")]
     private ?Archetype $archetype = null;
 
+    #[ORM\ManyToOne(inversedBy: 'player_id')]
+    #[ORM\JoinColumn(name: "player_tournament_id", referencedColumnName: "player_tournament_id")]
+    private ?PlayerTournament $player_tournament = null;
+
     public function __construct()
     {
         $this->round_id = new ArrayCollection();
@@ -206,6 +210,18 @@ class Player
     public function setArchetype(?Archetype $archetype): self
     {
         $this->archetype = $archetype;
+
+        return $this;
+    }
+
+    public function getPlayerTournament(): ?PlayerTournament
+    {
+        return $this->player_tournament;
+    }
+
+    public function setPlayerTournament(?PlayerTournament $player_tournament): self
+    {
+        $this->player_tournament = $player_tournament;
 
         return $this;
     }

@@ -37,6 +37,11 @@ class Round
     #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class)]
     private Collection $holeResults;
 
+    #[ORM\ManyToOne(inversedBy: 'round_id')]
+//    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "player_tournament_id", referencedColumnName: "player_tournament_id")]
+    private ?PlayerTournament $player_tournament = null;
+
     public function __construct()
     {
         $this->holeResults = new ArrayCollection();
@@ -145,6 +150,18 @@ class Round
                 $holeResult->setRoundId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlayerTournament(): ?PlayerTournament
+    {
+        return $this->player_tournament;
+    }
+
+    public function setPlayerTournament(?PlayerTournament $player_tournament_id): self
+    {
+        $this->player_tournament = $player_tournament_id;
 
         return $this;
     }

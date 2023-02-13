@@ -43,8 +43,6 @@ class PlayerUpdateService
         $this->entityManager->flush();
 
         return $updatePlayer;
-
-        //persist the player update
     }
 
     public function playerUpdateLogBuilder(Player $updatePlayer, Player $currentPlayer): PlayerUpdateLog
