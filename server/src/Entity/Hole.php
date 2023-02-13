@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: HoleRepository::class)]
 class Hole
 {
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
@@ -31,6 +33,16 @@ class Hole
     #[ORM\ManyToOne(inversedBy: 'holes')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?course $course = null;
+
+    public function __construct(?int $par, ?float $parked_rate, ?float $c1_rate, ?float $c2_rate, ?float $scramble_rate, ?course $course)
+    {
+        $this->par = $par;
+        $this->parked_rate = $parked_rate;
+        $this->c1_rate = $c1_rate;
+        $this->c2_rate = $c2_rate;
+        $this->scramble_rate = $scramble_rate;
+        $this->course = $course;
+    }
 
     public function getHoleId(): ?int
     {

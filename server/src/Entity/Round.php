@@ -16,9 +16,6 @@ class Round
     private ?int $round_id = null;
 
     #[ORM\Column]
-    private ?int $course_id = null;
-
-    #[ORM\Column]
     private ?int $round_hole_result_id = null;
 
     #[ORM\Column(length: 255)]
@@ -43,18 +40,6 @@ class Round
     public function getRoundId(): ?int
     {
         return $this->round_id;
-    }
-
-    public function getCourseId(): ?int
-    {
-        return $this->course_id;
-    }
-
-    public function setCourseId(int $course_id): self
-    {
-        $this->course_id = $course_id;
-
-        return $this;
     }
 
     public function getRoundHoleResultId(): ?int
