@@ -22,6 +22,7 @@ class PlayerIngester
     //takes in the skill floor, skill ceiling, 0-100 skill and spits out the odds
     private function convertPlayerSkillToOdds($skillFloor, $skillCeiling, $skill):float {
         $increment = (($skillCeiling - $skillFloor) /100);
-        return ($skillFloor + ($skill * $increment));
+        $result = ($skillFloor + ($skill * $increment));
+        return round($result, 4, 1);
     }
 }

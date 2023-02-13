@@ -2,6 +2,7 @@
 
 namespace App\Service\Simulation;
 
+use App\Entity\Course;
 use App\Repository\CourseRepository;
 use App\Service\PlayerService;
 
@@ -21,9 +22,11 @@ class SimulationService
     }
 
 
-    public function simulateRound()
+    public function simulateTournament()
     {
-        $this->getPlayerSimObjects();
+        $allPlayerSimObjects = $this->getPlayerSimObjects();
+        $course = $this->courseRepository->find(3);
+        return $course;
     }
 
     public function getPlayerSimObjects(): iterable
@@ -47,5 +50,7 @@ class SimulationService
         return $allPlayersConverted;
 
     }
+
+
 
 }
