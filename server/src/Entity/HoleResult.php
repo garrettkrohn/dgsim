@@ -23,14 +23,20 @@ class HoleResult
     private ?int $c2_putts = null;
 
     #[ORM\Column]
-    private ?bool $green_in_regulation = null;
-
-    #[ORM\Column]
     private ?bool $scramble = null;
 
     #[ORM\ManyToOne(inversedBy: 'holeResults')]
     #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private ?round $round = null;
+
+    #[ORM\Column]
+    private ?bool $parked = null;
+
+    #[ORM\Column]
+    private ?bool $c1_in_regulation = null;
+
+    #[ORM\Column]
+    private ?bool $c2_in_regulation = null;
 
     public function getHoleresultId(): ?int
     {
@@ -73,18 +79,6 @@ class HoleResult
         return $this;
     }
 
-    public function isGreenInRegulation(): ?bool
-    {
-        return $this->green_in_regulation;
-    }
-
-    public function setGreenInRegulation(bool $green_in_regulation): self
-    {
-        $this->green_in_regulation = $green_in_regulation;
-
-        return $this;
-    }
-
     public function isScramble(): ?bool
     {
         return $this->scramble;
@@ -105,6 +99,42 @@ class HoleResult
     public function setRound(?round $round): self
     {
         $this->round = $round;
+
+        return $this;
+    }
+
+    public function isParked(): ?bool
+    {
+        return $this->parked;
+    }
+
+    public function setParked(bool $parked): self
+    {
+        $this->parked = $parked;
+
+        return $this;
+    }
+
+    public function isC1InRegulation(): ?bool
+    {
+        return $this->c1_in_regulation;
+    }
+
+    public function setC1InRegulation(bool $c1_in_regulation): self
+    {
+        $this->c1_in_regulation = $c1_in_regulation;
+
+        return $this;
+    }
+
+    public function isC2InRegulation(): ?bool
+    {
+        return $this->c2_in_regulation;
+    }
+
+    public function setC2InRegulation(bool $c2_in_regulation): self
+    {
+        $this->c2_in_regulation = $c2_in_regulation;
 
         return $this;
     }
