@@ -33,7 +33,7 @@ class SimulationService
     }
 
 
-    public function simulateTournament(): HoleResultDto
+    public function simulateTournament(): iterable
     {
         //successfully converted all players to playersimobjects
         $allPlayerSimObjects = $this->getPlayerSimObjects();
@@ -45,11 +45,9 @@ class SimulationService
         $allHoles = $this->holeRepository->findAll();
         $transformedHoles = $this->transformer->transformFromObjects($allHoles);
 
-        $sim = $this->iterators->parSwitcher($allPlayerSimObjects[0], $transformedHoles[1]);
-//        $holeResults = $this->iterators->holeIterator($allPlayerSimObjects[0], $transformedHoles);
-//        $holeResults = $this->iterators->playerIterator($allPlayerSimObjects, $transformedHoles);
+        $holeResults = $this->iterators->playerIterator($allPlayerSimObjects, $transformedHoles);
 
-        return $sim;
+        return $holeResults;
     }
 
     public function getPlayerSimObjects(): iterable
