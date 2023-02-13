@@ -2,11 +2,14 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Response\Transformer\HoleResponseDtoTransformer;
 use App\Entity\Course;
 use App\Repository\CourseRepository;
 use App\Repository\HoleRepository;
+use App\Service\HoleService;
 use App\Service\PlayerService;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class SimulationService
@@ -15,31 +18,31 @@ class SimulationService
     private PlayerService $playerService;
     private PlayerIngester $playerIngester;
     private HoleRepository $holeRepository;
+    private HoleResponseDtoTransformer $transformer;
 
-    /**
-     * @param CourseRepository $courseRepository
-     * @param PlayerService $playerService
-     * @param PlayerIngester $playerIngester
-     * @param HoleRepository $holeRepository
-     */
-    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository)
+    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository, HoleResponseDtoTransformer $transformer)
     {
         $this->courseRepository = $courseRepository;
         $this->playerService = $playerService;
         $this->playerIngester = $playerIngester;
         $this->holeRepository = $holeRepository;
+        $this->transformer = $transformer;
     }
 
-
-    public function simulateTournament():Course
+    public function simulateTournament(): iterable
     {
         //successfully converted all players to playersimobjects
         $allPlayerSimObjects = $this->getPlayerSimObjects();
 
-        //troubles getting the course or holes
-        $holes = $this->holeRepository->findAll();
+        //hard coded for now
         $course = $this->courseRepository->find(3);
-        return $course;
+        $allHoles = $this->holeRepository->findAll();
+
+        //transform the holes
+        $transformedHoles = $this->transformer->transformFromObjects($allHoles);
+
+
+        return $transformedHoles;
     }
 
     public function getPlayerSimObjects(): iterable
