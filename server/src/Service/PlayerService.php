@@ -14,19 +14,16 @@ use Symfony\Component\HttpFoundation\Response;
 class PlayerService
 {
     private PlayerRepository $playerRepository;
-    private ArchetypeRepository $archetypeRepository;
     private EntityManagerInterface $entityManager;
     private PlayerResponseDtoTransformer $transformer;
     private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
 
     public function __construct(PlayerRepository $playerRepository,
-                                ArchetypeRepository $archetypeRepository,
                                 EntityManagerInterface $entityManager,
                                 PlayerResponseDtoTransformer $transformer,
                                 PlayerRequestDtoTransformer $playerRequestDtoTransformer)
     {
     $this->playerRepository = $playerRepository;
-    $this->archetypeRepository = $archetypeRepository;
     $this->entityManager = $entityManager;
     $this->transformer = $transformer;
     $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;

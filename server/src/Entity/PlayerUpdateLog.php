@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlayerUpdateLogsRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: PlayerUpdateLogsRepository::class)]
 class PlayerUpdateLog
@@ -15,7 +16,7 @@ class PlayerUpdateLog
     private ?int $player_update_log_id = null;
 
     #[ORM\Column]
-    private ?int $update_time = null;
+    private ?DateTime $update_time = null;
 
     #[ORM\Column]
     private ?int $player_id = null;
@@ -43,14 +44,14 @@ class PlayerUpdateLog
         return $this->player_update_log_id;
     }
 
-    public function getUpdateTime(): ?int
+    public function getUpdateTime(): ?DateTime
     {
         return $this->update_time;
     }
 
-    public function setUpdateTime(int $update_time): self
+    public function setUpdateTime(): self
     {
-        $this->update_time = $update_time;
+        $this->update_time = new DateTime("now");
 
         return $this;
     }

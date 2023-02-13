@@ -25,7 +25,7 @@ class PlayerUpdateService
     }
 
 
-    #[NoReturn] public function updatePlayer($request): void
+    public function updatePlayer($request): Player
     {
         $updatePlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
         $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => 5));
@@ -34,14 +34,16 @@ class PlayerUpdateService
         $this->entityManager->persist($playerUpdateLog);
         $this->entityManager->flush();
 
+        return $updatePlayer;
+
         //persist the player update
     }
 
     public function playerUpdateLogBuilder(Player $updatePlayer, Player $currentPlayer): PlayerUpdateLog
     {
         $playerUpdateLog = new PlayerUpdateLog();
-        $timestamp = time();
-        $playerUpdateLog->setUpdateTime($timestamp);
+
+        $playerUpdateLog->setUpdateTime();
         $playerUpdateLog->setPlayerId($currentPlayer->getPlayerId());
         $playerUpdateLog->setPuttIncrement($updatePlayer->getPuttSkill() - $currentPlayer->getPuttSkill());
         $playerUpdateLog->setThrowPowerIncrement($updatePlayer->getThrowPowerSkill() - $currentPlayer->getThrowPowerSkill());

@@ -64,6 +64,7 @@ class PlayerController extends AbstractController
     #[Route('api/players/update', methods: ('POST'))]
     public function updatePlayer(Request $request)
     {
-        $this->playerUpdateService->updatePlayer($request);
+        $return = $this->playerUpdateService->updatePlayer($request);
+        return new JsonResponse($return);
     }
 }

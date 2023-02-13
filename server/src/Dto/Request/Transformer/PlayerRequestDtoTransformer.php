@@ -16,7 +16,7 @@ class PlayerRequestDtoTransformer extends AbstractRequestDtoTransformer
     }
 
     /**
-     * This function brings in the front end player request object and transorms
+     * This function brings in the front end player request object and transforms
      * it to a Player object to be persisted into the database
      * @param $object
      * @return Player
