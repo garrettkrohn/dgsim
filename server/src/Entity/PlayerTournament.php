@@ -15,6 +15,10 @@ class PlayerTournament
     #[ORM\Column]
     private ?int $player_tournament_id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'player_tournament')]
+    #[ORM\JoinColumn(name: 'tournament_id', referencedColumnName: 'tournament_id')]
+    private ?Tournament $tournament = null;
+
     #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Player::class)]
     private Collection $player_id;
 
@@ -103,6 +107,18 @@ class PlayerTournament
     public function setTourPoints(int $tour_points): self
     {
         $this->tour_points = $tour_points;
+
+        return $this;
+    }
+
+    public function getTournament(): ?Tournament
+    {
+        return $this->tournament;
+    }
+
+    public function setTournament(?Tournament $tournament): self
+    {
+        $this->tournament = $tournament;
 
         return $this;
     }

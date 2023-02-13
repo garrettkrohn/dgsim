@@ -16,9 +16,6 @@ class Round
     private ?int $round_id = null;
 
     #[ORM\Column]
-    private ?int $player_id = null;
-
-    #[ORM\Column]
     private ?int $course_id = null;
 
     #[ORM\Column]
@@ -29,10 +26,6 @@ class Round
 
     #[ORM\Column]
     private ?int $luck_score = null;
-
-    #[ORM\ManyToOne(inversedBy: 'round_id')]
-    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
-    private ?Player $player = null;
 
     #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class)]
     private Collection $holeResults;
@@ -50,18 +43,6 @@ class Round
     public function getRoundId(): ?int
     {
         return $this->round_id;
-    }
-
-    public function getPlayerId(): ?int
-    {
-        return $this->player_id;
-    }
-
-    public function setPlayerId(int $player_id): self
-    {
-        $this->player_id = $player_id;
-
-        return $this;
     }
 
     public function getCourseId(): ?int
@@ -108,18 +89,6 @@ class Round
     public function setLuckScore(int $luck_score): self
     {
         $this->luck_score = $luck_score;
-
-        return $this;
-    }
-
-    public function getPlayer(): ?Player
-    {
-        return $this->player;
-    }
-
-    public function setPlayer(?Player $player): self
-    {
-        $this->player = $player;
 
         return $this;
     }
