@@ -3,9 +3,9 @@
 namespace App\Service\Simulation;
 
 use App\Service\Simulation\baseModel;
-use App\Service\Simulation\par3Model;
-use App\Service\Simulation\par4Model;
-use App\Service\Simulation\par5Model;
+use App\Service\Simulation\Par3Model;
+use App\Service\Simulation\Par4Model;
+use App\Service\Simulation\Par5Model;
 
 class SimulationIterators {
     public function tournamentIterator($playerArray, $courseArray) {
@@ -22,19 +22,20 @@ class SimulationIterators {
         }
     }
 
-    public function holeIterator($player, $course) {
+    public function holeIterator($player, $course):array
+    {
         $roundResult = 0;
+        $holeResults = array();
         for ($x = 0; $x < count($course); $x++) {
             $holeResult = $this->parSwitcher($player, $course[$x]);
-            $roundResult += $holeResult;
-            echo "$holeResult | ";
+            $holeResults[] = $holeResult;
         }
-        echo "round total was $roundResult\n\n";
+        return $holeResults;
     }
     function parSwitcher($player, $hole):int {
-        $par3Model = new par3Model();
-        $par4Model = new par4Model();
-        $par5Model = new par5Model();
+        $par3Model = new Par3Model();
+        $par4Model = new Par4Model();
+        $par5Model = new Par5Model();
 
         return match ($hole->par) {
             3 => $par3Model->simulate($player, $hole),

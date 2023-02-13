@@ -2,7 +2,7 @@
 
 namespace App\Service\Simulation;
 
-class Par3Model extends baseModel
+class Par3Model extends BaseModel
 {
     public function simulate($playerSimObject, $holeSimObject): int
     {
