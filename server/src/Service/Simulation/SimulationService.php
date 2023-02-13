@@ -4,6 +4,7 @@ namespace App\Service\Simulation;
 
 use App\Entity\Course;
 use App\Repository\CourseRepository;
+use App\Repository\HoleRepository;
 use App\Service\PlayerService;
 
 
@@ -13,18 +14,30 @@ class SimulationService
     private CourseRepository $courseRepository;
     private PlayerService $playerService;
     private PlayerIngester $playerIngester;
+    private HoleRepository $holeRepository;
 
-    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester)
+    /**
+     * @param CourseRepository $courseRepository
+     * @param PlayerService $playerService
+     * @param PlayerIngester $playerIngester
+     * @param HoleRepository $holeRepository
+     */
+    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository)
     {
         $this->courseRepository = $courseRepository;
         $this->playerService = $playerService;
         $this->playerIngester = $playerIngester;
+        $this->holeRepository = $holeRepository;
     }
 
 
-    public function simulateTournament()
+    public function simulateTournament():Course
     {
+        //successfully converted all players to playersimobjects
         $allPlayerSimObjects = $this->getPlayerSimObjects();
+
+        //troubles getting the course or holes
+        $holes = $this->holeRepository->findAll();
         $course = $this->courseRepository->find(3);
         return $course;
     }
@@ -48,9 +61,5 @@ class SimulationService
         }
 
         return $allPlayersConverted;
-
     }
-
-
-
 }
