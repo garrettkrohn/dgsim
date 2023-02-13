@@ -2,6 +2,7 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Response\HoleResultDto;
 use App\Dto\Response\Transformer\HoleResponseDtoTransformer;
 use App\Entity\Course;
 use App\Repository\CourseRepository;
@@ -32,7 +33,7 @@ class SimulationService
     }
 
 
-    public function simulateTournament(): array
+    public function simulateTournament(): HoleResultDto
     {
         //successfully converted all players to playersimobjects
         $allPlayerSimObjects = $this->getPlayerSimObjects();
@@ -44,10 +45,11 @@ class SimulationService
         $allHoles = $this->holeRepository->findAll();
         $transformedHoles = $this->transformer->transformFromObjects($allHoles);
 
-//        $sim = $this->iterators->parSwitcher($allPlayerSimObjects[0], $transformedHoles[0]);
-        $holeResults = $this->iterators->holeIterator($allPlayerSimObjects[0], $transformedHoles);
+        $sim = $this->iterators->parSwitcher($allPlayerSimObjects[0], $transformedHoles[1]);
+//        $holeResults = $this->iterators->holeIterator($allPlayerSimObjects[0], $transformedHoles);
+//        $holeResults = $this->iterators->playerIterator($allPlayerSimObjects, $transformedHoles);
 
-        return $holeResults;
+        return $sim;
     }
 
     public function getPlayerSimObjects(): iterable

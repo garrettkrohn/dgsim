@@ -2,9 +2,12 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Response\HoleResultDto;
+use App\Entity\Hole;
+
 class Par3Model extends BaseModel
 {
-    public function simulate($playerSimObject, $holeSimObject): int
+    public function simulate($playerSimObject, $holeSimObject): HoleResultDto
     {
         $playerHoleAveragesObject = $this->averageObjects($playerSimObject, $holeSimObject);
         $oddsOfResultsArray = $this->oddsOfResults($playerHoleAveragesObject);
@@ -12,19 +15,61 @@ class Par3Model extends BaseModel
         return $this->getHoleResult($rng, $oddsOfResultsArray);
     }
 
-    private function getHoleResult($rng, $oddsOfResultsArray): int
+    private function getHoleResult($rng, $oddsOfResultsArray): HoleResultDto
     {
-        if ($rng < $oddsOfResultsArray->chanceOfFive) {
-            return 5;
-        } else if ($rng < $oddsOfResultsArray->chanceOfFour + $oddsOfResultsArray->chanceOfFive) {
-            return 4;
-        } else if ($rng < $oddsOfResultsArray->chanceOfThree + $oddsOfResultsArray->chanceOfFour + $oddsOfResultsArray->chanceOfFive) {
-            return 3;
-        } else if ($rng < $oddsOfResultsArray->chanceOfTwo + $oddsOfResultsArray->chanceOfThree + $oddsOfResultsArray->chanceOfFour + $oddsOfResultsArray->chanceOfFive) {
-            return 2;
-        } else {
-            return 1;
+        $benchmark = $oddsOfResultsArray->resultId12;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(5, 2,0, false, false, false, false);
         }
+        $benchmark += $oddsOfResultsArray->resultId11;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(4, 2,0, false,false, false, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId10;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(3, 1,0, false,false, false, true);
+        }
+        $benchmark += $oddsOfResultsArray->resultId9;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(5, 3,1, false,false, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId8;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(4, 2,1, false,false, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId7;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(3, 1,1, false,false, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId6;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(2, 0,1, false,false, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId5;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(5, 4,0, false,true, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId4;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(4, 3,0, false,true, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId3;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(3, 2,0, false,true, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId2;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(2, 1,0, false,true, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId1;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(2, 1,0, true,true, true, false);
+        }
+        $benchmark += $oddsOfResultsArray->resultId0;
+        if ($rng < $benchmark) {
+            return new HoleResultDto(1, 0,0, true,true, true, false);
+        }
+        else return new HoleResultDto(-1,-1,-1,false, false, false, false);
     }
 
     private function oddsOfResults($playerSimObject): object
@@ -50,11 +95,19 @@ class Par3Model extends BaseModel
         $resultId12 = $missFairway * (1 - $playerSimObject->scramble) * $missc1;
 
         $chancesObject = new \stdClass();
-        $chancesObject->chanceOfAce = $resultId0;
-        $chancesObject->chanceOfTwo = $resultId1 + $resultId2 + $resultId6;
-        $chancesObject->chanceOfThree = $resultId3 + $resultId7 + $resultId10;
-        $chancesObject->chanceOfFour = $resultId4 + $resultId8 + $resultId11;
-        $chancesObject->chanceOfFive = $resultId5 + $resultId9 + $resultId12;
+        $chancesObject->resultId0 = $resultId0;
+        $chancesObject->resultId1 = $resultId1;
+        $chancesObject->resultId2 = $resultId2;
+        $chancesObject->resultId3 = $resultId3;
+        $chancesObject->resultId4 = $resultId4;
+        $chancesObject->resultId5 = $resultId5;
+        $chancesObject->resultId6 = $resultId6;
+        $chancesObject->resultId7 = $resultId7;
+        $chancesObject->resultId8 = $resultId8;
+        $chancesObject->resultId9 = $resultId9;
+        $chancesObject->resultId10 = $resultId10;
+        $chancesObject->resultId11 = $resultId11;
+        $chancesObject->resultId12 = $resultId12;
 
         return $chancesObject;
     }

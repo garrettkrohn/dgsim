@@ -2,6 +2,7 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Response\HoleResultDto;
 use App\Service\Simulation\baseModel;
 use App\Service\Simulation\Par3Model;
 use App\Service\Simulation\Par4Model;
@@ -16,10 +17,12 @@ class SimulationIterators {
     }
 
     public function playerIterator($playerArray, $courseArray) {
+        $playerRounds = array();
         for ($x = 0; $x < count($playerArray); $x++) {
-            echo "player $x || ";
-            $this->holeIterator($playerArray[$x], $courseArray);
+            $playerRounds[] = $this->holeIterator($playerArray[$x], $courseArray);
+
         }
+        return $playerRounds;
     }
 
     public function holeIterator($player, $course):array
@@ -32,7 +35,7 @@ class SimulationIterators {
         }
         return $holeResults;
     }
-    function parSwitcher($player, $hole):int {
+    function parSwitcher($player, $hole):HoleResultDto {
         $par3Model = new Par3Model();
         $par4Model = new Par4Model();
         $par5Model = new Par5Model();
