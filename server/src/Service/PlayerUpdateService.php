@@ -33,6 +33,13 @@ class PlayerUpdateService
         $playerUpdateLog = $this->playerUpdateLogBuilder($updatePlayer, $currentPlayer);
 
         $this->entityManager->persist($playerUpdateLog);
+
+        $currentPlayer->setPuttSkill($updatePlayer->getPuttSkill());
+        $currentPlayer->setThrowPowerSkill($updatePlayer->getThrowPowerSkill());
+        $currentPlayer->setThrowAccuracySkill($updatePlayer->getThrowAccuracySkill());
+        $currentPlayer->setScrambleSkill($updatePlayer->getScrambleSkill());
+        $this->entityManager->persist($currentPlayer);
+
         $this->entityManager->flush();
 
         return $updatePlayer;
