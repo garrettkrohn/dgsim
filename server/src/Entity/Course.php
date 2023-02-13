@@ -26,12 +26,12 @@ class Course
     private Collection $holes;
 
     #[ORM\OneToMany(mappedBy: 'course_id', targetEntity: Tournament::class)]
-    private Collection $Tournaments;
+    private Collection $tournaments;
 
     public function __construct()
     {
         $this->holes = new ArrayCollection();
-        $this->Tournaments = new ArrayCollection();
+        $this->tournaments = new ArrayCollection();
     }
 
     public function getCourseId(): ?int
@@ -98,13 +98,13 @@ class Course
      */
     public function getTournaments(): Collection
     {
-        return $this->Tournaments;
+        return $this->tournaments;
     }
 
     public function addTournament(Tournament $tournament): self
     {
-        if (!$this->Tournaments->contains($tournament)) {
-            $this->Tournaments->add($tournament);
+        if (!$this->tournaments->contains($tournament)) {
+            $this->tournaments->add($tournament);
             $tournament->setCourseId($this);
         }
 
@@ -113,7 +113,7 @@ class Course
 
     public function removeTournament(Tournament $tournament): self
     {
-        if ($this->Tournaments->removeElement($tournament)) {
+        if ($this->tournaments->removeElement($tournament)) {
             // set the owning side to null (unless already changed)
             if ($tournament->getCourseId() === $this) {
                 $tournament->setCourseId(null);

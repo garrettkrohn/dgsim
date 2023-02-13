@@ -32,7 +32,7 @@ class Hole
 
     #[ORM\ManyToOne(inversedBy: 'holes')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
-    private ?course $course = null;
+    private ?Course $course = null;
 
     public function __construct(?int $par, ?float $parked_rate, ?float $c1_rate, ?float $c2_rate, ?float $scramble_rate, ?course $course)
     {

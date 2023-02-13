@@ -67,6 +67,10 @@ class CourseService
 
         $this->entityManager->flush();
         return $course;
+    }
+
+    public function getCourseWithHoles()
+    {
 
     }
 }
