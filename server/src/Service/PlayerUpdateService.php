@@ -28,7 +28,8 @@ class PlayerUpdateService
     public function updatePlayer($request): Player
     {
         $updatePlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
-        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => 5));
+        $requestObject = json_decode($request->getContent(), true);
+        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => $requestObject['player_id']));
         $playerUpdateLog = $this->playerUpdateLogBuilder($updatePlayer, $currentPlayer);
 
         $this->entityManager->persist($playerUpdateLog);

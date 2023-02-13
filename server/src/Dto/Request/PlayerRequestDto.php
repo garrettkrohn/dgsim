@@ -2,8 +2,6 @@
 
 namespace App\Dto\Request;
 
-use App\Dto\Response\ArchetypeResponseDto;
-
 class PlayerRequestDto
 {
     public string $first_name;
