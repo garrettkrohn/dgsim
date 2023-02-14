@@ -19,7 +19,7 @@ class SimulationController extends AbstractController
     }
 
 
-    #[Route('api/runSimulation', methods: ('GET'))]
+    #[Route('api/runSimulation', methods: ('POST'))]
     public function runSimulation():Response
     {
         $response = $this->simulationService->simulateTournament();

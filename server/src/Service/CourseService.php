@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Entity\Course;
+use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Hole;
@@ -12,12 +13,13 @@ class CourseService
 {
 
     private EntityManagerInterface $entityManager;
+    private CourseRepository $courseRepository;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository)
     {
         $this->entityManager = $entityManager;
+        $this->courseRepository = $courseRepository;
     }
-
 
     public function createNewCourse():Course
     {
@@ -69,8 +71,8 @@ class CourseService
         return $course;
     }
 
-    public function getCourseWithHoles()
+    public function getCourseById($id): Course
     {
-
+        return $this->courseRepository->findOneBy(array('course_id) => $id'));
     }
 }

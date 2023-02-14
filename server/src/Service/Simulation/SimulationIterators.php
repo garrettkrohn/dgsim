@@ -16,9 +16,10 @@ class SimulationIterators {
         }
     }
 
-    public function playerIterator($playerArray, $courseArray) {
+    public function playerIterator($playerArray, $courseArray):array {
         $playerRounds = array();
         for ($x = 0; $x < count($playerArray); $x++) {
+            $playerRounds[] = $playerArray[$x];
             $playerRounds[] = $this->holeIterator($playerArray[$x], $courseArray);
 
         }
