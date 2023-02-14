@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HoleResultRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HoleResultRepository::class)]
@@ -37,6 +39,15 @@ class HoleResult
     #[ORM\ManyToOne(inversedBy: 'holeResults')]
     #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private ?round $round = null;
+
+    #[ORM\OneToMany(mappedBy: 'holeResult', targetEntity: hole::class)]
+    #[ORM\JoinColumn(name: 'hole_id', referencedColumnName: 'hole_id')]
+    private Collection $hole_id;
+
+    public function __construct()
+    {
+        $this->hole_id = new ArrayCollection();
+    }
 
     public function getHoleresultId(): ?int
     {
@@ -135,6 +146,36 @@ class HoleResult
     public function setC2InRegulation(bool $c2_in_regulation): self
     {
         $this->c2_in_regulation = $c2_in_regulation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, hole>
+     */
+    public function getHoleId(): Collection
+    {
+        return $this->hole_id;
+    }
+
+    public function addHoleId(hole $holeId): self
+    {
+        if (!$this->hole_id->contains($holeId)) {
+            $this->hole_id->add($holeId);
+            $holeId->setHoleResult($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHoleId(hole $holeId): self
+    {
+        if ($this->hole_id->removeElement($holeId)) {
+            // set the owning side to null (unless already changed)
+            if ($holeId->getHoleResult() === $this) {
+                $holeId->setHoleResult(null);
+            }
+        }
 
         return $this;
     }

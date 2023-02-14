@@ -34,6 +34,10 @@ class Hole
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?Course $course = null;
 
+    #[ORM\ManyToOne(inversedBy: 'hole_id')]
+    #[ORM\JoinColumn(name: 'hole_result_id', referencedColumnName: 'hole_result_id')]
+    private ?HoleResult $holeResult = null;
+
     public function __construct(?int $par, ?float $parked_rate, ?float $c1_rate, ?float $c2_rate, ?float $scramble_rate, ?course $course)
     {
         $this->par = $par;
@@ -117,6 +121,18 @@ class Hole
     public function setCourse(?course $course): self
     {
         $this->course = $course;
+
+        return $this;
+    }
+
+    public function getHoleResult(): ?HoleResult
+    {
+        return $this->holeResult;
+    }
+
+    public function setHoleResult(?HoleResult $holeResult): self
+    {
+        $this->holeResult = $holeResult;
 
         return $this;
     }
