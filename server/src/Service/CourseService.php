@@ -71,8 +71,8 @@ class CourseService
         return $course;
     }
 
-    public function getCourseById($id): Course
+    public function getCourseById(int $id): Course
     {
-        return $this->courseRepository->findOneBy(array('course_id) => $id'));
+        return $this->courseRepository->findOneBy(array('course_id' => $id));
     }
 }
