@@ -25,7 +25,7 @@ class Tournament
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?Course $course = null;
 
-    #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: PlayerTournament::class)]
+    #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: PlayerTournament::class, cascade: ['persist', 'remove'])]
     private Collection $player_tournament;
 
     public function __construct()

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerTournamentRepository::class)]
+#[ORM\Table(name: 'player_tournament')]
 class PlayerTournament
 {
     #[ORM\Id]
@@ -22,7 +23,7 @@ class PlayerTournament
     #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Player::class)]
     private Collection $player_id;
 
-    #[ORM\OneToMany(mappedBy: 'player_tournament_id', targetEntity: round::class)]
+    #[ORM\OneToMany(mappedBy: 'player_tournament_id', targetEntity: round::class, cascade: ['persist', 'remove'])]
     private Collection $round_id;
 
     #[ORM\Column]
@@ -81,7 +82,7 @@ class PlayerTournament
     {
         if (!$this->round_id->contains($roundId)) {
             $this->round_id->add($roundId);
-            $roundId->setPlayerTournamentId($this);
+            $roundId->setPlayerTournament($this);
         }
 
         return $this;
@@ -91,8 +92,8 @@ class PlayerTournament
     {
         if ($this->round_id->removeElement($roundId)) {
             // set the owning side to null (unless already changed)
-            if ($roundId->getPlayerTournamentId() === $this) {
-                $roundId->setPlayerTournamentId(null);
+            if ($roundId->getPlayerTournament() === $this) {
+                $roundId->setPlayerTournament(null);
             }
         }
 

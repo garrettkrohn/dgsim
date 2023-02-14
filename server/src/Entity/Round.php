@@ -15,17 +15,14 @@ class Round
     #[ORM\Column]
     private ?int $round_id = null;
 
-    #[ORM\Column]
-    private ?int $round_hole_result_id = null;
-
     #[ORM\Column(length: 255)]
     private ?int $round_total = null;
 
     #[ORM\Column]
     private ?int $luck_score = null;
 
-    #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class)]
-    private Collection $holeResults;
+    #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class, cascade: ['persist', 'remove'])]
+    private ?Collection $holeResults = null;
 
     #[ORM\ManyToOne(inversedBy: 'round_id')]
 //    #[ORM\JoinColumn(nullable: false)]
@@ -40,18 +37,6 @@ class Round
     public function getRoundId(): ?int
     {
         return $this->round_id;
-    }
-
-    public function getRoundHoleResultId(): ?int
-    {
-        return $this->round_hole_result_id;
-    }
-
-    public function setRoundHoleResultId(int $round_hole_result_id): self
-    {
-        $this->round_hole_result_id = $round_hole_result_id;
-
-        return $this;
     }
 
     public function getRoundTotal(): ?int
@@ -90,7 +75,7 @@ class Round
     {
         if (!$this->holeResults->contains($holeResult)) {
             $this->holeResults->add($holeResult);
-            $holeResult->setRoundId($this);
+            $holeResult->setRound($this);
         }
 
         return $this;
@@ -100,8 +85,8 @@ class Round
     {
         if ($this->holeResults->removeElement($holeResult)) {
             // set the owning side to null (unless already changed)
-            if ($holeResult->getRoundId() === $this) {
-                $holeResult->setRoundId(null);
+            if ($holeResult->getRound() === $this) {
+                $holeResult->setRound(null);
             }
         }
 
