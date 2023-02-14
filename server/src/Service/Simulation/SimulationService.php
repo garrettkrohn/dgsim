@@ -19,6 +19,7 @@ use App\Service\HoleService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -35,6 +36,7 @@ class SimulationService
     private EntityManagerInterface $entityManager;
     private TournamentRepository $tournamentRepository;
     private PlayerRepository $playerRepository;
+    private TournamentBuilder $tournamentBuilder;
 
     /**
      * @param CourseRepository $courseRepository
@@ -48,8 +50,9 @@ class SimulationService
      * @param EntityManagerInterface $entityManager
      * @param TournamentRepository $tournamentRepository
      * @param PlayerRepository $playerRepository
+     * @param TournamentBuilder $tournamentBuilder
      */
-    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository, HoleResponseDtoTransformer $transformer, SimulationIterators $iterators, CourseService $courseService, HoleService $holeService, EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository, PlayerRepository $playerRepository)
+    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository, HoleResponseDtoTransformer $transformer, SimulationIterators $iterators, CourseService $courseService, HoleService $holeService, EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository, PlayerRepository $playerRepository, TournamentBuilder $tournamentBuilder)
     {
         $this->courseRepository = $courseRepository;
         $this->playerService = $playerService;
@@ -62,27 +65,16 @@ class SimulationService
         $this->entityManager = $entityManager;
         $this->tournamentRepository = $tournamentRepository;
         $this->playerRepository = $playerRepository;
+        $this->tournamentBuilder = $tournamentBuilder;
     }
 
 
-    public function simulateTournament(): iterable
+    public function simulateTournament(Request $request): Tournament
     {
-        $tournament = new Tournament();
-        $tournament->setName('test tournament 1');
-        $course = $this->courseService->getCourseById(3);
-        $tournament->setCourse($course);
-        $tournament->setSeason(1);
-        //successfully converted all players to playersimobjects
-        $allPlayerSimObjects = $this->playerService->getActivePlayerSimObjects();
-
-        //hard coded for now
-
-        //transform the holes
-        $allHolesSimObjects = $this->holeService->getAllSimHoles(3);
-
-        $holeResults = $this->iterators->playerIterator($allPlayerSimObjects, $allHolesSimObjects);
-
-        return $holeResults;
+        $tournament = $this->tournamentBuilder->buildTournament($request);
+        $this->entityManager->persist($tournament);
+        $this->entityManager->flush();
+        return $tournament;
     }
 
     public function testPersistence(): iterable

@@ -38,7 +38,7 @@ class HoleResult
 
     #[ORM\ManyToOne(inversedBy: 'holeResults')]
     #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
-    private ?round $round = null;
+    private ?Round $round = null;
 
     #[ORM\OneToMany(mappedBy: 'holeResult', targetEntity: hole::class)]
     #[ORM\JoinColumn(name: 'hole_id', referencedColumnName: 'hole_id')]

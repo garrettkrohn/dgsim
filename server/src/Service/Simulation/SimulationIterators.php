@@ -4,7 +4,9 @@ namespace App\Service\Simulation;
 
 use App\Dto\Response\HoleResultDto;
 use App\Entity\HoleResult;
+use App\Entity\PlayerTournament;
 use App\Entity\Round;
+use App\Entity\Tournament;
 use App\Service\Simulation\baseModel;
 use App\Service\Simulation\Par3Model;
 use App\Service\Simulation\Par4Model;
@@ -26,42 +28,36 @@ class SimulationIterators {
         $this->entityManager = $entityManager;
     }
 
-    public function playerIterator($playerArray, $courseArray) {
-        $playerRounds = array();
+    public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament): Tournament {
         for ($x = 0; $x < count($playerArray); $x++) {
-            $this->roundIterator($playerArray[$x],$courseArray);
-//            $playerRounds[] = $playerArray[$x];
-            //create round with player information
-
-//            $playerRounds[] = $this->holeIterator($playerArray[$x], $courseArray;
+            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds);
+            $tournament->addPlayerTournament($playerTournamentReturn);
         }
-//        return $playerRounds;
+        return $tournament;
     }
 
-    public function roundIterator($player, $courseArray) {
-        $tournamentRounds = 1;
-        $playerRounds = array();
-        for ($x = 0; $x < $tournamentRounds; $x++) {
-            $round = new Round();
-            $round->setRoundTotal(0);
-            $round->setLuckScore(0);
-            $this->entityManager->persist($round);
-            $this->entityManager->flush();
-            $this->holeIterator($player, $courseArray, $round);
+    public function roundIterator($player, $courseArray, $numberOfRounds):PlayerTournament {
+        $playerTournament = new PlayerTournament();
+        for ($x = 0; $x < $numberOfRounds; $x++) {
+            $roundReturn = $this->holeIterator($player, $courseArray);
+            //add methods for this
+            $roundReturn->setRoundTotal(0);
+            $roundReturn->setLuckScore(0);
+            $playerTournament->addRoundId($roundReturn);
+            $playerTournament->setTourPoints(50);
         }
-//        return $playerRounds;
+        return $playerTournament;
     }
 
-    public function holeIterator($player, $course, Round $round)
+    public function holeIterator($player, $course): Round
     {
+        $round = new Round();
         for ($x = 0; $x < count($course); $x++) {
             $holeResult = $this->parSwitcher($player, $course[$x]);
             $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $round);
             $round->addHoleResult($holePersist);
-//            $this->entityManager->persist($holePersist);
-//            $this->entityManager->flush();
         }
-//        return $holeResults;
+        return $round;
     }
     private function parSwitcher($player, $hole):HoleResultDto {
 
