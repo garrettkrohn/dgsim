@@ -23,7 +23,7 @@ class PlayerTournament
     #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Player::class)]
     private Collection $player_id;
 
-    #[ORM\OneToMany(mappedBy: 'player_tournament_id', targetEntity: round::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'player_tournament_id', targetEntity: Round::class, cascade: ['persist', 'remove'])]
     private Collection $round_id;
 
     #[ORM\Column]
@@ -80,14 +80,14 @@ class PlayerTournament
     }
 
     /**
-     * @return Collection<int, round>
+     * @return Collection<int, Round>
      */
     public function getRoundId(): Collection
     {
         return $this->round_id;
     }
 
-    public function addRoundId(round $roundId): self
+    public function addRoundId(Round $roundId): self
     {
         if (!$this->round_id->contains($roundId)) {
             $this->round_id->add($roundId);
@@ -97,7 +97,7 @@ class PlayerTournament
         return $this;
     }
 
-    public function removeRoundId(round $roundId): self
+    public function removeRoundId(Round $roundId): self
     {
         if ($this->round_id->removeElement($roundId)) {
             // set the owning side to null (unless already changed)

@@ -95,8 +95,4 @@ class SimulationIterators {
 
         return $holeResult;
     }
-
-    private function calculateRoundTotal($rounds): Integer {
-    }
-
 }
