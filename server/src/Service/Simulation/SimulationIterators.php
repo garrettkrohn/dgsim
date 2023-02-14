@@ -45,6 +45,7 @@ class SimulationIterators {
             $roundReturn->setLuckScore(0);
             $playerTournament->addRoundId($roundReturn);
             $playerTournament->setTourPoints(50);
+            $playerTournament->setTotalScore(100);
         }
         return $playerTournament;
     }

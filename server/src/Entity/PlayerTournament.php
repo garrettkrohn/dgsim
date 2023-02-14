@@ -29,6 +29,9 @@ class PlayerTournament
     #[ORM\Column]
     private ?int $tour_points = null;
 
+    #[ORM\Column]
+    private ?int $total_score = null;
+
     public function __construct()
     {
         $this->player_id = new ArrayCollection();
@@ -120,6 +123,18 @@ class PlayerTournament
     public function setTournament(?Tournament $tournament): self
     {
         $this->tournament = $tournament;
+
+        return $this;
+    }
+
+    public function getTotalScore(): ?int
+    {
+        return $this->total_score;
+    }
+
+    public function setTotalScore(int $total_score): self
+    {
+        $this->total_score = $total_score;
 
         return $this;
     }
