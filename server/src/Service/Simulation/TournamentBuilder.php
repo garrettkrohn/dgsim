@@ -63,9 +63,9 @@ class TournamentBuilder
         return $tournamentResponse;
     }
 
-    public function buildLeaderboard():array
+    public function buildLeaderboard(int $tournamentId):array
     {
-        $tournament = $this->tournamentRepository->findOneBy(array('tournament_id' => '15'));
+        $tournament = $this->tournamentRepository->findOneBy(array('tournament_id' => $tournamentId));
         $playerTournaments = $tournament->getPlayerTournament();
 
         $leaderboard = array();

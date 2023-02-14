@@ -71,10 +71,11 @@ class SimulationService
 
     public function simulateTournament(Request $request): array
     {
-//        $tournament = $this->tournamentBuilder->buildTournament($request);
-//        $this->entityManager->persist($tournament);
-//        $this->entityManager->flush();
-        return $this->tournamentBuilder->buildLeaderboard();
+        $tournament = $this->tournamentBuilder->buildTournament($request);
+        $this->entityManager->persist($tournament);
+        $this->entityManager->flush();
+        $results =  $this->tournamentRepository->findOneBy(array(),array('tournament_id'=>'DESC'),1,0);
+        return $this->tournamentBuilder->buildLeaderboard($results->getTournamentId());
     }
 
     public function testPersistence(): iterable
