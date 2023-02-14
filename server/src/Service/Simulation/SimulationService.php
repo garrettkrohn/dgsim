@@ -44,14 +44,12 @@ class SimulationService
         $allPlayerSimObjects = $this->playerService->getActivePlayerSimObjects();
 
         //hard coded for now
-        $currentCourse = $this->courseService->getCourseById(3);
-        $course = $this->courseRepository->find(3);
+        $course = $this->courseService->getCourseById(3);
 
         //transform the holes
-        $allHoles = $this->holeRepository->findAll();
-        $transformedHoles = $this->transformer->transformFromObjects($allHoles);
+        $allHolesSimObjects = $this->holeService->getAllSimHoles(3);
 
-        $holeResults = $this->iterators->playerIterator($allPlayerSimObjects, $transformedHoles);
+        $holeResults = $this->iterators->playerIterator($allPlayerSimObjects, $allHolesSimObjects);
 
         return $holeResults;
     }
