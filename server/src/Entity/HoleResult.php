@@ -23,13 +23,6 @@ class HoleResult
     private ?int $c2_putts = null;
 
     #[ORM\Column]
-    private ?bool $scramble = null;
-
-    #[ORM\ManyToOne(inversedBy: 'holeResults')]
-    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
-    private ?round $round = null;
-
-    #[ORM\Column]
     private ?bool $parked = null;
 
     #[ORM\Column]
@@ -37,6 +30,13 @@ class HoleResult
 
     #[ORM\Column]
     private ?bool $c2_in_regulation = null;
+
+    #[ORM\Column]
+    private ?bool $scramble = null;
+
+    #[ORM\ManyToOne(inversedBy: 'holeResults')]
+    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
+    private ?round $round = null;
 
     public function getHoleresultId(): ?int
     {
