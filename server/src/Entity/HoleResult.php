@@ -44,6 +44,9 @@ class HoleResult
     #[ORM\JoinColumn(name: 'hole_id', referencedColumnName: 'hole_id')]
     private Collection $hole_id;
 
+    #[ORM\Column]
+    private ?float $luck = null;
+
     public function __construct()
     {
         $this->hole_id = new ArrayCollection();
@@ -176,6 +179,18 @@ class HoleResult
                 $holeId->setHoleResult(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLuck(): ?float
+    {
+        return $this->luck;
+    }
+
+    public function setLuck(float $luck): self
+    {
+        $this->luck = $luck;
 
         return $this;
     }

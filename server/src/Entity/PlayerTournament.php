@@ -32,6 +32,12 @@ class PlayerTournament
     #[ORM\Column]
     private ?int $total_score = null;
 
+    #[ORM\Column]
+    private ?float $luck_score = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $place = null;
+
     public function __construct()
     {
         $this->player_id = new ArrayCollection();
@@ -135,6 +141,30 @@ class PlayerTournament
     public function setTotalScore(int $total_score): self
     {
         $this->total_score = $total_score;
+
+        return $this;
+    }
+
+    public function getLuckScore(): ?float
+    {
+        return $this->luck_score;
+    }
+
+    public function setLuckScore(float $luck_score): self
+    {
+        $this->luck_score = $luck_score;
+
+        return $this;
+    }
+
+    public function getPlace(): ?int
+    {
+        return $this->place;
+    }
+
+    public function setPlace(?int $place): self
+    {
+        $this->place = $place;
 
         return $this;
     }

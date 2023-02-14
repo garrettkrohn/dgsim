@@ -19,57 +19,57 @@ class Par3Model extends BaseModel
     {
         $benchmark = $oddsOfResultsArray->resultId12;
         if ($rng < $benchmark) {
-            return new HoleResultDto(5, 2,0, false, false, false, false);
+            return new HoleResultDto(5, 2,0, false, false, false, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId11;
         if ($rng < $benchmark) {
-            return new HoleResultDto(4, 2,0, false,false, false, false);
+            return new HoleResultDto(4, 2,0, false,false, false, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId10;
         if ($rng < $benchmark) {
-            return new HoleResultDto(3, 1,0, false,false, false, true);
+            return new HoleResultDto(3, 1,0, false,false, false, true, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId9;
         if ($rng < $benchmark) {
-            return new HoleResultDto(5, 3,1, false,false, true, false);
+            return new HoleResultDto(5, 3,1, false,false, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId8;
         if ($rng < $benchmark) {
-            return new HoleResultDto(4, 2,1, false,false, true, false);
+            return new HoleResultDto(4, 2,1, false,false, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId7;
         if ($rng < $benchmark) {
-            return new HoleResultDto(3, 1,1, false,false, true, false);
+            return new HoleResultDto(3, 1,1, false,false, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId6;
         if ($rng < $benchmark) {
-            return new HoleResultDto(2, 0,1, false,false, true, false);
+            return new HoleResultDto(2, 0,1, false,false, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId5;
         if ($rng < $benchmark) {
-            return new HoleResultDto(5, 4,0, false,true, true, false);
+            return new HoleResultDto(5, 4,0, false,true, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId4;
         if ($rng < $benchmark) {
-            return new HoleResultDto(4, 3,0, false,true, true, false);
+            return new HoleResultDto(4, 3,0, false,true, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId3;
         if ($rng < $benchmark) {
-            return new HoleResultDto(3, 2,0, false,true, true, false);
+            return new HoleResultDto(3, 2,0, false,true, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId2;
         if ($rng < $benchmark) {
-            return new HoleResultDto(2, 1,0, false,true, true, false);
+            return new HoleResultDto(2, 1,0, false,true, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId1;
         if ($rng < $benchmark) {
-            return new HoleResultDto(2, 1,0, true,true, true, false);
+            return new HoleResultDto(2, 1,0, true,true, true, false, $rng);
         }
         $benchmark += $oddsOfResultsArray->resultId0;
         if ($rng < $benchmark) {
-            return new HoleResultDto(1, 0,0, true,true, true, false);
+            return new HoleResultDto(1, 0,0, true,true, true, false, $rng);
         }
-        else return new HoleResultDto(-1,-1,-1,false, false, false, false);
+        else return new HoleResultDto(-1,-1,-1,false, false, false, false, $rng);
     }
 
     private function oddsOfResults($playerSimObject): object

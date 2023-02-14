@@ -48,6 +48,16 @@ class TournamentBuilder
         $tournamentResponse = $this->iterators->playerIterator($allPlayerSimObjects,
             $allHolesSimObjects, $numberOfRounds, $tournament);
 
-        return $tournament;
+        $finalTournament = $this->buildLeaderboard($tournamentResponse);
+
+        return $finalTournament;
+    }
+
+    public function buildLeaderboard(Tournament $tournament): Tournament
+    {
+        $playerTournaments = $tournament->getPlayerTournament();
+        $array = $playerTournaments->toArray();
+        rsort($array);
+
     }
 }

@@ -12,6 +12,8 @@ use App\Service\Simulation\Par3Model;
 use App\Service\Simulation\Par4Model;
 use App\Service\Simulation\Par5Model;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Math;
+use phpDocumentor\Reflection\Types\Integer;
 
 class SimulationIterators {
 
@@ -38,26 +40,34 @@ class SimulationIterators {
 
     public function roundIterator($player, $courseArray, $numberOfRounds):PlayerTournament {
         $playerTournament = new PlayerTournament();
+        $tournamentTotal = 0;
+        $luckTotal = 0;
         for ($x = 0; $x < $numberOfRounds; $x++) {
             $roundReturn = $this->holeIterator($player, $courseArray);
-            //add methods for this
-            $roundReturn->setRoundTotal(0);
-            $roundReturn->setLuckScore(0);
+            $tournamentTotal += $roundReturn->getRoundTotal();
+            $luckTotal += $roundReturn->getLuckScore();
             $playerTournament->addRoundId($roundReturn);
-            $playerTournament->setTourPoints(50);
-            $playerTournament->setTotalScore(100);
         }
+        $playerTournament->setTotalScore($tournamentTotal);
+        $playerTournament->setLuckScore($luckTotal/$numberOfRounds);
         return $playerTournament;
     }
 
     public function holeIterator($player, $course): Round
     {
         $round = new Round();
+        $roundTotal = 0;
+        $luckScore = 0;
         for ($x = 0; $x < count($course); $x++) {
             $holeResult = $this->parSwitcher($player, $course[$x]);
+            $roundTotal += $holeResult->score;
+            $luckScore += $holeResult->luck;
             $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $round);
             $round->addHoleResult($holePersist);
         }
+        $round->setRoundTotal($roundTotal);
+        $totalLuckScore = $luckScore / count($course);
+        $round->setLuckScore(round($totalLuckScore, 4, 1));
         return $round;
     }
     private function parSwitcher($player, $hole):HoleResultDto {
@@ -81,7 +91,12 @@ class SimulationIterators {
         $holeResult->setC2InRegulation($hole->c2_in_regulation);
         $holeResult->setScramble($hole->scramble);
         $holeResult->setRound($round);
+        $holeResult->setLuck($hole->luck);
 
         return $holeResult;
     }
+
+    private function calculateRoundTotal($rounds): Integer {
+    }
+
 }

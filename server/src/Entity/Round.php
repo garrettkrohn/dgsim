@@ -19,7 +19,7 @@ class Round
     private ?int $round_total = null;
 
     #[ORM\Column]
-    private ?int $luck_score = null;
+    private ?float $luck_score = null;
 
     #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class, cascade: ['persist', 'remove'])]
     private ?Collection $holeResults = null;
@@ -51,12 +51,12 @@ class Round
         return $this;
     }
 
-    public function getLuckScore(): ?int
+    public function getLuckScore(): ?float
     {
         return $this->luck_score;
     }
 
-    public function setLuckScore(int $luck_score): self
+    public function setLuckScore(float $luck_score): self
     {
         $this->luck_score = $luck_score;
 
