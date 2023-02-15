@@ -20,10 +20,9 @@ class SimulationController extends AbstractController
     }
 
 
-    #[Route('api/runSimulation', methods: ('POST'))]
+    #[Route('api/runSimulation', methods: ('GET'))]
     public function runSimulation(Request $request):Response
     {
-//        $response = $this->simulationService->simulateTournament();
         $response = $this->simulationService->simulateTournament($request);
         return new JsonResponse($response);
     }

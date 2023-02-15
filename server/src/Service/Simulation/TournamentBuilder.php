@@ -42,16 +42,17 @@ class TournamentBuilder
         $this->entityManager = $entityManager;
     }
 
-    public function buildTournament($request): Tournament
+    public function buildTournament(Request $request): Tournament
     {
         $tournamentRequest = json_decode($request->getContent(), true);
+        var_dump($tournamentRequest);
         $tournament = new Tournament();
-        $tournament->setName('tourny');
-        $courseId = 3;
+        $tournament->setName($tournamentRequest['tournamentName']);
+        $courseId = $tournamentRequest['courseId'];
         $course = $this->courseService->getCourseById($courseId);
         $tournament->setCourse($course);
-        $tournament->setSeason(1);
-        $numberOfRounds = 4;
+        $tournament->setSeason($tournamentRequest['season']);
+        $numberOfRounds = $tournamentRequest['numberOfRounds'];
 
         $allPlayerSimObjects = $this->playerService->getActivePlayerSimObjects();
 
