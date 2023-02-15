@@ -22,10 +22,10 @@ class Course
     #[ORM\Column]
     private ?int $course_par = null;
 
-    #[ORM\OneToMany(mappedBy: 'course_id', targetEntity: Hole::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Hole::class)]
     private Collection $holes;
 
-    #[ORM\OneToMany(mappedBy: 'course_id', targetEntity: Tournament::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Tournament::class)]
     private Collection $tournaments;
 
     public function __construct()

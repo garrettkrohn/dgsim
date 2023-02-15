@@ -32,7 +32,7 @@ class Hole
     #[ORM\Column]
     private ?float $scramble_rate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'holes')]
+    #[ORM\ManyToOne(targetEntity: 'app\entity\Course', inversedBy: 'hole_id')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?Course $course = null;
 

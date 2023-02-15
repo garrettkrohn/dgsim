@@ -47,7 +47,7 @@ class TournamentService
 
 //        $course = $this->courseRepository->find(3);
 //        return $this->courseResponseDtoTransformer->transformFromObject($course);
-        $holes = $this->courseRepository->find(3);
+        $holes = $this->courseRepository->find(3)->getHoles()->getValues();
         dump($holes);
 
     }
