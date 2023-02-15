@@ -21,7 +21,7 @@ class Round
     #[ORM\Column]
     private ?float $luck_score = null;
 
-    #[ORM\OneToMany(mappedBy: 'round_id', targetEntity: HoleResult::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'round', targetEntity: HoleResult::class, cascade: ['persist', 'remove'])]
     private ?Collection $holeResults = null;
 
     #[ORM\ManyToOne(inversedBy: 'round_id')]

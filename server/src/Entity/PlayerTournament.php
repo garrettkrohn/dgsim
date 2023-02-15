@@ -23,7 +23,7 @@ class PlayerTournament
     #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Player::class)]
     private Collection $player_id;
 
-    #[ORM\OneToMany(mappedBy: 'player_tournament_id', targetEntity: Round::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Round::class, cascade: ['persist', 'remove'])]
     private Collection $round_id;
 
     #[ORM\Column]
