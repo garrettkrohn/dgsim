@@ -66,7 +66,7 @@ class Par4Model extends BaseModel
                 return new HoleResultDto(3, 1,0, true,true, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId0;
-            if ($rng < $benchmark) {
+            if ($rng <= $benchmark) {
                 return new HoleResultDto(2, 0,0, true,true, true, false, $rng);
             }
             else return new HoleResultDto(-1,-1,-1,false, false, false, false, $rng);
