@@ -3,6 +3,7 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Response\HoleResultDto;
+use App\Entity\Hole;
 use App\Entity\HoleResult;
 use App\Entity\PlayerTournament;
 use App\Entity\Round;
@@ -30,20 +31,20 @@ class SimulationIterators {
         $this->entityManager = $entityManager;
     }
 
-    public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament): Tournament {
+    public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles): Tournament {
         for ($x = 0; $x < count($playerArray); $x++) {
-            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds);
+            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds, $allHoles);
             $tournament->addPlayerTournament($playerTournamentReturn);
         }
         return $tournament;
     }
 
-    public function roundIterator($player, $courseArray, $numberOfRounds):PlayerTournament {
+    public function roundIterator($player, $courseArray, $numberOfRounds, $allHoles):PlayerTournament {
         $playerTournament = new PlayerTournament();
         $tournamentTotal = 0;
         $luckTotal = 0;
         for ($x = 0; $x < $numberOfRounds; $x++) {
-            $roundReturn = $this->holeIterator($player, $courseArray);
+            $roundReturn = $this->holeIterator($player, $courseArray, $allHoles);
             $tournamentTotal += $roundReturn->getRoundTotal();
             $luckTotal += $roundReturn->getLuckScore();
             $playerTournament->addRoundId($roundReturn);
@@ -54,7 +55,7 @@ class SimulationIterators {
         return $playerTournament;
     }
 
-    public function holeIterator($player, $course): Round
+    public function holeIterator($player, $course, $allHoles): Round
     {
         $round = new Round();
         $roundTotal = 0;
@@ -64,6 +65,7 @@ class SimulationIterators {
             $roundTotal += $holeResult->score;
             $luckScore += $holeResult->luck;
             $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $round);
+            $holePersist->setHole($allHoles[$x]);
             $round->addHoleResult($holePersist);
         }
         $round->setRoundTotal($roundTotal);
@@ -95,5 +97,10 @@ class SimulationIterators {
         $holeResult->setLuck($hole->luck);
 
         return $holeResult;
+    }
+
+    private function convertHoleSimObjectToHole($holeSimObject): Hole
+    {
+
     }
 }

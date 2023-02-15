@@ -56,9 +56,10 @@ class TournamentBuilder
         $allPlayerSimObjects = $this->playerService->getActivePlayerSimObjects();
 
         $allHolesSimObjects = $this->holeService->getAllSimHoles($courseId);
+        $allHoles = $this->holeService->getAllHolesByCourseId($courseId);
 
         $tournamentResponse = $this->iterators->playerIterator($allPlayerSimObjects,
-            $allHolesSimObjects, $numberOfRounds, $tournament);
+            $allHolesSimObjects, $numberOfRounds, $tournament, $allHoles);
 
         return $tournamentResponse;
     }
