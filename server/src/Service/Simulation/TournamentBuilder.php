@@ -45,7 +45,6 @@ class TournamentBuilder
     public function buildTournament(Request $request): Tournament
     {
         $tournamentRequest = json_decode($request->getContent(), true);
-        var_dump($tournamentRequest);
         $tournament = new Tournament();
         $tournament->setName($tournamentRequest['tournamentName']);
         $courseId = $tournamentRequest['courseId'];
