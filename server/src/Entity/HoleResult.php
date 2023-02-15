@@ -40,17 +40,12 @@ class HoleResult
     #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private ?Round $round = null;
 
-    #[ORM\OneToMany(mappedBy: 'holeResult', targetEntity: hole::class)]
-    #[ORM\JoinColumn(name: 'hole_id', referencedColumnName: 'hole_id')]
-    private Collection $hole_id;
-
     #[ORM\Column]
     private ?float $luck = null;
 
-    public function __construct()
-    {
-        $this->hole_id = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'holeResults')]
+    #[ORM\JoinColumn(name: "hole_id", referencedColumnName: "hole_id")]
+    private ?Hole $hole = null;
 
     public function getHoleresultId(): ?int
     {
@@ -153,36 +148,6 @@ class HoleResult
         return $this;
     }
 
-    /**
-     * @return Collection<int, hole>
-     */
-    public function getHoleId(): Collection
-    {
-        return $this->hole_id;
-    }
-
-    public function addHoleId(hole $holeId): self
-    {
-        if (!$this->hole_id->contains($holeId)) {
-            $this->hole_id->add($holeId);
-            $holeId->setHoleResult($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHoleId(hole $holeId): self
-    {
-        if ($this->hole_id->removeElement($holeId)) {
-            // set the owning side to null (unless already changed)
-            if ($holeId->getHoleResult() === $this) {
-                $holeId->setHoleResult(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getLuck(): ?float
     {
         return $this->luck;
@@ -191,6 +156,18 @@ class HoleResult
     public function setLuck(float $luck): self
     {
         $this->luck = $luck;
+
+        return $this;
+    }
+
+    public function getHole(): ?Hole
+    {
+        return $this->hole;
+    }
+
+    public function setHole(?Hole $hole): self
+    {
+        $this->hole = $hole;
 
         return $this;
     }
