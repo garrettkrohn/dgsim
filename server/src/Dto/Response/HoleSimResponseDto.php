@@ -2,9 +2,9 @@
 
 namespace App\Dto\Response;
 
-class HoleResponseDto
+class HoleSimResponseDto
 {
-
+    public ?int $course_id;
     public int $par;
     public float $parked;
     public float $c1;

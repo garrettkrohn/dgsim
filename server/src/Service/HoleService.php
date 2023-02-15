@@ -2,17 +2,17 @@
 
 namespace App\Service;
 
-use App\Dto\Response\HoleResponseDto;
-use App\Dto\Response\Transformer\HoleResponseDtoTransformer;
+use App\Dto\Response\HoleSimResponseDto;
+use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
 use App\Entity\Hole;
 use App\Repository\HoleRepository;
 
 class HoleService
 {
-    private HoleResponseDtoTransformer $holeResponseDtoTransformer;
+    private HoleSimResponseDtoTransformer $holeResponseDtoTransformer;
     private HoleRepository $holeRepository;
 
-    public function __construct(HoleResponseDtoTransformer $holeResponseDtoTransformer, HoleRepository $holeRepository)
+    public function __construct(HoleSimResponseDtoTransformer $holeResponseDtoTransformer, HoleRepository $holeRepository)
     {
         $this->holeResponseDtoTransformer = $holeResponseDtoTransformer;
         $this->holeRepository = $holeRepository;

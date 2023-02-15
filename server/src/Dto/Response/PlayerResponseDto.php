@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Dto\Response;
 
-use App\Entity\Archetype;
-
 class PlayerResponseDto
 {
     public int $player_id;

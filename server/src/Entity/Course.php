@@ -75,7 +75,7 @@ class Course
     {
         if (!$this->holes->contains($hole)) {
             $this->holes->add($hole);
-            $hole->setCourseId($this);
+            $hole->setCourse($this);
         }
 
         return $this;
@@ -85,8 +85,8 @@ class Course
     {
         if ($this->holes->removeElement($hole)) {
             // set the owning side to null (unless already changed)
-            if ($hole->getCourseId() === $this) {
-                $hole->setCourseId(null);
+            if ($hole->getCourse() === $this) {
+                $hole->setCourse(null);
             }
         }
 
@@ -105,7 +105,7 @@ class Course
     {
         if (!$this->tournaments->contains($tournament)) {
             $this->tournaments->add($tournament);
-            $tournament->setCourseId($this);
+            $tournament->setCourse($this);
         }
 
         return $this;
@@ -115,8 +115,8 @@ class Course
     {
         if ($this->tournaments->removeElement($tournament)) {
             // set the owning side to null (unless already changed)
-            if ($tournament->getCourseId() === $this) {
-                $tournament->setCourseId(null);
+            if ($tournament->getCourse() === $this) {
+                $tournament->setCourse(null);
             }
         }
 

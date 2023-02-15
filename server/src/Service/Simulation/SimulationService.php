@@ -3,7 +3,7 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Response\HoleResultDto;
-use App\Dto\Response\Transformer\HoleResponseDtoTransformer;
+use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
 use App\Entity\Course;
 use App\Entity\HoleResult;
 use App\Entity\Player;
@@ -29,7 +29,7 @@ class SimulationService
     private PlayerService $playerService;
     private PlayerIngester $playerIngester;
     private HoleRepository $holeRepository;
-    private HoleResponseDtoTransformer $transformer;
+    private HoleSimResponseDtoTransformer $transformer;
     private SimulationIterators $iterators;
     private CourseService $courseService;
     private HoleService $holeService;
@@ -43,7 +43,7 @@ class SimulationService
      * @param PlayerService $playerService
      * @param PlayerIngester $playerIngester
      * @param HoleRepository $holeRepository
-     * @param HoleResponseDtoTransformer $transformer
+     * @param HoleSimResponseDtoTransformer $transformer
      * @param SimulationIterators $iterators
      * @param CourseService $courseService
      * @param HoleService $holeService
@@ -52,7 +52,7 @@ class SimulationService
      * @param PlayerRepository $playerRepository
      * @param TournamentBuilder $tournamentBuilder
      */
-    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository, HoleResponseDtoTransformer $transformer, SimulationIterators $iterators, CourseService $courseService, HoleService $holeService, EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository, PlayerRepository $playerRepository, TournamentBuilder $tournamentBuilder)
+    public function __construct(CourseRepository $courseRepository, PlayerService $playerService, PlayerIngester $playerIngester, HoleRepository $holeRepository, HoleSimResponseDtoTransformer $transformer, SimulationIterators $iterators, CourseService $courseService, HoleService $holeService, EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository, PlayerRepository $playerRepository, TournamentBuilder $tournamentBuilder)
     {
         $this->courseRepository = $courseRepository;
         $this->playerService = $playerService;
