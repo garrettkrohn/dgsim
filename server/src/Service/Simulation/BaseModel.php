@@ -17,7 +17,7 @@ class BaseModel {
     }
 
     public function averageOdd($playerNumber, $holeNumber): float {
-        return (($playerNumber * 2) + ($holeNumber * 3)) / 5;
+        return (($playerNumber * 1) + ($holeNumber * 3)) / 4;
     }
 
     function rng():float {
