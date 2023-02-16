@@ -25,6 +25,7 @@ class SimulationIterators {
     public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles, $allPlayers): Tournament {
         for ($x = 0; $x < count($playerArray); $x++) {
             $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds, $allHoles, $allPlayers);
+            $playerTournamentReturn->setPlayer($allPlayers[$x]);
             $tournament->addPlayerTournament($playerTournamentReturn);
         }
         return $tournament;
@@ -43,7 +44,6 @@ class SimulationIterators {
         $playerTournament->setTotalScore($tournamentTotal);
         $playerTournament->setLuckScore($luckTotal/$numberOfRounds);
         $playerTournament->setTourPoints(0);
-        $playerTournament->setPlayer($allPlayers[$x]);
         return $playerTournament;
     }
 
