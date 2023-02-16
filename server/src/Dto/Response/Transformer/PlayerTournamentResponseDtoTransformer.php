@@ -9,9 +9,9 @@ class PlayerTournamentResponseDtoTransformer extends AbstractResponseDtoTransfor
 {
 
     private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
-    private RoundResponseDtoTransformer $roundResponseDtoTransformer;
+    private PlayerUpdateLogResponseDtoTransformer $roundResponseDtoTransformer;
 
-    public function __construct(PlayerResponseDtoTransformer $playerResponseDtoTransformer, RoundResponseDtoTransformer $roundResponseDtoTransformer)
+    public function __construct(PlayerResponseDtoTransformer $playerResponseDtoTransformer, PlayerUpdateLogResponseDtoTransformer $roundResponseDtoTransformer)
     {
         $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
         $this->roundResponseDtoTransformer = $roundResponseDtoTransformer;

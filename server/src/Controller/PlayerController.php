@@ -78,5 +78,12 @@ class PlayerController extends AbstractController
         return new JsonResponse($return);
     }
 
+    #[Route('api/players/{id}/updates', methods: ('GET'))]
+    public function getAllUpdatesByPlayerId(int $id): Response
+    {
+        $return = $this->playerUpdateService->getAllUpdatesByPlayerId($id);
+        return new JsonResponse($return);
+    }
+
 
 }

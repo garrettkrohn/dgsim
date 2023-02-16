@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
+use App\Dto\Response\Transformer\PlayerUpdateLogResponseDtoTransformer;
 use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
+use App\Repository\PlayerUpdateLogsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerUpdateService
@@ -13,12 +15,23 @@ class PlayerUpdateService
     private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
     private PlayerRepository $playerRepository;
     private EntityManagerInterface $entityManager;
+    private PlayerUpdateLogsRepository $playerUpdateLogsRepository;
+    private PlayerUpdateLogResponseDtoTransformer $playerUpdateLogResponseDtoTransformer;
 
-    public function __construct(PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerRepository $playerRepository, EntityManagerInterface $entityManager)
+    /**
+     * @param PlayerRequestDtoTransformer $playerRequestDtoTransformer
+     * @param PlayerRepository $playerRepository
+     * @param EntityManagerInterface $entityManager
+     * @param PlayerUpdateLogsRepository $playerUpdateLogsRepository
+     * @param PlayerUpdateLogResponseDtoTransformer $playerUpdateLogResponseDtoTransformer
+     */
+    public function __construct(PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerUpdateLogResponseDtoTransformer $playerUpdateLogResponseDtoTransformer)
     {
         $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
+        $this->playerUpdateLogsRepository = $playerUpdateLogsRepository;
+        $this->playerUpdateLogResponseDtoTransformer = $playerUpdateLogResponseDtoTransformer;
     }
 
 
@@ -57,4 +70,11 @@ class PlayerUpdateService
 
         return $playerUpdateLog;
     }
+
+    public function getAllUpdatesByPlayerId(int $id): iterable
+    {
+        $playerUpdateLogs = $this->playerUpdateLogsRepository->findBy(array('player_id' => $id));
+        return $this->playerUpdateLogResponseDtoTransformer->transformFromObjects($playerUpdateLogs);
+    }
+
 }
