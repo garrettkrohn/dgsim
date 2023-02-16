@@ -47,4 +47,22 @@ class TournamentController extends AbstractController
         return new JsonResponse($response);
     }
 
+    #[Route('api/tournaments', methods: ('DELETE'))]
+    public function deleteAllTournaments():Response
+    {
+        $this->tournamentService->deleteAllTournaments();
+        $response = new Response();
+        $response->setStatusCode(200);
+        return new JsonResponse($response);
+    }
+
+    #[Route('api/tournaments/{id}', methods: ('DELETE'))]
+    public function deleteTournamentById(int $id):Response
+    {
+        $this->tournamentService->deleteTournamentById($id);
+        $response = new Response();
+        $response->setStatusCode(200);
+        return new JsonResponse($response);
+    }
+
 }
