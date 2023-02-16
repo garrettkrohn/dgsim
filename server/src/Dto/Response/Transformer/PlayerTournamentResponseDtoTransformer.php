@@ -27,7 +27,7 @@ class PlayerTournamentResponseDtoTransformer extends AbstractResponseDtoTransfor
         $dto->player_tournament_id = $object->getPlayerTournamentId();
         $dto->tour_points = $object->getTourPoints();
         $dto->total_score = $object->getTotalScore();
-//        $dto->playerResponseDto = $this->playerResponseDtoTransformer->transformFromObject($object->getPlayer());
+        $dto->playerResponseDto = $this->playerResponseDtoTransformer->transformFromObject($object->getPlayer());
         $dto->rounds = $this->roundResponseDtoTransformer->transformFromObjects($object->getRoundId());
 
         return $dto;
