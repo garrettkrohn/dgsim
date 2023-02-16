@@ -16,8 +16,8 @@ class BaseModel {
         return new PlayerHoleObject($c1x_putt, $c2_putt, $acc_parked, $acc_c1, $acc_c2, $pwr_parked, $pwr_c1, $pwr_c2, $scramble);
     }
 
-    public function averageOdd($playerNumber, $holeNumber) {
-        return ($playerNumber + ($holeNumber * 2)) / 3;
+    public function averageOdd($playerNumber, $holeNumber): float {
+        return (($playerNumber * 2) + ($holeNumber * 3)) / 5;
     }
 
     function rng():float {

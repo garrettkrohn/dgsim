@@ -24,14 +24,14 @@ class SimulationIterators {
 
     public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles, $allPlayers): Tournament {
         for ($x = 0; $x < count($playerArray); $x++) {
-            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds, $allHoles, $allPlayers);
+            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds, $allHoles);
             $playerTournamentReturn->setPlayer($allPlayers[$x]);
             $tournament->addPlayerTournament($playerTournamentReturn);
         }
         return $tournament;
     }
 
-    public function roundIterator($player, $courseArray, $numberOfRounds, $allHoles, $allPlayers):PlayerTournament {
+    public function roundIterator($player, $courseArray, $numberOfRounds, $allHoles):PlayerTournament {
         $playerTournament = new PlayerTournament();
         $tournamentTotal = 0;
         $luckTotal = 0;
