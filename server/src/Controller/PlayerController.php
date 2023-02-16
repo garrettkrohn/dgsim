@@ -8,6 +8,7 @@ use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
 use App\Service\PlayerService;
+use App\Service\PlayerTournamentService;
 use App\Service\PlayerUpdateService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,11 +28,13 @@ class PlayerController extends AbstractController
 {
     private PlayerService $playerService;
     private PlayerUpdateService $playerUpdateService;
+    private PlayerTournamentService $playerTournamentService;
 
-    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService)
+    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService, PlayerTournamentService $playerTournamentService)
     {
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
+        $this->playerTournamentService = $playerTournamentService;
     }
 
     #[Route('api/players', methods: ('GET'))]
@@ -62,9 +65,18 @@ class PlayerController extends AbstractController
     }
 
     #[Route('api/players/update', methods: ('POST'))]
-    public function updatePlayer(Request $request)
+    public function updatePlayer(Request $request): Response
     {
         $return = $this->playerUpdateService->updatePlayer($request);
         return new JsonResponse($return);
     }
+
+    #[Route('api/players/{id}/playerTournaments', methods: ('GET'))]
+    public function getAllPlayerTournamentsByPlayerId(int $id): Response
+    {
+        $return = $this->playerTournamentService->getPlayerTournamentsByPlayerId($id);
+        return new JsonResponse($return);
+    }
+
+
 }

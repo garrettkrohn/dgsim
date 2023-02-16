@@ -19,7 +19,9 @@ class PlayerService
     private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
     private PlayerIngester $playerIngester;
 
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $transformer, PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerIngester $playerIngester)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager,
+                                PlayerResponseDtoTransformer $transformer, PlayerRequestDtoTransformer $playerRequestDtoTransformer,
+                                PlayerIngester $playerIngester)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
