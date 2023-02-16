@@ -31,15 +31,15 @@ class SimulationIterators {
         $this->entityManager = $entityManager;
     }
 
-    public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles): Tournament {
+    public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles, $allPlayers): Tournament {
         for ($x = 0; $x < count($playerArray); $x++) {
-            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds, $allHoles);
+            $playerTournamentReturn = $this->roundIterator($playerArray[$x], $courseArray, $numberOfRounds, $allHoles, $allPlayers);
             $tournament->addPlayerTournament($playerTournamentReturn);
         }
         return $tournament;
     }
 
-    public function roundIterator($player, $courseArray, $numberOfRounds, $allHoles):PlayerTournament {
+    public function roundIterator($player, $courseArray, $numberOfRounds, $allHoles, $allPlayers):PlayerTournament {
         $playerTournament = new PlayerTournament();
         $tournamentTotal = 0;
         $luckTotal = 0;
@@ -52,6 +52,7 @@ class SimulationIterators {
         $playerTournament->setTotalScore($tournamentTotal);
         $playerTournament->setLuckScore($luckTotal/$numberOfRounds);
         $playerTournament->setTourPoints(0);
+        $playerTournament->setPlayer($allPlayers[$x]);
         return $playerTournament;
     }
 
@@ -97,10 +98,5 @@ class SimulationIterators {
         $holeResult->setLuck($hole->luck);
 
         return $holeResult;
-    }
-
-    private function convertHoleSimObjectToHole($holeSimObject): Hole
-    {
-
     }
 }

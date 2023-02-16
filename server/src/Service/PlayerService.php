@@ -62,6 +62,11 @@ class PlayerService
         return $this->transformer->transformFromObject($player);
     }
 
+    public function getAllActivePlayerEntities(): iterable
+    {
+        return $this->playerRepository->findBy(array('active' => true));
+    }
+
     public function getAllActivePlayers(): iterable
     {
         $allPlayers = $this->playerRepository->findBy(array('active' => true));

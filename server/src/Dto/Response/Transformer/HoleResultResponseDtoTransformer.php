@@ -13,15 +13,16 @@ class HoleResultResponseDtoTransformer extends AbstractResponseDtoTransformer
      */
     public function transformFromObject($object): HoleResultDto
     {
-        $dto = new HoleResultDto();
-        $dto->score = $object->getScore();
-        $dto->c1_putts = $object->getC1Putts();
-        $dto->c2_putts = $object->getC2Putts();
-        $dto->parked = $object->isParked();
-        $dto->c1_in_regulation = $object->isC1InRegulation();
-        $dto->c2_in_regulation = $object->isC2InRegulation();
-        $dto->scramble = $object->isScramble();
-        $dto->luck = $object->getLuck();
+        $dto = new HoleResultDto(
+            $object->getScore(),
+            $object->getC1Putts(),
+            $object->getC2Putts(),
+            $object->isParked(),
+            $object->isC1InRegulation(),
+            $object->isC2InRegulation(),
+            $object->isScramble(),
+            $object->getLuck()
+        );
         return $dto;
     }
 
