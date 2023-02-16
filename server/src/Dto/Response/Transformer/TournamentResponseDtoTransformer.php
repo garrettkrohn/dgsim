@@ -7,11 +7,13 @@ use App\Entity\Tournament;
 
 class TournamentResponseDtoTransformer extends AbstractResponseDtoTransformer
 {
-    private CourseResponseDtoTransformer $transformer;
+    private CourseResponseDtoTransformer $courseResponseDtoTransformer;
+    private PlayerTournamentResponseDtoTransformer $playerTournamentResponseDtoTransformer;
 
-    public function __construct(CourseResponseDtoTransformer $transformer)
+    public function __construct(CourseResponseDtoTransformer $courseResponseDtoTransformer, PlayerTournamentResponseDtoTransformer $playerTournamentResponseDtoTransformer)
     {
-        $this->transformer = $transformer;
+        $this->courseResponseDtoTransformer = $courseResponseDtoTransformer;
+        $this->playerTournamentResponseDtoTransformer = $playerTournamentResponseDtoTransformer;
     }
 
     /**
@@ -23,9 +25,9 @@ class TournamentResponseDtoTransformer extends AbstractResponseDtoTransformer
         $dto = new TournamentResponseDto(
             $object->getTournamentId(),
             $object->getName(),
-            $this->transformer->transformFromObject($object->getCourse()),
+            $this->courseResponseDtoTransformer->transformFromObject($object->getCourse()),
             $object->getSeason(),
-            $object->getPlayerTournament());
+            $this->playerTournamentResponseDtoTransformer->transformFromObjects($object->getPlayerTournament()));
         return $dto;
     }
 

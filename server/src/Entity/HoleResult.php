@@ -47,7 +47,7 @@ class HoleResult
     #[ORM\JoinColumn(name: "hole_id", referencedColumnName: "hole_id")]
     private ?Hole $hole = null;
 
-    public function getHoleresultId(): ?int
+    public function getHoleResultId(): ?int
     {
         return $this->hole_result_id;
     }
