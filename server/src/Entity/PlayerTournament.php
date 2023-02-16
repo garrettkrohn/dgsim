@@ -20,9 +20,6 @@ class PlayerTournament
     #[ORM\JoinColumn(name: 'tournament_id', referencedColumnName: 'tournament_id')]
     private ?Tournament $tournament = null;
 
-    #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Player::class)]
-    private Collection $player_id;
-
     #[ORM\OneToMany(mappedBy: 'player_tournament', targetEntity: Round::class, cascade: ['persist', 'remove'])]
     private Collection $round_id;
 
@@ -38,45 +35,18 @@ class PlayerTournament
     #[ORM\Column(nullable: true)]
     private ?int $place = null;
 
+    #[ORM\ManyToOne(inversedBy: 'player_tournament')]
+    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
+    private ?Player $player = null;
+
     public function __construct()
     {
-        $this->player_id = new ArrayCollection();
         $this->round_id = new ArrayCollection();
     }
 
     public function getPlayerTournamentId(): ?int
     {
         return $this->player_tournament_id;
-    }
-
-    /**
-     * @return Collection<int, Player>
-     */
-    public function getPlayerId(): Collection
-    {
-        return $this->player_id;
-    }
-
-    public function addPlayerId(Player $playerId): self
-    {
-        if (!$this->player_id->contains($playerId)) {
-            $this->player_id->add($playerId);
-            $playerId->setPlayerTournament($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlayerId(Player $playerId): self
-    {
-        if ($this->player_id->removeElement($playerId)) {
-            // set the owning side to null (unless already changed)
-            if ($playerId->getPlayerTournament() === $this) {
-                $playerId->setPlayerTournament(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -165,6 +135,18 @@ class PlayerTournament
     public function setPlace(?int $place): self
     {
         $this->place = $place;
+
+        return $this;
+    }
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?Player $player): self
+    {
+        $this->player = $player;
 
         return $this;
     }

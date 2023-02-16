@@ -42,21 +42,17 @@ class Player
     #[ORM\Column]
     private ?int $banked_skill_points = null;
 
-    #[ORM\OneToMany(mappedBy: 'player', targetEntity: Round::class)]
-    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
-    private Collection $round_id;
-
     #[ORM\ManyToOne(inversedBy: 'Players')]
     #[ORM\JoinColumn(name: "archetype_id", referencedColumnName: "archetype_id")]
     private ?Archetype $archetype = null;
 
-    #[ORM\ManyToOne(inversedBy: 'player_id')]
-    #[ORM\JoinColumn(name: "player_tournament_id", referencedColumnName: "player_tournament_id")]
-    private ?PlayerTournament $player_tournament = null;
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: PlayerTournament::class)]
+    #[ORM\JoinColumn(name: 'player_tournament_id', referencedColumnName: 'player_tournament_id')]
+    private Collection $player_tournament;
 
     public function __construct()
     {
-        $this->round_id = new ArrayCollection();
+        $this->player_tournament = new ArrayCollection();
     }
 
     public function getPlayerId(): ?int
@@ -171,37 +167,7 @@ class Player
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, round>
-     */
-    public function getRoundId(): Collection
-    {
-        return $this->round_id;
-    }
-
-    public function addRoundId(round $roundId): self
-    {
-        if (!$this->round_id->contains($roundId)) {
-            $this->round_id->add($roundId);
-            $roundId->setPlayer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRoundId(round $roundId): self
-    {
-        if ($this->round_id->removeElement($roundId)) {
-            // set the owning side to null (unless already changed)
-            if ($roundId->getPlayer() === $this) {
-                $roundId->setPlayer(null);
-            }
-        }
-
-        return $this;
-    }
-
+    
     public function getArchetype(): ?Archetype
     {
         return $this->archetype;
@@ -214,14 +180,32 @@ class Player
         return $this;
     }
 
-    public function getPlayerTournament(): ?PlayerTournament
+    /**
+     * @return Collection<int, PlayerTournament>
+     */
+    public function getPlayerTournament(): Collection
     {
         return $this->player_tournament;
     }
 
-    public function setPlayerTournament(?PlayerTournament $player_tournament): self
+    public function addPlayerTournament(PlayerTournament $playerTournament): self
     {
-        $this->player_tournament = $player_tournament;
+        if (!$this->player_tournament->contains($playerTournament)) {
+            $this->player_tournament->add($playerTournament);
+            $playerTournament->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayerTournament(PlayerTournament $playerTournament): self
+    {
+        if ($this->player_tournament->removeElement($playerTournament)) {
+            // set the owning side to null (unless already changed)
+            if ($playerTournament->getPlayer() === $this) {
+                $playerTournament->setPlayer(null);
+            }
+        }
 
         return $this;
     }

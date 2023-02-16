@@ -4,10 +4,12 @@ namespace App\Service;
 
 use App\Dto\Response\CourseResponseDto;
 use App\Dto\Response\HoleSimResponseDto;
+use App\Dto\Response\TournamentResponseDto;
 use App\Dto\Response\Transformer\CourseResponseDtoTransformer;
 use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
-use App\Dto\Response\Transformer\TournamentResponseDtoTransformer;
+use App\Dto\Response\Transformer\PlayerTournamentResponseDtoTransformer;
 use App\Entity\Course;
+use App\Entity\Tournament;
 use App\Repository\CourseRepository;
 use App\Repository\HoleRepository;
 use App\Repository\TournamentRepository;
@@ -15,7 +17,7 @@ use App\Repository\TournamentRepository;
 class TournamentService
 {
     private TournamentRepository $tournamentRepository;
-    private TournamentResponseDtoTransformer $transformer;
+    private PlayerTournamentResponseDtoTransformer $transformer;
     private CourseRepository $courseRepository;
     private CourseResponseDtoTransformer $courseResponseDtoTransformer;
     private HoleRepository $holeRepository;
@@ -23,13 +25,13 @@ class TournamentService
 
     /**
      * @param TournamentRepository $tournamentRepository
-     * @param TournamentResponseDtoTransformer $transformer
+     * @param PlayerTournamentResponseDtoTransformer $transformer
      * @param CourseRepository $courseRepository
      * @param CourseResponseDtoTransformer $courseResponseDtoTransformer
      * @param HoleRepository $holeRepository
      * @param HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer
      */
-    public function __construct(TournamentRepository $tournamentRepository, TournamentResponseDtoTransformer $transformer, CourseRepository $courseRepository, CourseResponseDtoTransformer $courseResponseDtoTransformer, HoleRepository $holeRepository, HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer)
+    public function __construct(TournamentRepository $tournamentRepository, PlayerTournamentResponseDtoTransformer $transformer, CourseRepository $courseRepository, CourseResponseDtoTransformer $courseResponseDtoTransformer, HoleRepository $holeRepository, HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer)
     {
         $this->tournamentRepository = $tournamentRepository;
         $this->transformer = $transformer;
@@ -40,15 +42,15 @@ class TournamentService
     }
 
 
-    public function getAllTournaments()
+    public function getAllTournaments(): iterable
     {
-//        $tournaments = $this->tournamentRepository->findAll();
-//        return $this->transformer->transformFromObjects($tournaments);
+        $tournaments = $this->tournamentRepository->findAll();
+        return $this->transformer->transformFromObjects($tournaments);
+    }
 
-//        $course = $this->courseRepository->find(3);
-//        return $this->courseResponseDtoTransformer->transformFromObject($course);
-        $holes = $this->courseRepository->find(3)->getHoles()->getValues();
-        dump($holes);
-
+    public function getTournamentById(int $id): TournamentResponseDto
+    {
+        $tournament = $this->tournamentRepository->find($id);
+        return $this->transformer->transformFromObject($tournament);
     }
 }

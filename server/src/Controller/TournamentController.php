@@ -39,4 +39,12 @@ class TournamentController extends AbstractController
         $response = $this->simulationService->simulateTournament($request);
         return new JsonResponse($response);
     }
+
+    #[Route('api/tournaments/{id}', methods: ('GET'))]
+    public function getTournamentById(int $id):Response
+    {
+        $response = $this->tournamentService->getTournamentById($id);
+        return new JsonResponse($response);
+    }
+
 }
