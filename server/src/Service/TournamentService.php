@@ -2,17 +2,8 @@
 
 namespace App\Service;
 
-use App\Dto\Response\CourseResponseDto;
-use App\Dto\Response\HoleSimResponseDto;
 use App\Dto\Response\TournamentResponseDto;
-use App\Dto\Response\Transformer\CourseResponseDtoTransformer;
-use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
-use App\Dto\Response\Transformer\HoleResultResponseDtoTransformer;
 use App\Dto\Response\Transformer\TournamentResponseDtoTransformer;
-use App\Entity\Course;
-use App\Entity\Tournament;
-use App\Repository\CourseRepository;
-use App\Repository\HoleRepository;
 use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 

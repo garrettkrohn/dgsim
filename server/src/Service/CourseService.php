@@ -6,7 +6,6 @@ namespace App\Service;
 use App\Entity\Course;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Hole;
 
 class CourseService

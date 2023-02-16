@@ -7,9 +7,6 @@ use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\NoReturn;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class PlayerUpdateService
 {

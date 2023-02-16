@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
 use App\Dto\Response\PlayerResponseDto;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
-use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
 use App\Service\Simulation\PlayerIngester;
 use Doctrine\ORM\EntityManagerInterface;

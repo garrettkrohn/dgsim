@@ -3,7 +3,6 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Response\HoleResultDto;
-use App\Entity\Hole;
 
 class Par3Model extends BaseModel
 {

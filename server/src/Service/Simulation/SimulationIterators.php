@@ -3,32 +3,23 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Response\HoleResultDto;
-use App\Entity\Hole;
 use App\Entity\HoleResult;
 use App\Entity\PlayerTournament;
 use App\Entity\Round;
 use App\Entity\Tournament;
-use App\Service\Simulation\baseModel;
-use App\Service\Simulation\Par3Model;
-use App\Service\Simulation\Par4Model;
-use App\Service\Simulation\Par5Model;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Math;
-use phpDocumentor\Reflection\Types\Integer;
 
 class SimulationIterators {
 
     private Par3Model $par3Model;
     private Par4Model $par4Model;
     private Par5Model $par5Model;
-    private EntityManagerInterface $entityManager;
 
-    public function __construct(\App\Service\Simulation\Par3Model $par3Model, \App\Service\Simulation\Par4Model $par4Model, \App\Service\Simulation\Par5Model $par5Model, EntityManagerInterface $entityManager)
+    public function __construct(Par3Model $par3Model, Par4Model $par4Model, Par5Model $par5Model)
     {
         $this->par3Model = $par3Model;
         $this->par4Model = $par4Model;
         $this->par5Model = $par5Model;
-        $this->entityManager = $entityManager;
     }
 
     public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles, $allPlayers): Tournament {
