@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\Simulation\SimulationService;
+use App\Service\SimulationService;
 use App\Service\TournamentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

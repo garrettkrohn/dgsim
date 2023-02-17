@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Simulation;
+namespace App\Service;
 
 use App\Dto\Response\HoleResultDto;
 use App\Dto\Response\TournamentResponseDto;
@@ -18,6 +18,7 @@ use App\Repository\TournamentRepository;
 use App\Service\CourseService;
 use App\Service\HoleService;
 use App\Service\PlayerService;
+use App\Service\Simulation\TournamentBuilder;
 use App\Service\TournamentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
