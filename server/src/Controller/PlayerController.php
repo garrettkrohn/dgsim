@@ -29,13 +29,16 @@ class PlayerController extends AbstractController
     private PlayerService $playerService;
     private PlayerUpdateService $playerUpdateService;
     private PlayerTournamentService $playerTournamentService;
+    private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
 
-    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService, PlayerTournamentService $playerTournamentService)
+    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService, PlayerTournamentService $playerTournamentService, PlayerRequestDtoTransformer $playerRequestDtoTransformer)
     {
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
         $this->playerTournamentService = $playerTournamentService;
+        $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
     }
+
 
     #[Route('api/players', methods: ('GET'))]
     public function getAllPlayers(): Response
@@ -54,7 +57,8 @@ class PlayerController extends AbstractController
     #[Route('api/players', methods: ('POST'))]
     public function createNewPlayer(Request $request): Response
     {
-        return $this->playerService->createNewPlayer($request);
+       $playerRequestDto = $this->playerRequestDtoTransformer->transformFromObject($request);
+       return $this->playerService->createNewPlayer($playerRequestDto);
     }
 
     #[Route('api/players/{id}', methods: ('GET'))]

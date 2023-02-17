@@ -2,9 +2,12 @@
 
 namespace App\Service;
 
+use App\Dto\Request\PlayerRequestDto;
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
+use App\Dto\Response\FloorCeilingDto;
 use App\Dto\Response\PlayerResponseDto;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
+use App\Entity\Player;
 use App\Repository\PlayerRepository;
 use App\Service\Simulation\PlayerIngester;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,10 +50,9 @@ class PlayerService
         return $playerNamesArray;
     }
 
-    public function createNewPlayer(Request $request): Response
+    public function createNewPlayer(Player $playerRequestDto): Response
     {
-        $newPlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
-        $this->entityManager->persist($newPlayer);
+        $this->entityManager->persist($playerRequestDto);
         $this->entityManager->flush();
 
         $response = new Response();
@@ -82,7 +84,7 @@ class PlayerService
 
     public function getPlayerSimObjects($allActivePlayers): iterable
     {
-        $FLOOR_CEILING = new \stdClass();
+        $FLOOR_CEILING = new FloorCeilingDto();
         $FLOOR_CEILING->c1xFloorCeiling = [0.55, 0.92];
         $FLOOR_CEILING->c2FloorCeiling = [0.01, 0.39];
         $FLOOR_CEILING->parkedFloorCeiling = [0.01, 0.16];
