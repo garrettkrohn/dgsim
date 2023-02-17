@@ -7,5 +7,5 @@ class RoundResponseDto
     public int $round_id;
     public iterable $holes;
     public int $round_total;
-    public int $luck_score;
+    public float $luck_score;
 }

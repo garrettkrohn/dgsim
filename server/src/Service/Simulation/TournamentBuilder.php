@@ -32,7 +32,10 @@ class TournamentBuilder
      * @param PlayerTournamentRepository $playerTournamentRepository
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager)
+    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService,
+                                SimulationIterators $iterators, TournamentRepository $tournamentRepository,
+                                PlayerTournamentRepository $playerTournamentRepository,
+                                EntityManagerInterface $entityManager)
     {
         $this->courseService = $courseService;
         $this->playerService = $playerService;
@@ -73,10 +76,10 @@ class TournamentBuilder
 
         $leaderboard = array();
         foreach($playerTournaments as $pt) {
-            $leader = new leaderboardDto();
-            $leader->score = $pt->getTotalScore();
-            $leader->playerTournamentId = $pt->getPlayerTournamentId();
-            $leaderboard[] = $leader;
+            $leaderboardPlayer = new leaderboardDto();
+            $leaderboardPlayer->score = $pt->getTotalScore();
+            $leaderboardPlayer->playerTournamentId = $pt->getPlayerTournamentId();
+            $leaderboard[] = $leaderboardPlayer;
         }
 
         usort($leaderboard, function($a, $b) {
@@ -85,6 +88,9 @@ class TournamentBuilder
             }
             return ($a < $b) ? -1 : 1;
         });
+
+        //check for ties, add the score to the leaderboard score maybe as a decimal, if it's a tie again add 0,
+        // otherwise add .1 for the loser and 0 for the winner?
 
         for ($x = 0; $x < count($leaderboard); $x++) {
             $playerTournament = $this->playerTournamentRepository->findOneBy(array('player_tournament_id' => $leaderboard[$x]->playerTournamentId));
