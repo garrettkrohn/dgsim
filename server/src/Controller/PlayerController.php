@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
+use App\Dto\Request\Transformer\PlayerUpdateRequestDtoTransformer;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
@@ -68,10 +69,11 @@ class PlayerController extends AbstractController
         return new JsonResponse($response);
     }
 
-    #[Route('api/players/update', methods: ('POST'))]
-    public function updatePlayer(Request $request): Response
+    #[Route('api/players/{id}/update', methods: ('POST'))]
+    public function updatePlayer(Request $request, int $id): Response
     {
-        $return = $this->playerUpdateService->updatePlayer($request);
+        $player = $this->playerRequestDtoTransformer->transformFromObject($request);
+        $return = $this->playerUpdateService->updatePlayer($player, $id);
         return new JsonResponse($return);
     }
 

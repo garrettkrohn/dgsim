@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
-use App\Dto\Response\Transformer\PlayerUpdateLogResponseDtoTransformer;
 use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
@@ -12,34 +10,25 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PlayerUpdateService
 {
-    private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
     private PlayerRepository $playerRepository;
     private EntityManagerInterface $entityManager;
     private PlayerUpdateLogsRepository $playerUpdateLogsRepository;
-    private PlayerUpdateLogResponseDtoTransformer $playerUpdateLogResponseDtoTransformer;
 
     /**
-     * @param PlayerRequestDtoTransformer $playerRequestDtoTransformer
      * @param PlayerRepository $playerRepository
      * @param EntityManagerInterface $entityManager
      * @param PlayerUpdateLogsRepository $playerUpdateLogsRepository
-     * @param PlayerUpdateLogResponseDtoTransformer $playerUpdateLogResponseDtoTransformer
      */
-    public function __construct(PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerUpdateLogResponseDtoTransformer $playerUpdateLogResponseDtoTransformer)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository)
     {
-        $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerUpdateLogsRepository = $playerUpdateLogsRepository;
-        $this->playerUpdateLogResponseDtoTransformer = $playerUpdateLogResponseDtoTransformer;
     }
 
-
-    public function updatePlayer($request): Player
+    public function updatePlayer($updatePlayer, int $id): Player
     {
-        $updatePlayer = $this->playerRequestDtoTransformer->transformFromObject($request);
-        $requestObject = json_decode($request->getContent(), true);
-        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => $requestObject['player_id']));
+        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => $id));
         $playerUpdateLog = $this->playerUpdateLogBuilder($updatePlayer, $currentPlayer);
 
         $this->entityManager->persist($playerUpdateLog);
@@ -49,7 +38,6 @@ class PlayerUpdateService
         $currentPlayer->setThrowAccuracySkill($updatePlayer->getThrowAccuracySkill());
         $currentPlayer->setScrambleSkill($updatePlayer->getScrambleSkill());
         $this->entityManager->persist($currentPlayer);
-
         $this->entityManager->flush();
 
         return $updatePlayer;

@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Dto\Request\PlayerRequestDto;
-use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
 use App\Dto\Response\FloorCeilingDto;
 use App\Dto\Response\PlayerResponseDto;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
@@ -19,20 +18,15 @@ class PlayerService
     private PlayerRepository $playerRepository;
     private EntityManagerInterface $entityManager;
     private PlayerResponseDtoTransformer $transformer;
-    private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
     private PlayerIngester $playerIngester;
 
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager,
-                                PlayerResponseDtoTransformer $transformer, PlayerRequestDtoTransformer $playerRequestDtoTransformer,
-                                PlayerIngester $playerIngester)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $transformer, PlayerIngester $playerIngester)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->transformer = $transformer;
-        $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
         $this->playerIngester = $playerIngester;
     }
-
 
     public function getAllPlayers(): iterable
     {
