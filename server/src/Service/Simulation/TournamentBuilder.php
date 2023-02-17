@@ -2,6 +2,7 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Response\leaderboardDto;
 use App\Entity\Tournament;
 use App\Repository\PlayerTournamentRepository;
 use App\Repository\TournamentRepository;
@@ -72,7 +73,7 @@ class TournamentBuilder
 
         $leaderboard = array();
         foreach($playerTournaments as $pt) {
-            $leader = new \stdClass();
+            $leader = new leaderboardDto();
             $leader->score = $pt->getTotalScore();
             $leader->playerTournamentId = $pt->getPlayerTournamentId();
             $leaderboard[] = $leader;

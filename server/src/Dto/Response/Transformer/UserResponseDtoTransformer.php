@@ -2,7 +2,7 @@
 
 namespace App\Dto\Response\Transformer;
 
-use App\Dto\Response\UserResponseDto;
+use App\Dto\Response\leaderboardDto;
 use App\Entity\User;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
@@ -19,9 +19,9 @@ class UserResponseDtoTransformer extends AbstractResponseDtoTransformer
      * @param User $user
      * @return void
      */
-    public function transformFromObject($user): UserResponseDto
+    public function transformFromObject($user): leaderboardDto
     {
-        $dto = new UserResponseDto();
+        $dto = new leaderboardDto();
         $dto->user_id = $user->getUserId();
         $dto->role = $this->roleResponseDtoTransformer->transformFromObject($user->getRole());
         $dto->username = $user->getUsername();

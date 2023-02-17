@@ -43,20 +43,20 @@ class PlayerController extends AbstractController
         $response = $this->playerService->getAllPlayers();
         return new JsonResponse($response);
     }
-//
+
     #[Route('api/playersNames', methods: ('GET'))]
     public function getAllPlayerNames(): Response
     {
         $response = $this->playerService->getAllPlayerNames();
         return new JsonResponse($response);
     }
-//
+
     #[Route('api/players', methods: ('POST'))]
     public function createNewPlayer(Request $request): Response
     {
         return $this->playerService->createNewPlayer($request);
     }
-//
+
     #[Route('api/players/{id}', methods: ('GET'))]
     public function getPlayerById(int $id): Response
     {
