@@ -7,6 +7,7 @@ use App\Entity\HoleResult;
 use App\Entity\PlayerTournament;
 use App\Entity\Round;
 use App\Entity\Tournament;
+use App\Repository\PlayerTournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class SimulationIterators {
@@ -14,13 +15,18 @@ class SimulationIterators {
     private Par3Model $par3Model;
     private Par4Model $par4Model;
     private Par5Model $par5Model;
+    private PlayerTournamentRepository $playerTournamentRepository;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(Par3Model $par3Model, Par4Model $par4Model, Par5Model $par5Model)
+    public function __construct(Par3Model $par3Model, Par4Model $par4Model, Par5Model $par5Model, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager)
     {
         $this->par3Model = $par3Model;
         $this->par4Model = $par4Model;
         $this->par5Model = $par5Model;
+        $this->playerTournamentRepository = $playerTournamentRepository;
+        $this->entityManager = $entityManager;
     }
+
 
     public function playerIterator($playerArray, $courseArray, $numberOfRounds, Tournament $tournament, $allHoles, $allPlayers): Tournament {
         for ($x = 0; $x < count($playerArray); $x++) {
@@ -90,5 +96,29 @@ class SimulationIterators {
         $holeResult->setLuck($hole->luck);
 
         return $holeResult;
+    }
+
+    public function playoffIterator($playerArray, $courseArray, $allHoles, Tournament $tournament)
+    {
+        $playersAreTied = true;
+
+        foreach ($playerArray as $player) {
+            $playoffRound = new Round();
+            $playoffRound->setRoundTotal(0);
+            $playoffRound->setLuckScore(0);
+            $playoffRound->setRoundType('playoff');
+            $playerTournament = $this->playerTournamentRepository->findOneBy(['player' => $player, 'tournament' => $tournament]);
+            $playerTournament->addRoundId($playoffRound);
+            $this->entityManager->persist($playerTournament);
+        }
+        $this->entityManager->flush();
+
+        while($playersAreTied) {
+
+
+
+            //playoff over
+            $playersAreTied = false;
+        }
     }
 }

@@ -26,16 +26,6 @@ class TournamentBuilder
     private EntityManagerInterface $entityManager;
     private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
 
-    /**
-     * @param CourseService $courseService
-     * @param PlayerService $playerService
-     * @param HoleService $holeService
-     * @param SimulationIterators $iterators
-     * @param TournamentRepository $tournamentRepository
-     * @param PlayerTournamentRepository $playerTournamentRepository
-     * @param EntityManagerInterface $entityManager
-     * @param PlayerResponseDtoTransformer $playerResponseDtoTransformer
-     */
     public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $playerResponseDtoTransformer)
     {
         $this->courseService = $courseService;
@@ -154,12 +144,15 @@ class TournamentBuilder
     {
         $playerArray = [];
         foreach ($playerTournamentArray as $playerTournament) {
-            $playerArray = $playerTournament->getPlayer();
+            $playerArray[] = $playerTournament->getPlayer();
         }
 
         $playerSimArray = $this->playerResponseDtoTransformer->transformFromObjects($playerArray);
         $courseId = $tournament->getCourse()->getCourseId();
         $holeSimArray = $this->holeService->getAllHolesByCourseId($courseId);
+        $allHoles = $tournament->getCourse()->getHoles();
+
+        $this->iterators->playoffIterator($playerArray, $holeSimArray, $allHoles, $tournament);
 
     }
 }
