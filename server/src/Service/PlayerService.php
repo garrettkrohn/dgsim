@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Dto\Request\PlayerRequestDto;
 use App\Dto\Response\FloorCeilingDto;
 use App\Dto\Response\PlayerResponseDto;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
@@ -10,7 +9,6 @@ use App\Entity\Player;
 use App\Repository\PlayerRepository;
 use App\Service\Simulation\PlayerIngester;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PlayerService

@@ -65,6 +65,7 @@ class SimulationIterators {
         $round->setLuckScore(round($totalLuckScore, 4, 1));
         return $round;
     }
+
     private function parSwitcher($player, $hole):HoleResultDto {
 
         return match ($hole->par) {

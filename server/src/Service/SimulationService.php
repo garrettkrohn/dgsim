@@ -50,4 +50,9 @@ class SimulationService
         $this->tournamentBuilder->buildLeaderboard($lastTournamentObject->getTournamentId());
         return $this->tournamentService->getTournamentById($lastTournamentObject->getTournamentId());
     }
+
+    public function test(): array
+    {
+        return $this->tournamentBuilder->testCheckTie();
+    }
 }

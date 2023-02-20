@@ -31,13 +31,15 @@ class PlayerController extends AbstractController
     private PlayerUpdateService $playerUpdateService;
     private PlayerTournamentService $playerTournamentService;
     private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
+    private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
 
-    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService, PlayerTournamentService $playerTournamentService, PlayerRequestDtoTransformer $playerRequestDtoTransformer)
+    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService, PlayerTournamentService $playerTournamentService, PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerResponseDtoTransformer $playerResponseDtoTransformer)
     {
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
         $this->playerTournamentService = $playerTournamentService;
         $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
+        $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
     }
 
 
@@ -74,7 +76,8 @@ class PlayerController extends AbstractController
     {
         $player = $this->playerRequestDtoTransformer->transformFromObject($request);
         $return = $this->playerUpdateService->updatePlayer($player, $id);
-        return new JsonResponse($return);
+        $returnPlayer = $this->playerResponseDtoTransformer->transformFromObject($return);
+        return new JsonResponse($returnPlayer);
     }
 
     #[Route('api/players/{id}/playerTournaments', methods: ('GET'))]
