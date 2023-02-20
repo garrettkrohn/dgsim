@@ -25,9 +25,11 @@ class Round
     private ?Collection $holeResults = null;
 
     #[ORM\ManyToOne(inversedBy: 'round_id')]
-//    #[ORM\JoinColumn(nullable: false)]
     #[ORM\JoinColumn(name: "player_tournament_id", referencedColumnName: "player_tournament_id")]
     private ?PlayerTournament $player_tournament = null;
+
+    #[ORM\Column(length: 25)]
+    private ?string $round_type = 'tournament';
 
     public function __construct()
     {
@@ -101,6 +103,18 @@ class Round
     public function setPlayerTournament(?PlayerTournament $player_tournament_id): self
     {
         $this->player_tournament = $player_tournament_id;
+
+        return $this;
+    }
+
+    public function getRoundType(): ?string
+    {
+        return $this->round_type;
+    }
+
+    public function setRoundType(string $round_type): self
+    {
+        $this->round_type = $round_type;
 
         return $this;
     }
