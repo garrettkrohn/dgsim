@@ -26,6 +26,7 @@ class RoundResponseDtoTransformer extends AbstractResponseDtoTransformer
         $dto->round_id = $object->getRoundId();
         $dto->round_total = $object->getRoundTotal();
         $dto->luck_score = $object->getLuckScore();
+        $dto->round_type = $object->getRoundType();
         $dto->holes = $this->holeResultResponseDtoTransformer->transformFromObjects($object->getHoleResults());
 
         return $dto;
