@@ -152,7 +152,7 @@ class TournamentBuilder
         $holeSimArray = $this->holeService->getAllHolesByCourseId($courseId);
         $allHoles = $tournament->getCourse()->getHoles();
 
-        $this->iterators->playoffIterator($playerArray, $holeSimArray, $allHoles, $tournament);
+        $this->iterators->playoffIterator($playerSimArray, $holeSimArray, $allHoles, $tournament);
 
     }
 }
