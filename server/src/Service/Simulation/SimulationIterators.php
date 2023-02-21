@@ -151,15 +151,13 @@ class SimulationIterators {
 
                 $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $thisPlayoffRound);
                 $thisPlayoffRound->addHoleResult($holePersist);
+
                 $currentRoundTotal = $thisPlayoffRound->getRoundTotal();
                 $thisPlayoffRound->setRoundTotal($currentRoundTotal + $holePersist->getScore());
-                $allHoleResults = $thisPlayoffRound->getHoleResults();
-                $sum = 0;
-                foreach ($allHoleResults as $holeResult) {
-                    $sum += $holeResult->getLuck();
-                }
-                $average = $sum / count($allHoleResults);
+
+                $average = $this->getAverageLuck($thisPlayoffRound);
                 $thisPlayoffRound->setLuckScore($average);
+                
                 $this->entityManager->persist($thisPlayoffRound);
             }
             $playerTournamentWithPlayoffCollection = $tournament->getPlayerTournament();
@@ -196,11 +194,18 @@ class SimulationIterators {
             });
 
             $playoffRoundCollection = $thisPlayerTournament->getRound();
-            $thisPlayoffRound = $playoffRoundCollection->findFirst(function(int $key, Round $value):bool {
+            return $playoffRoundCollection->findFirst(function(int $key, Round $value):bool {
                 return $value->getRoundType() == 'playoff';
             });
+        }
 
-            return $thisPlayoffRound;
+        private function getAverageLuck(Round $round): float{
+            $allHoleResults = $round->getHoleResults();
+            $sum = 0;
+            foreach ($allHoleResults as $holeResult) {
+                $sum += $holeResult->getLuck();
+            }
+            return $sum / count($allHoleResults);
         }
 
 
