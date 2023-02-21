@@ -36,7 +36,7 @@ class HoleResult
     #[ORM\Column]
     private ?bool $scramble = null;
 
-    #[ORM\ManyToOne(inversedBy: 'holeResults')]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'holeResults')]
     #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
     private ?Round $round = null;
 

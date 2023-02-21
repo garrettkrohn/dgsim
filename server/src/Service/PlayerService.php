@@ -74,7 +74,7 @@ class PlayerService
         return $this->getPlayerSimObjects($allActivePlayers);
     }
 
-    public function getPlayerSimObjects($allActivePlayers): iterable
+    public function getPlayerSimObjects($playersArray): iterable
     {
         $FLOOR_CEILING = new FloorCeilingDto();
         $FLOOR_CEILING->c1xFloorCeiling = [0.55, 0.92];
@@ -86,7 +86,7 @@ class PlayerService
 
         $allPlayersConverted = array();
 
-        foreach($allActivePlayers as $player) {
+        foreach($playersArray as $player) {
             $allPlayersConverted[] = $this->playerIngester->convertPlayer($player,$FLOOR_CEILING);
         }
 

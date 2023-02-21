@@ -74,7 +74,6 @@ class SimulationService
         $playerTournamentArray[] = $this->playerTournamentRepository->find($leaderboard[0]->playerTournamentId);
         $playerTournamentArray[] = $this->playerTournamentRepository->find($leaderboard[1]->playerTournamentId);
 
-        dump($playerTournamentArray);
         $tournament = $this->tournamentRepository->find(68);
 
         $this->tournamentBuilder->simulationPlayoff($playerTournamentArray, $tournament);
