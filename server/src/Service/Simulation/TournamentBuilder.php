@@ -6,6 +6,7 @@ use App\Dto\Response\leaderboardDto;
 use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\PlayerTournament;
+use App\Entity\Round;
 use App\Entity\Tournament;
 use App\Repository\PlayerTournamentRepository;
 use App\Repository\TournamentRepository;
@@ -102,7 +103,6 @@ class TournamentBuilder
             $tiedForFirst = $this->checkTieForFirst($leaderboard);
         }
 
-
         for ($x = 0; $x < count($leaderboard); $x++) {
             $playerTournament = $this->playerTournamentRepository->findOneBy(['player_tournament_id' => $leaderboard[$x]->playerTournamentId]);
             $playerTournament->setPlace($x + 1);
@@ -166,7 +166,30 @@ class TournamentBuilder
         $holeSimArray = $this->holeSimResponseDtoTransformer->transformFromObjects($holeArray);
         $allHoles = $tournament->getCourse()->getHoles();
 
-        $this->iterators->playoffIterator($playerSimArray, $holeSimArray, $allHoles, $tournament);
+        $tournamentWithPlayoff = $this->createPlayoffRounds($playerSimArray, $tournament);
 
+        $this->iterators->playoffIterator($playerSimArray, $holeSimArray, $allHoles, $tournamentWithPlayoff);
+
+    }
+    /**
+     * @param PlayerSimulationObject[] $playerArray
+     * @param Tournament $tournament
+     * @return Tournament
+     */
+    private function createPlayoffRounds(iterable $playerArray, Tournament $tournament):Tournament
+    {
+        $playerTournamentArray = [];
+        foreach ($playerArray as $player) {
+            $playoffRound = new Round();
+            $playoffRound->setRoundTotal(0);
+            $playoffRound->setLuckScore(0);
+            $playoffRound->setRoundType('playoff');
+            $playerTournament = $this->playerTournamentRepository->findOneBy(
+                ['player' => $player->player_id, 'tournament' => $tournament->getTournamentId()]);
+            $playerTournament->addRoundId($playoffRound);
+            $tournament->addPlayerTournament($playerTournament);
+//            $this->entityManager->persist($playerTournament);
+        }
+        return $tournament;
     }
 }
