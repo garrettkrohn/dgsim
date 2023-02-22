@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Service;
+
+use App\Dto\Response\SeasonLeaderboardDto;
+use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
+use App\Entity\PlayerTournament;
+use App\Repository\PlayerRepository;
+use App\Repository\PlayerTournamentRepository;
+
+class SeasonLeaderboardService
+{
+    private PlayerRepository $playerRepository;
+    private PlayerTournamentRepository $playerTournamentRepository;
+    private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
+
+    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerResponseDtoTransformer $playerResponseDtoTransformer)
+    {
+        $this->playerRepository = $playerRepository;
+        $this->playerTournamentRepository = $playerTournamentRepository;
+        $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
+    }
+
+
+    public function getSeasonLeaderboard(int $seasonId): iterable
+    {
+        $allPlayers = $this->playerRepository->findAll();
+        $allPlayerTournaments = $this->playerTournamentRepository->findAll();
+
+        $allLeaderboardPlayers = [];
+        foreach($allPlayers as $player) {
+            $tournamentsByPlayer = $this->playerTournamentRepository->findBy(['player' => $player]);
+            $totalSeasonPoints = $this->calculateSeasonTotal($tournamentsByPlayer);
+            $leaderboardDto = new SeasonLeaderboardDto();
+            $leaderboardDto->player = $this->playerResponseDtoTransformer->transformFromObject($player);
+            $leaderboardDto->season_total = $totalSeasonPoints;
+            $allLeaderboardPlayers[] = $leaderboardDto;
+        }
+        return $allLeaderboardPlayers;
+    }
+
+    /**
+     * @param PlayerTournament[] $playerTournaments
+     * @return int
+     */
+    public function calculateSeasonTotal(iterable $playerTournaments): int
+    {
+        $seasonTotalPoints = 0;
+        foreach ($playerTournaments as $playerTournament) {
+            $seasonTotalPoints += $playerTournament->getTourPoints();
+        }
+        return $seasonTotalPoints;
+    }
+
+}
