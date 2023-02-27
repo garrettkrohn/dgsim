@@ -12,15 +12,12 @@ class SeasonLeaderboardService
 {
     private PlayerRepository $playerRepository;
     private PlayerTournamentRepository $playerTournamentRepository;
-    private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
 
-    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerResponseDtoTransformer $playerResponseDtoTransformer)
+    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository)
     {
         $this->playerRepository = $playerRepository;
         $this->playerTournamentRepository = $playerTournamentRepository;
-        $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
     }
-
 
     public function getSeasonLeaderboard(int $seasonId): iterable
     {
@@ -32,7 +29,8 @@ class SeasonLeaderboardService
             $tournamentsByPlayer = $this->playerTournamentRepository->findBy(['player' => $player]);
             $totalSeasonPoints = $this->calculateSeasonTotal($tournamentsByPlayer);
             $leaderboardDto = new SeasonLeaderboardDto();
-            $leaderboardDto->player = $this->playerResponseDtoTransformer->transformFromObject($player);
+            $leaderboardDto->player_id = $player->getPlayerId();
+            $leaderboardDto->player_name = $player->getFirstName() . " " . $player->getLastName();
             $leaderboardDto->season_total = $totalSeasonPoints;
             $allLeaderboardPlayers[] = $leaderboardDto;
         }

@@ -2,18 +2,21 @@
 
 namespace App\Controller;
 
+use App\Dto\Request\PlayerRequestDto;
 use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
-use App\Dto\Request\Transformer\PlayerUpdateRequestDtoTransformer;
 use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
+use App\Exception\InvalidRequestDataException;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
+use App\Serialization\SerializationService;
 use App\Service\PlayerService;
 use App\Service\PlayerTournamentService;
 use App\Service\PlayerUpdateService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +28,7 @@ use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
-class PlayerController extends AbstractController
+class PlayerController extends ApiController
 {
     private PlayerService $playerService;
     private PlayerUpdateService $playerUpdateService;
@@ -33,8 +36,11 @@ class PlayerController extends AbstractController
     private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
     private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
 
-    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService, PlayerTournamentService $playerTournamentService, PlayerRequestDtoTransformer $playerRequestDtoTransformer, PlayerResponseDtoTransformer $playerResponseDtoTransformer)
+    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService,
+                                PlayerTournamentService $playerTournamentService, PlayerRequestDtoTransformer $playerRequestDtoTransformer,
+                                PlayerResponseDtoTransformer $playerResponseDtoTransformer, SerializationService $serializationService)
     {
+        parent::__construct($serializationService);
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
         $this->playerTournamentService = $playerTournamentService;
@@ -44,24 +50,25 @@ class PlayerController extends AbstractController
 
 
     #[Route('api/players', methods: ('GET'))]
-    public function getAllPlayers(): Response
-    {
-        $response = $this->playerService->getAllPlayers();
-        return new JsonResponse($response);
+    public function getAllPlayers(): Response {
+        return $this->json($this->playerService->getAllPlayers());
     }
 
     #[Route('api/playersNames', methods: ('GET'))]
-    public function getAllPlayerNames(): Response
-    {
-        $response = $this->playerService->getAllPlayerNames();
-        return new JsonResponse($response);
+    public function getAllPlayerNames(): Response {
+        return $this->json($this->playerService->getAllPlayerNames());
     }
 
+    /**
+     * @throws JsonException
+     * @throws InvalidRequestDataException
+     */
     #[Route('api/players', methods: ('POST'))]
-    public function createNewPlayer(Request $request): Response
-    {
-       $playerRequestDto = $this->playerRequestDtoTransformer->transformFromObject($request);
-       return $this->playerService->createNewPlayer($playerRequestDto);
+    public function createNewPlayer(Request $request): Response{
+        /** @var PlayerRequestDto $playerRequestDto */
+        $dto = $this->getValidatedDto($request, PlayerRequestDto::class);
+        // working on implementing this.
+       return $this->json($this->playerService->createNewPlayer($dto));
     }
 
     #[Route('api/players/{id}', methods: ('GET'))]

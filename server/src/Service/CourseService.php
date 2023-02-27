@@ -5,20 +5,25 @@ namespace App\Service;
 
 use App\Entity\Course;
 use App\Repository\CourseRepository;
+use App\Serialization\JsonSerializer;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Hole;
+use Symfony\Component\HttpFoundation\Response;
 
 class CourseService
 {
 
     private EntityManagerInterface $entityManager;
     private CourseRepository $courseRepository;
+    private JsonSerializer $jsonSerializer;
 
-    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository)
+    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository, JsonSerializer $jsonSerializer)
     {
         $this->entityManager = $entityManager;
         $this->courseRepository = $courseRepository;
+        $this->jsonSerializer = $jsonSerializer;
     }
+
 
     public function createNewCourse():Course
     {
@@ -72,6 +77,13 @@ class CourseService
 
     public function getCourseById(int $id): Course
     {
-        return $this->courseRepository->findOneBy(array('course_id' => $id));
+        return $this->courseRepository->findOneBy(['course_id' => $id]);
     }
+
+    public function getCourses(): iterable
+    {
+        return $this->courseRepository->findAll();
+//        return $this->jsonSerializer->serialize($courses);
+    }
+
 }
