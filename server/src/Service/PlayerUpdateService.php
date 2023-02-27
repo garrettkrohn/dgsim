@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\Incoming\UpdatePlayerDto;
 use App\Dto\Outgoing\PlayerDto;
+use App\Dto\Outgoing\PlayerUpdateLogResponseDto;
 use App\Dto\Outgoing\Transformer\ArchetypeResponseDtoTransformer;
 use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
@@ -76,8 +77,30 @@ class PlayerUpdateService extends PlayerService
 
     public function getAllUpdatesByPlayerId(int $id): iterable
     {
-        $playerUpdateLogs = $this->playerUpdateLogsRepository->findBy(array('player_id' => $id));
-        return $this->playerUpdateLogResponseDtoTransformer->transformFromObjects($playerUpdateLogs);
+        $playerUpdateLogs = $this->playerUpdateLogsRepository->findBy(['player_id' => $id]);
+        return $this->transformFromUpdate($playerUpdateLogs);
+    }
+
+    /**
+     * @param PlayerUpdateLog[] $playerUpdateLogs
+     * @return iterable
+     */
+    public function transformFromUpdate(iterable $playerUpdateLogs): iterable
+    {
+        $updateLogs = [];
+        foreach ($playerUpdateLogs as $playerUpdate) {
+            $dto = new PlayerUpdateLogResponseDto();
+            $dto->player_update_log_id = $playerUpdate->getPlayerupdatelogId();
+            $dto->update_time = $playerUpdate->getUpdateTime();
+            $dto->putt_increment = $playerUpdate->getPuttIncrement();
+            $dto->throw_power_increment = $playerUpdate->getThrowPowerIncrement();
+            $dto->throw_accuracy_increment = $playerUpdate->getThrowAccuracyIncrement();
+            $dto->scramble_increment = $playerUpdate->getScrambleIncrement();
+            $dto->previous_bank = $playerUpdate->getPreviousBank();
+            $dto->post_bank = $playerUpdate->getPostBank();
+            $updateLogs[] = $dto;
+        }
+        return $updateLogs;
     }
 
 }

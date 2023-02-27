@@ -87,12 +87,6 @@ class PlayerController extends ApiController
         /** @var UpdatePlayerDto $dto */
         $dto = $this->getValidatedDto($request, UpdatePlayerDto::class);
         return $this->json($this->playerUpdateService->updatePlayer($dto));
-
-
-//        $player = $this->playerRequestDtoTransformer->transformFromObject($request);
-//        $return = $this->playerUpdateService->updatePlayer($player, $id);
-//        $returnPlayer = $this->playerResponseDtoTransformer->transformFromObject($return);
-        return new JsonResponse($returnPlayer);
     }
 
     #[Route('api/players/{id}/playerTournaments', methods: ('GET'))]
