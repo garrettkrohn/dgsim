@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Dto\Response\SeasonLeaderboardDto;
-use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
+use App\Dto\Outgoing\SeasonLeaderboardDto;
+use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\PlayerTournament;
 use App\Repository\PlayerRepository;
 use App\Repository\PlayerTournamentRepository;

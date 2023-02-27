@@ -2,15 +2,18 @@
 
 namespace App\Service;
 
-use App\Dto\Response\FloorCeilingDto;
-use App\Dto\Response\PlayerResponseDto;
-use App\Dto\Response\Transformer\ArchetypeResponseDtoTransformer;
-use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
+use App\Dto\Incoming\CreatePlayerDto;
+use App\Dto\Outgoing\FloorCeilingDto;
+use App\Dto\Outgoing\PlayerDto;
+use App\Dto\Outgoing\Transformer\ArchetypeResponseDtoTransformer;
+use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
+use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
 use App\Service\Simulation\PlayerIngester;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PlayerService extends AbstractMultiTransformer
 {
@@ -18,14 +21,24 @@ class PlayerService extends AbstractMultiTransformer
     private EntityManagerInterface $entityManager;
     private PlayerIngester $playerIngester;
     private ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer;
+    private ArchetypeService $archetypeService;
 
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerIngester $playerIngester, ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer)
+    /**
+     * @param PlayerRepository $playerRepository
+     * @param EntityManagerInterface $entityManager
+     * @param PlayerIngester $playerIngester
+     * @param ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer
+     * @param ArchetypeService $archetypeService
+     */
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerIngester $playerIngester, ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer, ArchetypeService $archetypeService)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerIngester = $playerIngester;
         $this->archetypeResponseDtoTransformer = $archetypeResponseDtoTransformer;
+        $this->archetypeService = $archetypeService;
     }
+
 
     public function getAllPlayers(): iterable
     {
@@ -43,16 +56,34 @@ class PlayerService extends AbstractMultiTransformer
         return $playerNamesArray;
     }
 
-    public function createNewPlayer(Player $playerRequestDto): Response
+    public function createNewPlayer(CreatePlayerDto $createPlayerDtoDto): ?PlayerDto
     {
-        $this->entityManager->persist($playerRequestDto);
+        //will eventually need to add a user look up
+        $archetype = $this->archetypeService->getArchetype($createPlayerDtoDto->archetypeId);
+        if (!$archetype) {
+            throw new BadRequestHttpException('Archetype not found');
+        }
+
+        $player = new Player();
+        $player->setArchetype($archetype);
+        $player->setFirstName($createPlayerDtoDto->getFirstName());
+        $player->setLastName($createPlayerDtoDto->getLastName());
+        $player->setPuttSkill($createPlayerDtoDto->getPuttSkill());
+        $player->setThrowPowerSkill($createPlayerDtoDto->getThrowPowerSkill());
+        $player->setThrowAccuracySkill($createPlayerDtoDto->getThrowAccuracySkill());
+        $player->setScrambleSkill($createPlayerDtoDto->getScrambleSkill());
+        $player->setStartSeason($createPlayerDtoDto->getStartSeason());
+        $player->setActive(true);
+        $player->setBankedSkillPoints($createPlayerDtoDto->getBankedSkillPoints());
+
+
+        $this->entityManager->persist($player);
         $this->entityManager->flush();
 
-        $response = new Response();
-        return $response->setStatusCode(Response::HTTP_ACCEPTED);
+        return $this->transformFromObject($player);
     }
 
-    public function getPlayerById(int $id): PlayerResponseDto
+    public function getPlayerById(int $id): PlayerDto
     {
         $player = $this->playerRepository->findOneBy(array('player_id' => $id));
         return $this->transformFromObject($player);
@@ -96,11 +127,11 @@ class PlayerService extends AbstractMultiTransformer
 
     /**
      * @param Player $object
-     * @return PlayerResponseDto
+     * @return PlayerDto
      */
-    public function transformFromObject($object): PlayerResponseDto
+    public function transformFromObject($object): PlayerDto
     {
-        $dto = new PlayerResponseDto();
+        $dto = new PlayerDto();
         $dto->player_id = $object->getPlayerId();
         $dto->first_name = $object->getFirstName();
         $dto->last_name = $object->getLastName();

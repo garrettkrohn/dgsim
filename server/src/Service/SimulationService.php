@@ -2,10 +2,10 @@
 
 namespace App\Service;
 
-use App\Dto\Response\HoleResultDto;
-use App\Dto\Response\leaderboardDto;
-use App\Dto\Response\TournamentResponseDto;
-use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
+use App\Dto\Outgoing\HoleResultDto;
+use App\Dto\Outgoing\leaderboardDto;
+use App\Dto\Outgoing\TournamentResponseDto;
+use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
 use App\Entity\Course;
 use App\Entity\HoleResult;
 use App\Entity\Player;

@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Dto\Response\TournamentResponseDto;
-use App\Dto\Response\Transformer\TournamentResponseDtoTransformer;
+use App\Dto\Outgoing\TournamentResponseDto;
+use App\Dto\Outgoing\Transformer\TournamentResponseDtoTransformer;
 use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 

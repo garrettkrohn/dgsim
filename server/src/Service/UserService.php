@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Dto\Request\Transformer\UserRequestDtoTransformer;
-use App\Dto\Response\Transformer\UserResponseDtoTransformer;
+use App\Dto\Incoming\Transformer\UserRequestDtoTransformer;
+use App\Dto\Outgoing\Transformer\UserResponseDtoTransformer;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;

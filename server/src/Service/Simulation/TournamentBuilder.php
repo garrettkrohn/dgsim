@@ -2,9 +2,9 @@
 
 namespace App\Service\Simulation;
 
-use App\Dto\Response\leaderboardDto;
-use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
-use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
+use App\Dto\Outgoing\leaderboardDto;
+use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
+use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\PlayerTournament;
 use App\Entity\Round;
 use App\Entity\Tournament;

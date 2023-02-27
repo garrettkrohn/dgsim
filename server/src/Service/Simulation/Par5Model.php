@@ -2,7 +2,7 @@
 
 namespace App\Service\Simulation;
 
-use App\Dto\Response\HoleResultDto;
+use App\Dto\Outgoing\HoleResultDto;
 
 class Par5Model extends BaseModel
 {

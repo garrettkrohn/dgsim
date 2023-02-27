@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use App\Dto\Response\HoleSimResponseDto;
-use App\Dto\Response\Transformer\HoleSimResponseDtoTransformer;
+use App\Dto\Outgoing\HoleSimResponseDto;
+use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
 use App\Entity\Hole;
 use App\Repository\HoleRepository;
 

@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Dto\Request\PlayerRequestDto;
-use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
-use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
+use App\Dto\Incoming\CreatePlayerDto;
+use App\Dto\Incoming\Transformer\PlayerRequestDtoTransformer;
+use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Exception\InvalidRequestDataException;
 use App\Repository\ArchetypeRepository;
@@ -65,8 +65,8 @@ class PlayerController extends ApiController
      */
     #[Route('api/players', methods: ('POST'))]
     public function createNewPlayer(Request $request): Response{
-        /** @var PlayerRequestDto $playerRequestDto */
-        $dto = $this->getValidatedDto($request, PlayerRequestDto::class);
+        /** @var CreatePlayerDto $dto */
+        $dto = $this->getValidatedDto($request, CreatePlayerDto::class);
         // working on implementing this.
        return $this->json($this->playerService->createNewPlayer($dto));
     }

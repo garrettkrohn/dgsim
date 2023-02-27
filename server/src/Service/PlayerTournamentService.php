@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Dto\Response\Transformer\PlayerTournamentResponseDtoTransformer;
+use App\Dto\Outgoing\Transformer\PlayerTournamentResponseDtoTransformer;
 use App\Repository\PlayerRepository;
 use App\Repository\PlayerTournamentRepository;
 

@@ -2,9 +2,9 @@
 
 namespace App\Service\Simulation;
 
-use App\Dto\Response\HoleResultDto;
-use App\Dto\Response\HoleSimResponseDto;
-use App\Dto\Response\PlayerResponseDto;
+use App\Dto\Outgoing\HoleResultDto;
+use App\Dto\Outgoing\HoleSimResponseDto;
+use App\Dto\Outgoing\PlayerDto;
 use App\Entity\Hole;
 use App\Entity\HoleResult;
 use App\Entity\Player;
