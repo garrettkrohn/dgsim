@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\Incoming\CreatePlayerDto;
 use App\Dto\Incoming\Transformer\PlayerRequestDtoTransformer;
+use App\Dto\Incoming\UpdatePlayerDto;
 use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Exception\InvalidRequestDataException;
@@ -67,23 +68,30 @@ class PlayerController extends ApiController
     public function createNewPlayer(Request $request): Response{
         /** @var CreatePlayerDto $dto */
         $dto = $this->getValidatedDto($request, CreatePlayerDto::class);
-        // working on implementing this.
        return $this->json($this->playerService->createNewPlayer($dto));
     }
 
     #[Route('api/players/{id}', methods: ('GET'))]
     public function getPlayerById(int $id): Response
     {
-        $response = $this->playerService->getPlayerById($id);
-        return new JsonResponse($response);
+        return $this->json($this->playerService->getPlayerById($id));
     }
 
-    #[Route('api/players/{id}/update', methods: ('POST'))]
-    public function updatePlayer(Request $request, int $id): Response
+    /**
+     * @throws InvalidRequestDataException
+     * @throws JsonException
+     */
+    #[Route('api/players/', methods: ('PUT'))]
+    public function updatePlayer(Request $request): Response
     {
-        $player = $this->playerRequestDtoTransformer->transformFromObject($request);
-        $return = $this->playerUpdateService->updatePlayer($player, $id);
-        $returnPlayer = $this->playerResponseDtoTransformer->transformFromObject($return);
+        /** @var UpdatePlayerDto $dto */
+        $dto = $this->getValidatedDto($request, UpdatePlayerDto::class);
+        return $this->json($this->playerUpdateService->updatePlayer($dto));
+
+
+//        $player = $this->playerRequestDtoTransformer->transformFromObject($request);
+//        $return = $this->playerUpdateService->updatePlayer($player, $id);
+//        $returnPlayer = $this->playerResponseDtoTransformer->transformFromObject($return);
         return new JsonResponse($returnPlayer);
     }
 

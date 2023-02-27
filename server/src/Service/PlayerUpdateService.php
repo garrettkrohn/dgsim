@@ -2,48 +2,63 @@
 
 namespace App\Service;
 
+use App\Dto\Incoming\UpdatePlayerDto;
+use App\Dto\Outgoing\PlayerDto;
+use App\Dto\Outgoing\Transformer\ArchetypeResponseDtoTransformer;
 use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
 use App\Repository\PlayerUpdateLogsRepository;
+use App\Service\Simulation\PlayerIngester;
 use Doctrine\ORM\EntityManagerInterface;
 
-class PlayerUpdateService
+class PlayerUpdateService extends PlayerService
 {
     private PlayerRepository $playerRepository;
     private EntityManagerInterface $entityManager;
     private PlayerUpdateLogsRepository $playerUpdateLogsRepository;
+    private PlayerIngester $playerIngester;
+    private ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer;
+    private ArchetypeService $archetypeService;
 
     /**
      * @param PlayerRepository $playerRepository
      * @param EntityManagerInterface $entityManager
      * @param PlayerUpdateLogsRepository $playerUpdateLogsRepository
+     * @param PlayerIngester $playerIngester
+     * @param ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer
+     * @param ArchetypeService $archetypeService
      */
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerIngester $playerIngester, ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer, ArchetypeService $archetypeService)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerUpdateLogsRepository = $playerUpdateLogsRepository;
+        $this->playerIngester = $playerIngester;
+        $this->archetypeResponseDtoTransformer = $archetypeResponseDtoTransformer;
+        $this->archetypeService = $archetypeService;
+        parent::__construct($playerRepository, $entityManager, $playerIngester, $archetypeResponseDtoTransformer, $archetypeService);
     }
 
-    public function updatePlayer($updatePlayer, int $id): Player
+
+    public function updatePlayer(UpdatePlayerDto $playerUpdateDto): PlayerDto
     {
-        $currentPlayer = $this->playerRepository->findOneBy(array('player_id' => $id));
-        $playerUpdateLog = $this->playerUpdateLogBuilder($updatePlayer, $currentPlayer);
+        $updatedPlayer = $this->playerRepository->find($playerUpdateDto->getPlayerId());
+        $playerUpdateLog = $this->playerUpdateLogBuilder($playerUpdateDto, $updatedPlayer);
 
         $this->entityManager->persist($playerUpdateLog);
 
-        $currentPlayer->setPuttSkill($updatePlayer->getPuttSkill());
-        $currentPlayer->setThrowPowerSkill($updatePlayer->getThrowPowerSkill());
-        $currentPlayer->setThrowAccuracySkill($updatePlayer->getThrowAccuracySkill());
-        $currentPlayer->setScrambleSkill($updatePlayer->getScrambleSkill());
-        $this->entityManager->persist($currentPlayer);
+        $updatedPlayer->setPuttSkill($playerUpdateDto->getPuttSkill());
+        $updatedPlayer->setThrowPowerSkill($playerUpdateDto->getThrowPowerSkill());
+        $updatedPlayer->setThrowAccuracySkill($playerUpdateDto->getThrowAccuracySkill());
+        $updatedPlayer->setScrambleSkill($playerUpdateDto->getScrambleSkill());
+        $this->entityManager->persist($updatedPlayer);
         $this->entityManager->flush();
 
-        return $currentPlayer;
+        return $this->transformFromObject($updatedPlayer);
     }
 
-    public function playerUpdateLogBuilder(Player $updatePlayer, Player $currentPlayer): PlayerUpdateLog
+    public function playerUpdateLogBuilder(UpdatePlayerDto $updatePlayer, Player $currentPlayer): PlayerUpdateLog
     {
         $playerUpdateLog = new PlayerUpdateLog();
 
