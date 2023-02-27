@@ -53,6 +53,7 @@ class PlayerUpdateService extends PlayerService
         $updatedPlayer->setThrowPowerSkill($playerUpdateDto->getThrowPowerSkill());
         $updatedPlayer->setThrowAccuracySkill($playerUpdateDto->getThrowAccuracySkill());
         $updatedPlayer->setScrambleSkill($playerUpdateDto->getScrambleSkill());
+
         $this->entityManager->persist($updatedPlayer);
         $this->entityManager->flush();
 

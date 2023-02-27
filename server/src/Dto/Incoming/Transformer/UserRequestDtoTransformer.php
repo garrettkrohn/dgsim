@@ -2,7 +2,7 @@
 
 namespace App\Dto\Incoming\Transformer;
 
-use App\Dto\Incoming\UserRequestDto;
+use App\Dto\Incoming\CreateUserDto;
 use App\Entity\User;
 use App\Repository\RoleRepository;
 use Symfony\Component\HttpFoundation\Request;
