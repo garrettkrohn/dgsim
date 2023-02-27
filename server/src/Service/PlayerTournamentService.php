@@ -11,29 +11,25 @@ use App\Repository\PlayerTournamentRepository;
 class PlayerTournamentService extends AbstractMultiTransformer
 {
     private PlayerTournamentRepository $playerTournamentRepository;
-    private PlayerTournamentResponseDtoTransformer $playerTournamentResponseDtoTransformer;
     private PlayerService $playerService;
     private RoundService $roundService;
 
     /**
      * @param PlayerTournamentRepository $playerTournamentRepository
-     * @param PlayerTournamentResponseDtoTransformer $playerTournamentResponseDtoTransformer
      * @param PlayerService $playerService
      * @param RoundService $roundService
      */
-    public function __construct(PlayerTournamentRepository $playerTournamentRepository, PlayerTournamentResponseDtoTransformer $playerTournamentResponseDtoTransformer, PlayerService $playerService, RoundService $roundService)
+    public function __construct(PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, RoundService $roundService)
     {
         $this->playerTournamentRepository = $playerTournamentRepository;
-        $this->playerTournamentResponseDtoTransformer = $playerTournamentResponseDtoTransformer;
         $this->playerService = $playerService;
         $this->roundService = $roundService;
     }
 
-
     public function getPlayerTournamentsByPlayerId(int $id): iterable
     {
         $playerTournaments = $this->playerTournamentRepository->findBy(array('player' => $id));
-        return $this->playerTournamentResponseDtoTransformer->transformFromObjects($playerTournaments);
+        return $this->transformFromObjects($playerTournaments);
     }
 
     /**

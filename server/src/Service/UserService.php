@@ -17,18 +17,20 @@ class UserService extends AbstractMultiTransformer
 {
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
-    private UserResponseDtoTransformer $userResponseDtoTransformer;
-    private UserRequestDtoTransformer $userRequestDtoTransformer;
     private RoleService $roleService;
 
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, UserResponseDtoTransformer $userResponseDtoTransformer, UserRequestDtoTransformer $userRequestDtoTransformer, RoleService $roleService)
+    /**
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
+     * @param RoleService $roleService
+     */
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager, RoleService $roleService)
     {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
-        $this->userResponseDtoTransformer = $userResponseDtoTransformer;
-        $this->userRequestDtoTransformer = $userRequestDtoTransformer;
         $this->roleService = $roleService;
     }
+
 
     public function getAllUsers(): iterable
     {

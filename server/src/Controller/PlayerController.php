@@ -3,31 +3,16 @@
 namespace App\Controller;
 
 use App\Dto\Incoming\CreatePlayerDto;
-use App\Dto\Incoming\Transformer\PlayerRequestDtoTransformer;
 use App\Dto\Incoming\UpdatePlayerDto;
-use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
-use App\Entity\Player;
 use App\Exception\InvalidRequestDataException;
-use App\Repository\ArchetypeRepository;
-use App\Repository\PlayerRepository;
 use App\Serialization\SerializationService;
 use App\Service\PlayerService;
 use App\Service\PlayerTournamentService;
 use App\Service\PlayerUpdateService;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
 use JsonException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
 class PlayerController extends ApiController
 {

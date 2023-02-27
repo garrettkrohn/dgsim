@@ -26,7 +26,6 @@ class TournamentBuilder
     private TournamentRepository $tournamentRepository;
     private PlayerTournamentRepository $playerTournamentRepository;
     private EntityManagerInterface $entityManager;
-    private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
     private HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer;
 
     /**
@@ -37,10 +36,9 @@ class TournamentBuilder
      * @param TournamentRepository $tournamentRepository
      * @param PlayerTournamentRepository $playerTournamentRepository
      * @param EntityManagerInterface $entityManager
-     * @param PlayerResponseDtoTransformer $playerResponseDtoTransformer
      * @param HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer
      */
-    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, PlayerResponseDtoTransformer $playerResponseDtoTransformer, HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer)
+    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer)
     {
         $this->courseService = $courseService;
         $this->playerService = $playerService;
@@ -49,7 +47,6 @@ class TournamentBuilder
         $this->tournamentRepository = $tournamentRepository;
         $this->playerTournamentRepository = $playerTournamentRepository;
         $this->entityManager = $entityManager;
-        $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
         $this->holeSimResponseDtoTransformer = $holeSimResponseDtoTransformer;
     }
 

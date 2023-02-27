@@ -8,14 +8,16 @@ use App\Entity\PlayerTournament;
 class PlayerTournamentResponseDtoTransformer extends AbstractResponseDtoTransformer
 {
 
-    private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
     private RoundResponseDtoTransformer $roundResponseDtoTransformer;
 
-    public function __construct(PlayerResponseDtoTransformer $playerResponseDtoTransformer, RoundResponseDtoTransformer $roundResponseDtoTransformer)
+    /**
+     * @param RoundResponseDtoTransformer $roundResponseDtoTransformer
+     */
+    public function __construct(RoundResponseDtoTransformer $roundResponseDtoTransformer)
     {
-        $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
         $this->roundResponseDtoTransformer = $roundResponseDtoTransformer;
     }
+
 
     /**
      * @param PlayerTournament $object

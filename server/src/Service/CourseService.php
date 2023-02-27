@@ -16,14 +16,17 @@ class CourseService extends AbstractMultiTransformer
 
     private EntityManagerInterface $entityManager;
     private CourseRepository $courseRepository;
-    private JsonSerializer $jsonSerializer;
     private HoleService $holeService;
 
-    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository, JsonSerializer $jsonSerializer, HoleService $holeService)
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param CourseRepository $courseRepository
+     * @param HoleService $holeService
+     */
+    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository, HoleService $holeService)
     {
         $this->entityManager = $entityManager;
         $this->courseRepository = $courseRepository;
-        $this->jsonSerializer = $jsonSerializer;
         $this->holeService = $holeService;
     }
 
