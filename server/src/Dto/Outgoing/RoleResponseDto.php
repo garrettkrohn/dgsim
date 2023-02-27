@@ -2,9 +2,17 @@
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class RoleResponseDto
 {
+    #[NotNull]
+    #[Type('int')]
     public int $role_id;
+
+    #[NotNull]
+    #[Type('string')]
     public string $name;
 
     /**

@@ -4,17 +4,49 @@ declare(strict_types=1);
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class ArchetypeResponseDto
 {
+    #[NotNull]
+    #[Type('int')]
     public int $archetype_id;
+
+    #[NotNull]
+    #[Type('string')]
     public string $name;
+
+    #[NotNull]
+    #[Type('int')]
     public int $min_putt_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $min_throw_power_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $min_throw_accuracy_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $min_scramble_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $max_putt_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $max_throw_power_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $max_throw_accuracy_skill;
+
+    #[NotNull]
+    #[Type('int')]
     public int $max_scramble_skill;
 
     /**

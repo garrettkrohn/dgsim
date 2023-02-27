@@ -2,14 +2,37 @@
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class HoleDto
 {
+    #[NotNull]
+    #[Type('int')]
     private int $hole_id;
+
+    #[NotNull]
+    #[Type('int')]
     private int $course_id;
+
+    #[NotNull]
+    #[Type('int')]
     private int $par;
+
+    #[NotNull]
+    #[Type('float')]
     private float $parked_rate;
+
+    #[NotNull]
+    #[Type('float')]
     private float $c1_rate;
+
+    #[NotNull]
+    #[Type('float')]
     private float $c2_rate;
+
+    #[NotNull]
+    #[Type('float')]
     private float $scramble_rate;
 
     /**

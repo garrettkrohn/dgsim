@@ -2,13 +2,32 @@
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class HoleSimResponseDto
 {
+    #[Type('int')]
     public ?int $course_id;
+
+    #[NotNull]
+    #[Type('int')]
     public int $par;
+
+    #[NotNull]
+    #[Type('float')]
     public float $parked;
+
+    #[NotNull]
+    #[Type('float')]
     public float $c1;
+
+    #[NotNull]
+    #[Type('float')]
     public float $c2;
+
+    #[NotNull]
+    #[Type('float')]
     public float $scramble;
 
     /**

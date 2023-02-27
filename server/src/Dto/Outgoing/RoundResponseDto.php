@@ -2,12 +2,29 @@
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class RoundResponseDto
 {
+    #[NotNull]
+    #[Type('int')]
     public int $round_id;
+
+    #[NotNull]
+    #[Type('iterable')]
     public iterable $hole_results;
+
+    #[NotNull]
+    #[Type('int')]
     public int $round_total;
+
+    #[NotNull]
+    #[Type('float')]
     public float $luck_score;
+
+    #[NotNull]
+    #[Type('string')]
     public string $round_type;
 
     /**

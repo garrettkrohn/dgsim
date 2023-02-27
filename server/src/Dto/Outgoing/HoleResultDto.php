@@ -2,15 +2,41 @@
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class HoleResultDto
 {
+    #[NotNull]
+    #[Type('int')]
     public int $score;
+
+    #[NotNull]
+    #[Type('int')]
     public int $c1_putts;
+
+    #[NotNull]
+    #[Type('int')]
     public int $c2_putts;
+
+    #[NotNull]
+    #[Type('bool')]
     public bool $parked;
+
+    #[NotNull]
+    #[Type('bool')]
     public bool $c1_in_regulation;
+
+    #[NotNull]
+    #[Type('bool')]
     public bool $c2_in_regulation;
+
+    #[NotNull]
+    #[Type('bool')]
     public bool $scramble;
+
+    #[NotNull]
+    #[Type('float')]
     public float $luck;
 
     /**

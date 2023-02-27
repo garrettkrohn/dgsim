@@ -3,12 +3,24 @@
 namespace App\Dto\Outgoing;
 
 use App\Entity\Role;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
 
 class UserResponseDto
 {
+    #[NotNull]
+    #[Type('int')]
     public int $user_id;
+
+    #[NotNull]
     public RoleResponseDto $role;
+
+    #[NotNull]
+    #[Type('string')]
     public string $username;
+
+    #[NotNull]
+    #[Type('string')]
     public string $password;
 
     /**

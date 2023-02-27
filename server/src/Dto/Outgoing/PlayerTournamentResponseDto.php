@@ -2,13 +2,30 @@
 
 namespace App\Dto\Outgoing;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class PlayerTournamentResponseDto
 {
+    #[NotNull]
+    #[Type('int')]
     public int $player_tournament_id;
+
+    #[NotNull]
     public PlayerDto $playerResponseDto;
+
+    #[NotNull]
+    #[Type('iterable')]
     public iterable $rounds;
+
+    #[NotNull]
+    #[Type('int')]
     public int $tour_points;
+
+    #[NotNull]
+    #[Type('int')]
     public int $total_score;
+
 
     /**
      * @return int

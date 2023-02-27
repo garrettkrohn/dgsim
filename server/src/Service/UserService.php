@@ -2,9 +2,7 @@
 
 namespace App\Service;
 
-use App\Dto\Incoming\Transformer\UserRequestDtoTransformer;
 use App\Dto\Incoming\CreateUserDto;
-use App\Dto\Outgoing\Transformer\UserResponseDtoTransformer;
 use App\Dto\Outgoing\UserResponseDto;
 use App\Entity\User;
 use App\Repository\RoleRepository;

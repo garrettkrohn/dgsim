@@ -2,12 +2,27 @@
 
 namespace App\Dto\Incoming;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class CreateTournamentDto
 {
+    #[NotNull]
+    #[Type('string')]
     private string $tournamentName;
+
+    #[NotNull]
+    #[Type('int')]
     private int $courseId;
+
+    #[NotNull]
+    #[Type('int')]
     private int $season;
+
+    #[NotNull]
+    #[Type('int')]
     private int $numberOfRounds;
+
 
     /**
      * @return string
