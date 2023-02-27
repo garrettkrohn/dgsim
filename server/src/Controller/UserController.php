@@ -52,24 +52,16 @@ class UserController extends ApiController
         return new JsonResponse($response);
     }
 
-//    #[Route('/api/users/{id}', methods: ['GET'])]
-//    public function getUserById(int $id, UserRepository $userRepository): Response
-//    {
-//        $returnUser = $userRepository->findOneBy(array('id' => $id));
-//        $newUser = ['username' => $returnUser->getUsername()];
-//
-//        return new JsonResponse($newUser);
-//    }
-//
-//    #[Route('/api/users/{id}', methods: ['DELETE'])]
-//    public function deleteUserById(int $id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
-//    {
-//        $returnUser = $userRepository->findOneBy(array('id' => $id));
-//        $entityManager->remove($returnUser);
-//        $entityManager->flush();
-//
-//        $response = new Response();
-//        return $response->setStatusCode(RESPONSE::HTTP_ACCEPTED);
-//    }
+    #[Route('/api/users/{id}', methods: ['GET'])]
+    public function getUserById(int $id): Response
+    {
+        return $this->json($this->userService->getUserDtoById($id));
+    }
+
+    #[Route('/api/users/{id}', methods: ['DELETE'])]
+    public function deleteUserById(int $id): Response
+    {
+        return $this->json($this->userService->deleteUser($id));
+    }
 
 }

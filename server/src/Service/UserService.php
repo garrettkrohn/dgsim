@@ -36,6 +36,24 @@ class UserService extends AbstractMultiTransformer
         return $this->transformFromObjects($allUsers);
     }
 
+    public function getUserById(int $id): User
+    {
+        return $this->userRepository->find($id);
+    }
+
+    public function deleteUser(int $id): String {
+        $userToDelete = $this->userRepository->find($id);
+        $this->entityManager->remove($userToDelete);
+        $this->entityManager->flush();
+        return "Deleted user with id of: {$id}";
+    }
+
+    public function getUserDtoById(int $id): UserResponseDto
+    {
+        $user = $this->userRepository->find($id);
+        return $this->transformFromObject($user);
+    }
+
     public function createNewUser(CreateUserDto $createUserDto): UserResponseDto
     {
         $newUser = new User();
