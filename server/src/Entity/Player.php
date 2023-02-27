@@ -50,6 +50,10 @@ class Player
     #[ORM\JoinColumn(name: 'player_tournament_id', referencedColumnName: 'player_tournament_id')]
     private Collection $player_tournament;
 
+    #[ORM\ManyToOne(inversedBy: 'player')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'user_id')]
+    private ?User $playerUser = null;
+
     public function __construct()
     {
         $this->player_tournament = new ArrayCollection();
@@ -206,6 +210,18 @@ class Player
                 $playerTournament->setPlayer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlayerUser(): ?User
+    {
+        return $this->playerUser;
+    }
+
+    public function setPlayerUser(?User $playerUser): self
+    {
+        $this->playerUser = $playerUser;
 
         return $this;
     }

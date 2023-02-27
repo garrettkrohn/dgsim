@@ -34,19 +34,21 @@ class PlayerController extends ApiController
     private PlayerService $playerService;
     private PlayerUpdateService $playerUpdateService;
     private PlayerTournamentService $playerTournamentService;
-    private PlayerRequestDtoTransformer $playerRequestDtoTransformer;
-    private PlayerResponseDtoTransformer $playerResponseDtoTransformer;
+    private SerializationService $serializationService;
 
+    /**
+     * @param PlayerService $playerService
+     * @param PlayerUpdateService $playerUpdateService
+     * @param PlayerTournamentService $playerTournamentService
+     * @param SerializationService $serializationService
+     */
     public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService,
-                                PlayerTournamentService $playerTournamentService, PlayerRequestDtoTransformer $playerRequestDtoTransformer,
-                                PlayerResponseDtoTransformer $playerResponseDtoTransformer, SerializationService $serializationService)
+                                PlayerTournamentService $playerTournamentService, SerializationService $serializationService)
     {
         parent::__construct($serializationService);
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
         $this->playerTournamentService = $playerTournamentService;
-        $this->playerRequestDtoTransformer = $playerRequestDtoTransformer;
-        $this->playerResponseDtoTransformer = $playerResponseDtoTransformer;
     }
 
 
@@ -92,16 +94,15 @@ class PlayerController extends ApiController
     #[Route('api/players/{id}/playerTournaments', methods: ('GET'))]
     public function getAllPlayerTournamentsByPlayerId(int $id): Response
     {
-        $return = $this->playerTournamentService->getPlayerTournamentsByPlayerId($id);
-        return new JsonResponse($return);
+        return $this->json($this->playerTournamentService->getPlayerTournamentsByPlayerId($id));
     }
 
     #[Route('api/players/{id}/updates', methods: ('GET'))]
     public function getAllUpdatesByPlayerId(int $id): Response
     {
-        $return = $this->playerUpdateService->getAllUpdatesByPlayerId($id);
-        return new JsonResponse($return);
+        return $this->json($this->playerUpdateService->getAllUpdatesByPlayerId($id));
     }
+
 
 
 }
