@@ -2,6 +2,7 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Incoming\CreateTournamentDto;
 use App\Dto\Outgoing\leaderboardDto;
 use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
 use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
@@ -12,6 +13,7 @@ use App\Repository\PlayerTournamentRepository;
 use App\Repository\TournamentRepository;
 use App\Service\CourseService;
 use App\Service\HoleService;
+use App\Service\HoleSimService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Integer;
@@ -26,7 +28,7 @@ class TournamentBuilder
     private TournamentRepository $tournamentRepository;
     private PlayerTournamentRepository $playerTournamentRepository;
     private EntityManagerInterface $entityManager;
-    private HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer;
+    private HoleSimService $holeSimService;
 
     /**
      * @param CourseService $courseService
@@ -36,9 +38,9 @@ class TournamentBuilder
      * @param TournamentRepository $tournamentRepository
      * @param PlayerTournamentRepository $playerTournamentRepository
      * @param EntityManagerInterface $entityManager
-     * @param HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer
+     * @param HoleSimService $holeSimService
      */
-    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, HoleSimResponseDtoTransformer $holeSimResponseDtoTransformer)
+    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, HoleSimService $holeSimService)
     {
         $this->courseService = $courseService;
         $this->playerService = $playerService;
@@ -47,20 +49,18 @@ class TournamentBuilder
         $this->tournamentRepository = $tournamentRepository;
         $this->playerTournamentRepository = $playerTournamentRepository;
         $this->entityManager = $entityManager;
-        $this->holeSimResponseDtoTransformer = $holeSimResponseDtoTransformer;
+        $this->holeSimService = $holeSimService;
     }
 
-
-    public function buildTournament(Request $request): Tournament
+    public function buildTournament(CreateTournamentDto $createTournamentDto): Tournament
     {
-        $tournamentRequest = json_decode($request->getContent(), true);
         $tournament = new Tournament();
-        $tournament->setName($tournamentRequest['tournamentName']);
-        $courseId = $tournamentRequest['courseId'];
+        $tournament->setName($createTournamentDto->getTournamentName());
+        $courseId = $createTournamentDto->getCourseId();
         $course = $this->courseService->getCourseById($courseId);
         $tournament->setCourse($course);
-        $tournament->setSeason($tournamentRequest['season']);
-        $numberOfRounds = $tournamentRequest['numberOfRounds'];
+        $tournament->setSeason($createTournamentDto->getSeason());
+        $numberOfRounds = $createTournamentDto->getNumberOfRounds();
 
         $allPlayerSimObjects = $this->playerService->getActivePlayerSimObjects();
         $allPlayers = $this->playerService->getAllActivePlayerEntities();
@@ -68,10 +68,8 @@ class TournamentBuilder
         $allHolesSimObjects = $this->holeService->getAllSimHoles($courseId);
         $allHoles = $this->holeService->getAllHolesByCourseId($courseId);
 
-        $tournamentResponse = $this->iterators->playerIterator($allPlayerSimObjects,
+        return  $this->iterators->playerIterator($allPlayerSimObjects,
             $allHolesSimObjects, $numberOfRounds, $tournament, $allHoles, $allPlayers);
-
-        return $tournamentResponse;
     }
 
     public function buildLeaderboard(int $tournamentId):array
@@ -156,11 +154,11 @@ class TournamentBuilder
             $playerArray[] = $playerTournament->getPlayer();
         }
 
-        $playerDtoArray = $this->playerResponseDtoTransformer->transformFromObjects($playerArray);
+        $playerDtoArray = $this->playerService->transformFromObjects($playerArray);
         $playerSimArray = $this->playerService->getPlayerSimObjects($playerDtoArray);
         $courseId = $tournament->getCourse()->getCourseId();
         $holeArray = $this->holeService->getAllHolesByCourseId($courseId);
-        $holeSimArray = $this->holeSimResponseDtoTransformer->transformFromObjects($holeArray);
+        $holeSimArray = $this->holeSimService->transformFromObjects($holeArray);
         $allHoles = $tournament->getCourse()->getHoles();
 
         $tournamentWithPlayoff = $this->createPlayoffRounds($playerSimArray, $tournament);

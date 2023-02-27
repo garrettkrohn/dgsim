@@ -88,8 +88,8 @@ class SimulationIterators {
         $luckScore = 0;
         for ($x = 0; $x < count($courseArray); $x++) {
             $holeResult = $this->parSwitcher($player, $courseArray[$x]);
-            $roundTotal += $holeResult->score;
-            $luckScore += $holeResult->luck;
+            $roundTotal += $holeResult->getScore();
+            $luckScore += $holeResult->getLuck();
             $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $round);
             $holePersist->setHole($allHoles[$x]);
             $round->addHoleResult($holePersist);

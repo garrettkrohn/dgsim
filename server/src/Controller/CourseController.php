@@ -12,14 +12,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class CourseController extends AbstractController
 {
     private CourseService $courseService;
-    private JsonSerializer $serializer;
 
-    public function __construct(CourseService $courseService, JsonSerializer $serializer)
+    /**
+     * @param CourseService $courseService
+     */
+    public function __construct(CourseService $courseService)
     {
         $this->courseService = $courseService;
-        $this->serializer = $serializer;
     }
-
 
     #[Route('/api/courses', methods: ['POST'])]
     public function createCourse():Response

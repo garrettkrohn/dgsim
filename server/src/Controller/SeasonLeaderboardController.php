@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\SeasonLeaderboardService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class SeasonLeaderboardController extends AbstractController
@@ -19,7 +20,7 @@ class SeasonLeaderboardController extends AbstractController
 
 
     #[Route('api/seasonLeaderboard/{id}', methods: ('GET'))]
-    public function getSeasonLeaderboard(int $id) {
+    public function getSeasonLeaderboard(int $id): Response {
        return $this->json($this->seasonLeaderboardService->getSeasonLeaderboard($id));
     }
 }

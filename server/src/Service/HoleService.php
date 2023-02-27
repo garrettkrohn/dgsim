@@ -4,19 +4,22 @@ namespace App\Service;
 
 use App\Dto\Outgoing\HoleDto;
 use App\Dto\Outgoing\HoleSimResponseDto;
-use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
 use App\Entity\Hole;
 use App\Repository\HoleRepository;
 
 class HoleService extends AbstractMultiTransformer
 {
-    private HoleSimResponseDtoTransformer $holeResponseDtoTransformer;
     private HoleRepository $holeRepository;
+    private HoleSimService $holeSimService;
 
-    public function __construct(HoleSimResponseDtoTransformer $holeResponseDtoTransformer, HoleRepository $holeRepository)
+    /**
+     * @param HoleRepository $holeRepository
+     * @param HoleSimService $holeSimService
+     */
+    public function __construct(HoleRepository $holeRepository, HoleSimService $holeSimService)
     {
-        $this->holeResponseDtoTransformer = $holeResponseDtoTransformer;
         $this->holeRepository = $holeRepository;
+        $this->holeSimService = $holeSimService;
     }
 
     public function getAllSimHoles(int $id): iterable{
@@ -37,7 +40,7 @@ class HoleService extends AbstractMultiTransformer
 
     public function convertHoleToHoleSim(iterable $holes): iterable
     {
-       return $this->holeResponseDtoTransformer->transformFromObjects($holes);
+       return $this->holeSimService->transformFromObjects($holes);
     }
 
     /**

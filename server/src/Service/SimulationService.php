@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\Incoming\CreateTournamentDto;
 use App\Dto\Outgoing\HoleResultDto;
 use App\Dto\Outgoing\leaderboardDto;
 use App\Dto\Outgoing\TournamentResponseDto;
@@ -46,9 +47,9 @@ class SimulationService
     }
 
 
-    public function simulateTournament(Request $request): TournamentResponseDto
+    public function simulateTournament(CreateTournamentDto $createTournamentDto): TournamentResponseDto
     {
-        $tournament = $this->tournamentBuilder->buildTournament($request);
+        $tournament = $this->tournamentBuilder->buildTournament($createTournamentDto);
         $this->entityManager->persist($tournament);
         $this->entityManager->flush();
         $lastTournamentObject =  $this->tournamentRepository->findOneBy([],['tournament_id'=>'DESC'],1,0);

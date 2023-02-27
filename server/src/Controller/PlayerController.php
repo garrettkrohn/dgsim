@@ -68,7 +68,7 @@ class PlayerController extends ApiController
      * @throws InvalidRequestDataException
      * @throws JsonException
      */
-    #[Route('api/players/', methods: ('PUT'))]
+    #[Route('api/players', methods: ('PUT'))]
     public function updatePlayer(Request $request): Response
     {
         /** @var UpdatePlayerDto $dto */
@@ -87,7 +87,5 @@ class PlayerController extends ApiController
     {
         return $this->json($this->playerUpdateService->getAllUpdatesByPlayerId($id));
     }
-
-
 
 }

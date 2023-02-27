@@ -2,7 +2,10 @@
 
 namespace App\Service\Simulation;
 
+use App\Service\HoleSimService;
+
 class BaseModel {
+
     public function averageObjects($playerSimObject, $holeSimObject):PlayerHoleObject {
         $c1x_putt = $playerSimObject->c1x_putt;
         $c2_putt = $playerSimObject->c2_putt;

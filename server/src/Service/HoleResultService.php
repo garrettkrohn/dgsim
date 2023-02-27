@@ -34,4 +34,19 @@ class HoleResultService extends AbstractMultiTransformer
         return $dto;
     }
 
+    public function buildHoleResult(int $score, int $c1putts, int $c2putts, bool $isParked, bool $c1inReg,
+    bool $c2inReg, bool $isScramble, float $luck): HoleResultDto {
+        $dto = new HoleResultDto();
+        $dto->setScore($score);
+        $dto->setC1Putts($c1putts);
+        $dto->setC2Putts($c2putts);
+        $dto->setParked($isParked);
+        $dto->setC1InRegulation($c1inReg);
+        $dto->setC2InRegulation($c2inReg);
+        $dto->setScramble($isScramble);
+        $dto->setLuck($luck);
+
+        return $dto;
+    }
+
 }
