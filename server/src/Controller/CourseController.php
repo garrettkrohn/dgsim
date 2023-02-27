@@ -31,12 +31,7 @@ class CourseController extends AbstractController
     #[Route('api/courses', methods: ['GET'])]
     public function getCourses(): Response
     {
-        $courses = $this->courseService->getCourses();
-//        $courseMessage = $courses
-//            ? "found course with id {$courses[0]->getCourseId()}"
-//            : "none found";
-        $ser = $this->serializer->serialize($courses[0], 'CourseResponseDto');
-        return new JsonResponse($ser, 200);
+        return $this->json($this->courseService->getCoursesDto());
     }
 
 }

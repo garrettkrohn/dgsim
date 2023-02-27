@@ -3,6 +3,7 @@
 namespace App\Service;
 
 
+use App\Dto\Outgoing\CourseResponseDto;
 use App\Entity\Course;
 use App\Repository\CourseRepository;
 use App\Serialization\JsonSerializer;
@@ -10,18 +11,20 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Hole;
 use Symfony\Component\HttpFoundation\Response;
 
-class CourseService
+class CourseService extends AbstractMultiTransformer
 {
 
     private EntityManagerInterface $entityManager;
     private CourseRepository $courseRepository;
     private JsonSerializer $jsonSerializer;
+    private HoleService $holeService;
 
-    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository, JsonSerializer $jsonSerializer)
+    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository, JsonSerializer $jsonSerializer, HoleService $holeService)
     {
         $this->entityManager = $entityManager;
         $this->courseRepository = $courseRepository;
         $this->jsonSerializer = $jsonSerializer;
+        $this->holeService = $holeService;
     }
 
 
@@ -83,7 +86,28 @@ class CourseService
     public function getCourses(): iterable
     {
         return $this->courseRepository->findAll();
-//        return $this->jsonSerializer->serialize($courses);
     }
+
+    public function getCoursesDto(): iterable
+    {
+        $allCourses = $this->courseRepository->findAll();
+        return $this->transformFromObjects($allCourses);
+    }
+
+    /**
+     * @param Course $object
+     * @return CourseResponseDto void
+     */
+    public function transformFromObject($object): CourseResponseDto
+    {
+        $dto = new CourseResponseDto();
+        $dto->setCourseId($object->getCourseId());
+        $dto->setName($object->getName());
+        $dto->setCoursePar($object->getCoursePar());
+        $dto->setHoleResponseDto($this->holeService->getAllHolesByCourseIdDto($object->getCourseId()));
+
+        return $dto;
+    }
+
 
 }
