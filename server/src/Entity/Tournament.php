@@ -26,11 +26,11 @@ class Tournament
     private ?Course $course = null;
 
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: PlayerTournament::class, cascade: ['persist', 'remove'])]
-    private Collection $player_tournament;
+    private Collection $player_tournaments;
 
     public function __construct()
     {
-        $this->player_tournament = new ArrayCollection();
+        $this->player_tournaments = new ArrayCollection();
     }
 
     public function getTournamentId(): ?int
@@ -77,15 +77,15 @@ class Tournament
     /**
      * @return Collection<int, PlayerTournament>
      */
-    public function getPlayerTournament(): Collection
+    public function getPlayerTournaments(): Collection
     {
-        return $this->player_tournament;
+        return $this->player_tournaments;
     }
 
     public function addPlayerTournament(PlayerTournament $playerTournament): self
     {
-        if (!$this->player_tournament->contains($playerTournament)) {
-            $this->player_tournament->add($playerTournament);
+        if (!$this->player_tournaments->contains($playerTournament)) {
+            $this->player_tournaments->add($playerTournament);
             $playerTournament->setTournament($this);
         }
 
@@ -94,7 +94,7 @@ class Tournament
 
     public function removePlayerTournament(PlayerTournament $playerTournament): self
     {
-        if ($this->player_tournament->removeElement($playerTournament)) {
+        if ($this->player_tournaments->removeElement($playerTournament)) {
             // set the owning side to null (unless already changed)
             if ($playerTournament->getTournament() === $this) {
                 $playerTournament->setTournament(null);

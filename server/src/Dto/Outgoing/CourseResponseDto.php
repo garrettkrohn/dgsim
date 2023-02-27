@@ -7,7 +7,7 @@ class CourseResponseDto
     public int $course_id;
     public string $name;
     public int $course_par;
-    public iterable $holeResponseDto;
+    public iterable $holes;
 
     /**
      * @return int
@@ -60,17 +60,17 @@ class CourseResponseDto
     /**
      * @return iterable
      */
-    public function getHoleResponseDto(): iterable
+    public function getHoles(): iterable
     {
-        return $this->holeResponseDto;
+        return $this->holes;
     }
 
     /**
-     * @param iterable $holeResponseDto
+     * @param iterable $holes
      */
-    public function setHoleResponseDto(iterable $holeResponseDto): void
+    public function setHoles(iterable $holes): void
     {
-        $this->holeResponseDto = $holeResponseDto;
+        $this->holes = $holes;
     }
 
 

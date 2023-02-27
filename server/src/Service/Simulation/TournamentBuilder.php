@@ -80,7 +80,7 @@ class TournamentBuilder
     public function buildLeaderboard(int $tournamentId):array
     {
         $tournament = $this->tournamentRepository->findOneBy(['tournament_id' => $tournamentId]);
-        $playerTournaments = $tournament->getPlayerTournament();
+        $playerTournaments = $tournament->getPlayerTournaments();
 
         $leaderboard = [];
         foreach($playerTournaments as $pt) {

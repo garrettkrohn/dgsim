@@ -160,7 +160,7 @@ class SimulationIterators {
                 
                 $this->entityManager->persist($thisPlayoffRound);
             }
-            $playerTournamentWithPlayoffCollection = $tournament->getPlayerTournament();
+            $playerTournamentWithPlayoffCollection = $tournament->getPlayerTournaments();
 
             $roundsToCompare = [];
 
@@ -188,7 +188,7 @@ class SimulationIterators {
 
         private function getPlayoffRound(Tournament $tournament, PlayerSimulationObject $player): Round
         {
-            $playerTournamentCollection = $tournament->getPlayerTournament();
+            $playerTournamentCollection = $tournament->getPlayerTournaments();
             $thisPlayerTournament = $playerTournamentCollection->findFirst(function(int $key, PlayerTournament $value) use ($player):bool {
                 return $value->getPlayer()->getPlayerId() == $player->player_id;
             });

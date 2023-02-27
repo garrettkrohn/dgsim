@@ -83,6 +83,12 @@ class CourseService extends AbstractMultiTransformer
         return $this->courseRepository->findOneBy(['course_id' => $id]);
     }
 
+    public function getCourseByIdDto(int $id): CourseResponseDto
+    {
+        $course = $this->courseRepository->findOneBy(['course_id' => $id]);
+        return $this->transformFromObject($course);
+    }
+
     public function getCourses(): iterable
     {
         return $this->courseRepository->findAll();
@@ -104,7 +110,8 @@ class CourseService extends AbstractMultiTransformer
         $dto->setCourseId($object->getCourseId());
         $dto->setName($object->getName());
         $dto->setCoursePar($object->getCoursePar());
-        $dto->setHoleResponseDto($this->holeService->getAllHolesByCourseIdDto($object->getCourseId()));
+        $holes = $this->holeService->getAllHolesByCourseIdDto($object->getCourseId());
+        $dto->setHoles($holes);
 
         return $dto;
     }

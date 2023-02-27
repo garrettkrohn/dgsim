@@ -76,7 +76,7 @@ class PlayerController extends ApiController
     #[Route('api/players/{id}', methods: ('GET'))]
     public function getPlayerById(int $id): Response
     {
-        return $this->json($this->playerService->getPlayerById($id));
+        return $this->json($this->playerService->getPlayerByIdDto($id));
     }
 
     /**

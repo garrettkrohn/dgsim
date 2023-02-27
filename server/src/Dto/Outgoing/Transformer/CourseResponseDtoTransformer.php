@@ -26,7 +26,7 @@ class CourseResponseDtoTransformer extends AbstractResponseDtoTransformer
         $dto->course_par = $object->getCoursePar();
         $holes = $object->getHoles();
         $holesTransformed = $this->transformer->transformFromObjects($holes);
-        $dto->holeResponseDto = $holesTransformed;
+        $dto->holes = $holesTransformed;
         return $dto;
     }
 

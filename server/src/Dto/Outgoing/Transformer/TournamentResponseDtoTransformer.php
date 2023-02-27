@@ -27,7 +27,7 @@ class TournamentResponseDtoTransformer extends AbstractResponseDtoTransformer
             $object->getName(),
             $this->courseResponseDtoTransformer->transformFromObject($object->getCourse()),
             $object->getSeason(),
-            $this->playerTournamentResponseDtoTransformer->transformFromObjects($object->getPlayerTournament()));
+            $this->playerTournamentResponseDtoTransformer->transformFromObjects($object->getPlayerTournaments()));
         return $dto;
     }
 

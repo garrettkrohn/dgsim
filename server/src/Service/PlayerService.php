@@ -6,7 +6,6 @@ use App\Dto\Incoming\CreatePlayerDto;
 use App\Dto\Outgoing\FloorCeilingDto;
 use App\Dto\Outgoing\PlayerDto;
 use App\Dto\Outgoing\Transformer\ArchetypeResponseDtoTransformer;
-use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
@@ -83,7 +82,7 @@ class PlayerService extends AbstractMultiTransformer
         return $this->transformFromObject($player);
     }
 
-    public function getPlayerById(int $id): PlayerDto
+    public function getPlayerByIdDto(int $id): PlayerDto
     {
         $player = $this->playerRepository->findOneBy(array('player_id' => $id));
         return $this->transformFromObject($player);
