@@ -11,27 +11,23 @@ use Doctrine\ORM\EntityManagerInterface;
 class TournamentService extends AbstractMultiTransformer
 {
     private TournamentRepository $tournamentRepository;
-    private TournamentResponseDtoTransformer $tournamentResponseDtoTransformer;
     private EntityManagerInterface $entityManager;
     private CourseService $courseService;
     private PlayerTournamentService $playerTournamentService;
 
     /**
      * @param TournamentRepository $tournamentRepository
-     * @param TournamentResponseDtoTransformer $tournamentResponseDtoTransformer
      * @param EntityManagerInterface $entityManager
      * @param CourseService $courseService
      * @param PlayerTournamentService $playerTournamentService
      */
-    public function __construct(TournamentRepository $tournamentRepository, TournamentResponseDtoTransformer $tournamentResponseDtoTransformer, EntityManagerInterface $entityManager, CourseService $courseService, PlayerTournamentService $playerTournamentService)
+    public function __construct(TournamentRepository $tournamentRepository, EntityManagerInterface $entityManager, CourseService $courseService, PlayerTournamentService $playerTournamentService)
     {
         $this->tournamentRepository = $tournamentRepository;
-        $this->tournamentResponseDtoTransformer = $tournamentResponseDtoTransformer;
         $this->entityManager = $entityManager;
         $this->courseService = $courseService;
         $this->playerTournamentService = $playerTournamentService;
     }
-
 
     public function getAllTournaments(): iterable
     {
@@ -45,20 +41,22 @@ class TournamentService extends AbstractMultiTransformer
         return $this->transformFromObject($tournament);
     }
 
-    public function deleteAllTournaments():void
+    public function deleteAllTournaments():string
     {
         $allTournaments = $this->tournamentRepository->findAll();
         foreach ($allTournaments as $tournament) {
             $this->entityManager->remove($tournament);
         }
         $this->entityManager->flush();
+        return 'All tournaments deleted';
     }
 
-    public function deleteTournamentById(int $id):void
+    public function deleteTournamentById(int $id):string
     {
         $tournament = $this->tournamentRepository->find($id);
         $this->entityManager->remove($tournament);
         $this->entityManager->flush();
+        return "deleted tournament with id: {$id}";
     }
 
     /**

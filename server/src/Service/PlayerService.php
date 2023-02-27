@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Dto\Incoming\CreatePlayerDto;
 use App\Dto\Outgoing\FloorCeilingDto;
 use App\Dto\Outgoing\PlayerDto;
-use App\Dto\Outgoing\Transformer\ArchetypeResponseDtoTransformer;
 use App\Entity\Player;
 use App\Repository\ArchetypeRepository;
 use App\Repository\PlayerRepository;
@@ -19,22 +18,19 @@ class PlayerService extends AbstractMultiTransformer
     private PlayerRepository $playerRepository;
     private EntityManagerInterface $entityManager;
     private PlayerIngester $playerIngester;
-    private ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer;
     private ArchetypeService $archetypeService;
 
     /**
      * @param PlayerRepository $playerRepository
      * @param EntityManagerInterface $entityManager
      * @param PlayerIngester $playerIngester
-     * @param ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer
      * @param ArchetypeService $archetypeService
      */
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerIngester $playerIngester, ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer, ArchetypeService $archetypeService)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerIngester $playerIngester, ArchetypeService $archetypeService)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerIngester = $playerIngester;
-        $this->archetypeResponseDtoTransformer = $archetypeResponseDtoTransformer;
         $this->archetypeService = $archetypeService;
     }
 
@@ -141,7 +137,7 @@ class PlayerService extends AbstractMultiTransformer
         $dto->start_season = $object->getStartSeason();
         $dto->is_active = $object->isIsActive();
         $dto->banked_skill_points = $object->getBankedSkillPoints();
-        $dto->archetype = $this->archetypeResponseDtoTransformer->transformFromObject($object->getArchetype());
+        $dto->archetype = $this->archetypeService->transformFromObject($object->getArchetype());
 
         return $dto;
     }

@@ -51,7 +51,7 @@ class SimulationService
         $tournament = $this->tournamentBuilder->buildTournament($request);
         $this->entityManager->persist($tournament);
         $this->entityManager->flush();
-        $lastTournamentObject =  $this->tournamentRepository->findOneBy(array(),array('tournament_id'=>'DESC'),1,0);
+        $lastTournamentObject =  $this->tournamentRepository->findOneBy([],['tournament_id'=>'DESC'],1,0);
         $this->tournamentBuilder->buildLeaderboard($lastTournamentObject->getTournamentId());
         return $this->tournamentService->getTournamentById($lastTournamentObject->getTournamentId());
     }

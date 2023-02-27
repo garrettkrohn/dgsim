@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Dto\Incoming\UpdatePlayerDto;
 use App\Dto\Outgoing\PlayerDto;
 use App\Dto\Outgoing\PlayerUpdateLogResponseDto;
-use App\Dto\Outgoing\Transformer\ArchetypeResponseDtoTransformer;
 use App\Entity\Player;
 use App\Entity\PlayerUpdateLog;
 use App\Repository\PlayerRepository;
@@ -19,7 +18,6 @@ class PlayerUpdateService extends PlayerService
     private EntityManagerInterface $entityManager;
     private PlayerUpdateLogsRepository $playerUpdateLogsRepository;
     private PlayerIngester $playerIngester;
-    private ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer;
     private ArchetypeService $archetypeService;
 
     /**
@@ -27,18 +25,17 @@ class PlayerUpdateService extends PlayerService
      * @param EntityManagerInterface $entityManager
      * @param PlayerUpdateLogsRepository $playerUpdateLogsRepository
      * @param PlayerIngester $playerIngester
-     * @param ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer
      * @param ArchetypeService $archetypeService
      */
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerIngester $playerIngester, ArchetypeResponseDtoTransformer $archetypeResponseDtoTransformer, ArchetypeService $archetypeService)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerIngester $playerIngester, ArchetypeService $archetypeService)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerUpdateLogsRepository = $playerUpdateLogsRepository;
         $this->playerIngester = $playerIngester;
-        $this->archetypeResponseDtoTransformer = $archetypeResponseDtoTransformer;
         $this->archetypeService = $archetypeService;
-        parent::__construct($playerRepository, $entityManager, $playerIngester, $archetypeResponseDtoTransformer, $archetypeService);
+        parent::__construct($playerRepository, $entityManager, $playerIngester, $archetypeService);
+
     }
 
 
