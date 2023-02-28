@@ -42,7 +42,7 @@ class Archetype
     #[ORM\Column]
     private ?int $max_scramble_skill = null;
 
-    #[ORM\OneToMany(mappedBy: 'archetype_id', targetEntity: Player::class)]
+    #[ORM\OneToMany(mappedBy: 'archetype', targetEntity: Player::class)]
     private Collection $Players;
 
     public function __construct()

@@ -3,23 +3,33 @@
 namespace App\Service;
 
 
+use App\Dto\Outgoing\CourseResponseDto;
 use App\Entity\Course;
 use App\Repository\CourseRepository;
+use App\Serialization\JsonSerializer;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Hole;
+use Symfony\Component\HttpFoundation\Response;
 
-class CourseService
+class CourseService extends AbstractMultiTransformer
 {
 
     private EntityManagerInterface $entityManager;
     private CourseRepository $courseRepository;
+    private HoleService $holeService;
 
-    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository)
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param CourseRepository $courseRepository
+     * @param HoleService $holeService
+     */
+    public function __construct(EntityManagerInterface $entityManager, CourseRepository $courseRepository, HoleService $holeService)
     {
         $this->entityManager = $entityManager;
         $this->courseRepository = $courseRepository;
+        $this->holeService = $holeService;
     }
+
 
     public function createNewCourse():Course
     {
@@ -73,6 +83,41 @@ class CourseService
 
     public function getCourseById(int $id): Course
     {
-        return $this->courseRepository->findOneBy(array('course_id' => $id));
+        return $this->courseRepository->findOneBy(['course_id' => $id]);
     }
+
+    public function getCourseByIdDto(int $id): CourseResponseDto
+    {
+        $course = $this->courseRepository->findOneBy(['course_id' => $id]);
+        return $this->transformFromObject($course);
+    }
+
+    public function getCourses(): iterable
+    {
+        return $this->courseRepository->findAll();
+    }
+
+    public function getCoursesDto(): iterable
+    {
+        $allCourses = $this->courseRepository->findAll();
+        return $this->transformFromObjects($allCourses);
+    }
+
+    /**
+     * @param Course $object
+     * @return CourseResponseDto void
+     */
+    public function transformFromObject($object): CourseResponseDto
+    {
+        $dto = new CourseResponseDto();
+        $dto->setCourseId($object->getCourseId());
+        $dto->setName($object->getName());
+        $dto->setCoursePar($object->getCoursePar());
+        $holes = $this->holeService->getAllHolesByCourseIdDto($object->getCourseId());
+        $dto->setHoles($holes);
+
+        return $dto;
+    }
+
+
 }

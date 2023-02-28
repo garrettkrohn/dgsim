@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Serialization\JsonSerializer;
 use App\Service\CourseService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -12,11 +13,13 @@ class CourseController extends AbstractController
 {
     private CourseService $courseService;
 
+    /**
+     * @param CourseService $courseService
+     */
     public function __construct(CourseService $courseService)
     {
         $this->courseService = $courseService;
     }
-
 
     #[Route('/api/courses', methods: ['POST'])]
     public function createCourse():Response
@@ -24,4 +27,11 @@ class CourseController extends AbstractController
         $course = $this->courseService->createNewCourse();
         return new JsonResponse($course);
     }
+
+    #[Route('api/courses', methods: ['GET'])]
+    public function getCourses(): Response
+    {
+        return $this->json($this->courseService->getCoursesDto());
+    }
+
 }

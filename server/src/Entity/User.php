@@ -26,6 +26,15 @@ class User
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private ?Role $role = null;
 
+    #[ORM\OneToMany(mappedBy: 'playerUser', targetEntity: Player::class)]
+    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
+    private Collection $player;
+
+    public function __construct()
+    {
+        $this->player = new ArrayCollection();
+    }
+
     public function getUserId(): ?int
     {
         return $this->user_id;
@@ -63,6 +72,36 @@ class User
     public function setRole(?Role $role): self
     {
         $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Player>
+     */
+    public function getPlayer(): Collection
+    {
+        return $this->player;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->player->contains($player)) {
+            $this->player->add($player);
+            $player->setPlayerUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->player->removeElement($player)) {
+            // set the owning side to null (unless already changed)
+            if ($player->getPlayerUser() === $this) {
+                $player->setPlayerUser(null);
+            }
+        }
 
         return $this;
     }

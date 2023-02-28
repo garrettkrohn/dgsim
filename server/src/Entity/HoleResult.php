@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HoleResultRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HoleResultRepository::class)]
@@ -23,13 +25,6 @@ class HoleResult
     private ?int $c2_putts = null;
 
     #[ORM\Column]
-    private ?bool $scramble = null;
-
-    #[ORM\ManyToOne(inversedBy: 'holeResults')]
-    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
-    private ?round $round = null;
-
-    #[ORM\Column]
     private ?bool $parked = null;
 
     #[ORM\Column]
@@ -38,7 +33,21 @@ class HoleResult
     #[ORM\Column]
     private ?bool $c2_in_regulation = null;
 
-    public function getHoleresultId(): ?int
+    #[ORM\Column]
+    private ?bool $scramble = null;
+
+    #[ORM\ManyToOne(inversedBy: 'holeResults')]
+    #[ORM\JoinColumn(name: 'round_id', referencedColumnName: 'round_id')]
+    private ?Round $round = null;
+
+    #[ORM\Column]
+    private ?float $luck = null;
+
+    #[ORM\ManyToOne(inversedBy: 'holeResults')]
+    #[ORM\JoinColumn(name: "hole_id", referencedColumnName: "hole_id")]
+    private ?Hole $hole = null;
+
+    public function getHoleResultId(): ?int
     {
         return $this->hole_result_id;
     }
@@ -135,6 +144,30 @@ class HoleResult
     public function setC2InRegulation(bool $c2_in_regulation): self
     {
         $this->c2_in_regulation = $c2_in_regulation;
+
+        return $this;
+    }
+
+    public function getLuck(): ?float
+    {
+        return $this->luck;
+    }
+
+    public function setLuck(float $luck): self
+    {
+        $this->luck = $luck;
+
+        return $this;
+    }
+
+    public function getHole(): ?Hole
+    {
+        return $this->hole;
+    }
+
+    public function setHole(?Hole $hole): self
+    {
+        $this->hole = $hole;
 
         return $this;
     }

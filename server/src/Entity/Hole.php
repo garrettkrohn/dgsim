@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\HoleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HoleRepository::class)]
@@ -30,9 +32,14 @@ class Hole
     #[ORM\Column]
     private ?float $scramble_rate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'holes')]
+    #[ORM\ManyToOne(targetEntity: 'app\entity\Course', inversedBy: 'hole_id')]
     #[ORM\JoinColumn(name: 'course_id', referencedColumnName: 'course_id')]
     private ?Course $course = null;
+
+    #[ORM\OneToMany(mappedBy: 'hole', targetEntity: HoleResult::class)]
+    #[ORM\JoinColumn(name: "hole_result_id", referencedColumnName: "hole_result_id")]
+    private Collection $holeResults;
+
 
     public function __construct(?int $par, ?float $parked_rate, ?float $c1_rate, ?float $c2_rate, ?float $scramble_rate, ?course $course)
     {
@@ -42,6 +49,7 @@ class Hole
         $this->c2_rate = $c2_rate;
         $this->scramble_rate = $scramble_rate;
         $this->course = $course;
+        $this->holeResults = new ArrayCollection();
     }
 
     public function getHoleId(): ?int
@@ -120,4 +128,35 @@ class Hole
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, HoleResult>
+     */
+    public function getHoleResults(): Collection
+    {
+        return $this->holeResults;
+    }
+
+    public function addHoleResult(HoleResult $holeResult): self
+    {
+        if (!$this->holeResults->contains($holeResult)) {
+            $this->holeResults->add($holeResult);
+            $holeResult->setHole($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHoleResult(HoleResult $holeResult): self
+    {
+        if ($this->holeResults->removeElement($holeResult)) {
+            // set the owning side to null (unless already changed)
+            if ($holeResult->getHole() === $this) {
+                $holeResult->setHole(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

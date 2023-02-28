@@ -3,15 +3,15 @@
 namespace App\Service\Simulation;
 
 class PlayerHoleObject {
-    public $c1x_putt;
-    public $c2_putt;
-    public $acc_parked;
-    public $acc_c1;
-    public $acc_c2;
-    public $pwr_parked;
-    public $pwr_c1;
-    public $pwr_c2;
-    public $scramble;
+    public float $c1x_putt;
+    public float $c2_putt;
+    public float $acc_parked;
+    public float $acc_c1;
+    public float $acc_c2;
+    public float $pwr_parked;
+    public float $pwr_c1;
+    public float $pwr_c2;
+    public float $scramble;
 
     /**
      * @param $c1x_putt

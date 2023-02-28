@@ -2,10 +2,21 @@
 
 namespace App\Service\Simulation;
 
-use App\Dto\Response\HoleResultDto;
+use App\Dto\Outgoing\HoleResultDto;
+use App\Service\HoleResultService;
 
 class Par4Model extends BaseModel
 {
+    private HoleResultService $holeResultService;
+
+    /**
+     * @param HoleResultService $holeResultService
+     */
+    public function __construct(HoleResultService $holeResultService)
+    {
+        $this->holeResultService = $holeResultService;
+    }
+
     public function simulate($playerSimObject, $holeSimObject): HoleResultDto
     {
         $playerHoleAveragesObject = $this->averageObjects($playerSimObject, $holeSimObject);
@@ -19,57 +30,57 @@ class Par4Model extends BaseModel
         {
             $benchmark = $oddsOfResultsArray->resultId12;
             if ($rng < $benchmark) {
-                return new HoleResultDto(6, 2,0, false, false, false, false);
+                return $this->holeResultService->buildHoleResult(6, 2,0, false, false, false, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId11;
             if ($rng < $benchmark) {
-                return new HoleResultDto(5, 2,0, false,false, false, false);
+                return $this->holeResultService->buildHoleResult(5, 2,0, false,false, false, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId10;
             if ($rng < $benchmark) {
-                return new HoleResultDto(4, 1,0, false,false, false, true);
+                return $this->holeResultService->buildHoleResult(4, 1,0, false,false, false, true, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId9;
             if ($rng < $benchmark) {
-                return new HoleResultDto(6, 3,1, false,false, true, false);
+                return $this->holeResultService->buildHoleResult(6, 3,1, false,false, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId8;
             if ($rng < $benchmark) {
-                return new HoleResultDto(5, 2,1, false,false, true, false);
+                return $this->holeResultService->buildHoleResult(5, 2,1, false,false, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId7;
             if ($rng < $benchmark) {
-                return new HoleResultDto(4, 1,1, false,false, true, false);
+                return $this->holeResultService->buildHoleResult(4, 1,1, false,false, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId6;
             if ($rng < $benchmark) {
-                return new HoleResultDto(3, 0,1, false,false, true, false);
+                return $this->holeResultService->buildHoleResult(3, 0,1, false,false, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId5;
             if ($rng < $benchmark) {
-                return new HoleResultDto(6, 4,0, false,true, true, false);
+                return $this->holeResultService->buildHoleResult(6, 4,0, false,true, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId4;
             if ($rng < $benchmark) {
-                return new HoleResultDto(5, 3,0, false,true, true, false);
+                return $this->holeResultService->buildHoleResult(5, 3,0, false,true, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId3;
             if ($rng < $benchmark) {
-                return new HoleResultDto(4, 2,0, false,true, true, false);
+                return $this->holeResultService->buildHoleResult(4, 2,0, false,true, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId2;
             if ($rng < $benchmark) {
-                return new HoleResultDto(3, 1,0, false,true, true, false);
+                return $this->holeResultService->buildHoleResult(3, 1,0, false,true, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId1;
             if ($rng < $benchmark) {
-                return new HoleResultDto(3, 1,0, true,true, true, false);
+                return $this->holeResultService->buildHoleResult(3, 1,0, true,true, true, false, $rng);
             }
             $benchmark += $oddsOfResultsArray->resultId0;
-            if ($rng < $benchmark) {
-                return new HoleResultDto(2, 0,0, true,true, true, false);
+            if ($rng <= $benchmark) {
+                return $this->holeResultService->buildHoleResult(2, 0,0, true,true, true, false, $rng);
             }
-            else return new HoleResultDto(-1,-1,-1,false, false, false, false);
+            else return $this->holeResultService->buildHoleResult(-1,-1,-1,false, false, false, false, $rng);
         }
     }
 

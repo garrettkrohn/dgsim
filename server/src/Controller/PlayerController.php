@@ -2,69 +2,90 @@
 
 namespace App\Controller;
 
-use App\Dto\Request\Transformer\PlayerRequestDtoTransformer;
-use App\Dto\Response\Transformer\PlayerResponseDtoTransformer;
-use App\Entity\Player;
-use App\Repository\ArchetypeRepository;
-use App\Repository\PlayerRepository;
+use App\Dto\Incoming\CreatePlayerDto;
+use App\Dto\Incoming\UpdatePlayerDto;
+use App\Exception\InvalidRequestDataException;
+use App\Serialization\SerializationService;
 use App\Service\PlayerService;
+use App\Service\PlayerTournamentService;
 use App\Service\PlayerUpdateService;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonDecode;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 
-class PlayerController extends AbstractController
+class PlayerController extends ApiController
 {
     private PlayerService $playerService;
     private PlayerUpdateService $playerUpdateService;
+    private PlayerTournamentService $playerTournamentService;
+    private SerializationService $serializationService;
 
-    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService)
+    /**
+     * @param PlayerService $playerService
+     * @param PlayerUpdateService $playerUpdateService
+     * @param PlayerTournamentService $playerTournamentService
+     * @param SerializationService $serializationService
+     */
+    public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService,
+                                PlayerTournamentService $playerTournamentService, SerializationService $serializationService)
     {
+        parent::__construct($serializationService);
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
+        $this->playerTournamentService = $playerTournamentService;
     }
 
+
     #[Route('api/players', methods: ('GET'))]
-    public function getAllPlayers(): Response
-    {
-        $response = $this->playerService->getAllPlayers();
-        return new JsonResponse($response);
+    public function getAllPlayers(): Response {
+        return $this->json($this->playerService->getAllPlayers());
     }
-//
+
     #[Route('api/playersNames', methods: ('GET'))]
-    public function getAllPlayerNames(): Response
-    {
-        $response = $this->playerService->getAllPlayerNames();
-        return new JsonResponse($response);
+    public function getAllPlayerNames(): Response {
+        return $this->json($this->playerService->getAllPlayerNames());
     }
-//
+
+    /**
+     * @throws JsonException
+     * @throws InvalidRequestDataException
+     */
     #[Route('api/players', methods: ('POST'))]
-    public function createNewPlayer(Request $request): Response
-    {
-        return $this->playerService->createNewPlayer($request);
+    public function createNewPlayer(Request $request): Response{
+        /** @var CreatePlayerDto $dto */
+        $dto = $this->getValidatedDto($request, CreatePlayerDto::class);
+       return $this->json($this->playerService->createNewPlayer($dto));
     }
-//
+
     #[Route('api/players/{id}', methods: ('GET'))]
     public function getPlayerById(int $id): Response
     {
-        $response = $this->playerService->getPlayerById($id);
-        return new JsonResponse($response);
+        return $this->json($this->playerService->getPlayerByIdDto($id));
     }
 
-    #[Route('api/players/update', methods: ('POST'))]
-    public function updatePlayer(Request $request)
+    /**
+     * @throws InvalidRequestDataException
+     * @throws JsonException
+     */
+    #[Route('api/players', methods: ('PUT'))]
+    public function updatePlayer(Request $request): Response
     {
-        $return = $this->playerUpdateService->updatePlayer($request);
-        return new JsonResponse($return);
+        /** @var UpdatePlayerDto $dto */
+        $dto = $this->getValidatedDto($request, UpdatePlayerDto::class);
+        return $this->json($this->playerUpdateService->updatePlayer($dto));
     }
+
+    #[Route('api/players/{id}/playerTournaments', methods: ('GET'))]
+    public function getAllPlayerTournamentsByPlayerId(int $id): Response
+    {
+        return $this->json($this->playerTournamentService->getPlayerTournamentsByPlayerId($id));
+    }
+
+    #[Route('api/players/{id}/updates', methods: ('GET'))]
+    public function getAllUpdatesByPlayerId(int $id): Response
+    {
+        return $this->json($this->playerUpdateService->getAllUpdatesByPlayerId($id));
+    }
+
 }
