@@ -5,6 +5,7 @@ const UpdateRow = (props: {
   skillName: string;
   skillNumber: number;
   setSkillNumber: Function;
+  currentNumber: number;
 }) => {
   const [incrementCost, setIncrementCost] = useState(1);
   const [decrementCost, setDecrementCost] = useState(1);
@@ -30,10 +31,11 @@ const UpdateRow = (props: {
     <div className="grid grid-cols-5 justify-items-center py-2">
       <div className="self-center">{props.skillName}:</div>
       <UpdateInput
-        currentNumber={props.skillNumber}
+        updateNumber={props.skillNumber}
         incrementCost={incrementCost}
         decrementCost={decrementCost}
         setSkill={props.setSkillNumber}
+        currentNumber={props.currentNumber}
       />
       <div className="col-start-5 col-end-6 self-center">{incrementCost}</div>
     </div>

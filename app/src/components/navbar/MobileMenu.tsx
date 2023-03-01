@@ -8,7 +8,9 @@ const MobileMenu: React.FC<{
       <div className="fixed h-screen w-screen backdrop-blur-sm"></div>
       <div className="fixed flex flex-col bg-dgblack ">
         {props.menuItems.map(item => (
-          <div className="p-4">{item.name}</div>
+          <div key={item.name} className="p-4">
+            {item.name}
+          </div>
         ))}
       </div>
     </div>

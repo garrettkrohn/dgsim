@@ -10,6 +10,10 @@ import {
   updateThrowPowerAtom,
   updateScrambleAtom,
   availableSpAtom,
+  currentPuttAtom,
+  currentThrowPowerAtom,
+  currentThrowAccuracyAtom,
+  currentScrambleAtom,
 } from '../../jotai/Atoms';
 
 const UpdateBlock = () => {
@@ -18,6 +22,10 @@ const UpdateBlock = () => {
   const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
   const [scramble, setScramble] = useAtom(updateScrambleAtom);
   const [availableSp] = useAtom(availableSpAtom);
+  const [currentPutt] = useAtom(currentPuttAtom);
+  const [currentPower] = useAtom(currentThrowPowerAtom);
+  const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
+  const [currentScramble] = useAtom(currentScrambleAtom);
 
   return (
     <div>
@@ -42,21 +50,25 @@ const UpdateBlock = () => {
           skillName="Putt"
           skillNumber={putt}
           setSkillNumber={setPutt}
+          currentNumber={currentPutt}
         />
         <UpdateRow
           skillName="ThrowPwr"
           skillNumber={throwPower}
           setSkillNumber={setThrowPower}
+          currentNumber={currentPower}
         />
         <UpdateRow
           skillName="ThrowAcc"
           skillNumber={throwAccuracy}
           setSkillNumber={setThrowAccuracy}
+          currentNumber={currentAccuracy}
         />
         <UpdateRow
           skillName="Scramble"
           skillNumber={scramble}
           setSkillNumber={setScramble}
+          currentNumber={currentScramble}
         />
         <Button label="Submit Player Update" />
       </div>
