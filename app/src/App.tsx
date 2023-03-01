@@ -10,39 +10,40 @@ import {
   RouterProvider,
 } from '@tanstack/react-router';
 import Navbar from './components/navbar/Navbar';
+import Homepage from './components/Homepage/Homepage';
 
 const rootRoute = new RootRoute({
   component: () => {
     return (
       <>
-        <Navbar />
-        <div className="container mx-auto mt-5 w-96 bg-black text-lg text-amber-50">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold underline',
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Hello Tailwind
-          </Link>
-          {' | '}
-          <Link
-            to="/photos"
-            activeProps={{
-              className: 'font-bold underline',
-            }}
-          >
-            Photos
-          </Link>
-        </div>
-        <div className="container mx-auto mt-10 w-96">
-          <Outlet />
-          <div className="mt-5">
-            {/*<JotaiComponent />*/}
-            {/*<ZustandComponent />*/}
-          </div>
-        </div>
+        <Outlet />
+        {/*<div className="container mx-auto mt-5 w-96 bg-black text-lg text-amber-50">*/}
+        {/*  <Link*/}
+        {/*    to="/"*/}
+        {/*    activeProps={{*/}
+        {/*      className: 'font-bold underline',*/}
+        {/*    }}*/}
+        {/*    activeOptions={{ exact: true }}*/}
+        {/*  >*/}
+        {/*    Hello Tailwind*/}
+        {/*  </Link>*/}
+        {/*  {' | '}*/}
+        {/*  <Link*/}
+        {/*    to="/schedule"*/}
+        {/*    activeProps={{*/}
+        {/*      className: 'font-bold underline',*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    Schedule*/}
+        {/*  </Link>*/}
+        {/*</div>*/}
+        {/*<div className="container mx-auto mt-10 w-96">*/}
+        {/*  <Outlet />*/}
+        {/*  <div className="mt-5">*/}
+        {/*    /!*<JotaiComponent />*!/*/}
+        {/*    /!*<ZustandComponent />*!/*/}
+        {/*  </div>*/}
+        {/*</div>*/}
       </>
     );
   },
@@ -52,22 +53,47 @@ const indexRoute = new Route({
   getParentRoute: () => rootRoute,
   path: '/',
   component: () => {
-    return <div>test</div>;
+    return <Homepage />;
     // return <HelloTailwind />;
   },
 });
 
-const photosRoute = new Route({
+const scheduleRoute = new Route({
   getParentRoute: () => rootRoute,
-  path: 'photos',
+  path: 'schedule',
   component: () => {
-    return <div>test2</div>;
+    return <div>schedule</div>;
     // return <JSONPlaceholderPhoto photoId={20} />;
   },
   errorComponent: () => 'Oh crap!',
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, photosRoute]);
+const tournamentsRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: 'tournaments',
+  component: () => {
+    return <div>tournaments</div>;
+    // return <JSONPlaceholderPhoto photoId={20} />;
+  },
+  errorComponent: () => 'Oh crap!',
+});
+
+const standingsRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: 'standings',
+  component: () => {
+    return <div>standings</div>;
+    // return <JSONPlaceholderPhoto photoId={20} />;
+  },
+  errorComponent: () => 'Oh crap!',
+});
+
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  scheduleRoute,
+  tournamentsRoute,
+  standingsRoute,
+]);
 
 // Set up a Router instance
 const router = new Router({
@@ -86,6 +112,7 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Navbar />
       <RouterProvider router={router} />
       <ReactQueryDevtools />
     </QueryClientProvider>

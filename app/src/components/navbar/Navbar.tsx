@@ -3,18 +3,20 @@ import React from 'react';
 const Navbar = () => {
   const menuItems = [
     { name: 'home', route: '/' },
-    { name: 'Tournament Results', route: '/tournaments' },
-    { name: 'Season Tour Points', route: '/seasonTourPoints' },
+    { name: 'Schedule', route: '/schedule' },
+    { name: 'Tournaments', route: '/tournaments' },
+    { name: 'Standings', route: '/standings' },
   ];
 
   return (
-    <div className="display:flex ">
-      <div className="container">
+    <div className=" bg-dgblack font-main uppercase text-dgsoftwhite">
+      <div className="p-5 sm:hidden">menu</div>
+      <div className="hidden sm:flex sm:flex-row">
         {menuItems.map(item => (
-          <div>{item.name}</div>
+          <div className="p-5 ">{item.name}</div>
         ))}
       </div>
-      <div className="nabar-right"></div>
+      <div className=""></div>
     </div>
   );
 };
