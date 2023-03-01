@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Divider from './Divider';
 import UpdateRow from './UpdateRow';
 import Button from '../../util/Button';
 import LastTournamentBlock from './LastTournamentBlock';
+import { useAtom, useSetAtom } from 'jotai';
+import {
+  updatePuttAtom,
+  updateThrowAccuracyAtom,
+  updateThrowPowerAtom,
+  updateScrambleAtom,
+  availableSpAtom,
+} from '../../jotai/Atoms';
 
 const UpdateBlock = () => {
+  const [putt, setPutt] = useAtom(updatePuttAtom);
+  const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
+  const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
+  const [scramble, setScramble] = useAtom(updateScrambleAtom);
+  const [availableSp] = useAtom(availableSpAtom);
+
   return (
     <div>
       <div className="bg-dgprimary text-dgsoftwhite">
@@ -14,7 +28,7 @@ const UpdateBlock = () => {
         <div className="container flex flex-row justify-evenly p-1">
           <div>Bank: 10</div>
           <div>NewSp: 10</div>
-          <div>Total: 10</div>
+          <div>Total: {availableSp}</div>
         </div>
       </div>
       <Divider color="dgbackground" />
@@ -24,10 +38,26 @@ const UpdateBlock = () => {
           <div>Update:</div>
           <div>Cost:</div>
         </div>
-        <UpdateRow skill="Putt" cost={1} />
-        <UpdateRow skill="ThrowPwr" cost={1} />
-        <UpdateRow skill="ThrowAcc" cost={1} />
-        <UpdateRow skill="Scramble" cost={1} />
+        <UpdateRow
+          skillName="Putt"
+          skillNumber={putt}
+          setSkillNumber={setPutt}
+        />
+        <UpdateRow
+          skillName="ThrowPwr"
+          skillNumber={throwPower}
+          setSkillNumber={setThrowPower}
+        />
+        <UpdateRow
+          skillName="ThrowAcc"
+          skillNumber={throwAccuracy}
+          setSkillNumber={setThrowAccuracy}
+        />
+        <UpdateRow
+          skillName="Scramble"
+          skillNumber={scramble}
+          setSkillNumber={setScramble}
+        />
         <Button label="Submit Player Update" />
       </div>
       <Divider color="dgbackground" />
