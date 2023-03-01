@@ -1,7 +1,13 @@
+import PlayerBlock from './PlayerBlock';
+import Divider from './Divider';
+import UpdateBlock from './UpdateBlock';
+
 const Homepage = () => {
   return (
-    <div className="container">
-      <div className="container bg-dgsecondary text-dgsoftwhite">Homepage</div>
+    <div>
+      <PlayerBlock />
+      <Divider />
+      <UpdateBlock />
     </div>
   );
 };

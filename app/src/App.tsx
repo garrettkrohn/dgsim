@@ -17,33 +17,6 @@ const rootRoute = new RootRoute({
     return (
       <>
         <Outlet />
-        {/*<div className="container mx-auto mt-5 w-96 bg-black text-lg text-amber-50">*/}
-        {/*  <Link*/}
-        {/*    to="/"*/}
-        {/*    activeProps={{*/}
-        {/*      className: 'font-bold underline',*/}
-        {/*    }}*/}
-        {/*    activeOptions={{ exact: true }}*/}
-        {/*  >*/}
-        {/*    Hello Tailwind*/}
-        {/*  </Link>*/}
-        {/*  {' | '}*/}
-        {/*  <Link*/}
-        {/*    to="/schedule"*/}
-        {/*    activeProps={{*/}
-        {/*      className: 'font-bold underline',*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    Schedule*/}
-        {/*  </Link>*/}
-        {/*</div>*/}
-        {/*<div className="container mx-auto mt-10 w-96">*/}
-        {/*  <Outlet />*/}
-        {/*  <div className="mt-5">*/}
-        {/*    /!*<JotaiComponent />*!/*/}
-        {/*    /!*<ZustandComponent />*!/*/}
-        {/*  </div>*/}
-        {/*</div>*/}
       </>
     );
   },
