@@ -12,7 +12,7 @@ const Navbar = () => {
 
   return (
     <div className=" bg-dgblack font-main uppercase text-dgsoftwhite">
-      <div className="p-5 sm:hidden" onClick={toggleMenu}>
+      <div className=" p-5 sm:hidden" onClick={toggleMenu}>
         <Bars3Icon className="h-5" />
       </div>
       {showMenu ? <MobileMenu menuItems={menuItems} /> : ''}

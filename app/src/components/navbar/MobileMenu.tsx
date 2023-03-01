@@ -5,9 +5,12 @@ const MobileMenu: React.FC<{
 }> = props => {
   return (
     <div>
-      {props.menuItems.map(item => (
-        <div>{item.name}</div>
-      ))}
+      <div className="fixed h-screen w-screen backdrop-blur-sm"></div>
+      <div className="fixed flex flex-col bg-dgblack ">
+        {props.menuItems.map(item => (
+          <div className="p-4">{item.name}</div>
+        ))}
+      </div>
     </div>
   );
 };
