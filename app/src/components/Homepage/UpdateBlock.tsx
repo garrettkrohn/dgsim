@@ -1,5 +1,8 @@
 import React from 'react';
 import Divider from './Divider';
+import UpdateRow from './UpdateRow';
+import Button from '../../Util/Button';
+import LastTournamentBlock from './LastTournamentBlock';
 
 const UpdateBlock = () => {
   return (
@@ -14,20 +17,22 @@ const UpdateBlock = () => {
           <div>Total: 10</div>
         </div>
       </div>
-      <Divider />
-      <div className="flex justify-evenly bg-dgprimary text-dgsoftwhite">
-        <div>
+      <Divider color="dgbackground" />
+      <div className="flex flex-col justify-evenly bg-dgprimary text-dgsoftwhite">
+        <div className="flex justify-evenly">
           <div>Skill:</div>
-          <div>Putt:</div>
-          <div>Throw Pwr:</div>
-          <div>Throw Acc:</div>
-          <div>Scramble:</div>
-        </div>
-        <div></div>
-        <div>
+          <div>Update:</div>
           <div>Cost:</div>
         </div>
+        <UpdateRow skill="Putt" cost={1} />
+        <UpdateRow skill="ThrowPwr" cost={1} />
+        <UpdateRow skill="ThrowAcc" cost={1} />
+        <UpdateRow skill="Scramble" cost={1} />
+        <Button label="Submit Player Update" />
       </div>
+      <Divider color="dgbackground" />
+      <Divider color="dgbackground" />
+      <LastTournamentBlock />
     </div>
   );
 };

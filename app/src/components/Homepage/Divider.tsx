@@ -1,7 +1,8 @@
 import React from 'react';
 
-const Divider = () => {
-  return <div className="container h-2 bg-dgbackground" />;
+const Divider = (props: { color: string }) => {
+  const style = `h-2 container bg-${props.color}`;
+  return <div className={style} />;
 };
 
 export default Divider;
