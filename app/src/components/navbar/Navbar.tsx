@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import MobileMenu from './MobileMenu';
-import menuItems from '../../Constants/MenuItems';
+import menuItems from '../../constants/MenuItems';
 
 const Navbar = () => {
-  const [showMenu, setShowMenu] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -18,7 +18,9 @@ const Navbar = () => {
       {showMenu ? <MobileMenu menuItems={menuItems} /> : ''}
       <div className="hidden sm:flex sm:flex-row">
         {menuItems.map(item => (
-          <div className="p-5 ">{item.name}</div>
+          <div key={item.name} className="p-5 ">
+            {item.name}
+          </div>
         ))}
       </div>
       <div className=""></div>

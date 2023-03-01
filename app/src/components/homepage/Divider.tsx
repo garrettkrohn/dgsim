@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Divider = (props: { color: string }) => {
-  const style = `h-2 container bg-${props.color}`;
+  const style = `container h-2 bg-${props.color}`;
   return <div className={style} />;
 };
 

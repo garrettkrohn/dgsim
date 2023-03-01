@@ -1,7 +1,7 @@
 import React from 'react';
 import Divider from './Divider';
 import UpdateRow from './UpdateRow';
-import Button from '../../Util/Button';
+import Button from '../../util/Button';
 import LastTournamentBlock from './LastTournamentBlock';
 
 const UpdateBlock = () => {
@@ -30,7 +30,6 @@ const UpdateBlock = () => {
         <UpdateRow skill="Scramble" cost={1} />
         <Button label="Submit Player Update" />
       </div>
-      <Divider color="dgbackground" />
       <Divider color="dgbackground" />
       <LastTournamentBlock />
     </div>

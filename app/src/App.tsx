@@ -10,7 +10,7 @@ import {
   RouterProvider,
 } from '@tanstack/react-router';
 import Navbar from './components/navbar/Navbar';
-import Homepage from './components/Homepage/Homepage';
+import Homepage from './components/homepage/Homepage';
 
 const rootRoute = new RootRoute({
   component: () => {
