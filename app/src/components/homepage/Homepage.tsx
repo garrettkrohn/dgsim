@@ -16,7 +16,11 @@ const Homepage = () => {
       <PlayerBlock />
       <Divider color="dgbackground" />
       <UpdateBlock toggleUpdateModal={toggleConfirmModal} />
-      {showConfirmModal ? <UpdateConfirmModal /> : ''}
+      {showConfirmModal ? (
+        <UpdateConfirmModal toggleModal={toggleConfirmModal} />
+      ) : (
+        ''
+      )}
     </div>
   );
 };

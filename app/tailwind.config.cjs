@@ -16,7 +16,7 @@ module.exports = {
       },
       fontFamily: {
         main: ['Montserrat']
-      }
+      },
     },
   },
   plugins: [],

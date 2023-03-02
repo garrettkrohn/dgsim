@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Divider from './Divider';
 import UpdateRow from './UpdateRow';
 import Button from '../../util/Button';
@@ -27,11 +27,33 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
   const [currentScramble] = useAtom(currentScrambleAtom);
 
+  const [disableUpdate, setDisableUpdate] = useState(true);
+
   const [showUpdate, setShowUpdate] = useState(true);
 
   const toggleUpdate = () => {
     setShowUpdate(!showUpdate);
   };
+
+  useEffect(() => {
+    if (
+      putt + throwPower + throwAccuracy + scramble ===
+      currentPutt + currentPower + currentAccuracy + currentScramble
+    ) {
+      setDisableUpdate(true);
+    } else {
+      setDisableUpdate(false);
+    }
+  }, [
+    putt,
+    throwPower,
+    throwAccuracy,
+    scramble,
+    currentPutt,
+    currentPower,
+    currentAccuracy,
+    currentScramble,
+  ]);
 
   return (
     <div>
@@ -81,6 +103,7 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
             <Button
               label="Submit Player Update"
               onClick={props.toggleUpdateModal}
+              disable={disableUpdate}
             />
           </div>
           <Divider color="dgbackground" />

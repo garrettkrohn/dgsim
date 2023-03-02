@@ -87,7 +87,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Navbar />
       <RouterProvider router={router} />
-      <ReactQueryDevtools />
+      {/*<ReactQueryDevtools />*/}
     </QueryClientProvider>
   );
 }
