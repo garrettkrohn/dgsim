@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Divider from './Divider';
 import UpdateRow from './UpdateRow';
 import Button from '../../util/Button';
 import LastTournamentBlock from './LastTournamentBlock';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import {
   updatePuttAtom,
   updateThrowAccuracyAtom,

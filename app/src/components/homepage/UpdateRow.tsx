@@ -28,7 +28,7 @@ const UpdateRow = (props: {
   }, [props.skillNumber]);
 
   return (
-    <div className="grid grid-cols-5 justify-items-center py-2">
+    <div className="grid grid-cols-5 items-center justify-items-center gap-1 py-2">
       <div className="self-center">{props.skillName}:</div>
       <UpdateInput
         updateNumber={props.skillNumber}

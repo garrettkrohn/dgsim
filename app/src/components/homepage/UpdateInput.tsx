@@ -46,26 +46,30 @@ const UpdateInput = (props: {
   };
 
   return (
-    <div className="col-start-2 col-end-5 m-auto grid grid-cols-3 items-center justify-items-center">
-      <button
-        disabled={decrementDisable}
-        className="h-5/6 w-5/6 rounded-lg bg-dgsoftwhite"
-        onClick={decrement}
-      >
-        <ArrowLeftIcon className="w-100 text-dgprimary" />
-      </button>
-      <input
-        className="h-20 w-full rounded-lg bg-dgsecondary text-center text-dgsoftwhite"
-        value={props.updateNumber}
-      />
-      <button
-        disabled={incrementDisable}
-        className="h-5/6 w-5/6 rounded-lg bg-dgsoftwhite"
-        onClick={increment}
-      >
-        <ArrowRightIcon className="w-100 disabled text-dgprimary disabled:bg-red-50" />
-      </button>
-    </div>
+    // <div className="col-span-3 col-start-2 grid grid-cols-3 items-center justify-items-center">
+    <>
+      <div className="">
+        <button
+          disabled={decrementDisable}
+          className="h-16 w-16 rounded-lg bg-dgsoftwhite"
+          onClick={decrement}
+        >
+          <ArrowLeftIcon className="text-dgprimary" />
+        </button>
+      </div>
+      <div className="h-20 w-20 w-full items-center rounded-lg bg-dgsecondary text-center text-2xl text-dgsoftwhite">
+        {props.updateNumber}
+      </div>
+      <div>
+        <button
+          disabled={incrementDisable}
+          className="h-16 w-16 rounded-lg bg-dgsoftwhite"
+          onClick={increment}
+        >
+          <ArrowRightIcon className="w-100 disabled text-dgprimary disabled:bg-red-50" />
+        </button>
+      </div>
+    </>
   );
 };
 
