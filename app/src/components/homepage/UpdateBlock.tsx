@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Divider from './Divider';
 import UpdateRow from './UpdateRow';
 import Button from '../../util/Button';
@@ -16,7 +16,7 @@ import {
   currentScrambleAtom,
 } from '../../jotai/Atoms';
 
-const UpdateBlock = () => {
+const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   const [putt, setPutt] = useAtom(updatePuttAtom);
   const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
   const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
@@ -27,9 +27,15 @@ const UpdateBlock = () => {
   const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
   const [currentScramble] = useAtom(currentScrambleAtom);
 
+  const [showUpdate, setShowUpdate] = useState(true);
+
+  const toggleUpdate = () => {
+    setShowUpdate(!showUpdate);
+  };
+
   return (
     <div>
-      <div className="bg-dgprimary text-dgsoftwhite">
+      <div className="bg-dgprimary text-dgsoftwhite" onClick={toggleUpdate}>
         <div className="container flex justify-center p-2 font-bold">
           Update Player
         </div>
@@ -40,39 +46,49 @@ const UpdateBlock = () => {
         </div>
       </div>
       <Divider color="dgbackground" />
-      <div className="flex flex-col justify-evenly bg-dgprimary text-dgsoftwhite">
-        <div className="flex justify-evenly">
-          <div>Skill:</div>
-          <div>Update:</div>
-          <div>Cost:</div>
-        </div>
-        <UpdateRow
-          skillName="Putt"
-          skillNumber={putt}
-          setSkillNumber={setPutt}
-          currentNumber={currentPutt}
-        />
-        <UpdateRow
-          skillName="ThrowPwr"
-          skillNumber={throwPower}
-          setSkillNumber={setThrowPower}
-          currentNumber={currentPower}
-        />
-        <UpdateRow
-          skillName="ThrowAcc"
-          skillNumber={throwAccuracy}
-          setSkillNumber={setThrowAccuracy}
-          currentNumber={currentAccuracy}
-        />
-        <UpdateRow
-          skillName="Scramble"
-          skillNumber={scramble}
-          setSkillNumber={setScramble}
-          currentNumber={currentScramble}
-        />
-        <Button label="Submit Player Update" />
-      </div>
-      <Divider color="dgbackground" />
+      {showUpdate ? (
+        <>
+          <div className="flex flex-col justify-evenly bg-dgprimary text-dgsoftwhite">
+            <div className="flex justify-evenly">
+              <div>Skill:</div>
+              <div>Update:</div>
+              <div>Cost:</div>
+            </div>
+            <UpdateRow
+              skillName="Putt"
+              skillNumber={putt}
+              setSkillNumber={setPutt}
+              currentNumber={currentPutt}
+            />
+            <UpdateRow
+              skillName="ThrowPwr"
+              skillNumber={throwPower}
+              setSkillNumber={setThrowPower}
+              currentNumber={currentPower}
+            />
+            <UpdateRow
+              skillName="ThrowAcc"
+              skillNumber={throwAccuracy}
+              setSkillNumber={setThrowAccuracy}
+              currentNumber={currentAccuracy}
+            />
+            <UpdateRow
+              skillName="Scramble"
+              skillNumber={scramble}
+              setSkillNumber={setScramble}
+              currentNumber={currentScramble}
+            />
+            <Button
+              label="Submit Player Update"
+              onClick={props.toggleUpdateModal}
+            />
+          </div>
+          <Divider color="dgbackground" />
+        </>
+      ) : (
+        ''
+      )}
+
       <LastTournamentBlock />
     </div>
   );
