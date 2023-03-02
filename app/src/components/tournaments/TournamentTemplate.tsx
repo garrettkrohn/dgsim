@@ -1,6 +1,8 @@
 import React from 'react';
 import { TournamentResource } from '../../services/tournamentsApi';
-import Divider from '../homepage/Divider';
+import Divider from '../../util/Divider';
+import ThinDivider from '../../util/ThinDivider';
+import TournamentRow from './TournamentRow';
 
 const TournamentTemplate = (props: {
   tournament: TournamentResource | undefined;
@@ -25,7 +27,7 @@ const TournamentTemplate = (props: {
   const courseParMultiplied = coursePar * 4;
 
   return (
-    <div>
+    <div className="font-main text-lg">
       <div className="flex flex-col items-center bg-dgsecondary text-dgsoftwhite">
         <div className="text-lg capitalize">
           {props.tournament.tournamentName} at{' '}
@@ -35,21 +37,15 @@ const TournamentTemplate = (props: {
       </div>
       <Divider color={'dgbackground'} />
       <div className="flex flex-row justify-between bg-dgbackground text-dgsoftwhite">
-        <div>Place</div>
-        <div>Name</div>
-        <div>Total</div>
+        <div>Place:</div>
+        <div>Name:</div>
+        <div>Total:</div>
       </div>
-      {props.tournament.playerTournament.map(pt => (
-        <div key={pt.player_tournament_id} className="flex flex-row">
-          <div>{pt.place}</div>
-          <div>
-            {pt.playerResponseDto.first_name} {pt.playerResponseDto.last_name}
-          </div>
-          <div>{pt.totalScore - courseParMultiplied}</div>
-          {pt.rounds.map(r => (
-            <div>{r.roundTotal}</div>
-          ))}
-        </div>
+      {playerTournaments.map(pt => (
+        <TournamentRow
+          playerTournament={pt}
+          courseParMultiplied={courseParMultiplied}
+        />
       ))}
     </div>
   );

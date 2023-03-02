@@ -1,5 +1,5 @@
 import PlayerBlock from './PlayerBlock';
-import Divider from './Divider';
+import Divider from '../../util/Divider';
 import UpdateBlock from './UpdateBlock';
 import React, { useState } from 'react';
 import UpdateConfirmModal from './UpdateConfirmModal';
