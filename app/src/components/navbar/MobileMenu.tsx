@@ -1,9 +1,13 @@
 import React from 'react';
+import { Link } from '@tanstack/react-router';
 
 const MobileMenu: React.FC<{
   menuItems: { name: string; route: string }[];
   toggleMenu: Function;
 }> = props => {
+  const route = (item: string) => {
+    return `/${item}`;
+  };
   return (
     <>
       <div

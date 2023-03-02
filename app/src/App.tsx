@@ -11,6 +11,8 @@ import {
 } from '@tanstack/react-router';
 import Navbar from './components/navbar/Navbar';
 import Homepage from './components/homepage/Homepage';
+import Tournaments from './components/tournaments/Tournaments';
+import TournamentsPlaceholder from './components/tournaments/TournamentsPlaceholder';
 
 const rootRoute = new RootRoute({
   component: () => {
@@ -45,7 +47,7 @@ const tournamentsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'tournaments',
   component: () => {
-    return <div>tournaments</div>;
+    return <TournamentsPlaceholder tournamentId={67} />;
     // return <JSONPlaceholderPhoto photoId={20} />;
   },
   errorComponent: () => 'Oh crap!',
@@ -87,7 +89,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Navbar />
       <RouterProvider router={router} />
-      {/*<ReactQueryDevtools />*/}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
