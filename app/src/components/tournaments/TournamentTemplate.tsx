@@ -1,7 +1,6 @@
 import React from 'react';
 import { TournamentResource } from '../../services/tournamentsApi';
 import Divider from '../../util/Divider';
-import ThinDivider from '../../util/ThinDivider';
 import TournamentRow from './TournamentRow';
 
 const TournamentTemplate = (props: {

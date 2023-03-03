@@ -11,13 +11,6 @@ const Tournaments = () => {
     playerTournament: '',
   });
 
-  // const getTournaments = (tournamentId: number) => {
-  //   const { isLoading, error, data } = useQuery({
-  //     queryKey: [`tournaments/${tournamentId}`],
-  //     queryFn: () => getTournament(),
-  //   });
-  // };
-
   return <div>{currentTournament.tournamentName}</div>;
 };
 

@@ -29,7 +29,7 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
 
   const [disableUpdate, setDisableUpdate] = useState(true);
 
-  const [showUpdate, setShowUpdate] = useState(true);
+  const [showUpdate, setShowUpdate] = useState(false);
 
   const toggleUpdate = () => {
     setShowUpdate(!showUpdate);

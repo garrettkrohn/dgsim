@@ -47,7 +47,7 @@ const tournamentsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'tournaments',
   component: () => {
-    return <TournamentsPlaceholder tournamentId={67} />;
+    return <TournamentsPlaceholder tournamentId={73} />;
     // return <JSONPlaceholderPhoto photoId={20} />;
   },
   errorComponent: () => 'Oh crap!',
@@ -89,7 +89,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Navbar />
       <RouterProvider router={router} />
-      <ReactQueryDevtools />
+      {/*<ReactQueryDevtools />*/}
     </QueryClientProvider>
   );
 }

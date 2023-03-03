@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import ThinDivider from '../../util/ThinDivider';
+import TournamentHoles from './TournamentHoles';
 
 const TournamentRow = (props: {
   playerTournament: any;
   courseParMultiplied: number;
 }) => {
   const [showRounds, setShowRounds] = useState(false);
+  const [showHoles, setShowHoles] = useState(false);
 
   const toggleShowRounds = () => {
     setShowRounds(!showRounds);
+  };
+
+  const toggleShowHoles = () => {
+    setShowHoles(!showHoles);
   };
 
   return (
@@ -28,18 +34,22 @@ const TournamentRow = (props: {
             {props.playerTournament.totalScore - props.courseParMultiplied}
           </div>
         </div>
-        <ThinDivider />
+
         {showRounds ? (
-          <div className="grid grid-flow-col grid-cols-5 grid-rows-2 bg-black">
-            {props.playerTournament.rounds.map(r => (
-              <>
-                <div>R1</div>
-                <div>{r.roundTotal}</div>
-              </>
-            ))}
-            <div> Total</div>
-            {props.playerTournament.totalScore}
-          </div>
+          <>
+            <ThinDivider />
+            <div className="grid grid-flow-col grid-cols-5 grid-rows-2 bg-black">
+              {props.playerTournament.rounds.map((r, y: number) => (
+                <>
+                  <div>R{y + 1}</div>
+                  <div>{r.roundTotal}</div>
+                </>
+              ))}
+              <div> Total</div>
+              {props.playerTournament.totalScore}
+            </div>
+            <TournamentHoles round={props.playerTournament.rounds[0]} />
+          </>
         ) : (
           ''
         )}
