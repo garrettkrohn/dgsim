@@ -9,54 +9,54 @@ class RoundResponseDto
 {
     #[NotNull]
     #[Type('int')]
-    public int $round_id;
+    public int $roundId;
 
     #[NotNull]
     #[Type('iterable')]
-    public iterable $hole_results;
+    public iterable $holeResults;
 
     #[NotNull]
     #[Type('int')]
-    public int $round_total;
+    public int $roundTotal;
 
     #[NotNull]
     #[Type('float')]
-    public float $luck_score;
+    public float $luckScore;
 
     #[NotNull]
     #[Type('string')]
-    public string $round_type;
+    public string $roundType;
 
     /**
      * @return int
      */
     public function getRoundId(): int
     {
-        return $this->round_id;
+        return $this->roundId;
     }
 
     /**
-     * @param int $round_id
+     * @param int $roundId
      */
-    public function setRoundId(int $round_id): void
+    public function setRoundId(int $roundId): void
     {
-        $this->round_id = $round_id;
+        $this->roundId = $roundId;
     }
 
     /**
      * @return iterable
      */
-    public function getHoleresults(): iterable
+    public function getHoleResults(): iterable
     {
-        return $this->hole_results;
+        return $this->holeResults;
     }
 
     /**
-     * @param iterable $hole_results
+     * @param iterable $holeResults
      */
-    public function setHoleresults(iterable $hole_results): void
+    public function setHoleresults(iterable $holeResults): void
     {
-        $this->hole_results = $hole_results;
+        $this->holeResults = $holeResults;
     }
 
     /**
@@ -64,15 +64,15 @@ class RoundResponseDto
      */
     public function getRoundTotal(): int
     {
-        return $this->round_total;
+        return $this->roundTotal;
     }
 
     /**
-     * @param int $round_total
+     * @param int $roundTotal
      */
-    public function setRoundTotal(int $round_total): void
+    public function setRoundTotal(int $roundTotal): void
     {
-        $this->round_total = $round_total;
+        $this->roundTotal = $roundTotal;
     }
 
     /**
@@ -80,15 +80,15 @@ class RoundResponseDto
      */
     public function getLuckScore(): float
     {
-        return $this->luck_score;
+        return $this->luckScore;
     }
 
     /**
-     * @param float $luck_score
+     * @param float $luckScore
      */
-    public function setLuckScore(float $luck_score): void
+    public function setLuckScore(float $luckScore): void
     {
-        $this->luck_score = $luck_score;
+        $this->luckScore = $luckScore;
     }
 
     /**
@@ -96,15 +96,15 @@ class RoundResponseDto
      */
     public function getRoundType(): string
     {
-        return $this->round_type;
+        return $this->roundType;
     }
 
     /**
-     * @param string $round_type
+     * @param string $roundType
      */
-    public function setRoundType(string $round_type): void
+    public function setRoundType(string $roundType): void
     {
-        $this->round_type = $round_type;
+        $this->roundType = $roundType;
     }
 
 }

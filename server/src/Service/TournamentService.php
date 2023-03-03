@@ -72,7 +72,7 @@ class TournamentService extends AbstractMultiTransformer
         $courseId = $object->getCourse()->getCourseId();
         $course = $this->courseService->getCourseByIdDto($courseId);
         $dto->setCourseResponseDto($course);
-        $dto->setPlayerTournament($this->playerTournamentService->transformFromObjects($object->getPlayerTournaments()));
+        $dto->setPlayerTournaments($this->playerTournamentService->transformFromObjects($object->getPlayerTournaments()));
 
         return $dto;
     }

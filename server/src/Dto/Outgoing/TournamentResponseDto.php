@@ -24,7 +24,7 @@ class TournamentResponseDto
 
     #[NotNull]
     #[Type('iterable')]
-    public iterable $playerTournament;
+    public iterable $playerTournaments;
 
     /**
      * @return int
@@ -93,17 +93,17 @@ class TournamentResponseDto
     /**
      * @return iterable
      */
-    public function getPlayerTournament(): iterable
+    public function getPlayerTournaments(): iterable
     {
-        return $this->playerTournament;
+        return $this->playerTournaments;
     }
 
     /**
-     * @param iterable $playerTournament
+     * @param iterable $playerTournaments
      */
-    public function setPlayerTournament(iterable $playerTournament): void
+    public function setPlayerTournaments(iterable $playerTournaments): void
     {
-        $this->playerTournament = $playerTournament;
+        $this->playerTournaments = $playerTournaments;
     }
 
 

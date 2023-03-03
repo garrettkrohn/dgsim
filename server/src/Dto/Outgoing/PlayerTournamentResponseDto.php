@@ -9,7 +9,7 @@ class PlayerTournamentResponseDto
 {
     #[NotNull]
     #[Type('int')]
-    public int $player_tournament_id;
+    public int $playerTournamentId;
 
     #[NotNull]
     public PlayerDto $playerResponseDto;
@@ -20,15 +20,15 @@ class PlayerTournamentResponseDto
 
     #[NotNull]
     #[Type('int')]
-    public int $tour_points;
+    public int $tourPoints;
 
     #[NotNull]
     #[Type('int')]
-    public int $total_score;
+    public int $totalScore;
 
     #[NotNull]
     #[Type('float')]
-    public int $luck_score;
+    public int $luckScore;
 
     #[NotNull]
     #[Type('int')]
@@ -39,15 +39,15 @@ class PlayerTournamentResponseDto
      */
     public function getPlayerTournamentId(): int
     {
-        return $this->player_tournament_id;
+        return $this->playerTournamentId;
     }
 
     /**
-     * @param int $player_tournament_id
+     * @param int $playerTournamentId
      */
-    public function setPlayerTournamentId(int $player_tournament_id): void
+    public function setPlayerTournamentId(int $playerTournamentId): void
     {
-        $this->player_tournament_id = $player_tournament_id;
+        $this->playerTournamentId = $playerTournamentId;
     }
 
     /**
@@ -87,15 +87,15 @@ class PlayerTournamentResponseDto
      */
     public function getTourPoints(): int
     {
-        return $this->tour_points;
+        return $this->tourPoints;
     }
 
     /**
-     * @param int $tour_points
+     * @param int $tourPoints
      */
-    public function setTourPoints(int $tour_points): void
+    public function setTourPoints(int $tourPoints): void
     {
-        $this->tour_points = $tour_points;
+        $this->tourPoints = $tourPoints;
     }
 
     /**
@@ -103,15 +103,15 @@ class PlayerTournamentResponseDto
      */
     public function getTotalScore(): int
     {
-        return $this->total_score;
+        return $this->totalScore;
     }
 
     /**
-     * @param int $total_score
+     * @param int $totalScore
      */
-    public function setTotalScore(int $total_score): void
+    public function setTotalScore(int $totalScore): void
     {
-        $this->total_score = $total_score;
+        $this->totalScore = $totalScore;
     }
 
     /**
@@ -119,15 +119,15 @@ class PlayerTournamentResponseDto
      */
     public function getLuckScore(): int
     {
-        return $this->luck_score;
+        return $this->luckScore;
     }
 
     /**
-     * @param int $luck_score
+     * @param int $luckScore
      */
-    public function setLuckScore(int $luck_score): void
+    public function setLuckScore(int $luckScore): void
     {
-        $this->luck_score = $luck_score;
+        $this->luckScore = $luckScore;
     }
 
     /**
