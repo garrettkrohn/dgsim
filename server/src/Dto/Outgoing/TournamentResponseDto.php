@@ -9,11 +9,11 @@ class TournamentResponseDto
 {
     #[NotNull]
     #[Type('int')]
-    public int $tournament_id;
+    public int $tournamentId;
 
     #[NotNull]
     #[Type('string')]
-    public string $tournament_name;
+    public string $tournamentName;
 
     #[NotNull]
     public CourseResponseDto $courseResponseDto;
@@ -24,22 +24,22 @@ class TournamentResponseDto
 
     #[NotNull]
     #[Type('iterable')]
-    public iterable $player_tournament;
+    public iterable $playerTournament;
 
     /**
      * @return int
      */
     public function getTournamentId(): int
     {
-        return $this->tournament_id;
+        return $this->tournamentId;
     }
 
     /**
-     * @param int $tournament_id
+     * @param int $tournamentId
      */
-    public function setTournamentId(int $tournament_id): void
+    public function setTournamentId(int $tournamentId): void
     {
-        $this->tournament_id = $tournament_id;
+        $this->tournamentId = $tournamentId;
     }
 
     /**
@@ -47,15 +47,15 @@ class TournamentResponseDto
      */
     public function getTournamentName(): string
     {
-        return $this->tournament_name;
+        return $this->tournamentName;
     }
 
     /**
-     * @param string $tournament_name
+     * @param string $tournamentName
      */
-    public function setTournamentName(string $tournament_name): void
+    public function setTournamentName(string $tournamentName): void
     {
-        $this->tournament_name = $tournament_name;
+        $this->tournamentName = $tournamentName;
     }
 
     /**
@@ -95,15 +95,15 @@ class TournamentResponseDto
      */
     public function getPlayerTournament(): iterable
     {
-        return $this->player_tournament;
+        return $this->playerTournament;
     }
 
     /**
-     * @param iterable $player_tournament
+     * @param iterable $playerTournament
      */
-    public function setPlayerTournament(iterable $player_tournament): void
+    public function setPlayerTournament(iterable $playerTournament): void
     {
-        $this->player_tournament = $player_tournament;
+        $this->playerTournament = $playerTournament;
     }
 
 
