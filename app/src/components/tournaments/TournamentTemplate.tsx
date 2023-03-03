@@ -18,12 +18,15 @@ const TournamentTemplate = (props: {
     }
     return 0;
   }
-  const playerTournaments = props.tournament.playerTournament;
+  const playerTournaments = props.tournament.playerTournaments;
 
   playerTournaments.sort(compare);
 
   const coursePar = props.tournament.courseResponseDto.coursePar;
-  const courseParMultiplied = coursePar * 4;
+  const courseParMultiplied =
+    coursePar *
+    props.tournament.playerTournaments[playerTournaments.length - 1].rounds
+      .length;
 
   return (
     <div className="font-main text-lg">

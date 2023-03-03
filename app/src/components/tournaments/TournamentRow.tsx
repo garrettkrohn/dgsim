@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ThinDivider from '../../util/ThinDivider';
 import TournamentHoles from './TournamentHoles';
+import { roundResource } from '../../services/tournamentsApi';
 
 const TournamentRow = (props: {
   playerTournament: any;
@@ -8,6 +9,7 @@ const TournamentRow = (props: {
 }) => {
   const [showRounds, setShowRounds] = useState(false);
   const [showHoles, setShowHoles] = useState(false);
+  const [selectedRound, setSelectedRound] = useState(0);
 
   const toggleShowRounds = () => {
     setShowRounds(!showRounds);
@@ -15,6 +17,18 @@ const TournamentRow = (props: {
 
   const toggleShowHoles = () => {
     setShowHoles(!showHoles);
+  };
+
+  const handleRoundSelect = (id: number) => {
+    setSelectedRound(id);
+  };
+
+  const colorSelected = (index: number): string => {
+    if (index === selectedRound) {
+      return 'bg-dgblack';
+    } else {
+      return 'dg-primary';
+    }
   };
 
   return (
@@ -38,17 +52,26 @@ const TournamentRow = (props: {
         {showRounds ? (
           <>
             <ThinDivider />
-            <div className="grid grid-flow-col grid-cols-5 grid-rows-2 bg-black">
-              {props.playerTournament.rounds.map((r, y: number) => (
-                <>
-                  <div>R{y + 1}</div>
-                  <div>{r.roundTotal}</div>
-                </>
-              ))}
+            <div className="grid grid-flow-col grid-cols-5 grid-rows-2 bg-black text-center">
+              {props.playerTournament.rounds.map(
+                (r: roundResource, y: number) => (
+                  <>
+                    <div
+                      className={colorSelected(y)}
+                      onClick={() => handleRoundSelect(y)}
+                    >
+                      R{y + 1}
+                    </div>
+                    <div className={colorSelected(y)}>{r.roundTotal}</div>
+                  </>
+                ),
+              )}
               <div> Total</div>
               {props.playerTournament.totalScore}
             </div>
-            <TournamentHoles round={props.playerTournament.rounds[0]} />
+            <TournamentHoles
+              round={props.playerTournament.rounds[selectedRound]}
+            />
           </>
         ) : (
           ''
