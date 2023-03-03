@@ -1,8 +1,6 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {
-  Link,
   Outlet,
   RootRoute,
   Route,
@@ -11,7 +9,6 @@ import {
 } from '@tanstack/react-router';
 import Navbar from './components/navbar/Navbar';
 import Homepage from './components/homepage/Homepage';
-import Tournaments from './components/tournaments/Tournaments';
 import TournamentsPlaceholder from './components/tournaments/TournamentsPlaceholder';
 
 const rootRoute = new RootRoute({

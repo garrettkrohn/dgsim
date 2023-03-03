@@ -77,5 +77,31 @@ class TournamentService extends AbstractMultiTransformer
         return $dto;
     }
 
+    public function getAvailableSeasons(): array
+    {
+        $tournaments = $this->tournamentRepository->findAll();
+        $returnArray = [];
+        foreach ($tournaments as $tournament) {
+            $returnArray[] = $tournament->getSeason();
+        }
+        $uniqueValues = [];
+        $uniqueValues[] = array_unique($returnArray);
+        return $uniqueValues;
+    }
 
+    /**
+     * @param int $id
+     * @return TournamentResponseDto[] iterable
+     */
+    public function getTournamentsBySeason(int $id): iterable
+    {
+        $allTournaments = $this->tournamentRepository->findAll();
+        $returnArray = [];
+        foreach ($allTournaments as $tournament) {
+            if ($tournament->getSeason() === $id) {
+                $returnArray[] = $tournament;
+            }
+        }
+        return $this->transformFromObjects($returnArray);
+    }
 }

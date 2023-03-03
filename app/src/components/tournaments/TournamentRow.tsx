@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ThinDivider from '../../util/ThinDivider';
 import TournamentHoles from './TournamentHoles';
-import { roundResource } from '../../services/tournamentsApi';
+import { roundResource } from '../../services/DTOs';
 
 const TournamentRow = (props: {
   playerTournament: any;
@@ -57,12 +57,15 @@ const TournamentRow = (props: {
                 (r: roundResource, y: number) => (
                   <>
                     <div
+                      key={y}
                       className={colorSelected(y)}
                       onClick={() => handleRoundSelect(y)}
                     >
                       R{y + 1}
                     </div>
-                    <div className={colorSelected(y)}>{r.roundTotal}</div>
+                    <div key={y} className={colorSelected(y)}>
+                      {r.roundTotal}
+                    </div>
                   </>
                 ),
               )}

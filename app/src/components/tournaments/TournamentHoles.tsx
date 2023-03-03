@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { holeResultResource } from '../../services/DTOs';
 
 const TournamentHoles = (props: { round: any }) => {

@@ -58,6 +58,12 @@ class TournamentController extends ApiController
         return $this->json($this->tournamentService->getTournamentById($id));
     }
 
+    #[Route('api/tournaments/seasons/{id}', methods: ('GET'))]
+    public function getTournamentsBySeason(int $id): Response
+    {
+        return $this->json($this->tournamentService->getTournamentsBySeason($id));
+    }
+
     #[Route('api/tournaments', methods: ('DELETE'))]
     public function deleteAllTournaments():Response
     {
@@ -77,4 +83,13 @@ class TournamentController extends ApiController
         $return = $this->simulationService->test();
         return new JsonResponse($return);
     }
+
+    #[Route('api/getSeasons', methods: ('GET'))]
+    public function getAvailableSeasons(): Response
+    {
+        return $this->json($this->tournamentService->getAvailableSeasons());
+    }
+
+
+
 }

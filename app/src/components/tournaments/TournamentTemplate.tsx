@@ -1,7 +1,7 @@
 import React from 'react';
-import { TournamentResource } from '../../services/tournamentsApi';
 import Divider from '../../util/Divider';
 import TournamentRow from './TournamentRow';
+import { TournamentResource } from '../../services/DTOs';
 
 const TournamentTemplate = (props: {
   tournament: TournamentResource | undefined;
