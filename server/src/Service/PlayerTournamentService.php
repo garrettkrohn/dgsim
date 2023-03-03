@@ -42,8 +42,9 @@ class PlayerTournamentService extends AbstractMultiTransformer
         $dto->setPlayerTournamentId($object->getPlayerTournamentId());
         $dto->setTourPoints($object->getTourPoints());
         $dto->setTotalScore($object->getTotalScore());
+        $dto->setLuckScore($object->getLuckScore());
+        $dto->setPlace($object->getPlace());
         $dto->setPlayerResponseDto($this->playerService->getPlayerByIdDto($object->getPlayer()->getPlayerId()));
-        //set rounds
         $dto->setRounds($this->roundService->getAllRoundsByPTIdDto($object->getPlayerTournamentId()));
 
         return $dto;

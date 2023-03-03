@@ -26,6 +26,13 @@ class PlayerTournamentResponseDto
     #[Type('int')]
     public int $total_score;
 
+    #[NotNull]
+    #[Type('float')]
+    public int $luck_score;
+
+    #[NotNull]
+    #[Type('int')]
+    public int $place;
 
     /**
      * @return int
@@ -105,6 +112,38 @@ class PlayerTournamentResponseDto
     public function setTotalScore(int $total_score): void
     {
         $this->total_score = $total_score;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLuckScore(): int
+    {
+        return $this->luck_score;
+    }
+
+    /**
+     * @param int $luck_score
+     */
+    public function setLuckScore(int $luck_score): void
+    {
+        $this->luck_score = $luck_score;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlace(): int
+    {
+        return $this->place;
+    }
+
+    /**
+     * @param int $place
+     */
+    public function setPlace(int $place): void
+    {
+        $this->place = $place;
     }
 
 

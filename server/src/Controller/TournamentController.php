@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Dto\Incoming\CreateTournamentDto;
+use App\Exception\InvalidRequestDataException;
 use App\Serialization\SerializationService;
 use App\Service\SimulationService;
 use App\Service\TournamentService;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +40,10 @@ class TournamentController extends ApiController
         return $this->json($this->tournamentService->getAllTournaments());
     }
 
+    /**
+     * @throws InvalidRequestDataException
+     * @throws JsonException
+     */
     #[Route('api/tournaments', methods: ('POST'))]
     public function runSimulation(Request $request):Response
     {
