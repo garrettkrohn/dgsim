@@ -90,6 +90,10 @@ class TournamentController extends ApiController
         return $this->json($this->tournamentService->getAvailableSeasons());
     }
 
-
+    #[Route('api/tournaments/titles/{id}', methods: ('GET'))]
+    public function getTournamentTitles(int $id): Response
+    {
+        return $this->json($this->tournamentService->getTournamentTitles($id));
+    }
 
 }

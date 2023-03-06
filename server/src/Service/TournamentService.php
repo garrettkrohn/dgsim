@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Outgoing\TournamentResponseDto;
+use App\Dto\Outgoing\TournamentTitlesDto;
 use App\Dto\Outgoing\Transformer\TournamentResponseDtoTransformer;
 use App\Entity\Tournament;
 use App\Repository\TournamentRepository;
@@ -103,4 +104,23 @@ class TournamentService extends AbstractMultiTransformer
         }
         return $this->transformFromObjects($returnArray);
     }
+
+    /**
+     * @return TournamentTitlesDto[] iterable
+     */
+    public function getTournamentTitles(int $id): iterable
+    {
+        $allTournaments = $this->tournamentRepository->findBy(['season' => $id]);
+        $returnArray = [];
+
+        foreach ($allTournaments as $tournament) {
+            $dto = new TournamentTitlesDto();
+            $dto->setSeason($tournament->getSeason());
+            $dto->setTournamentId($tournament->getTournamentId());
+            $dto->setTournamentName($tournament->getName());
+            $returnArray[] = $dto;
+        }
+        return $returnArray;
+    }
+
 }
