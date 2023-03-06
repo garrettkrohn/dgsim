@@ -2,12 +2,29 @@ import React from 'react';
 import Divider from '../../util/Divider';
 import TournamentRow from './TournamentRow';
 import { TournamentResource } from '../../services/DTOs';
+import { useQuery } from '@tanstack/react-query';
+import { getTournament } from '../../services/tournamentsApi';
 
-const TournamentTemplate = (props: {
-  tournament: TournamentResource | undefined;
-  season: number;
-}) => {
-  if (props.tournament === undefined) {
+const TournamentTemplate = (props: { tournamentId: number }) => {
+  const tournamentId = props.tournamentId;
+  const {
+    isLoading,
+    error,
+    data: tournament,
+  } = useQuery({
+    queryKey: [`tournaments/${tournamentId}`],
+    queryFn: () => getTournament(tournamentId),
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>ope, there was an error...</div>;
+  }
+
+  if (tournament === undefined) {
     return <div></div>;
   }
 
@@ -19,24 +36,22 @@ const TournamentTemplate = (props: {
     }
     return 0;
   }
-  const playerTournaments = props.tournament.playerTournaments;
+  const playerTournaments = tournament.playerTournaments;
 
   playerTournaments.sort(compare);
 
-  const coursePar = props.tournament.courseResponseDto.coursePar;
+  const coursePar = tournament.courseResponseDto.coursePar;
   const courseParMultiplied =
     coursePar *
-    props.tournament.playerTournaments[playerTournaments.length - 1].rounds
-      .length;
+    tournament.playerTournaments[playerTournaments.length - 1].rounds.length;
 
   return (
     <div className="font-main text-lg">
       <div className="flex flex-col items-center bg-dgsecondary text-dgsoftwhite">
         <div className="text-lg capitalize">
-          {props.tournament.tournamentName} at{' '}
-          {props.tournament.courseResponseDto.name}
+          {tournament.tournamentName} at {tournament.courseResponseDto.name}
         </div>
-        <div>Season: {props.season}</div>
+        <div>Season: {tournament.season}</div>
       </div>
       <Divider color={'dgbackground'} />
       <div className="flex flex-row justify-between bg-dgbackground text-dgsoftwhite">

@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import {
   getSeasons,
-  getTournament,
   getTournamentBySeason,
 } from '../../services/tournamentsApi';
 import TournamentTemplate from './TournamentTemplate';
@@ -23,12 +22,6 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
     setShowTournaments(!showTournaments);
   };
 
-  const tournamentId = props.tournamentId;
-  const { isLoading, error, data } = useQuery({
-    queryKey: [`tournaments/${tournamentId}`],
-    queryFn: () => getTournament(tournamentId),
-  });
-
   const {
     isLoading: sIsLoading,
     error: sError,
@@ -47,9 +40,9 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
     queryFn: () => getTournamentBySeason(selectedSeason),
   });
 
-  if (isLoading || sIsLoading || tIsLoading) return <div>Loading...</div>;
+  if (sIsLoading || tIsLoading) return <div>Loading...</div>;
 
-  if (error || sError || tError) return <div>An error has occurred</div>;
+  if (sError || tError) return <div>An error has occurred</div>;
 
   const tournamentNames = [];
   //@ts-ignore
@@ -101,7 +94,7 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
           ''
         )}
       </div>
-      <TournamentTemplate tournament={data} season={selectedSeason} />
+      <TournamentTemplate tournamentId={79} />
     </div>
   );
 }
