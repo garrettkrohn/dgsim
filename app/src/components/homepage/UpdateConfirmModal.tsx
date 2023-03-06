@@ -53,7 +53,11 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
         />
       </div>
       <div className="fixed">
-        <Button label={'Submit Player Update'} onClick={() => {}} />
+        <Button
+          label={'Submit Player Update'}
+          onClick={() => {}}
+          disable={false}
+        />
       </div>
     </div>
   );

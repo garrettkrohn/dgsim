@@ -9,7 +9,7 @@ import {
 } from '@tanstack/react-router';
 import Navbar from './components/navbar/Navbar';
 import Homepage from './components/homepage/Homepage';
-import TournamentsPlaceholder from './components/tournaments/TournamentsPlaceholder';
+import TournamentsSelector from './components/tournaments/TournamentsSelector';
 
 const rootRoute = new RootRoute({
   component: () => {
@@ -44,7 +44,7 @@ const tournamentsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'tournaments',
   component: () => {
-    return <TournamentsPlaceholder tournamentId={76} />;
+    return <TournamentsSelector tournamentId={76} />;
     // return <JSONPlaceholderPhoto photoId={20} />;
   },
   errorComponent: () => 'Oh crap!',

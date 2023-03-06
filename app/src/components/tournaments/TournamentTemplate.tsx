@@ -5,6 +5,7 @@ import { TournamentResource } from '../../services/DTOs';
 
 const TournamentTemplate = (props: {
   tournament: TournamentResource | undefined;
+  season: number;
 }) => {
   if (props.tournament === undefined) {
     return <div></div>;
@@ -35,7 +36,7 @@ const TournamentTemplate = (props: {
           {props.tournament.tournamentName} at{' '}
           {props.tournament.courseResponseDto.name}
         </div>
-        <div>Season: {props.tournament.season}</div>
+        <div>Season: {props.season}</div>
       </div>
       <Divider color={'dgbackground'} />
       <div className="flex flex-row justify-between bg-dgbackground text-dgsoftwhite">

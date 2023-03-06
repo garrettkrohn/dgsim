@@ -85,7 +85,7 @@ class TournamentService extends AbstractMultiTransformer
             $returnArray[] = $tournament->getSeason();
         }
         $uniqueValues = array_unique($returnArray);
-        return array_keys($uniqueValues);
+        return array_values($uniqueValues);
     }
 
     /**
