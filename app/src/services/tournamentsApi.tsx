@@ -19,3 +19,21 @@ export async function getTournament(
       throw error;
     });
 }
+
+export async function getSeasons(): Promise<number[]> {
+  return await fetch(`http://localhost:8000/api/seasons`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then((data: number[]) => {
+      console.log('Success:', data);
+      return data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+}

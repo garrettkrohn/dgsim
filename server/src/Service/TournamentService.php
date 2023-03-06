@@ -84,9 +84,8 @@ class TournamentService extends AbstractMultiTransformer
         foreach ($tournaments as $tournament) {
             $returnArray[] = $tournament->getSeason();
         }
-        $uniqueValues = [];
-        $uniqueValues[] = array_unique($returnArray);
-        return $uniqueValues;
+        $uniqueValues = array_unique($returnArray);
+        return array_keys($uniqueValues);
     }
 
     /**

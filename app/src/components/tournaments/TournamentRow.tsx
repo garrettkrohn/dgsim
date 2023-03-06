@@ -8,15 +8,10 @@ const TournamentRow = (props: {
   courseParMultiplied: number;
 }) => {
   const [showRounds, setShowRounds] = useState(false);
-  const [showHoles, setShowHoles] = useState(false);
   const [selectedRound, setSelectedRound] = useState(0);
 
   const toggleShowRounds = () => {
     setShowRounds(!showRounds);
-  };
-
-  const toggleShowHoles = () => {
-    setShowHoles(!showHoles);
   };
 
   const handleRoundSelect = (id: number) => {
@@ -57,7 +52,7 @@ const TournamentRow = (props: {
                 (r: roundResource, y: number) => (
                   <>
                     <div
-                      key={y}
+                      key={r.roundId}
                       className={colorSelected(y)}
                       onClick={() => handleRoundSelect(y)}
                     >

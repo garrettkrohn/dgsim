@@ -44,7 +44,7 @@ const tournamentsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'tournaments',
   component: () => {
-    return <TournamentsPlaceholder tournamentId={73} />;
+    return <TournamentsPlaceholder tournamentId={76} />;
     // return <JSONPlaceholderPhoto photoId={20} />;
   },
   errorComponent: () => 'Oh crap!',

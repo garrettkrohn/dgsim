@@ -84,7 +84,7 @@ class TournamentController extends ApiController
         return new JsonResponse($return);
     }
 
-    #[Route('api/getSeasons', methods: ('GET'))]
+    #[Route('api/seasons', methods: ('GET'))]
     public function getAvailableSeasons(): Response
     {
         return $this->json($this->tournamentService->getAvailableSeasons());
