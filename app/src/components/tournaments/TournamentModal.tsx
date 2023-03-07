@@ -1,15 +1,14 @@
 import React from 'react';
-import ThinDivider from './ThinDivider';
-import { tournamentResource } from '../services/DTOs';
+import ThinDivider from '../../util/ThinDivider';
+import { tournamentResource } from '../../services/DTOs';
 
 /**Iterative reusable modal component
  *
  * @param props
  * @constructor
  */
-const Modal = (props: {
+const TournamentModal = (props: {
   containerStyle: string;
-  itemStyle: string;
   items: tournamentResource[] | undefined;
   toggleModal: Function;
   title?: string;
@@ -24,7 +23,7 @@ const Modal = (props: {
         {props.title ? <div>{props.title}</div> : ''}
         {props.items.map((item, index) => (
           <div key={index} onClick={() => props.selectItem(item)}>
-            <div className={props.itemStyle}>
+            <div className="hover: flex h-12 cursor-pointer items-center justify-center bg-dgbackground text-dgsoftwhite">
               Season: {item.season} {item.tournamentName}
             </div>
             <ThinDivider />
@@ -35,4 +34,4 @@ const Modal = (props: {
   );
 };
 
-export default Modal;
+export default TournamentModal;

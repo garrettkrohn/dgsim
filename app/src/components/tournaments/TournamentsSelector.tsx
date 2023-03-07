@@ -7,9 +7,10 @@ import {
 } from '../../services/tournamentsApi';
 import TournamentTemplate from './TournamentTemplate';
 import { useEffect, useState } from 'react';
-import Modal from '../../util/Modal';
+import TournamentModal from './TournamentModal';
 import Button from '../../util/Button';
 import { tournamentResource } from '../../services/DTOs';
+import Loading from '../../util/Loading';
 
 export default function TournamentsSelector(props: { tournamentId: number }) {
   const [showTournaments, setShowTournaments] = useState(false);
@@ -35,7 +36,7 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
     refetch();
   }, []);
 
-  if (tournamentsAreLoading) return <div>Loading...</div>;
+  if (tournamentsAreLoading) return <Loading />;
 
   if (tournamentsError) return <div>An error has occurred</div>;
 
@@ -44,21 +45,18 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
 
   return (
     <div>
-      <div className="flex h-20 flex-row justify-evenly bg-dgprimary text-dgsoftwhite">
+      <div className="flex h-16 flex-row justify-evenly bg-dgbackground text-dgsoftwhite">
         <Button
           label={'Select Tournament'}
           onClick={toggleShowSeasons}
           disable={false}
         ></Button>
         {showTournaments ? (
-          <Modal
+          <TournamentModal
             toggleModal={toggleShowSeasons}
             // @ts-ignore
             items={tournamentsData}
             containerStyle={'mt-12'}
-            itemStyle={
-              'h-12 bg-dgprimary text-dgsoftwhite flex justify-center hover: cursor-pointer'
-            }
             title="Select a Season"
             selectItem={setSelectedTournament}
           />
