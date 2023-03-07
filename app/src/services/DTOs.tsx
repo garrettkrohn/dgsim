@@ -1,4 +1,4 @@
-export interface TournamentResource {
+export interface tournamentResource {
   tournamentId: number;
   tournamentName: string;
   courseResponseDto: courseResource;
@@ -66,4 +66,10 @@ export interface holesResource {
   par: number;
   parkedRate: number;
   scrambleRate: number;
+}
+
+export interface tournamentTitleResource {
+  tournamentId: number;
+  tournamentName: string;
+  season: number;
 }

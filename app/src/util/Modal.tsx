@@ -1,5 +1,6 @@
 import React from 'react';
 import ThinDivider from './ThinDivider';
+import { tournamentResource } from '../services/DTOs';
 
 /**Iterative reusable modal component
  *
@@ -9,7 +10,7 @@ import ThinDivider from './ThinDivider';
 const Modal = (props: {
   containerStyle: string;
   itemStyle: string;
-  items: number[] | string[];
+  items: tournamentResource[] | undefined;
   toggleModal: Function;
   title?: string;
   selectItem: Function;
@@ -21,9 +22,11 @@ const Modal = (props: {
     >
       <div className={props.containerStyle}>
         {props.title ? <div>{props.title}</div> : ''}
-        {props.items.map(item => (
-          <div key={item} onClick={() => props.selectItem(item)}>
-            <div className={props.itemStyle}>{item}</div>
+        {props.items.map((item, index) => (
+          <div key={index} onClick={() => props.selectItem(item)}>
+            <div className={props.itemStyle}>
+              Season: {item.season} {item.tournamentName}
+            </div>
             <ThinDivider />
           </div>
         ))}

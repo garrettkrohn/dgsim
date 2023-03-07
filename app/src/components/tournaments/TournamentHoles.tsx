@@ -32,11 +32,13 @@ const TournamentHoles = (props: { round: any }) => {
           <div>B9:</div>
         </div>
         <div className="grid w-full grid-cols-9 grid-rows-2 text-center">
-          {props.round.holeResults.map((hole: holeResultResource) => (
-            <div className={' ' + generateHoleResultColor(hole)}>
-              {hole.score}
-            </div>
-          ))}
+          {props.round.holeResults.map(
+            (hole: holeResultResource, index: number) => (
+              <div key={index} className={' ' + generateHoleResultColor(hole)}>
+                {hole.score}
+              </div>
+            ),
+          )}
         </div>
       </div>
     </div>

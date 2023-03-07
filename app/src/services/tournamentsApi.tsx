@@ -1,8 +1,8 @@
-import { TournamentResource } from './DTOs';
+import { tournamentResource, tournamentTitleResource } from './DTOs';
 
 export async function getTournament(
   tournamentId: number,
-): Promise<TournamentResource> {
+): Promise<tournamentResource> {
   return await fetch(`http://localhost:8000/api/tournaments/${tournamentId}`, {
     headers: {
       'Content-Type': 'application/json',
@@ -10,7 +10,25 @@ export async function getTournament(
     method: 'GET',
   })
     .then(response => response.json())
-    .then((data: TournamentResource) => {
+    .then((data: tournamentResource) => {
+      console.log('Success:', data);
+      return data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+}
+
+export async function getAllTournaments(): Promise<tournamentResource[]> {
+  return await fetch(`http://localhost:8000/api/tournaments`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then((data: tournamentResource[]) => {
       console.log('Success:', data);
       return data;
     })
@@ -40,7 +58,7 @@ export async function getSeasons(): Promise<number[]> {
 
 export async function getTournamentBySeason(
   seasonNumber: number,
-): Promise<TournamentResource[]> {
+): Promise<tournamentResource[]> {
   return await fetch(
     `http://localhost:8000/api/tournaments/seasons/${seasonNumber}`,
     {
@@ -51,7 +69,30 @@ export async function getTournamentBySeason(
     },
   )
     .then(response => response.json())
-    .then((data: TournamentResource[]) => {
+    .then((data: tournamentResource[]) => {
+      console.log('Success:', data);
+      return data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+}
+
+export async function getTournamentTitles(
+  seasonNumber: number,
+): Promise<tournamentTitleResource[]> {
+  return await fetch(
+    `http://localhost:8000/api/tournaments/titles/${seasonNumber}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
+    },
+  )
+    .then(response => response.json())
+    .then((data: tournamentTitleResource[]) => {
       console.log('Success:', data);
       return data;
     })
