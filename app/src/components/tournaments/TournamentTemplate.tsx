@@ -1,12 +1,15 @@
 import React from 'react';
 import Divider from '../../util/Divider';
 import TournamentRow from './TournamentRow';
-import { tournamentResource } from '../../services/DTOs';
+import {
+  playerTournamentResource,
+  tournamentResource,
+} from '../../services/DTOs';
 
 const TournamentTemplate = (props: {
   tournament: tournamentResource | undefined;
 }) => {
-  function compare(a: any, b: any) {
+  function compare(a: playerTournamentResource, b: playerTournamentResource) {
     if (a.totalScore < b.totalScore) {
       return -1;
     } else if (a.totalScore > b.totalScore) {

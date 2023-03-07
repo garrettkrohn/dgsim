@@ -1,16 +1,20 @@
 import React from 'react';
-import { playerResource, seasonStandingsResource } from '../../services/DTOs';
+import { seasonStandingsResource } from '../../services/DTOs';
+import ThinDivider from '../../util/ThinDivider';
 
 const StandingsRow = (props: { seasonStanding: seasonStandingsResource }) => {
   const { firstName, lastName } = props.seasonStanding.player;
   const { seasonTotal } = props.seasonStanding;
 
   return (
-    <div>
-      <div>
-        {firstName} {lastName}
+    <div className="grid bg-dgbackground text-dgsoftwhite">
+      <div className="flex flex-row justify-between py-2">
+        <div className="px-4">
+          {firstName} {lastName}
+        </div>
+        <div className="px-4">{seasonTotal}</div>
       </div>
-      <div>{seasonTotal}</div>
+      <ThinDivider />
     </div>
   );
 };
