@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\Outgoing\PlayerTournamentResponseDto;
 use App\Dto\Outgoing\Transformer\PlayerTournamentResponseDtoTransformer;
+use App\Entity\Player;
 use App\Entity\PlayerTournament;
 use App\Repository\PlayerRepository;
 use App\Repository\PlayerTournamentRepository;
@@ -26,10 +27,31 @@ class PlayerTournamentService extends AbstractMultiTransformer
         $this->roundService = $roundService;
     }
 
-    public function getPlayerTournamentsByPlayerId(int $id): iterable
+    public function getPlayerTournamentsByPlayerIdDto(int $id): iterable
     {
         $playerTournaments = $this->playerTournamentRepository->findBy(array('player' => $id));
         return $this->transformFromObjects($playerTournaments);
+    }
+
+    /**
+     * @param Player $player
+     * @return PlayerTournament[] iterable
+     */
+    public function getPlayerTournamentsByPlayer(Player $player): iterable
+    {
+        return $this->playerTournamentRepository->findBy(['player' => $player]);
+    }
+
+    public function getPlayerTournamentsByPlayerIdAndSeason(Player $player, int $seasonNumber): iterable
+    {
+        $allPlayerTournaments = $this->getPlayerTournamentsByPlayer($player);
+        $returnArray = [];
+        foreach($allPlayerTournaments as $pt){
+            if ($pt->getTournament()->getSeason() === $seasonNumber) {
+                $returnArray[] = $pt;
+            }
+        }
+        return $returnArray;
     }
 
     /**

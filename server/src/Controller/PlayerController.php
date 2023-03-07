@@ -79,7 +79,7 @@ class PlayerController extends ApiController
     #[Route('api/players/{id}/playerTournaments', methods: ('GET'))]
     public function getAllPlayerTournamentsByPlayerId(int $id): Response
     {
-        return $this->json($this->playerTournamentService->getPlayerTournamentsByPlayerId($id));
+        return $this->json($this->playerTournamentService->getPlayerTournamentsByPlayerIdDto($id));
     }
 
     #[Route('api/players/{id}/updates', methods: ('GET'))]
