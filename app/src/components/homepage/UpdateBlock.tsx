@@ -111,8 +111,6 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
       ) : (
         ''
       )}
-
-      <LastTournamentBlock />
     </div>
   );
 };

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\Outgoing\PlayerTournamentResponseDto;
 use App\Dto\Outgoing\TournamentResponseDto;
 use App\Dto\Outgoing\TournamentTitlesDto;
 use App\Dto\Outgoing\Transformer\TournamentResponseDtoTransformer;
@@ -121,6 +122,11 @@ class TournamentService extends AbstractMultiTransformer
             $returnArray[] = $dto;
         }
         return $returnArray;
+    }
+
+    public function getLastPlayerTournament(int $playerId): PlayerTournamentResponseDto
+    {
+        return $this->playerTournamentService->getMostRecentTournament($playerId);
     }
 
 }

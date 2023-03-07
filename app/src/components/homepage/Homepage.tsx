@@ -3,6 +3,7 @@ import Divider from '../../util/Divider';
 import UpdateBlock from './UpdateBlock';
 import React, { useState } from 'react';
 import UpdateConfirmModal from './UpdateConfirmModal';
+import LastTournamentBlock from './LastTournamentBlock';
 
 const Homepage = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -21,6 +22,7 @@ const Homepage = () => {
       ) : (
         ''
       )}
+      <LastTournamentBlock />
     </div>
   );
 };

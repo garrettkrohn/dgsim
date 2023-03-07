@@ -80,8 +80,13 @@ class PlayerService extends AbstractMultiTransformer
 
     public function getPlayerByIdDto(int $id): PlayerDto
     {
-        $player = $this->playerRepository->findOneBy(array('player_id' => $id));
+        $player = $this->getPlayer($id);
         return $this->transformFromObject($player);
+    }
+
+    public function getPlayer(int $id): Player
+    {
+        return $this->playerRepository->findOneBy(array('player_id' => $id));
     }
 
     public function getAllActivePlayerEntities(): iterable

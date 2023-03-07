@@ -96,4 +96,10 @@ class TournamentController extends ApiController
         return $this->json($this->tournamentService->getTournamentTitles($id));
     }
 
+    #[Route('api/lastTournament/{playerId}')]
+    public function getMostRecentPlayerTournament(int $playerId): Response
+    {
+        return $this->json($this->tournamentService->getLastPlayerTournament($playerId));
+    }
+
 }
