@@ -3,7 +3,9 @@ import Divider from '../../util/Divider';
 import TournamentRow from './TournamentRow';
 import { tournamentResource } from '../../services/DTOs';
 
-const TournamentTemplate = (props: { tournament: tournamentResource }) => {
+const TournamentTemplate = (props: {
+  tournament: tournamentResource | undefined;
+}) => {
   function compare(a: any, b: any) {
     if (a.totalScore < b.totalScore) {
       return -1;
@@ -12,6 +14,11 @@ const TournamentTemplate = (props: { tournament: tournamentResource }) => {
     }
     return 0;
   }
+
+  if (!props.tournament) {
+    return <div>ope, there was an error</div>;
+  }
+
   const playerTournaments = props.tournament.playerTournaments;
 
   playerTournaments.sort(compare);

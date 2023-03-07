@@ -68,7 +68,7 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
         <TournamentTemplate tournament={selectedTournament} />
       ) : (
         <TournamentTemplate
-          tournament={tournamentsData[tournamentsData.length - 1]}
+          tournament={tournamentsData?.[tournamentsData.length - 1]}
         />
       )}
     </div>

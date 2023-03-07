@@ -14,6 +14,10 @@ const TournamentModal = (props: {
   title?: string;
   selectItem: Function;
 }) => {
+  if (!props.items) {
+    return <div>ope, there was an error</div>;
+  }
+
   return (
     <div
       className="fixed top-0 left-0 h-screen w-screen text-dgsoftwhite backdrop-blur-sm"
