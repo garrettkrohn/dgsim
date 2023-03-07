@@ -63,6 +63,8 @@ const StandingsSelector = () => {
       </>
     );
   }
+
+  return <div>error</div>;
 };
 
 export default StandingsSelector;

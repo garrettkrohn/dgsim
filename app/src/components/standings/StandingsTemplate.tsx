@@ -1,7 +1,6 @@
 import React from 'react';
 import { seasonStandingsResource } from '../../services/DTOs';
 import Divider from '../../util/Divider';
-import TournamentRow from '../tournaments/TournamentRow';
 import StandingsRow from './StandingsRow';
 
 const StandingsTemplate = (props: {

@@ -16,6 +16,7 @@ const rootRoute = new RootRoute({
   component: () => {
     return (
       <>
+        <Navbar />
         <Outlet />
       </>
     );
@@ -85,7 +86,6 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Navbar />
       <RouterProvider router={router} />
       {/*<ReactQueryDevtools />*/}
     </QueryClientProvider>

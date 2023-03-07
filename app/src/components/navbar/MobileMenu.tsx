@@ -16,9 +16,11 @@ const MobileMenu: React.FC<{
       ></div>
       <div className="fixed flex flex-col bg-dgblack ">
         {props.menuItems.map(item => (
-          <div key={item.name} className="p-4">
-            {item.name}
-          </div>
+          <Link to={item.route} onClick={() => props.toggleMenu()}>
+            <div key={item.name} className="p-4">
+              {item.name}
+            </div>
+          </Link>
         ))}
       </div>
     </>

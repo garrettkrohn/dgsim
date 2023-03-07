@@ -36,8 +36,8 @@ const TournamentRow = (props: {
         <div className="flex justify-between pt-2" onClick={toggleShowRounds}>
           <div className="pl-2">{props.playerTournament.place}</div>
           <div>
-            {props.playerTournament.playerResponseDto.first_name}{' '}
-            {props.playerTournament.playerResponseDto.last_name}
+            {props.playerTournament.playerResponseDto.firstName}{' '}
+            {props.playerTournament.playerResponseDto.lastName}
           </div>
           <div className="pr-2 pb-2">
             {props.playerTournament.totalScore - props.courseParMultiplied}
