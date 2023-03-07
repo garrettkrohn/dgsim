@@ -38,16 +38,16 @@ export interface holeResultResource {
 }
 
 export interface playerResource {
-  player_id: number;
-  first_name: string;
-  last_name: string;
-  putt_skill: number;
-  throw_power_skill: number;
-  throw_accuracy_skill: number;
-  scramble_skill: number;
-  start_season: number;
-  is_active: boolean;
-  banked_skill_points: number;
+  playerId: number;
+  firstName: string;
+  lastName: string;
+  puttSkill: number;
+  throwPowerSkill: number;
+  throwAccuracySkill: number;
+  scrambleSkill: number;
+  startSeason: number;
+  isActive: boolean;
+  bankedSkillPoints: number;
   archetype: object;
 }
 
@@ -72,4 +72,9 @@ export interface tournamentTitleResource {
   tournamentId: number;
   tournamentName: string;
   season: number;
+}
+
+export interface seasonStandingsResource {
+  player: playerResource;
+  seasonTotal: number;
 }

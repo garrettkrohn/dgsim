@@ -1,16 +1,19 @@
-import { tournamentResource } from './DTOs';
+import { seasonStandingsResource, tournamentResource } from './DTOs';
 
-export async function getTournament(
-  tournamentId: number,
-): Promise<tournamentResource> {
-  return await fetch(`http://localhost:8000/api/tournaments/${tournamentId}`, {
-    headers: {
-      'Content-Type': 'application/json',
+export async function getSeasonLeaderboards(
+  seasonNumber: number,
+): Promise<seasonStandingsResource[]> {
+  return await fetch(
+    `http://localhost:8000/api/leaderboards/season/${seasonNumber}`,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'GET',
     },
-    method: 'GET',
-  })
+  )
     .then(response => response.json())
-    .then((data: tournamentResource) => {
+    .then((data: seasonStandingsResource[]) => {
       console.log('Success:', data);
       return data;
     })

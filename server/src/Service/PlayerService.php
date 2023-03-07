@@ -127,16 +127,16 @@ class PlayerService extends AbstractMultiTransformer
     public function transformFromObject($object): PlayerDto
     {
         $dto = new PlayerDto();
-        $dto->player_id = $object->getPlayerId();
-        $dto->first_name = $object->getFirstName();
-        $dto->last_name = $object->getLastName();
-        $dto->putt_skill = $object->getPuttSkill();
-        $dto->throw_power_skill = $object->getThrowPowerSkill();
-        $dto->throw_accuracy_skill = $object->getThrowAccuracySkill();
-        $dto->scramble_skill = $object->getScrambleSkill();
-        $dto->start_season = $object->getStartSeason();
-        $dto->is_active = $object->isIsActive();
-        $dto->banked_skill_points = $object->getBankedSkillPoints();
+        $dto->playerId = $object->getPlayerId();
+        $dto->firstName = $object->getFirstName();
+        $dto->lastName = $object->getLastName();
+        $dto->puttSkill = $object->getPuttSkill();
+        $dto->throwPowerSkill = $object->getThrowPowerSkill();
+        $dto->throwAccuracySkill = $object->getThrowAccuracySkill();
+        $dto->scrambleSkill = $object->getScrambleSkill();
+        $dto->startSeason = $object->getStartSeason();
+        $dto->isActive = $object->isIsActive();
+        $dto->bankedSkillPoints = $object->getBankedSkillPoints();
         $dto->archetype = $this->archetypeService->transformFromObject($object->getArchetype());
 
         return $dto;

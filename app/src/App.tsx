@@ -10,6 +10,7 @@ import {
 import Navbar from './components/navbar/Navbar';
 import Homepage from './components/homepage/Homepage';
 import TournamentsSelector from './components/tournaments/TournamentsSelector';
+import StandingsSelector from './components/standings/StandingsSelector';
 
 const rootRoute = new RootRoute({
   component: () => {
@@ -54,7 +55,7 @@ const standingsRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'standings',
   component: () => {
-    return <div>standings</div>;
+    return <StandingsSelector />;
     // return <JSONPlaceholderPhoto photoId={20} />;
   },
   errorComponent: () => 'Oh crap!',
