@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import MobileMenu from './MobileMenu';
 import menuItems from '../../constants/MenuItems';
+import LoginButton from '../../util/LoginButton';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -30,6 +31,7 @@ const Navbar = () => {
         </div>
         <div className="p-4">Disc Golf Sim League</div>
       </div>
+      <LoginButton />
     </div>
   );
 };
