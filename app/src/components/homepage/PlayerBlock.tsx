@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import Loading from '../../util/Loading';
 import { getPlayer } from '../../services/PlayerApi';
+import WrapperBlock from '../../util/WrapperBlock';
 
 const PlayerBlock = () => {
   const {
@@ -33,7 +34,7 @@ const PlayerBlock = () => {
       scrambleSkill,
     } = playerData;
     return (
-      <div className="container bg-dgsecondary p-2 text-dgsoftwhite">
+      <WrapperBlock color="dgsecondary">
         <div className="container flex justify-center">
           {firstName + ' ' + lastName}
         </div>
@@ -48,7 +49,7 @@ const PlayerBlock = () => {
           </div>
         </div>
         <div></div>
-      </div>
+      </WrapperBlock>
     );
   }
 
