@@ -15,6 +15,7 @@ import {
   currentThrowAccuracyAtom,
   currentScrambleAtom,
 } from '../../jotai/Atoms';
+import WrapperBlock from '../../util/WrapperBlock';
 
 const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   const [putt, setPutt] = useAtom(updatePuttAtom);
@@ -57,7 +58,7 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
 
   return (
     <div>
-      <div className="bg-dgprimary text-dgsoftwhite" onClick={toggleUpdate}>
+      <WrapperBlock color="dgprimary" onClick={toggleUpdate}>
         <div className="container flex justify-center p-2 font-bold">
           Update Player
         </div>
@@ -66,11 +67,11 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
           <div>NewSp: 10</div>
           <div>Total: {availableSp}</div>
         </div>
-      </div>
+      </WrapperBlock>
       <Divider color="dgbackground" />
       {showUpdate ? (
         <>
-          <div className="flex flex-col justify-evenly bg-dgprimary text-dgsoftwhite">
+          <WrapperBlock color="dgprimary">
             <div className="flex justify-evenly">
               <div>Skill:</div>
               <div>Update:</div>
@@ -105,7 +106,7 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
               onClick={props.toggleUpdateModal}
               disable={disableUpdate}
             />
-          </div>
+          </WrapperBlock>
           <Divider color="dgbackground" />
         </>
       ) : (
