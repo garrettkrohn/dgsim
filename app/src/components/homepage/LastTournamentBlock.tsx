@@ -45,7 +45,10 @@ const LastTournamentBlock = () => {
         <div className="flex justify-center bg-dgsecondary text-dgsoftwhite">
           Last Tournament
         </div>
-        <TournamentRow playerTournament={playerTournamentData} />
+        <TournamentRow
+          playerTournament={playerTournamentData}
+          roundsDisplay={true}
+        />
         <ThinDivider />
       </WrapperBlock>
     );

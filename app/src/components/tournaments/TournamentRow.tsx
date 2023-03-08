@@ -5,9 +5,10 @@ import { playerTournamentResource, roundResource } from '../../services/DTOs';
 
 const TournamentRow = (props: {
   playerTournament: playerTournamentResource;
+  roundsDisplay: boolean;
 }) => {
-  const { playerTournament } = props;
-  const [showRounds, setShowRounds] = useState(false);
+  const { playerTournament, roundsDisplay } = props;
+  const [showRounds, setShowRounds] = useState(roundsDisplay);
   const [selectedRound, setSelectedRound] = useState(0);
 
   const toggleShowRounds = () => {
