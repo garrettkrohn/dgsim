@@ -18,7 +18,7 @@ const StandingsTemplate = (props: {
       <Divider color={'dgbackground'} />
       <div>
         {props.standings.map((standing, index) => (
-          <StandingsRow seasonStanding={standing} />
+          <StandingsRow seasonStanding={standing} key={index} />
         ))}
       </div>
     </div>

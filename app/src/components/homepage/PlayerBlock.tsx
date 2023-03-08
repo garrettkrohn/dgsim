@@ -1,33 +1,58 @@
-import { useAtom } from 'jotai';
-import {
-  currentPuttAtom,
-  currentThrowPowerAtom,
-  currentThrowAccuracyAtom,
-  currentScrambleAtom,
-} from '../../jotai/Atoms';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import Loading from '../../util/Loading';
+import { getPlayer } from '../../services/PlayerApi';
 
 const PlayerBlock = () => {
-  const [putt] = useAtom(currentPuttAtom);
-  const [power] = useAtom(currentThrowPowerAtom);
-  const [accuracy] = useAtom(currentThrowAccuracyAtom);
-  const [scramble] = useAtom(currentScrambleAtom);
+  const {
+    isLoading: playerIsLoading,
+    error: playerError,
+    data: playerData,
+    refetch,
+  } = useQuery({
+    queryKey: [`player`],
+    queryFn: () => getPlayer(1),
+    enabled: false,
+  });
 
-  return (
-    <div className="container bg-dgsecondary p-2 text-dgsoftwhite">
-      <div className="container flex justify-center">Paul McBeth</div>
-      <div className="flex justify-evenly">
-        <div className="flex flex-col">
-          <div>Putt: {putt}</div>
-          <div>scramble: {power}</div>
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  if (playerIsLoading) return <Loading />;
+
+  if (playerError) return <div>An error has occurred</div>;
+
+  if (playerData) {
+    const {
+      firstName,
+      lastName,
+      puttSkill,
+      throwPowerSkill,
+      throwAccuracySkill,
+      scrambleSkill,
+    } = playerData;
+    return (
+      <div className="container bg-dgsecondary p-2 text-dgsoftwhite">
+        <div className="container flex justify-center">
+          {firstName + ' ' + lastName}
         </div>
-        <div className="flex flex-col">
-          <div>Throw Pwr: {accuracy}</div>
-          <div>Throw Acc: {scramble}</div>
+        <div className="flex justify-evenly">
+          <div className="flex flex-col">
+            <div>Putt: {puttSkill}</div>
+            <div>scramble: {throwPowerSkill}</div>
+          </div>
+          <div className="flex flex-col">
+            <div>Throw Pwr: {throwAccuracySkill}</div>
+            <div>Throw Acc: {scrambleSkill}</div>
+          </div>
         </div>
+        <div></div>
       </div>
-      <div></div>
-    </div>
-  );
+    );
+  }
+
+  return <div></div>;
 };
 
 export default PlayerBlock;
