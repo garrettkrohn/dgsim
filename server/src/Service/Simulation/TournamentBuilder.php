@@ -3,7 +3,7 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Incoming\CreateTournamentDto;
-use App\Dto\Outgoing\leaderboardDto;
+use App\Dto\Outgoing\StandingsDto;
 use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
 use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\PlayerTournament;
@@ -79,7 +79,7 @@ class TournamentBuilder
 
         $leaderboard = [];
         foreach($playerTournaments as $pt) {
-            $leaderboardPlayer = new leaderboardDto();
+            $leaderboardPlayer = new StandingsDto();
             $leaderboardPlayer->score = $pt->getTotalScore();
             $leaderboardPlayer->playerTournamentId = $pt->getPlayerTournamentId();
             $leaderboard[] = $leaderboardPlayer;
@@ -123,17 +123,17 @@ class TournamentBuilder
     public function testCheckTie(): array {
         $leaderboard = [];
 
-        $lb1 = new leaderboardDto();
+        $lb1 = new StandingsDto();
         $lb1->score = 200;
         $lb1->playerTournamentId = 1;
         $leaderboard[] = $lb1;
 
-        $lb2 = new leaderboardDto();
+        $lb2 = new StandingsDto();
         $lb2->score = 200;
         $lb2->playerTournamentId = 2;
         $leaderboard[] = $lb2;
 
-        $lb3 = new leaderboardDto();
+        $lb3 = new StandingsDto();
         $lb3->score = 205;
         $lb3->playerTournamentId = 3;
         $leaderboard[] = $lb3;

@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Dto\Incoming\CreateTournamentDto;
+use App\Exception\InvalidRequestDataException;
 use App\Serialization\SerializationService;
 use App\Service\SimulationService;
 use App\Service\TournamentService;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,6 +40,10 @@ class TournamentController extends ApiController
         return $this->json($this->tournamentService->getAllTournaments());
     }
 
+    /**
+     * @throws InvalidRequestDataException
+     * @throws JsonException
+     */
     #[Route('api/tournaments', methods: ('POST'))]
     public function runSimulation(Request $request):Response
     {
@@ -50,6 +56,12 @@ class TournamentController extends ApiController
     public function getTournamentById(int $id):Response
     {
         return $this->json($this->tournamentService->getTournamentById($id));
+    }
+
+    #[Route('api/tournaments/seasons/{id}', methods: ('GET'))]
+    public function getTournamentsBySeason(int $id): Response
+    {
+        return $this->json($this->tournamentService->getTournamentsBySeason($id));
     }
 
     #[Route('api/tournaments', methods: ('DELETE'))]
@@ -71,4 +83,23 @@ class TournamentController extends ApiController
         $return = $this->simulationService->test();
         return new JsonResponse($return);
     }
+
+    #[Route('api/seasons', methods: ('GET'))]
+    public function getAvailableSeasons(): Response
+    {
+        return $this->json($this->tournamentService->getAvailableSeasons());
+    }
+
+    #[Route('api/tournaments/titles/{id}', methods: ('GET'))]
+    public function getTournamentTitles(int $id): Response
+    {
+        return $this->json($this->tournamentService->getTournamentTitles($id));
+    }
+
+    #[Route('api/lastTournament/{playerId}')]
+    public function getMostRecentPlayerTournament(int $playerId): Response
+    {
+        return $this->json($this->tournamentService->getLastPlayerTournament($playerId));
+    }
+
 }

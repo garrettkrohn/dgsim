@@ -5,8 +5,9 @@ namespace App\Dto\Outgoing;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
 
-class TournamentResponseDto
+class TournamentTitlesDto
 {
+
     #[NotNull]
     #[Type('int')]
     public int $tournamentId;
@@ -16,15 +17,8 @@ class TournamentResponseDto
     public string $tournamentName;
 
     #[NotNull]
-    public CourseResponseDto $courseResponseDto;
-
-    #[NotNull]
     #[Type('int')]
     public int $season;
-
-    #[NotNull]
-    #[Type('iterable')]
-    public iterable $playerTournaments;
 
     /**
      * @return int
@@ -59,22 +53,6 @@ class TournamentResponseDto
     }
 
     /**
-     * @return CourseResponseDto
-     */
-    public function getCourseResponseDto(): CourseResponseDto
-    {
-        return $this->courseResponseDto;
-    }
-
-    /**
-     * @param CourseResponseDto $courseResponseDto
-     */
-    public function setCourseResponseDto(CourseResponseDto $courseResponseDto): void
-    {
-        $this->courseResponseDto = $courseResponseDto;
-    }
-
-    /**
      * @return int
      */
     public function getSeason(): int
@@ -89,24 +67,6 @@ class TournamentResponseDto
     {
         $this->season = $season;
     }
-
-    /**
-     * @return iterable
-     */
-    public function getPlayerTournaments(): iterable
-    {
-        return $this->playerTournaments;
-    }
-
-    /**
-     * @param iterable $playerTournaments
-     */
-    public function setPlayerTournaments(iterable $playerTournaments): void
-    {
-        $this->playerTournaments = $playerTournaments;
-    }
-
-
 
 
 }

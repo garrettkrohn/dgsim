@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-use App\Dto\Outgoing\SeasonLeaderboardDto;
+use App\Dto\Outgoing\CareerStandingsDto;
+use App\Dto\Outgoing\SeasonStandingsDto;
+use App\Dto\Outgoing\StandingsDto;
 use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\PlayerTournament;
 use App\Repository\PlayerRepository;
@@ -12,36 +14,62 @@ class SeasonLeaderboardService
 {
     private PlayerRepository $playerRepository;
     private PlayerTournamentRepository $playerTournamentRepository;
+    private PlayerService $playerService;
+    private PlayerTournamentService $playerTournamentService;
 
-    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository)
+    /**
+     * @param PlayerRepository $playerRepository
+     * @param PlayerTournamentRepository $playerTournamentRepository
+     * @param PlayerService $playerService
+     * @param PlayerTournamentService $playerTournamentService
+     */
+    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService)
     {
         $this->playerRepository = $playerRepository;
         $this->playerTournamentRepository = $playerTournamentRepository;
+        $this->playerService = $playerService;
+        $this->playerTournamentService = $playerTournamentService;
     }
 
-    public function getSeasonLeaderboard(int $seasonId): iterable
+
+    public function getCareerLeaderboard(): iterable
     {
         $allPlayers = $this->playerRepository->findAll();
-        $allPlayerTournaments = $this->playerTournamentRepository->findAll();
 
-        $allLeaderboardPlayers = [];
+        $allCareerLeaderboards = [];
         foreach($allPlayers as $player) {
-            $tournamentsByPlayer = $this->playerTournamentRepository->findBy(['player' => $player]);
-            $totalSeasonPoints = $this->calculateSeasonTotal($tournamentsByPlayer);
-            $leaderboardDto = new SeasonLeaderboardDto();
-            $leaderboardDto->player_id = $player->getPlayerId();
-            $leaderboardDto->player_name = $player->getFirstName() . " " . $player->getLastName();
-            $leaderboardDto->season_total = $totalSeasonPoints;
-            $allLeaderboardPlayers[] = $leaderboardDto;
+            $tournamentsByPlayer = $this->playerTournamentService->getPlayerTournamentsByPlayer($player);
+            $careerTotalPoints = $this->calculateLeaderboardTotal($tournamentsByPlayer);
+            $careerStandingsDto = new CareerStandingsDto();
+            $careerStandingsDto->setPlayer($this->playerService->transformFromObject($player));
+            $careerStandingsDto->setCareerTotal($careerTotalPoints);
+            $allCareerLeaderboards[] = $careerStandingsDto;
         }
-        return $allLeaderboardPlayers;
+        return $allCareerLeaderboards;
+    }
+
+    public function getSeasonLeaderboard(int $seasonNumber): iterable
+    {
+        $allPlayers = $this->playerRepository->findAll();
+
+        $allSeasonLeaderboards = [];
+        foreach($allPlayers as $player) {
+            $tournamentsByPlayer = $this->playerTournamentService->getPlayerTournamentsByPlayerIdAndSeason($player, $seasonNumber);
+            $seasonTotalPoints = $this->calculateLeaderboardTotal($tournamentsByPlayer);
+            $dto = new SeasonStandingsDto();
+            $dto->setPlayer($this->playerService->transformFromObject($player));
+            $dto->setSeasonTotal($seasonTotalPoints);
+
+            $allSeasonLeaderboards[] = $dto;
+        }
+        return $allSeasonLeaderboards;
     }
 
     /**
      * @param PlayerTournament[] $playerTournaments
      * @return int
      */
-    public function calculateSeasonTotal(iterable $playerTournaments): int
+    public function calculateLeaderboardTotal(iterable $playerTournaments): int
     {
         $seasonTotalPoints = 0;
         foreach ($playerTournaments as $playerTournament) {
@@ -49,5 +77,10 @@ class SeasonLeaderboardService
         }
         return $seasonTotalPoints;
     }
+
+//    public function getAllSeasonLeaderboards(): iterable
+//    {
+//
+//    }
 
 }

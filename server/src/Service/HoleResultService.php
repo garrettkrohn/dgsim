@@ -30,6 +30,7 @@ class HoleResultService extends AbstractMultiTransformer
         $dto->setC2InRegulation($object->isC2InRegulation());
         $dto->setScramble($object->isScramble());
         $dto->setLuck($object->getLuck());
+        $dto->setPar($object->getHole()->getPar());
 
         return $dto;
     }

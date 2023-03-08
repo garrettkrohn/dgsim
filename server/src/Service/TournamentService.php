@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Dto\Outgoing\PlayerTournamentResponseDto;
 use App\Dto\Outgoing\TournamentResponseDto;
-use App\Dto\Outgoing\Transformer\TournamentResponseDtoTransformer;
+use App\Dto\Outgoing\TournamentTitlesDto;
+use App\Entity\PlayerTournament;
 use App\Entity\Tournament;
 use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,10 +74,64 @@ class TournamentService extends AbstractMultiTransformer
         $courseId = $object->getCourse()->getCourseId();
         $course = $this->courseService->getCourseByIdDto($courseId);
         $dto->setCourseResponseDto($course);
-        $dto->setPlayerTournament($this->playerTournamentService->transformFromObjects($object->getPlayerTournaments()));
+        $dto->setPlayerTournaments($this->playerTournamentService->transformFromObjects($object->getPlayerTournaments()));
 
         return $dto;
     }
 
+    public function getAvailableSeasons(): array
+    {
+        $tournaments = $this->tournamentRepository->findAll();
+        $returnArray = [];
+        foreach ($tournaments as $tournament) {
+            $returnArray[] = $tournament->getSeason();
+        }
+        $uniqueValues = array_unique($returnArray);
+        return array_values($uniqueValues);
+    }
+
+    /**
+     * @param int $id
+     * @return TournamentResponseDto[] iterable
+     */
+    public function getTournamentsBySeason(int $id): iterable
+    {
+        $allTournaments = $this->tournamentRepository->findAll();
+        $returnArray = [];
+        foreach ($allTournaments as $tournament) {
+            if ($tournament->getSeason() === $id) {
+                $returnArray[] = $tournament;
+            }
+        }
+        return $this->transformFromObjects($returnArray);
+    }
+
+    /**
+     * @return TournamentTitlesDto[] iterable
+     */
+    public function getTournamentTitles(int $id): iterable
+    {
+        $allTournaments = $this->tournamentRepository->findBy(['season' => $id]);
+        $returnArray = [];
+
+        foreach ($allTournaments as $tournament) {
+            $dto = new TournamentTitlesDto();
+            $dto->setSeason($tournament->getSeason());
+            $dto->setTournamentId($tournament->getTournamentId());
+            $dto->setTournamentName($tournament->getName());
+            $returnArray[] = $dto;
+        }
+        return $returnArray;
+    }
+
+    public function getLastPlayerTournament(int $playerId): PlayerTournamentResponseDto
+    {
+        return $this->playerTournamentService->getMostRecentTournament($playerId);
+    }
+
+    public function getTournamentByPlayerTournament(PlayerTournament $pt): Tournament
+    {
+        return $this->tournamentRepository->findOneBy(['player_tournament' => $pt]);
+    }
 
 }

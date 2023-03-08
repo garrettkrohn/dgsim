@@ -39,6 +39,26 @@ class HoleResultDto
     #[Type('float')]
     public float $luck;
 
+    #[NotNull]
+    #[Type('int')]
+    public int $par;
+
+    /**
+     * @return int
+     */
+    public function getPar(): int
+    {
+        return $this->par;
+    }
+
+    /**
+     * @param int $par
+     */
+    public function setPar(int $par): void
+    {
+        $this->par = $par;
+    }
+
     /**
      * @return int
      */

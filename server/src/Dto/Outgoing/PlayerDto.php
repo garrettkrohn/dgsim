@@ -11,43 +11,43 @@ class PlayerDto
 {
     #[NotNull]
     #[Type('int')]
-    public int $player_id;
+    public int $playerId;
 
     #[NotNull]
     #[Type('int')]
-    public string $first_name;
+    public string $firstName;
 
     #[NotNull]
     #[Type('int')]
-    public string $last_name;
+    public string $lastName;
 
     #[NotNull]
     #[Type('int')]
-    public int $putt_skill;
+    public int $puttSkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $throw_power_skill;
+    public int $throwPowerSkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $throw_accuracy_skill;
+    public int $throwAccuracySkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $scramble_skill;
+    public int $scrambleSkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $start_season;
+    public int $startSeason;
 
     #[NotNull]
     #[Type('int')]
-    public bool $is_active;
+    public bool $isActive;
 
     #[NotNull]
     #[Type('int')]
-    public int $banked_skill_points;
+    public int $bankedSkillPoints;
 
     #[NotNull]
     public ArchetypeResponseDto $archetype;
