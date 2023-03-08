@@ -3,29 +3,35 @@
 namespace App\Service;
 
 use App\Dto\Outgoing\PlayerTournamentResponseDto;
+use App\Dto\Outgoing\PlayerTournamentWithParDto;
 use App\Dto\Outgoing\Transformer\PlayerTournamentResponseDtoTransformer;
 use App\Entity\Player;
 use App\Entity\PlayerTournament;
 use App\Repository\PlayerRepository;
 use App\Repository\PlayerTournamentRepository;
+use App\Repository\TournamentRepository;
 
 class PlayerTournamentService extends AbstractMultiTransformer
 {
     private PlayerTournamentRepository $playerTournamentRepository;
     private PlayerService $playerService;
     private RoundService $roundService;
+    private TournamentRepository $tournamentRepository;
 
     /**
      * @param PlayerTournamentRepository $playerTournamentRepository
      * @param PlayerService $playerService
      * @param RoundService $roundService
+     * @param TournamentRepository $tournamentRepository
      */
-    public function __construct(PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, RoundService $roundService)
+    public function __construct(PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, RoundService $roundService, TournamentRepository $tournamentRepository)
     {
         $this->playerTournamentRepository = $playerTournamentRepository;
         $this->playerService = $playerService;
         $this->roundService = $roundService;
+        $this->tournamentRepository = $tournamentRepository;
     }
+
 
     public function getPlayerTournamentsByPlayerIdDto(int $id): iterable
     {
@@ -72,11 +78,22 @@ class PlayerTournamentService extends AbstractMultiTransformer
         return $dto;
     }
 
-    public function getMostRecentTournament(int $playerId): PlayerTournamentResponseDto
+    public function getMostRecentTournament(int $playerId): PlayerTournamentWithParDto
     {
         $player = $this->playerService->getPlayer($playerId);
         $pt = $this->playerTournamentRepository->findOneBy(['player' => $player], ['player_tournament_id' => 'desc']);
-        return $this->transformFromObject($pt);
+
+        $dto = new PlayerTournamentWithParDto();
+        $dto->setPlayerTournamentId($pt->getPlayerTournamentId());
+        $dto->setTourPoints($pt->getTourPoints());
+        $dto->setTotalScore($pt->getTotalScore());
+        $dto->setLuckScore($pt->getLuckScore());
+        $dto->setPlace($pt->getPlace());
+        $dto->setPlayerResponseDto($this->playerService->getPlayerByIdDto($pt->getPlayer()->getPlayerId()));
+        $dto->setRounds($this->roundService->getAllRoundsByPTIdDto($pt->getPlayerTournamentId()));
+        $dto->setCoursePar($pt->getTournament()->getCourse()->getCoursePar());
+
+        return $dto;
     }
 
 }
