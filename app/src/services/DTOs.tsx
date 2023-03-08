@@ -15,6 +15,7 @@ export interface playerTournamentResource {
   place: number;
   playerResponseDto: playerResource;
   rounds: roundResource[];
+  coursePar: number;
 }
 
 export interface roundResource {

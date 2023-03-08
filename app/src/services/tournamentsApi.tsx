@@ -1,4 +1,8 @@
-import { tournamentResource, tournamentTitleResource } from './DTOs';
+import {
+  playerTournamentResource,
+  tournamentResource,
+  tournamentTitleResource,
+} from './DTOs';
 
 export async function getTournament(
   tournamentId: number,
@@ -93,6 +97,26 @@ export async function getTournamentTitles(
   )
     .then(response => response.json())
     .then((data: tournamentTitleResource[]) => {
+      console.log('Success:', data);
+      return data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+}
+
+export async function getLastTournament(
+  playerId: number,
+): Promise<playerTournamentResource> {
+  return await fetch(`http://localhost:8000/api/lastTournament/1`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'GET',
+  })
+    .then(response => response.json())
+    .then((data: playerTournamentResource) => {
       console.log('Success:', data);
       return data;
     })

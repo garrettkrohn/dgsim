@@ -34,6 +34,10 @@ class PlayerTournamentResponseDto
     #[Type('int')]
     public int $place;
 
+    #[NotNull]
+    #[Type('int')]
+    public int $coursePar;
+
     /**
      * @return int
      */
@@ -145,6 +149,23 @@ class PlayerTournamentResponseDto
     {
         $this->place = $place;
     }
+
+    /**
+     * @return int
+     */
+    public function getCoursePar(): int
+    {
+        return $this->coursePar;
+    }
+
+    /**
+     * @param int $coursePar
+     */
+    public function setCoursePar(int $coursePar): void
+    {
+        $this->coursePar = $coursePar;
+    }
+
 
 
 }

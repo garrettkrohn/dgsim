@@ -48,10 +48,7 @@ const TournamentTemplate = (props: {
         <div>Total:</div>
       </div>
       {playerTournaments.map(pt => (
-        <TournamentRow
-          playerTournament={pt}
-          courseParMultiplied={courseParMultiplied}
-        />
+        <TournamentRow playerTournament={pt} />
       ))}
     </div>
   );

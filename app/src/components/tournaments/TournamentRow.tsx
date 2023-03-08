@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import ThinDivider from '../../util/ThinDivider';
 import TournamentHoles from './TournamentHoles';
-import { roundResource } from '../../services/DTOs';
+import { playerTournamentResource, roundResource } from '../../services/DTOs';
 
 const TournamentRow = (props: {
-  playerTournament: any;
-  courseParMultiplied: number;
+  playerTournament: playerTournamentResource;
 }) => {
+  const { playerTournament } = props;
   const [showRounds, setShowRounds] = useState(false);
   const [selectedRound, setSelectedRound] = useState(0);
 
@@ -26,21 +26,23 @@ const TournamentRow = (props: {
     }
   };
 
+  //course par multiplied is hard coded, have to figure out how to count rounds not including playoffs
+  //I'll need to figure out this if I want to vary the number of rounds
   return (
     <>
       <div
-        key={props.playerTournament.player_tournament_id}
+        key={playerTournament.player_tournament_id}
         className="grid bg-dgbackground text-dgsoftwhite"
       >
         <ThinDivider />
         <div className="flex justify-between pt-2" onClick={toggleShowRounds}>
           <div className="pl-2">{props.playerTournament.place}</div>
           <div>
-            {props.playerTournament.playerResponseDto.firstName}{' '}
-            {props.playerTournament.playerResponseDto.lastName}
+            {playerTournament.playerResponseDto.firstName}{' '}
+            {playerTournament.playerResponseDto.lastName}
           </div>
           <div className="pr-2 pb-2">
-            {props.playerTournament.totalScore - props.courseParMultiplied}
+            {playerTournament.totalScore - playerTournament.coursePar * 4}
           </div>
         </div>
 

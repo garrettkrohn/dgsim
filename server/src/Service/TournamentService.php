@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Dto\Outgoing\PlayerTournamentResponseDto;
 use App\Dto\Outgoing\TournamentResponseDto;
 use App\Dto\Outgoing\TournamentTitlesDto;
-use App\Dto\Outgoing\Transformer\TournamentResponseDtoTransformer;
 use App\Entity\PlayerTournament;
 use App\Entity\Tournament;
 use App\Repository\TournamentRepository;
