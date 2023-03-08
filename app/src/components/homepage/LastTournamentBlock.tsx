@@ -7,6 +7,7 @@ import {
 import Loading from '../../util/Loading';
 import TournamentRow from '../tournaments/TournamentRow';
 import ThinDivider from '../../util/ThinDivider';
+import WrapperBlock from '../../util/WrapperBlock';
 
 const LastTournamentBlock = () => {
   //api call to bring in last playerTournament, as well as the course par
@@ -40,13 +41,13 @@ const LastTournamentBlock = () => {
 
   if (playerTournamentData) {
     return (
-      <div>
+      <WrapperBlock color="dgsecondary">
         <div className="flex justify-center bg-dgsecondary text-dgsoftwhite">
           Last Tournament
         </div>
         <TournamentRow playerTournament={playerTournamentData} />
         <ThinDivider />
-      </div>
+      </WrapperBlock>
     );
   }
 
