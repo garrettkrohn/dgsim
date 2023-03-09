@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { QueryClient, useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import Loading from '../../util/Loading';
 import { getPlayer } from '../../services/PlayerApi';
 import WrapperBlock from '../../util/WrapperBlock';
@@ -21,6 +21,7 @@ const PlayerBlock = () => {
           },
         });
 
+        // @ts-ignore
         const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
 
         const metadataResponse = await fetch(userDetailsByIdUrl, {
@@ -39,20 +40,21 @@ const PlayerBlock = () => {
 
     getUserMetadata();
   }, [getAccessTokenSilently, user?.sub]);
+
   const {
     isLoading: playerIsLoading,
     error: playerError,
     data: playerData,
-    refetch,
+    // refetch,
   } = useQuery({
     queryKey: [`player`],
     queryFn: () => getPlayer(1),
     enabled: false,
   });
 
-  useEffect(() => {
-    refetch();
-  }, []);
+  // useEffect(() => {
+  //   refetch();
+  // }, []);
 
   if (playerIsLoading) return <Loading />;
 
@@ -69,13 +71,13 @@ const PlayerBlock = () => {
     } = playerData;
     return (
       <WrapperBlock color="dgsecondary">
-        <div>
-          {userMetadata ? (
-            <pre>{JSON.stringify(userMetadata, null, 2)}</pre>
-          ) : (
-            'No user metadata defined'
-          )}
-        </div>
+        {/*<div>*/}
+        {/*  {userMetadata ? (*/}
+        {/*    <pre>{JSON.stringify(userMetadata, null, 2)}</pre>*/}
+        {/*  ) : (*/}
+        {/*    'No user metadata defined'*/}
+        {/*  )}*/}
+        {/*</div>*/}
         <div className="container flex justify-center">
           {firstName + ' ' + lastName}
         </div>
