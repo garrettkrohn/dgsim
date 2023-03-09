@@ -7,7 +7,6 @@ import {
   Router,
   RouterProvider,
 } from '@tanstack/react-router';
-import Navbar from './components/navbar/Navbar';
 import Homepage from './components/homepage/Homepage';
 import TournamentsSelector from './components/tournaments/TournamentsSelector';
 import StandingsSelector from './components/standings/StandingsSelector';
