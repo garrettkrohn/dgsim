@@ -45,16 +45,16 @@ const PlayerBlock = () => {
     isLoading: playerIsLoading,
     error: playerError,
     data: playerData,
-    // refetch,
+    refetch,
   } = useQuery({
     queryKey: [`player`],
     queryFn: () => getPlayer(1),
     enabled: false,
   });
 
-  // useEffect(() => {
-  //   refetch();
-  // }, []);
+  useEffect(() => {
+    refetch();
+  }, []);
 
   if (playerIsLoading) return <Loading />;
 
