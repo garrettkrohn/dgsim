@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import MobileMenu from './MobileMenu';
 import menuItems from '../../constants/MenuItems';
+import { Link } from '@tanstack/react-router';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -23,9 +24,11 @@ const Navbar = () => {
         )}
         <div className="hidden sm:flex sm:flex-row">
           {menuItems.map(item => (
-            <div key={item.name} className="p-5 ">
-              {item.name}
-            </div>
+            <Link to={item.route}>
+              <div key={item.name} className="p-4">
+                {item.name}
+              </div>
+            </Link>
           ))}
         </div>
         <div className="p-4">Disc Golf Sim League</div>
