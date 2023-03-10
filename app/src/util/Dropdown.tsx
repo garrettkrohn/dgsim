@@ -52,6 +52,7 @@ const Dropdown = (props: {
           <div className="p-2">
             {props.items.map((item, index) => (
               <a
+                key={index}
                 href="#"
                 className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                 role="menuitem"

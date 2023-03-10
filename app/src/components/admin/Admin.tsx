@@ -80,11 +80,6 @@ const Admin = () => {
       console.log(tournamentParameters);
     };
 
-    const handleTournamentName = (event: Event) => {
-      // @ts-ignore
-      // setTournamentName(event.target.value);
-    };
-
     return (
       <div>
         <WrapperBlock color="dgsecondary">
