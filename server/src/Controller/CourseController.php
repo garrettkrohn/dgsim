@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\Incoming\CreateCourseDto;
+use App\Exception\InvalidRequestDataException;
 use App\Serialization\JsonSerializer;
 use App\Serialization\SerializationService;
 use App\Service\CourseService;
@@ -26,12 +27,16 @@ class CourseController extends ApiController
         $this->courseService = $courseService;
     }
 
+    /**
+     * @throws \JsonException
+     * @throws InvalidRequestDataException
+     */
     #[Route('/api/courses', methods: ['POST'])]
     public function createCourse(Request $request):Response
     {
+        /** @var CreateCourseDto $dto */
         $dto = $this->getValidatedDto($request, CreateCourseDto::class);
-//        $course = $this->courseService->createNewCourse();
-        return new JsonResponse('$course');
+        return $this->json($this->courseService->createNewCourse($dto));
     }
 
     #[Route('api/courses', methods: ['GET'])]
