@@ -7,6 +7,7 @@ use App\Exception\InvalidRequestDataException;
 use App\Serialization\JsonSerializer;
 use App\Serialization\SerializationService;
 use App\Service\CourseService;
+use JsonException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ class CourseController extends ApiController
 
     /**
      * @param CourseService $courseService
+     * @param SerializationService $serializationService
      */
     public function __construct(CourseService $courseService, SerializationService $serializationService)
     {
@@ -28,7 +30,7 @@ class CourseController extends ApiController
     }
 
     /**
-     * @throws \JsonException
+     * @throws JsonException
      * @throws InvalidRequestDataException
      */
     #[Route('/api/courses', methods: ['POST'])]
@@ -45,4 +47,10 @@ class CourseController extends ApiController
         return $this->json($this->courseService->getCoursesDto());
     }
 
+
+    #[Route('api/courses/{id}', methods: ['GET'])]
+    public function deleteCourse(int $id): Response
+    {
+
+    }
 }
