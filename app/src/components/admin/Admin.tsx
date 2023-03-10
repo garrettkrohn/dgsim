@@ -14,20 +14,29 @@ const Admin = () => {
   const {
     value: tournamentName,
     valueChangeHandler: setTournamentName,
-    inputBlurHandler: blur,
+    inputBlurHandler: tournamentBlur,
     hasError: tournamentNameError,
     isValid: tournamentNameIsValid,
     reset: tournamentNameReset,
   } = useInput((value: string) => value.trim() !== '');
 
-  // const {
-  //   value: seasonNumber,
-  //   valueChangeHandler: setseasonNumber,
-  //   inputBlurHandler: blurSeason,
-  //   hasError: seasonNumberError,
-  //   isValid: seasonNumberIsValid,
-  //   reset: seasonNumberReset,
-  // } = useInput((value: string) => value.trim() !== '');
+  const {
+    value: seasonNumber,
+    valueChangeHandler: setSeasonNumber,
+    inputBlurHandler: seasonNumberBlur,
+    hasError: seasonNumberError,
+    isValid: SeasonNumberIsValid,
+    reset: seasonNumberReset,
+  } = useInput((value: string) => value.trim() !== '');
+
+  const {
+    value: numberOfRounds,
+    valueChangeHandler: setNumberOfRounds,
+    inputBlurHandler: numberOfRoundsBlur,
+    hasError: numberOfRoundsError,
+    isValid: numberOfRoundsIsValid,
+    reset: numberOfRoundsReset,
+  } = useInput((value: string) => value.trim() !== '');
 
   const {
     isLoading: coursesAreLoading,
@@ -63,12 +72,12 @@ const Admin = () => {
 
     const handleSubmit = () => {
       const tournamentParameters = {
-        // tournamentName: tournamentName,
-        // courseId: items[selectedCourseIndex],
-        // season: seasonNumber,
-        // numberOfRounds: numberOfRounds,
+        tournamentName: tournamentName,
+        courseId: coursesData[selectedCourseIndex].courseId,
+        season: seasonNumber,
+        numberOfRounds: numberOfRounds,
       };
-      console.log(tournamentName);
+      console.log(tournamentParameters);
     };
 
     const handleTournamentName = (event: Event) => {
@@ -105,11 +114,23 @@ const Admin = () => {
           </div>
           <div className="flex justify-between py-1">
             <label>Season Number:</label>
-            <input className="rounded px-3 text-black" />
+            <input
+              className="rounded px-3 text-black"
+              type="text"
+              id="name"
+              value={seasonNumber}
+              onChange={setSeasonNumber}
+            />
           </div>
           <div className="flex justify-between py-1">
             <label>Number of Rounds:</label>
-            <input className="rounded px-3 text-black" />
+            <input
+              className="rounded px-3 text-black"
+              type="text"
+              id="name"
+              value={numberOfRounds}
+              onChange={setNumberOfRounds}
+            />
           </div>
           <Button
             label="Simulate Tournament"
