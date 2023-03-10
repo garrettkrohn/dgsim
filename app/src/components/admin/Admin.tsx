@@ -1,15 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import PageLayout from '../PageLayout';
 import WrapperBlock from '../../util/WrapperBlock';
 import Dropdown from '../../util/Dropdown';
 import { useQuery } from '@tanstack/react-query';
-import { getPlayer } from '../../services/PlayerApi';
 import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
+import Button from '../../util/Button';
+import useInput from '../../hooks/useInput';
 
 const Admin = () => {
   const [showTournamentCreate, setShowTournamentCreate] = useState(true);
-  const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>();
+  const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
+
+  const {
+    value: tournamentName,
+    valueChangeHandler: setTournamentName,
+    inputBlurHandler: blur,
+    hasError: tournamentNameError,
+    isValid: tournamentNameIsValid,
+    reset: tournamentNameReset,
+  } = useInput((value: string) => value.trim() !== '');
+
+  // const {
+  //   value: seasonNumber,
+  //   valueChangeHandler: setseasonNumber,
+  //   inputBlurHandler: blurSeason,
+  //   hasError: seasonNumberError,
+  //   isValid: seasonNumberIsValid,
+  //   reset: seasonNumberReset,
+  // } = useInput((value: string) => value.trim() !== '');
 
   const {
     isLoading: coursesAreLoading,
@@ -43,7 +61,20 @@ const Admin = () => {
       return item.courseName;
     });
 
-    console.log(items);
+    const handleSubmit = () => {
+      const tournamentParameters = {
+        // tournamentName: tournamentName,
+        // courseId: items[selectedCourseIndex],
+        // season: seasonNumber,
+        // numberOfRounds: numberOfRounds,
+      };
+      console.log(tournamentName);
+    };
+
+    const handleTournamentName = (event: Event) => {
+      // @ts-ignore
+      // setTournamentName(event.target.value);
+    };
 
     return (
       <div>
@@ -53,14 +84,39 @@ const Admin = () => {
         <WrapperBlock color="dgprimary">
           <div className="text-center">Create Tournament</div>
         </WrapperBlock>
-        <WrapperBlock color="dgprimary">
-          <div>tournament module</div>
-        </WrapperBlock>
-        <Dropdown
-          items={items}
-          setIndex={setSelectedCourseIndex}
-          title="Select a Course"
-        />
+        <div className="text-dgsoftwhite">
+          <div className="flex justify-between py-1">
+            <div>Select a Course:</div>
+            <Dropdown
+              items={items}
+              setIndex={setSelectedCourseIndex}
+              title={items[selectedCourseIndex]}
+            />
+          </div>
+          <div className="flex justify-between py-1">
+            <label>Tournament Name:</label>
+            <input
+              type="text"
+              id="name"
+              value={tournamentName}
+              className="rounded px-3 text-black"
+              onChange={setTournamentName}
+            />
+          </div>
+          <div className="flex justify-between py-1">
+            <label>Season Number:</label>
+            <input className="rounded px-3 text-black" />
+          </div>
+          <div className="flex justify-between py-1">
+            <label>Number of Rounds:</label>
+            <input className="rounded px-3 text-black" />
+          </div>
+          <Button
+            label="Simulate Tournament"
+            onClick={handleSubmit}
+            disable={false}
+          />
+        </div>
         <WrapperBlock color="dgsecondary">
           <div className="text-center">Player Update Numbers</div>
         </WrapperBlock>

@@ -5,27 +5,27 @@ const Dropdown = (props: {
   setIndex: Function;
   title: string;
 }) => {
-  const [showDropdown, setShowDropdown] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
   return (
-    <div className="relative">
+    <div className="flex justify-center">
       <div
-        className="inline-flex items-center divide-x divide-gray-100 overflow-hidden rounded-md border bg-white"
+        className="flex items-center divide-x divide-gray-100 overflow-hidden rounded-md border bg-dgsecondary"
         onClick={toggleDropdown}
       >
         <a
           href="#"
-          className="px-4 py-2 text-sm leading-none text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+          className="px-4 py-2 text-sm leading-none text-dgsoftwhite "
         >
           {props.title}
         </a>
 
         <button
-          className="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700"
+          className="h-full p-2 text-gray-600 text-dgsoftwhite "
           onClick={toggleDropdown}
         >
           <span className="sr-only">Menu</span>
@@ -34,6 +34,7 @@ const Dropdown = (props: {
             className="h-4 w-4"
             viewBox="0 0 20 20"
             fill="currentColor"
+            color="white"
           >
             <path
               fillRule="evenodd"
@@ -45,7 +46,7 @@ const Dropdown = (props: {
       </div>
       {showDropdown ? (
         <div
-          className="absolute right-0 z-10 mt-2 w-56 rounded-md border border-gray-100 bg-white shadow-lg"
+          className="absolute right-5 z-10 mt-2 w-56 rounded-md border border-gray-100 bg-white shadow-lg"
           role="menu"
         >
           <div className="p-2">
