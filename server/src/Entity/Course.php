@@ -22,7 +22,7 @@ class Course
     #[ORM\Column]
     private ?int $course_par = null;
 
-    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Hole::class)]
+    #[ORM\OneToMany(mappedBy: 'course', targetEntity: Hole::class, cascade: ['persist', 'remove'])]
     private Collection $holes;
 
     #[ORM\OneToMany(mappedBy: 'course', targetEntity: Tournament::class)]

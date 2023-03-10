@@ -69,6 +69,14 @@ class CourseService extends AbstractMultiTransformer
         return $this->transformFromObject($course);
     }
 
+    public function deleteCourse(int $id): string
+    {
+        $course = $this->courseRepository->find($id);
+        $this->entityManager->remove($course);
+        $this->entityManager->flush();
+        return "deleted tournament with id: {$id}";
+    }
+
     public function getCourses(): iterable
     {
         return $this->courseRepository->findAll();
