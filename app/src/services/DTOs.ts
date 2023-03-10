@@ -79,3 +79,8 @@ export interface seasonStandingsResource {
   player: playerResource;
   seasonTotal: number;
 }
+
+export interface coursesNamesResource {
+  courseId: number;
+  courseName: string;
+}
