@@ -53,4 +53,10 @@ class CourseController extends ApiController
     {
         return $this->json($this->courseService->deleteCourse($id));
     }
+
+    #[Route('api/courses/names', methods: ['GET'])]
+    public function getCourseNames(): Response
+    {
+        return $this->json($this->courseService->getCourseNames());
+    }
 }

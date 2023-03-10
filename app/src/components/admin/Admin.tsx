@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '../PageLayout';
 import WrapperBlock from '../../util/WrapperBlock';
 import Dropdown from '../../util/Dropdown';
 
 const Admin = () => {
   const [showTournamentCreate, setShowTournamentCreate] = useState(true);
-  const [selectedCourse, setSelectedCourse] = useState<number>();
+  const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>();
 
-  console.log(selectedCourse);
+  useEffect(() => {
+    return () => {};
+  }, [selectedCourseIndex]);
 
   const options = ['opt1', 'opt2', 'opt3'];
   return (
@@ -23,7 +25,7 @@ const Admin = () => {
       </WrapperBlock>
       <Dropdown
         items={options}
-        setIndex={setSelectedCourse}
+        setIndex={setSelectedCourseIndex}
         title="Select a Course"
       />
       <WrapperBlock color="dgsecondary">
