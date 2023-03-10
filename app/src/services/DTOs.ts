@@ -84,3 +84,10 @@ export interface coursesNamesResource {
   courseId: number;
   courseName: string;
 }
+
+export interface createTournamentParams {
+  tournamentName: string;
+  courseId: number;
+  season: number;
+  numberOfRounds: number;
+}

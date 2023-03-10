@@ -6,10 +6,13 @@ import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
 import Button from '../../util/Button';
 import useInput from '../../hooks/useInput';
+import { createTournamentParams } from '../../services/DTOs';
 
 const Admin = () => {
   const [showTournamentCreate, setShowTournamentCreate] = useState(true);
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
+  const [tournamentParams, setTournamentParams] =
+    useState<createTournamentParams>();
 
   const {
     value: tournamentName,
@@ -53,10 +56,6 @@ const Admin = () => {
     refetch();
   }, []);
 
-  useEffect(() => {
-    return () => {};
-  }, [selectedCourseIndex]);
-
   if (coursesAreLoading) {
     return <Loading />;
   }
@@ -70,14 +69,14 @@ const Admin = () => {
       return item.courseName;
     });
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
       const tournamentParameters = {
         tournamentName: tournamentName,
         courseId: coursesData[selectedCourseIndex].courseId,
-        season: seasonNumber,
-        numberOfRounds: numberOfRounds,
+        season: Number(seasonNumber),
+        numberOfRounds: Number(numberOfRounds),
       };
-      console.log(tournamentParameters);
+      setTournamentParams(tournamentParameters);
     };
 
     return (
@@ -89,14 +88,6 @@ const Admin = () => {
           <div className="text-center">Create Tournament</div>
         </WrapperBlock>
         <div className="text-dgsoftwhite">
-          <div className="flex justify-between py-1">
-            <div>Select a Course:</div>
-            <Dropdown
-              items={items}
-              setIndex={setSelectedCourseIndex}
-              title={items[selectedCourseIndex]}
-            />
-          </div>
           <div className="flex justify-between py-1">
             <label>Tournament Name:</label>
             <input
@@ -126,6 +117,20 @@ const Admin = () => {
               value={numberOfRounds}
               onChange={setNumberOfRounds}
             />
+          </div>
+          <div className="flex justify-between py-1">
+            <div>Select a Course:</div>
+            {coursesAreLoading ? <Loading /> : ''}
+            {coursesError ? <div>ope, there was an error</div> : ''}
+            {coursesData ? (
+              <Dropdown
+                items={items}
+                setIndex={setSelectedCourseIndex}
+                title={items[selectedCourseIndex]}
+              />
+            ) : (
+              ''
+            )}
           </div>
           <Button
             label="Simulate Tournament"
