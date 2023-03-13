@@ -16,19 +16,22 @@ class SeasonLeaderboardService
     private PlayerTournamentRepository $playerTournamentRepository;
     private PlayerService $playerService;
     private PlayerTournamentService $playerTournamentService;
+    private TournamentService $tournamentService;
 
     /**
      * @param PlayerRepository $playerRepository
      * @param PlayerTournamentRepository $playerTournamentRepository
      * @param PlayerService $playerService
      * @param PlayerTournamentService $playerTournamentService
+     * @param TournamentService $tournamentService
      */
-    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService)
+    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService, TournamentService $tournamentService)
     {
         $this->playerRepository = $playerRepository;
         $this->playerTournamentRepository = $playerTournamentRepository;
         $this->playerService = $playerService;
         $this->playerTournamentService = $playerTournamentService;
+        $this->tournamentService = $tournamentService;
     }
 
 
@@ -65,6 +68,17 @@ class SeasonLeaderboardService
         return $allSeasonLeaderboards;
     }
 
+    public function getAllSeasonLeaderboards(): iterable
+    {
+        $seasons = $this->tournamentService->getAvailableSeasons();
+        $return = [];
+
+        foreach($seasons as $season) {
+            $return[] = $this->getSeasonLeaderboard($season);
+        }
+        return $return;
+    }
+
     /**
      * @param PlayerTournament[] $playerTournaments
      * @return int
@@ -77,10 +91,4 @@ class SeasonLeaderboardService
         }
         return $seasonTotalPoints;
     }
-
-//    public function getAllSeasonLeaderboards(): iterable
-//    {
-//
-//    }
-
 }

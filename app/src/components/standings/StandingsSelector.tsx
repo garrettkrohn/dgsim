@@ -6,6 +6,7 @@ import StandingsTemplate from './StandingsTemplate';
 import { seasonStandingsResource } from '../../services/DTOs';
 import Button from '../../util/Button';
 import StandingsModal from './StandingsModal';
+import Dropdown from '../../util/Dropdown';
 
 const StandingsSelector = () => {
   const [seasonNumber, setSeasonNumber] = useState(1);
@@ -52,11 +53,17 @@ const StandingsSelector = () => {
     return (
       <>
         <div className="flex h-16 flex-row justify-evenly bg-dgbackground text-dgsoftwhite">
-          <Button
-            label={'Select Season'}
-            onClick={toggleShowSeasons}
-            disable={false}
-          ></Button>
+          {/*<Dropdown*/}
+          {/*  items={items}*/}
+          {/*  setIndex={setSelectedTournamentId}*/}
+          {/*  title={'Select Tournament'}*/}
+          {/*/>*/}
+
+          {/*<Button*/}
+          {/*  label={'Select Season'}*/}
+          {/*  onClick={toggleShowSeasons}*/}
+          {/*  disable={false}*/}
+          {/*></Button>*/}
         </div>
         {showSeasons ? <StandingsModal toggleModal={toggleShowSeasons} /> : ''}
         <StandingsTemplate standings={standings} />;
