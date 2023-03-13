@@ -1,9 +1,11 @@
 import PlayerBlock from './PlayerBlock';
 import Divider from '../../util/Divider';
 import UpdateBlock from './UpdateBlock';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UpdateConfirmModal from './UpdateConfirmModal';
 import LastTournamentBlock from './LastTournamentBlock';
+import { useQuery } from '@tanstack/react-query';
+import { getAllTournaments } from '../../services/tournamentsApi';
 
 const Homepage = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -11,6 +13,22 @@ const Homepage = () => {
   const toggleConfirmModal = () => {
     setShowConfirmModal(!showConfirmModal);
   };
+
+  //calls the tournaments call when the homepage is loaded!
+  const {
+    isLoading: tournamentsAreLoading,
+    error: tournamentsError,
+    data: tournamentsData,
+    refetch,
+  } = useQuery({
+    queryKey: [`seasons/tournament/title`],
+    queryFn: () => getAllTournaments(),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <div>

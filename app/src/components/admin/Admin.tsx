@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import WrapperBlock from '../../util/WrapperBlock';
 import Dropdown from '../../util/Dropdown';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
 import Button from '../../util/Button';
 import useInput from '../../hooks/useInput';
 import { createTournamentParams } from '../../services/DTOs';
+import { data } from 'autoprefixer';
+import { createTournament } from '../../services/tournamentsApi';
 
 const Admin = () => {
   const [showTournamentCreate, setShowTournamentCreate] = useState(true);
@@ -69,16 +71,6 @@ const Admin = () => {
       return item.courseName;
     });
 
-    const handleSubmit = () => {
-      const tournamentParameters = {
-        tournamentName: tournamentName,
-        courseId: coursesData[selectedCourseIndex].courseId,
-        season: Number(seasonNumber),
-        numberOfRounds: Number(numberOfRounds),
-      };
-      setTournamentParams(tournamentParameters);
-    };
-
     return (
       <div>
         <WrapperBlock color="dgsecondary">
@@ -87,7 +79,7 @@ const Admin = () => {
         <WrapperBlock color="dgprimary">
           <div className="text-center">Create Tournament</div>
         </WrapperBlock>
-        <div className="text-dgsoftwhite">
+        <form className="text-dgsoftwhite">
           <div className="flex justify-between py-1">
             <label>Tournament Name:</label>
             <input
@@ -132,19 +124,31 @@ const Admin = () => {
               ''
             )}
           </div>
-          <Button
-            label="Simulate Tournament"
-            onClick={handleSubmit}
-            disable={false}
-          />
-        </div>
+          <div className="flex justify-center py-1">
+            <button
+              type="submit"
+              className='disabled:text-opacity-10" rounded-md bg-dgtertiary py-2 px-5 text-dgsoftwhite disabled:bg-opacity-10'
+              onClick={e => {
+                e.preventDefault();
+                console.log('clicked');
+              }}
+            >
+              Simulate Tournament
+            </button>
+          </div>
+          {/*<Button*/}
+          {/*  label="Simulate Tournament"*/}
+          {/*  onClick={simulateTournament}*/}
+          {/*  disable={false}*/}
+          {/*/>*/}
+        </form>
         <WrapperBlock color="dgsecondary">
           <div className="text-center">Player Update Numbers</div>
         </WrapperBlock>
       </div>
     );
   }
-  return;
+  return <></>;
 };
 
 export default Admin;

@@ -130,7 +130,7 @@ export async function getLastTournament(
 export async function createTournament(
   params: createTournamentParams,
 ): Promise<tournamentResource> {
-  return await fetch(`http://localhost:8000/api/lastTournament/1`, {
+  return await fetch(`http://localhost:8000/api/tournaments`, {
     headers: {
       'Content-Type': 'application/json',
     },
