@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
 import TournamentTemplate from './TournamentTemplate';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TournamentModal from './TournamentModal';
 import Button from '../../util/Button';
 import { tournamentResource } from '../../services/DTOs';
