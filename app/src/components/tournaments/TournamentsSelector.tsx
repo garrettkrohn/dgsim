@@ -10,7 +10,7 @@ import Dropdown from '../../util/Dropdown';
 
 export default function TournamentsSelector(props: { tournamentId: number }) {
   const [showTournaments, setShowTournaments] = useState(false);
-  const [selectedTournamentId, setSelectedTournamentId] = useState(0);
+  const [selectedTournamentId, setSelectedTournamentId] = useState<number>(-1);
 
   const toggleShowSeasons = () => {
     setShowTournaments(!showTournaments);
@@ -39,6 +39,10 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
     const items = tournamentsData.map(item => {
       return item.season + ' - ' + item.tournamentName;
     });
+
+    if (selectedTournamentId === -1) {
+      setSelectedTournamentId(tournamentsData.length - 1);
+    }
 
     return (
       <div>
