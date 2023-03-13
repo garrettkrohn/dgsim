@@ -4,6 +4,7 @@ namespace App\Service;
 
 
 use App\Dto\Incoming\CreateCourseDto;
+use App\Dto\Outgoing\CourseNameDto;
 use App\Dto\Outgoing\CourseResponseDto;
 use App\Entity\Course;
 use App\Repository\CourseRepository;
@@ -81,6 +82,22 @@ class CourseService extends AbstractMultiTransformer
     {
         return $this->courseRepository->findAll();
     }
+
+    public function getCourseNames(): iterable
+    {
+        $courses = $this->courseRepository->findAll();
+
+        $returnArray = [];
+        foreach ($courses as $course) {
+            $dto = new CourseNameDto();
+            $dto->setCourseId($course->getCourseId());
+            $dto->setCourseName($course->getName());
+            $returnArray[] = $dto;
+        }
+        return $returnArray;
+    }
+
+
 
     public function getCoursesDto(): iterable
     {
