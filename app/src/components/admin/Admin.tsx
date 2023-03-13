@@ -69,7 +69,7 @@ const Admin = () => {
       return item.courseName;
     });
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
       const tournamentParameters = {
         tournamentName: tournamentName,
         courseId: coursesData[selectedCourseIndex].courseId,
