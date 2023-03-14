@@ -59,4 +59,5 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
       </div>
     );
   }
+  return <div></div>;
 }

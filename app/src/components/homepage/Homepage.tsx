@@ -6,6 +6,7 @@ import UpdateConfirmModal from './UpdateConfirmModal';
 import LastTournamentBlock from './LastTournamentBlock';
 import { useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
+import { getSeasonLeaderboards } from '../../services/standingsApi';
 
 const Homepage = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -19,15 +20,27 @@ const Homepage = () => {
     isLoading: tournamentsAreLoading,
     error: tournamentsError,
     data: tournamentsData,
-    refetch,
+    refetch: refetchTournaments,
   } = useQuery({
     queryKey: [`seasons/tournament/title`],
     queryFn: () => getAllTournaments(),
     enabled: false,
   });
 
+  const {
+    isLoading: standingsAreLoading,
+    error: standingsError,
+    data: standingsData,
+    refetch: refetchStandings,
+  } = useQuery({
+    queryKey: [`standings/season`],
+    queryFn: () => getSeasonLeaderboards(),
+    enabled: false,
+  });
+
   useEffect(() => {
-    refetch();
+    refetchStandings();
+    refetchTournaments();
   }, []);
 
   return (
