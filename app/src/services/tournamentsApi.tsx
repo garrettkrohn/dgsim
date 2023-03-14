@@ -1,4 +1,5 @@
 import {
+  createTournamentParams,
   playerTournamentResource,
   tournamentResource,
   tournamentTitleResource,
@@ -117,6 +118,27 @@ export async function getLastTournament(
   })
     .then(response => response.json())
     .then((data: playerTournamentResource) => {
+      console.log('Success:', data);
+      return data;
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      throw error;
+    });
+}
+
+export async function createTournament(
+  params: createTournamentParams,
+): Promise<tournamentResource> {
+  return await fetch(`http://localhost:8000/api/tournaments`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+    body: JSON.stringify(params),
+  })
+    .then(response => response.json())
+    .then((data: tournamentResource) => {
       console.log('Success:', data);
       return data;
     })

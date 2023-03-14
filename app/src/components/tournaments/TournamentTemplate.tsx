@@ -41,8 +41,12 @@ const TournamentTemplate = (props: {
         <div>Name:</div>
         <div>Total:</div>
       </div>
-      {playerTournaments.map(pt => (
-        <TournamentRow playerTournament={pt} roundsDisplay={false} />
+      {playerTournaments.map((pt, index) => (
+        <TournamentRow
+          key={index}
+          playerTournament={pt}
+          roundsDisplay={false}
+        />
       ))}
     </div>
   );

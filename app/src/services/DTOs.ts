@@ -75,7 +75,24 @@ export interface tournamentTitleResource {
   season: number;
 }
 
-export interface seasonStandingsResource {
+export interface allSeasonStandings {
+  season: number;
+  standings: seasonStandingResource[];
+}
+
+export interface seasonStandingResource {
   player: playerResource;
   seasonTotal: number;
+}
+
+export interface coursesNamesResource {
+  courseId: number;
+  courseName: string;
+}
+
+export interface createTournamentParams {
+  tournamentName: string;
+  courseId: number;
+  season: number;
+  numberOfRounds: number;
 }

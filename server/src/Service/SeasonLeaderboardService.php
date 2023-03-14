@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\Outgoing\AllSeasonStandingsDto;
 use App\Dto\Outgoing\CareerStandingsDto;
 use App\Dto\Outgoing\SeasonStandingsDto;
 use App\Dto\Outgoing\StandingsDto;
@@ -13,22 +14,22 @@ use App\Repository\PlayerTournamentRepository;
 class SeasonLeaderboardService
 {
     private PlayerRepository $playerRepository;
-    private PlayerTournamentRepository $playerTournamentRepository;
     private PlayerService $playerService;
     private PlayerTournamentService $playerTournamentService;
+    private TournamentService $tournamentService;
 
     /**
      * @param PlayerRepository $playerRepository
-     * @param PlayerTournamentRepository $playerTournamentRepository
      * @param PlayerService $playerService
      * @param PlayerTournamentService $playerTournamentService
+     * @param TournamentService $tournamentService
      */
-    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService)
+    public function __construct(PlayerRepository $playerRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService, TournamentService $tournamentService)
     {
         $this->playerRepository = $playerRepository;
-        $this->playerTournamentRepository = $playerTournamentRepository;
         $this->playerService = $playerService;
         $this->playerTournamentService = $playerTournamentService;
+        $this->tournamentService = $tournamentService;
     }
 
 
@@ -48,6 +49,16 @@ class SeasonLeaderboardService
         return $allCareerLeaderboards;
     }
 
+    /**
+     * @param SeasonStandingsDto $a
+     * @param SeasonStandingsDto $b
+     * @return int
+     */
+    private function cmp(SeasonStandingsDto $a, SeasonStandingsDto $b): int
+    {
+        return ($b->getSeasonTotal() - $a->getSeasonTotal());
+    }
+
     public function getSeasonLeaderboard(int $seasonNumber): iterable
     {
         $allPlayers = $this->playerRepository->findAll();
@@ -62,7 +73,26 @@ class SeasonLeaderboardService
 
             $allSeasonLeaderboards[] = $dto;
         }
+
+        //sort
+        usort($allSeasonLeaderboards, [$this, "cmp"]);
+
         return $allSeasonLeaderboards;
+    }
+
+    public function getAllSeasonLeaderboards(): iterable
+    {
+        $seasons = $this->tournamentService->getAvailableSeasons();
+
+        $returnArray = [];
+
+        foreach($seasons as $season) {
+            $dto = new AllSeasonStandingsDto();
+            $dto->setSeason($season);
+            $dto->setStandings($this->getSeasonLeaderboard($season));
+            $returnArray[] = $dto;
+        }
+        return $returnArray;
     }
 
     /**
@@ -77,10 +107,4 @@ class SeasonLeaderboardService
         }
         return $seasonTotalPoints;
     }
-
-//    public function getAllSeasonLeaderboards(): iterable
-//    {
-//
-//    }
-
 }

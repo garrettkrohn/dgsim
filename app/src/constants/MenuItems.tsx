@@ -3,6 +3,7 @@ const menuItems = [
   { name: 'Schedule', route: '/schedule' },
   { name: 'Tournaments', route: '/tournaments' },
   { name: 'Standings', route: '/standings' },
+  { name: 'Admin', route: '/admin' },
 ];
 
 export default menuItems;
