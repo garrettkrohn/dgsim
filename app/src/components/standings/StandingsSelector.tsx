@@ -7,10 +7,13 @@ import { seasonStandingsResource } from '../../services/DTOs';
 import Button from '../../util/Button';
 import StandingsModal from './StandingsModal';
 import Dropdown from '../../util/Dropdown';
+import { Simulate } from 'react-dom/test-utils';
+import select = Simulate.select;
 
 const StandingsSelector = () => {
   const [seasonNumber, setSeasonNumber] = useState(1);
   const [showSeasons, setShowSeasons] = useState(false);
+  const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(-1);
 
   const toggleShowSeasons = () => {
     setShowSeasons(!showSeasons);
@@ -23,7 +26,7 @@ const StandingsSelector = () => {
     refetch,
   } = useQuery({
     queryKey: [`standings/season`],
-    queryFn: () => getSeasonLeaderboards(seasonNumber),
+    queryFn: () => getSeasonLeaderboards(),
     enabled: false,
   });
 
@@ -49,6 +52,11 @@ const StandingsSelector = () => {
   }
 
   if (standingsData) {
+    console.log(standingsData[0]);
+    if (selectedSeasonIndex === -1) {
+      setSelectedSeasonIndex(standingsData.length - 1);
+    }
+
     const standings = standingsData.sort(compare);
     return (
       <>
@@ -66,7 +74,7 @@ const StandingsSelector = () => {
           {/*></Button>*/}
         </div>
         {showSeasons ? <StandingsModal toggleModal={toggleShowSeasons} /> : ''}
-        <StandingsTemplate standings={standings} />;
+        <StandingsTemplate standings={standingsData[selectedSeasonIndex]} />;
       </>
     );
   }
