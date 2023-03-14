@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
 import { getArchetypes } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
+import Dropdown from '../../util/Dropdown';
+import WrapperBlock from '../../util/WrapperBlock';
 
 const CreatePlayer = () => {
   //get all archetypes
@@ -22,7 +24,7 @@ const CreatePlayer = () => {
     refetch();
   }, []);
 
-  const [archetypeIndex, setArchetypeIndex] = useState(0);
+  const [archetypeIndex, setArchetypeIndex] = useState<number>(0);
 
   const {
     value: playerFirstName,
@@ -42,9 +44,15 @@ const CreatePlayer = () => {
     reset: playerLastNameReset,
   } = useInput((value: string) => value.trim() !== '');
 
+  const items = archetypesData?.map(item => {
+    return item.name;
+  });
+
   return (
     <div className="text-dgsoftwhite">
-      <div>Create a Player</div>
+      <WrapperBlock color="dgprimary">
+        <div>Create a Player</div>
+      </WrapperBlock>
       <form>
         <div className="flex justify-between py-1">
           <label>Player First Name</label>
@@ -66,10 +74,25 @@ const CreatePlayer = () => {
             onChange={setPlayerLastName}
           />
         </div>
+        {archetypesData ? (
+          <div>
+            <Dropdown
+              items={items}
+              setIndex={setArchetypeIndex}
+              title={'Select Archetype'}
+            />
+          </div>
+        ) : (
+          ''
+        )}
         {archetypesAreLoading ? <Loading /> : ''}
         {archetypesError ? <div>error</div> : ''}
-        {archetypesData ? <div>data</div> : ''}
       </form>
+      {archetypesData ? (
+        <div>archetype: {archetypesData[archetypeIndex].name}</div>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

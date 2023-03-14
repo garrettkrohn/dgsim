@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Dropdown = (props: {
-  items: string[];
+  items: string[] | undefined;
   setIndex: Function;
   title: string;
 }) => {
@@ -10,6 +10,10 @@ const Dropdown = (props: {
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
+
+  if (props.items === undefined) {
+    return <div>error loading archetypes</div>;
+  }
 
   return (
     <div className="flex justify-center">
