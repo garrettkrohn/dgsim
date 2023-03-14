@@ -51,6 +51,16 @@ class SeasonLeaderboardService
         return $allCareerLeaderboards;
     }
 
+    /**
+     * @param SeasonStandingsDto $a
+     * @param SeasonStandingsDto $b
+     * @return
+     */
+    private function cmp(SeasonStandingsDto $a, SeasonStandingsDto $b): int
+    {
+        return ($b->getSeasonTotal() - $a->getSeasonTotal());
+    }
+
     public function getSeasonLeaderboard(int $seasonNumber): iterable
     {
         $allPlayers = $this->playerRepository->findAll();
@@ -65,6 +75,10 @@ class SeasonLeaderboardService
 
             $allSeasonLeaderboards[] = $dto;
         }
+
+        //sort
+        usort($allSeasonLeaderboards, [$this, "cmp"]);
+
         return $allSeasonLeaderboards;
     }
 
