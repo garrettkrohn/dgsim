@@ -7,13 +7,18 @@ import LastTournamentBlock from './LastTournamentBlock';
 import { useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 const Homepage = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  const { isAuthenticated } = useAuth0();
+
   const toggleConfirmModal = () => {
     setShowConfirmModal(!showConfirmModal);
   };
+
 
   //calls the tournaments call when the homepage is loaded!
   const {
@@ -42,6 +47,22 @@ const Homepage = () => {
     refetchStandings();
     refetchTournaments();
   }, []);
+
+  if (!isAuthenticated) {
+    return <div className="text-dgsoftwhite">please log in</div>;
+  }
+
+  try {
+    //get the user by the token
+  } catch {
+    //create the user if it doesn't exist
+  }
+
+  try {
+    //pulling the player from the user
+  } catch {
+    //reroute to create a player if the player doesn't exist
+  }
 
   return (
     <div>
