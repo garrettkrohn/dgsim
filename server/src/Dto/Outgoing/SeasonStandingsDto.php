@@ -11,6 +11,10 @@ class SeasonStandingsDto extends StandingsDto
     #[Type('int')]
     private int $seasonTotal;
 
+    #[NotNull]
+    #[Type('int')]
+    private int $season;
+
     /**
      * @return int
      */
@@ -26,4 +30,23 @@ class SeasonStandingsDto extends StandingsDto
     {
         $this->seasonTotal = $seasonTotal;
     }
+
+    /**
+     * @return int
+     */
+    public function getSeason(): int
+    {
+        return $this->season;
+    }
+
+    /**
+     * @param int $season
+     */
+    public function setSeason(int $season): void
+    {
+        $this->season = $season;
+    }
+
+
+
 }

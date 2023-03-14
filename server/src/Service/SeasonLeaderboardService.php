@@ -62,6 +62,7 @@ class SeasonLeaderboardService
             $dto = new SeasonStandingsDto();
             $dto->setPlayer($this->playerService->transformFromObject($player));
             $dto->setSeasonTotal($seasonTotalPoints);
+            $dto->setSeason($seasonNumber);
 
             $allSeasonLeaderboards[] = $dto;
         }
