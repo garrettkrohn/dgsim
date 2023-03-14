@@ -18,6 +18,12 @@ class SeasonLeaderboardService
     private PlayerTournamentService $playerTournamentService;
     private TournamentService $tournamentService;
 
+    /**
+     * @param PlayerRepository $playerRepository
+     * @param PlayerService $playerService
+     * @param PlayerTournamentService $playerTournamentService
+     * @param TournamentService $tournamentService
+     */
     public function __construct(PlayerRepository $playerRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService, TournamentService $tournamentService)
     {
         $this->playerRepository = $playerRepository;
@@ -25,6 +31,7 @@ class SeasonLeaderboardService
         $this->playerTournamentService = $playerTournamentService;
         $this->tournamentService = $tournamentService;
     }
+
 
     public function getCareerLeaderboard(): iterable
     {

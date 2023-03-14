@@ -59,14 +59,7 @@ const StandingsSelector = () => {
             setIndex={setSelectedSeasonIndex}
             title={'Select Season'}
           />
-
-          {/*<Button*/}
-          {/*  label={'Select Season'}*/}
-          {/*  onClick={toggleShowSeasons}*/}
-          {/*  disable={false}*/}
-          {/*></Button>*/}
         </div>
-        {/*{showSeasons ? <StandingsModal toggleModal={toggleShowSeasons} /> : ''}*/}
         <StandingsTemplate
           allSeasonStandings={standingsData[selectedSeasonIndex]}
         />
