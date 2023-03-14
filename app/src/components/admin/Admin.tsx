@@ -1,18 +1,24 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WrapperBlock from '../../util/WrapperBlock';
 import Dropdown from '../../util/Dropdown';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  defaultContext,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
-import Button from '../../util/Button';
 import useInput from '../../hooks/useInput';
-import { createTournamentParams } from '../../services/DTOs';
-import { data } from 'autoprefixer';
 import { createTournament } from '../../services/tournamentsApi';
-import axios from 'axios';
 
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
+  const [disableButton, setDisableButton] = useState(false);
+
+  const toggleButton = () => {
+    setDisableButton(!disableButton);
+  };
 
   const {
     value: tournamentName,
@@ -64,7 +70,11 @@ function Admin() {
         numberOfRounds: Number(numberOfRounds),
         courseId: coursesData ? coursesData[selectedCourseIndex].courseId : -1,
       }),
-    onMutate: () => console.log('success?'),
+    onMutate: () => toggleButton(),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => toggleButton(),
   });
 
   if (coursesAreLoading) {
@@ -79,18 +89,6 @@ function Admin() {
     const items = coursesData.map(item => {
       return item.courseName;
     });
-
-    // const handleSubmit = () => {
-    // const tournamentParams = {
-    //   tournamentName: tournamentName,
-    //   season: Number(seasonNumber),
-    //   numberOfRounds: Number(numberOfRounds),
-    //   courseId: coursesData[selectedCourseIndex].courseId,
-    // };
-    //   console.log('ran');
-    //   const promise = createTournament(tournamentParams);
-    //   console.log(promise);
-    // };
 
     return (
       <div>
@@ -147,6 +145,7 @@ function Admin() {
           </div>
           <div className="flex justify-center py-1">
             <button
+              disabled={disableButton}
               type="submit"
               className='disabled:text-opacity-10" rounded-md bg-dgtertiary py-2 px-5 text-dgsoftwhite disabled:bg-opacity-10'
               onClick={e => {
@@ -158,11 +157,6 @@ function Admin() {
               Simulate Tournament
             </button>
           </div>
-          {/*<Button*/}
-          {/*  label="Simulate Tournament"*/}
-          {/*  onClick={simulateTournament}*/}
-          {/*  disable={false}*/}
-          {/*/>*/}
         </form>
         <WrapperBlock color="dgsecondary">
           <div className="text-center">Player Update Numbers</div>
