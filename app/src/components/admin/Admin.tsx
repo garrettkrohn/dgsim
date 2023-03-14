@@ -11,10 +11,7 @@ import { data } from 'autoprefixer';
 import { createTournament } from '../../services/tournamentsApi';
 
 const Admin = () => {
-  const [showTournamentCreate, setShowTournamentCreate] = useState(true);
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
-  const [tournamentParams, setTournamentParams] =
-    useState<createTournamentParams>();
 
   const {
     value: tournamentName,
