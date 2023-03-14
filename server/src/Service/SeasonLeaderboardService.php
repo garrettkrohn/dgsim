@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Dto\Outgoing\AllSeasonStandingsDto;
 use App\Dto\Outgoing\CareerStandingsDto;
 use App\Dto\Outgoing\SeasonStandingsDto;
 use App\Dto\Outgoing\StandingsDto;
@@ -62,7 +63,6 @@ class SeasonLeaderboardService
             $dto = new SeasonStandingsDto();
             $dto->setPlayer($this->playerService->transformFromObject($player));
             $dto->setSeasonTotal($seasonTotalPoints);
-            $dto->setSeason($seasonNumber);
 
             $allSeasonLeaderboards[] = $dto;
         }
@@ -76,12 +76,16 @@ class SeasonLeaderboardService
     public function getAllSeasonLeaderboards(): iterable
     {
         $seasons = $this->tournamentService->getAvailableSeasons();
-        $return = [];
+
+        $returnArray = [];
 
         foreach($seasons as $season) {
-            $return[] = $this->getSeasonLeaderboard($season);
+            $dto = new AllSeasonStandingsDto();
+            $dto->setSeason($season);
+            $dto->setStandings($this->getSeasonLeaderboard($season));
+            $returnArray[] = $dto;
         }
-        return $return;
+        return $returnArray;
     }
 
     /**

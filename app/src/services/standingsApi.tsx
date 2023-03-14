@@ -1,8 +1,6 @@
-import { seasonStandingsResource } from './DTOs';
+import { allSeasonStandings } from './DTOs';
 
-export async function getSeasonLeaderboards(): Promise<
-  seasonStandingsResource[]
-> {
+export async function getSeasonLeaderboards(): Promise<allSeasonStandings[]> {
   return await fetch(`http://localhost:8000/api/leaderboards/season`, {
     headers: {
       'Content-Type': 'application/json',
@@ -10,7 +8,7 @@ export async function getSeasonLeaderboards(): Promise<
     method: 'GET',
   })
     .then(response => response.json())
-    .then((data: seasonStandingsResource[]) => {
+    .then((data: allSeasonStandings[]) => {
       console.log('Success:', data);
       return data;
     })
