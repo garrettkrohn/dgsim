@@ -106,7 +106,11 @@ class PlayerService extends AbstractMultiTransformer
         return $this->getPlayerSimObjects($allActivePlayers);
     }
 
-    public function getPlayerSimObjects($playersArray): iterable
+    /**
+     * @param PlayerDto[] $playersArray
+     * @return iterable
+     */
+    public function getPlayerSimObjects(iterable $playersArray): iterable
     {
         $FLOOR_CEILING = new FloorCeilingDto();
         $FLOOR_CEILING->c1xFloorCeiling = [0.55, 0.92];
@@ -116,7 +120,7 @@ class PlayerService extends AbstractMultiTransformer
         $FLOOR_CEILING->c2RegFloorCeiling = [0.29, 0.73];
         $FLOOR_CEILING->scrambleFloorCeiling = [0.14, 0.64];
 
-        $allPlayersConverted = array();
+        $allPlayersConverted = [];
 
         foreach($playersArray as $player) {
             $allPlayersConverted[] = $this->playerIngester->convertPlayer($player,$FLOOR_CEILING);

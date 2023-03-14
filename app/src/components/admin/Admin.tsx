@@ -1,20 +1,24 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import WrapperBlock from '../../util/WrapperBlock';
 import Dropdown from '../../util/Dropdown';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  defaultContext,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
-import Button from '../../util/Button';
 import useInput from '../../hooks/useInput';
-import { createTournamentParams } from '../../services/DTOs';
-import { data } from 'autoprefixer';
 import { createTournament } from '../../services/tournamentsApi';
 
-const Admin = () => {
-  const [showTournamentCreate, setShowTournamentCreate] = useState(true);
+function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
-  const [tournamentParams, setTournamentParams] =
-    useState<createTournamentParams>();
+  const [disableButton, setDisableButton] = useState(false);
+
+  const toggleButton = () => {
+    setDisableButton(!disableButton);
+  };
 
   const {
     value: tournamentName,
@@ -57,6 +61,21 @@ const Admin = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  const addTournament: any = useMutation({
+    mutationFn: () =>
+      createTournament({
+        tournamentName: tournamentName,
+        season: Number(seasonNumber),
+        numberOfRounds: Number(numberOfRounds),
+        courseId: coursesData ? coursesData[selectedCourseIndex].courseId : -1,
+      }),
+    onMutate: () => toggleButton(),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => toggleButton(),
+  });
 
   if (coursesAreLoading) {
     return <Loading />;
@@ -126,21 +145,18 @@ const Admin = () => {
           </div>
           <div className="flex justify-center py-1">
             <button
+              disabled={disableButton}
               type="submit"
               className='disabled:text-opacity-10" rounded-md bg-dgtertiary py-2 px-5 text-dgsoftwhite disabled:bg-opacity-10'
               onClick={e => {
                 e.preventDefault();
                 console.log('clicked');
+                addTournament.mutate();
               }}
             >
               Simulate Tournament
             </button>
           </div>
-          {/*<Button*/}
-          {/*  label="Simulate Tournament"*/}
-          {/*  onClick={simulateTournament}*/}
-          {/*  disable={false}*/}
-          {/*/>*/}
         </form>
         <WrapperBlock color="dgsecondary">
           <div className="text-center">Player Update Numbers</div>
@@ -149,6 +165,6 @@ const Admin = () => {
     );
   }
   return <></>;
-};
+}
 
 export default Admin;
