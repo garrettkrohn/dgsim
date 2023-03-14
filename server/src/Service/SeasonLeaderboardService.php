@@ -13,27 +13,17 @@ use App\Repository\PlayerTournamentRepository;
 class SeasonLeaderboardService
 {
     private PlayerRepository $playerRepository;
-    private PlayerTournamentRepository $playerTournamentRepository;
     private PlayerService $playerService;
     private PlayerTournamentService $playerTournamentService;
     private TournamentService $tournamentService;
 
-    /**
-     * @param PlayerRepository $playerRepository
-     * @param PlayerTournamentRepository $playerTournamentRepository
-     * @param PlayerService $playerService
-     * @param PlayerTournamentService $playerTournamentService
-     * @param TournamentService $tournamentService
-     */
-    public function __construct(PlayerRepository $playerRepository, PlayerTournamentRepository $playerTournamentRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService, TournamentService $tournamentService)
+    public function __construct(PlayerRepository $playerRepository, PlayerService $playerService, PlayerTournamentService $playerTournamentService, TournamentService $tournamentService)
     {
         $this->playerRepository = $playerRepository;
-        $this->playerTournamentRepository = $playerTournamentRepository;
         $this->playerService = $playerService;
         $this->playerTournamentService = $playerTournamentService;
         $this->tournamentService = $tournamentService;
     }
-
 
     public function getCareerLeaderboard(): iterable
     {
@@ -54,7 +44,7 @@ class SeasonLeaderboardService
     /**
      * @param SeasonStandingsDto $a
      * @param SeasonStandingsDto $b
-     * @return
+     * @return int
      */
     private function cmp(SeasonStandingsDto $a, SeasonStandingsDto $b): int
     {
