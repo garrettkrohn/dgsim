@@ -1,8 +1,11 @@
 import React from 'react';
-import { seasonStandingsResource } from '../../services/DTOs';
+import {
+  allSeasonStandings,
+  seasonStandingResource,
+} from '../../services/DTOs';
 import ThinDivider from '../../util/ThinDivider';
 
-const StandingsRow = (props: { seasonStanding: seasonStandingsResource }) => {
+const StandingsRow = (props: { seasonStanding: seasonStandingResource }) => {
   const { firstName, lastName } = props.seasonStanding.player;
   const { seasonTotal } = props.seasonStanding;
 

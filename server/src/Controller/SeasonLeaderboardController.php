@@ -28,5 +28,9 @@ class SeasonLeaderboardController extends AbstractController
         return $this->json($this->seasonLeaderboardService->getSeasonLeaderboard($id));
     }
 
+    #[Route('api/leaderboards/season/', methods: ('GET'))]
+    public function getAllSeasonsLeaderboards(): Response {
+        return $this->json($this->seasonLeaderboardService->getAllSeasonLeaderboards());
+    }
 
 }

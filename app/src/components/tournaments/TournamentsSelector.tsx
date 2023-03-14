@@ -6,11 +6,11 @@ import TournamentModal from './TournamentModal';
 import Button from '../../util/Button';
 import { tournamentResource } from '../../services/DTOs';
 import Loading from '../../util/Loading';
+import Dropdown from '../../util/Dropdown';
 
 export default function TournamentsSelector(props: { tournamentId: number }) {
   const [showTournaments, setShowTournaments] = useState(false);
-  const [selectedTournament, setSelectedTournament] =
-    useState<tournamentResource>();
+  const [selectedTournamentId, setSelectedTournamentId] = useState<number>(-1);
 
   const toggleShowSeasons = () => {
     setShowTournaments(!showTournaments);
@@ -35,37 +35,28 @@ export default function TournamentsSelector(props: { tournamentId: number }) {
 
   if (tournamentsError) return <div>An error has occurred</div>;
 
-  //@ts-ignore
-  // setSelectedTournament(tournamentsData[tournamentsData.length - 1]);
+  if (tournamentsData) {
+    const items = tournamentsData.map(item => {
+      return item.season + ' - ' + item.tournamentName;
+    });
 
-  return (
-    <div>
-      <div className="flex h-16 flex-row justify-evenly bg-dgbackground text-dgsoftwhite">
-        <Button
-          label={'Select Tournament'}
-          onClick={toggleShowSeasons}
-          disable={false}
-        ></Button>
-        {showTournaments ? (
-          <TournamentModal
-            toggleModal={toggleShowSeasons}
-            // @ts-ignore
-            items={tournamentsData}
-            containerStyle={'mt-12'}
-            title="Select a Season"
-            selectItem={setSelectedTournament}
+    if (selectedTournamentId === -1) {
+      setSelectedTournamentId(tournamentsData.length - 1);
+    }
+
+    return (
+      <div>
+        <div className="flex h-16 flex-row justify-evenly bg-dgbackground py-2 text-dgsoftwhite">
+          <Dropdown
+            items={items}
+            setIndex={setSelectedTournamentId}
+            title={'Select Tournament'}
           />
-        ) : (
-          ''
-        )}
-      </div>
-      {selectedTournament ? (
-        <TournamentTemplate tournament={selectedTournament} />
-      ) : (
+        </div>
         <TournamentTemplate
-          tournament={tournamentsData?.[tournamentsData.length - 1]}
+          tournament={tournamentsData[selectedTournamentId]}
         />
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }

@@ -26,4 +26,5 @@ class SeasonStandingsDto extends StandingsDto
     {
         $this->seasonTotal = $seasonTotal;
     }
+
 }
