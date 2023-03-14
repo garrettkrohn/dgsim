@@ -9,8 +9,9 @@ import useInput from '../../hooks/useInput';
 import { createTournamentParams } from '../../services/DTOs';
 import { data } from 'autoprefixer';
 import { createTournament } from '../../services/tournamentsApi';
+import axios from 'axios';
 
-const Admin = () => {
+function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
 
   const {
@@ -55,6 +56,17 @@ const Admin = () => {
     refetch();
   }, []);
 
+  const addTournament: any = useMutation({
+    mutationFn: () =>
+      createTournament({
+        tournamentName: tournamentName,
+        season: Number(seasonNumber),
+        numberOfRounds: Number(numberOfRounds),
+        courseId: coursesData ? coursesData[selectedCourseIndex].courseId : -1,
+      }),
+    onMutate: () => console.log('success?'),
+  });
+
   if (coursesAreLoading) {
     return <Loading />;
   }
@@ -67,6 +79,18 @@ const Admin = () => {
     const items = coursesData.map(item => {
       return item.courseName;
     });
+
+    // const handleSubmit = () => {
+    // const tournamentParams = {
+    //   tournamentName: tournamentName,
+    //   season: Number(seasonNumber),
+    //   numberOfRounds: Number(numberOfRounds),
+    //   courseId: coursesData[selectedCourseIndex].courseId,
+    // };
+    //   console.log('ran');
+    //   const promise = createTournament(tournamentParams);
+    //   console.log(promise);
+    // };
 
     return (
       <div>
@@ -128,6 +152,7 @@ const Admin = () => {
               onClick={e => {
                 e.preventDefault();
                 console.log('clicked');
+                addTournament.mutate();
               }}
             >
               Simulate Tournament
@@ -146,6 +171,6 @@ const Admin = () => {
     );
   }
   return <></>;
-};
+}
 
 export default Admin;
