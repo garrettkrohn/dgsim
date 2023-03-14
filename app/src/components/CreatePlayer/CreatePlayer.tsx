@@ -1,8 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
+import { useQuery } from '@tanstack/react-query';
+import { getAllTournaments } from '../../services/tournamentsApi';
+import { getArchetypes } from '../../services/PlayerApi';
+import Loading from '../../util/Loading';
 
 const CreatePlayer = () => {
   //get all archetypes
+  const {
+    isLoading: archetypesAreLoading,
+    error: archetypesError,
+    data: archetypesData,
+    refetch,
+  } = useQuery({
+    queryKey: [`archetypes`],
+    queryFn: () => getArchetypes(),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const [archetypeIndex, setArchetypeIndex] = useState(0);
 
   const {
@@ -47,6 +66,9 @@ const CreatePlayer = () => {
             onChange={setPlayerLastName}
           />
         </div>
+        {archetypesAreLoading ? <Loading /> : ''}
+        {archetypesError ? <div>error</div> : ''}
+        {archetypesData ? <div>data</div> : ''}
       </form>
     </div>
   );
