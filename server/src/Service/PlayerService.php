@@ -78,7 +78,6 @@ class PlayerService extends AbstractMultiTransformer
         $player->setBankedSkillPoints($createPlayerDto->getBankedSkillPoints());
         $player->setPlayerUser($user);
 
-
         $this->entityManager->persist($player);
         $this->entityManager->flush();
 
@@ -99,8 +98,8 @@ class PlayerService extends AbstractMultiTransformer
     //probably not the cleanest way to do this
     public function getPlayerByAuth(CreateUserDto $dto): PlayerDto
     {
-        $user = $this->userService->getOrCreateUser($dto);
-        $player = $this->playerRepository->findOneBy(['user_id' => $user->getUserId(), 'active' => true]);
+        $user = $this->userService->getUserByAuth0($dto->getAuth0());
+        $player = $this->playerRepository->findOneBy(['playerUser' => $user, 'active' => true]);
 
         return $this->transformFromObject($player);
     }

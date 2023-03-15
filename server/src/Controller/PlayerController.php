@@ -68,7 +68,7 @@ class PlayerController extends ApiController
      * @throws JsonException
      * @throws InvalidRequestDataException
      */
-    #[Route('api/players/', methods: ('GET'))]
+    #[Route('api/playersAuth', methods: ('GET'))]
     public function getPlayerByAuth0(Request $request): Response
     {
         /** @var CreateUserDto $dto */

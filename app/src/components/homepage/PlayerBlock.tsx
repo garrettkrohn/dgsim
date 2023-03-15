@@ -1,7 +1,7 @@
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import Loading from '../../util/Loading';
-import { getPlayer } from '../../services/PlayerApi';
+import { getPlayer, getPlayerByAuth } from '../../services/PlayerApi';
 import WrapperBlock from '../../util/WrapperBlock';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -48,7 +48,7 @@ const PlayerBlock = () => {
     refetch,
   } = useQuery({
     queryKey: [`player`],
-    queryFn: () => getPlayer(1),
+    queryFn: () => getPlayerByAuth(user.sub),
     enabled: false,
   });
 
