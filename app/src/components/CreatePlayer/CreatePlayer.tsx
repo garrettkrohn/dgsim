@@ -105,6 +105,9 @@ const CreatePlayer = () => {
             onChange={setPlayerLastName}
           />
         </div>
+
+        {archetypesAreLoading ? <Loading /> : ''}
+        {archetypesError ? <div>error</div> : ''}
         {archetypesData ? (
           <div>
             <Dropdown
@@ -116,27 +119,30 @@ const CreatePlayer = () => {
         ) : (
           ''
         )}
-        {archetypesAreLoading ? <Loading /> : ''}
-        {archetypesError ? <div>error</div> : ''}
       </form>
       {archetypesData && archetypeIndex !== -1 ? (
         <div>
-          <div>archetype: {archetypesData[archetypeIndex].name}</div>
-          <div> MaxPutt: {archetypesData[archetypeIndex].maxPuttSkill}</div>
-          <div>
-            MaxPower: {archetypesData[archetypeIndex].maxThrowPowerSkill}
+          <div className="text-center">
+            Archetype: {archetypesData[archetypeIndex].name}
           </div>
-          <div>
-            {' '}
-            MaxAccuracy: {archetypesData[archetypeIndex].maxThrowAccuracySkill}
-          </div>
-          <div>
-            {' '}
-            MaxScramble: {archetypesData[archetypeIndex].maxScrambleSkill}
+          <div className="grid grid-cols-2 border-2">
+            <div> MaxPutt: {archetypesData[archetypeIndex].maxPuttSkill}</div>
+            <div>
+              MaxPower: {archetypesData[archetypeIndex].maxThrowPowerSkill}
+            </div>
+            <div>
+              {' '}
+              MaxAccuracy:{' '}
+              {archetypesData[archetypeIndex].maxThrowAccuracySkill}
+            </div>
+            <div>
+              {' '}
+              MaxScramble: {archetypesData[archetypeIndex].maxScrambleSkill}
+            </div>
           </div>
         </div>
       ) : (
-        <div>please select an arch</div>
+        <div>Please select an Archtype</div>
       )}
       <div>
         <div>Available SP: {availableSp}</div>
