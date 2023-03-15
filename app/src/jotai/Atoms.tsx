@@ -9,3 +9,4 @@ export const currentPuttAtom = atom(48);
 export const currentThrowPowerAtom = atom(10);
 export const currentThrowAccuracyAtom = atom(10);
 export const currentScrambleAtom = atom(10);
+export const createPlayerAvilableSp = atom(33);

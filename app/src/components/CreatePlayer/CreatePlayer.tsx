@@ -12,7 +12,7 @@ import WrapperBlock from '../../util/WrapperBlock';
 import UpdateRow from '../homepage/UpdateRow';
 import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
-import { availableSpAtom } from '../../jotai/Atoms';
+import { availableSpAtom, createPlayerAvilableSp } from '../../jotai/Atoms';
 import { Link, useNavigate, useRoute } from '@tanstack/react-router';
 
 function CreatePlayer() {
@@ -24,9 +24,11 @@ function CreatePlayer() {
   const [currentPower, setCurrentPower] = useState(0);
   const [currentAccuracy, setCurrentAccuracy] = useState(0);
   const [currentScramble, setCurrentScramble] = useState(0);
-  const [availableSp, setAvailableSp] = useState(50);
+  const [createPlayerAvilableSp, setCreatePlayerAvilableSp] =
+    useAtom(availableSpAtom);
   const [archetypeIndex, setArchetypeIndex] = useState<number>(-1);
   const [playerCreating, setPlayerCreating] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
 
   const {
     isLoading: archetypesAreLoading,
@@ -66,7 +68,17 @@ function CreatePlayer() {
   });
 
   useEffect(() => {
-    setAvailableSp(
+    if (
+      playerFirstNameIsValid &&
+      playerLastNameIsValid &&
+      archetypeIndex !== -1
+    ) {
+      setDisableButton(false);
+    }
+  }, [playerFirstNameIsValid, playerLastNameIsValid, archetypeIndex]);
+
+  useEffect(() => {
+    setCreatePlayerAvilableSp(
       50 -
         putt +
         currentPutt -
@@ -110,7 +122,7 @@ function CreatePlayer() {
         scrambleSkill: scramble,
         startSeason: 1,
         archetypeId: archetypeIndex + 1,
-        bankedSkillPoints: availableSp,
+        bankedSkillPoints: createPlayerAvilableSp,
         userId: 1,
       }),
     onMutate: () => setPlayerCreating(true),
@@ -200,7 +212,9 @@ function CreatePlayer() {
         <div>Please select an Archtype</div>
       )}
       <div>
-        <div className="text-center text-xl">Available SP: {availableSp}</div>
+        <div className="text-center text-xl">
+          Available SP: {createPlayerAvilableSp}
+        </div>
         <WrapperBlock color="dgprimary">
           <div className="flex justify-evenly">
             <div>Skill:</div>
@@ -236,7 +250,7 @@ function CreatePlayer() {
       <Button
         label="Submit Player"
         onClick={createPlayerMutator.mutate}
-        disable={false}
+        disable={disableButton}
       />
     </div>
   );
