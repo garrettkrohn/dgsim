@@ -44,11 +44,11 @@ class UserController extends ApiController
      * @throws InvalidRequestDataException
      */
     #[Route('api/users', methods: ('POST'))]
-    public function createNewUser(Request $request): Response
+    public function getOrCreateUser(Request $request): Response
     {
         /** @var CreateUserDto $dto */
         $dto = $this->getValidatedDto($request, CreateUserDto::class);
-        $response = $this->userService->createNewUser($dto);
+        $response = $this->userService->getOrCreateUser($dto);
         return new JsonResponse($response);
     }
 

@@ -16,12 +16,6 @@ class User
     #[ORM\Column]
     private ?int $user_id = null;
 
-    #[ORM\Column(length: 25)]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 25)]
-    private ?string $password = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private ?Role $role = null;
@@ -31,7 +25,10 @@ class User
     private Collection $player;
 
     #[ORM\Column]
-    private ?string $auth0 = null;
+    private string $auth0;
+
+    #[ORM\Column]
+    private string $email;
 
     public function __construct()
     {
@@ -124,6 +121,23 @@ class User
     {
         $this->auth0 = $auth0;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string|null $email
+     */
+    public function setEmail(?string $email): void
+    {
+        $this->email = $email;
+    }
+
 
 
 }
