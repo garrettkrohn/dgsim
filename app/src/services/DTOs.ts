@@ -109,3 +109,16 @@ export interface archetypeResource {
   maxThrowAccuracySkill: number;
   maxScrambleSkill: number;
 }
+
+export interface createPlayerParams {
+  firstName: string;
+  lastName: string;
+  puttSkill: number;
+  throwPowerSkill: number;
+  throwAccuracySkill: number;
+  scrambleSkill: number;
+  startSeason: number;
+  archetypeId: number;
+  bankedSkillPoints: number;
+  userId: number;
+}

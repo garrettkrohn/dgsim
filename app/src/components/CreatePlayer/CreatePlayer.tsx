@@ -23,7 +23,6 @@ const CreatePlayer = () => {
   const [availableSp, setAvailableSp] = useState(50);
   const [archetypeIndex, setArchetypeIndex] = useState<number>(-1);
 
-  //get all archetypes
   const {
     isLoading: archetypesAreLoading,
     error: archetypesError,
@@ -93,6 +92,10 @@ const CreatePlayer = () => {
     }
   };
 
+  const handleSubmitPlayer = () => {
+    console.log('submit');
+  };
+
   return (
     <div className="text-dgsoftwhite">
       <WrapperBlock color="dgprimary">
@@ -159,7 +162,7 @@ const CreatePlayer = () => {
         <div>Please select an Archtype</div>
       )}
       <div>
-        <div>Available SP: {availableSp}</div>
+        <div className="text-center text-xl">Available SP: {availableSp}</div>
         <WrapperBlock color="dgprimary">
           <div className="flex justify-evenly">
             <div>Skill:</div>
@@ -192,6 +195,11 @@ const CreatePlayer = () => {
           />
         </WrapperBlock>
       </div>
+      <Button
+        label="Submit Player"
+        onClick={handleSubmitPlayer}
+        disable={false}
+      />
     </div>
   );
 };
