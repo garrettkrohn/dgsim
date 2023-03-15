@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Dto\Incoming\CreatePlayerDto;
+use App\Dto\Incoming\CreateUserDto;
 use App\Dto\Incoming\UpdatePlayerDto;
 use App\Exception\InvalidRequestDataException;
 use App\Serialization\SerializationService;
@@ -10,6 +11,7 @@ use App\Service\ArchetypeService;
 use App\Service\PlayerService;
 use App\Service\PlayerTournamentService;
 use App\Service\PlayerUpdateService;
+use GuzzleHttp\Promise\Create;
 use JsonException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -60,6 +62,18 @@ class PlayerController extends ApiController
     public function getPlayerById(int $id): Response
     {
         return $this->json($this->playerService->getPlayerByIdDto($id));
+    }
+
+    /**
+     * @throws JsonException
+     * @throws InvalidRequestDataException
+     */
+    #[Route('api/players/', methods: ('GET'))]
+    public function getPlayerByAuth0(Request $request): Response
+    {
+        /** @var CreateUserDto $dto */
+        $dto = $this->getValidatedDto($request, CreateUserDto::class);
+        return $this->json($this->playerService->getPlayerByAuth($dto));
     }
 
     /**

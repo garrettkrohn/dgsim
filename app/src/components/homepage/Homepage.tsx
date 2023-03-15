@@ -78,23 +78,17 @@ function Homepage() {
     );
   }
 
-  try {
-    //pulling the player from the user
-  } catch {
-    //reroute to create a player if the player doesn't exist
-  }
-
   return (
     <div>
-      {/*<PlayerBlock />*/}
-      {/*<Divider color="dgbackground" />*/}
-      {/*<UpdateBlock toggleUpdateModal={toggleConfirmModal} />*/}
-      {/*{showConfirmModal ? (*/}
-      {/*  <UpdateConfirmModal toggleModal={toggleConfirmModal} />*/}
-      {/*) : (*/}
-      {/*  ''*/}
-      {/*)}*/}
-      {/*<LastTournamentBlock />*/}
+      <PlayerBlock />
+      <Divider color="dgbackground" />
+      <UpdateBlock toggleUpdateModal={toggleConfirmModal} />
+      {showConfirmModal ? (
+        <UpdateConfirmModal toggleModal={toggleConfirmModal} />
+      ) : (
+        ''
+      )}
+      <LastTournamentBlock />
     </div>
   );
 }

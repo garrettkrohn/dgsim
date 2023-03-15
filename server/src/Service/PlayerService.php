@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Incoming\CreatePlayerDto;
+use App\Dto\Incoming\CreateUserDto;
 use App\Dto\Outgoing\FloorCeilingDto;
 use App\Dto\Outgoing\PlayerDto;
 use App\Entity\Player;
@@ -92,6 +93,15 @@ class PlayerService extends AbstractMultiTransformer
     public function getPlayer(int $id): Player
     {
         return $this->playerRepository->findOneBy(array('player_id' => $id));
+    }
+
+    //probably not the cleanest way to do this
+    public function getPlayerByAuth(CreateUserDto $dto): PlayerDto
+    {
+        $user = $this->userService->getOrCreateUser($dto);
+        $player = $this->playerRepository->findOneBy(['user_id' => $user->getUserId(), 'active' => true]);
+
+        return $this->transformFromObject($player);
     }
 
     public function getAllActivePlayerEntities(): iterable
