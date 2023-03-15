@@ -79,8 +79,8 @@ class UserService extends AbstractMultiTransformer
         $dto = new UserResponseDto();
         $role = $this->roleService->getRoleDto($object->getRole()->getRoleId());
         $dto->setUserId($object->getUserId());
-        $dto->setUsername($object->getUsername());
-        $dto->setPassword($object->getPassword());
+        $dto->setEmail($object->getEmail());
+        $dto->setAuth0($object->getAuth0());
         $dto->setRole($role);
         return $dto;
     }

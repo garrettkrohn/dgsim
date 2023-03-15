@@ -17,11 +17,11 @@ class UserResponseDto
 
     #[NotNull]
     #[Type('string')]
-    public string $username;
+    public string $email;
 
     #[NotNull]
     #[Type('string')]
-    public string $password;
+    public string $auth0;
 
     /**
      * @return int
@@ -58,33 +58,33 @@ class UserResponseDto
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function getEmail(): string
     {
-        return $this->username;
+        return $this->email;
     }
 
     /**
-     * @param string $username
+     * @param string $email
      */
-    public function setUsername(string $username): void
+    public function setEmail(string $email): void
     {
-        $this->username = $username;
+        $this->email = $email;
     }
 
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getAuth0(): string
     {
-        return $this->password;
+        return $this->auth0;
     }
 
     /**
-     * @param string $password
+     * @param string $auth0
      */
-    public function setPassword(string $password): void
+    public function setAuth0(string $auth0): void
     {
-        $this->password = $password;
+        $this->auth0 = $auth0;
     }
 
 
