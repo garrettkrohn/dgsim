@@ -20,7 +20,7 @@ const CreatePlayer = () => {
   const [currentPower, setCurrentPower] = useState(0);
   const [currentAccuracy, setCurrentAccuracy] = useState(0);
   const [currentScramble, setCurrentScramble] = useState(0);
-  const [availableSp, setAvailableSp] = useState(30);
+  const [availableSp, setAvailableSp] = useState(50);
   const [archetypeIndex, setArchetypeIndex] = useState<number>(-1);
 
   //get all archetypes
@@ -60,6 +60,20 @@ const CreatePlayer = () => {
   const items = archetypesData?.map(item => {
     return item.name;
   });
+
+  useEffect(() => {
+    setAvailableSp(
+      50 -
+        putt +
+        currentPutt -
+        throwPower +
+        currentPower -
+        throwAccuracy +
+        currentAccuracy -
+        scramble +
+        currentScramble,
+    );
+  }, [putt, throwPower, throwAccuracy, scramble]);
 
   useEffect(() => {
     setArchMin();
