@@ -6,8 +6,23 @@ import { getArchetypes } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import Dropdown from '../../util/Dropdown';
 import WrapperBlock from '../../util/WrapperBlock';
+import UpdateRow from '../homepage/UpdateRow';
+import Button from '../../util/Button';
+import { useAtom } from 'jotai/index';
+import { availableSpAtom } from '../../jotai/Atoms';
 
 const CreatePlayer = () => {
+  const [putt, setPutt] = useState(0);
+  const [throwPower, setThrowPower] = useState(0);
+  const [throwAccuracy, setThrowAccuracy] = useState(0);
+  const [scramble, setScramble] = useState(0);
+  const [currentPutt, setCurrentPutt] = useState(0);
+  const [currentPower, setCurrentPower] = useState(0);
+  const [currentAccuracy, setCurrentAccuracy] = useState(0);
+  const [currentScramble, setCurrentScramble] = useState(0);
+  const [availableSp, setAvailableSp] = useState(30);
+  const [archetypeIndex, setArchetypeIndex] = useState<number>(-1);
+
   //get all archetypes
   const {
     isLoading: archetypesAreLoading,
@@ -23,8 +38,6 @@ const CreatePlayer = () => {
   useEffect(() => {
     refetch();
   }, []);
-
-  const [archetypeIndex, setArchetypeIndex] = useState<number>(0);
 
   const {
     value: playerFirstName,
@@ -47,6 +60,24 @@ const CreatePlayer = () => {
   const items = archetypesData?.map(item => {
     return item.name;
   });
+
+  useEffect(() => {
+    setArchMin();
+  }, [archetypeIndex]);
+
+  const setArchMin = () => {
+    if (archetypesData) {
+      const selectedArchetype = archetypesData[archetypeIndex];
+      setPutt(selectedArchetype.minPuttSkill);
+      setCurrentPutt(selectedArchetype.minPuttSkill);
+      setThrowPower(selectedArchetype.minThrowPowerSkill);
+      setCurrentPower(selectedArchetype.minThrowPowerSkill);
+      setThrowAccuracy(selectedArchetype.minThrowAccuracySkill);
+      setCurrentAccuracy(selectedArchetype.minThrowAccuracySkill);
+      setScramble(selectedArchetype.minScrambleSkill);
+      setCurrentScramble(selectedArchetype.minScrambleSkill);
+    }
+  };
 
   return (
     <div className="text-dgsoftwhite">
@@ -88,11 +119,59 @@ const CreatePlayer = () => {
         {archetypesAreLoading ? <Loading /> : ''}
         {archetypesError ? <div>error</div> : ''}
       </form>
-      {archetypesData ? (
-        <div>archetype: {archetypesData[archetypeIndex].name}</div>
+      {archetypesData && archetypeIndex !== -1 ? (
+        <div>
+          <div>archetype: {archetypesData[archetypeIndex].name}</div>
+          <div> MaxPutt: {archetypesData[archetypeIndex].maxPuttSkill}</div>
+          <div>
+            MaxPower: {archetypesData[archetypeIndex].maxThrowPowerSkill}
+          </div>
+          <div>
+            {' '}
+            MaxAccuracy: {archetypesData[archetypeIndex].maxThrowAccuracySkill}
+          </div>
+          <div>
+            {' '}
+            MaxScramble: {archetypesData[archetypeIndex].maxScrambleSkill}
+          </div>
+        </div>
       ) : (
-        ''
+        <div>please select an arch</div>
       )}
+      <div>
+        <div>Available SP: {availableSp}</div>
+        <WrapperBlock color="dgprimary">
+          <div className="flex justify-evenly">
+            <div>Skill:</div>
+            <div>Update:</div>
+            <div>Cost:</div>
+          </div>
+          <UpdateRow
+            skillName="Putt"
+            skillNumber={putt}
+            setSkillNumber={setPutt}
+            currentNumber={currentPutt}
+          />
+          <UpdateRow
+            skillName="ThrowPwr"
+            skillNumber={throwPower}
+            setSkillNumber={setThrowPower}
+            currentNumber={currentPower}
+          />
+          <UpdateRow
+            skillName="ThrowAcc"
+            skillNumber={throwAccuracy}
+            setSkillNumber={setThrowAccuracy}
+            currentNumber={currentAccuracy}
+          />
+          <UpdateRow
+            skillName="Scramble"
+            skillNumber={scramble}
+            setSkillNumber={setScramble}
+            currentNumber={currentScramble}
+          />
+        </WrapperBlock>
+      </div>
     </div>
   );
 };
