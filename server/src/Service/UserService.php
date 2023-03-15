@@ -59,7 +59,6 @@ class UserService extends AbstractMultiTransformer
     public function createNewUser(CreateUserDto $createUserDto): UserResponseDto
     {
         $newUser = new User();
-        $newUser->setEmail($createUserDto->getEmail());
         $newUser->setAuth0($createUserDto->getAuth0());
         $role = $this->roleService->getRole(2);
         $newUser->setRole($role);
@@ -79,7 +78,6 @@ class UserService extends AbstractMultiTransformer
         $dto = new UserResponseDto();
         $role = $this->roleService->getRoleDto($object->getRole()->getRoleId());
         $dto->setUserId($object->getUserId());
-        $dto->setEmail($object->getEmail());
         $dto->setAuth0($object->getAuth0());
         $dto->setRole($role);
         return $dto;

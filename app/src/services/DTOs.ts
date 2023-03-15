@@ -124,7 +124,6 @@ export interface createPlayerParams {
 }
 
 export interface createOrGetUserParams {
-  email: string;
   Auth0: string;
 }
 
