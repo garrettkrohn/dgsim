@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAtom } from 'jotai/index';
 import {
   updateAvailableSpAtom,
@@ -13,6 +13,10 @@ import {
 } from '../../jotai/Atoms';
 import UpdateConfirmModalRow from './UpdateConfirmModalRow';
 import Button from '../../util/Button';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createTournament } from '../../services/tournamentsApi';
+import { getPlayerByAuth, updatePlayer } from '../../services/PlayerApi';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [putt] = useAtom(updatePuttAtom);
@@ -24,43 +28,81 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [currentPower] = useAtom(currentThrowPowerAtom);
   const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
   const [currentScramble] = useAtom(currentScrambleAtom);
-  return (
-    <div
-      className="fixed top-0 h-screen w-screen text-dgsoftwhite backdrop-blur-sm"
-      onClick={() => props.toggleModal()}
-    >
-      <div className="fixed top-1/4 left-1/2 flex h-96 w-80 -translate-x-1/2 flex-col justify-center bg-dgsecondary">
-        <div className="pt-4 text-center text-2xl">Update Confirmation</div>
-        <UpdateConfirmModalRow
-          skillName={'Putt'}
-          currentSkillNumber={currentPutt}
-          updatedSkillNumber={putt}
-        />
-        <UpdateConfirmModalRow
-          skillName={'Throw Power'}
-          currentSkillNumber={currentPower}
-          updatedSkillNumber={throwPower}
-        />
-        <UpdateConfirmModalRow
-          skillName={'Throw Accuracy'}
-          currentSkillNumber={currentAccuracy}
-          updatedSkillNumber={throwAccuracy}
-        />
-        <UpdateConfirmModalRow
-          skillName={'Scramble'}
-          currentSkillNumber={currentScramble}
-          updatedSkillNumber={scramble}
-        />
+
+  const { user } = useAuth0();
+  const {
+    isLoading: playerIsLoading,
+    error: playerError,
+    data: playerData,
+  } = useQuery({
+    queryKey: [`player`],
+    //@ts-ignore
+    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+  });
+
+  const updatePlayerCall: any = useMutation({
+    mutationFn: () =>
+      updatePlayer({
+        firstName: playerData.firstName,
+        lastName: playerData.lastName,
+        puttSkill: putt,
+        throwPowerSkill: throwPower,
+        throwAccuracySkill: throwAccuracy,
+        scrambleSkill: scramble,
+        startSeason: playerData.startSeason,
+        bankedSkillPoints: availableSp,
+        archetypeId: playerData.archetype.archetype_id,
+        playerId: playerData?.playerId,
+        auth0: user.sub,
+      }),
+    onMutate: () => console.log('mutate'),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => console.log('complete'),
+  });
+
+  if (playerData) {
+    return (
+      <div
+        className="fixed top-0 h-screen w-screen text-dgsoftwhite backdrop-blur-sm"
+        onClick={() => props.toggleModal()}
+      >
+        <div className="fixed top-1/4 left-1/2 flex h-96 w-80 -translate-x-1/2 flex-col justify-center bg-dgsecondary">
+          <div className="pt-4 text-center text-2xl">Update Confirmation</div>
+          <UpdateConfirmModalRow
+            skillName={'Putt'}
+            currentSkillNumber={currentPutt}
+            updatedSkillNumber={putt}
+          />
+          <UpdateConfirmModalRow
+            skillName={'Throw Power'}
+            currentSkillNumber={currentPower}
+            updatedSkillNumber={throwPower}
+          />
+          <UpdateConfirmModalRow
+            skillName={'Throw Accuracy'}
+            currentSkillNumber={currentAccuracy}
+            updatedSkillNumber={throwAccuracy}
+          />
+          <UpdateConfirmModalRow
+            skillName={'Scramble'}
+            currentSkillNumber={currentScramble}
+            updatedSkillNumber={scramble}
+          />
+          <div className="flex justify-center">
+            <Button
+              label={'Submit Player Update'}
+              onClick={() => {
+                updatePlayerCall.mutate();
+              }}
+              disable={false}
+            />
+          </div>
+        </div>
       </div>
-      <div className="flex">
-        <Button
-          label={'Submit Player Update'}
-          onClick={() => {}}
-          disable={false}
-        />
-      </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default UpdateConfirmModal;

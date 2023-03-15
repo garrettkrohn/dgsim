@@ -84,18 +84,6 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
     return <Loading />;
   }
 
-  if (playerData && putt === -1) {
-    setPutt(playerData.puttSkill);
-    setCurrentPutt(playerData.puttSkill);
-    setThrowAccuracy(playerData.throwAccuracySkill);
-    setCurrentAccuracy(playerData.throwAccuracySkill);
-    setThrowPower(playerData.throwPowerSkill);
-    setCurrentPower(playerData.throwPowerSkill);
-    setScramble(playerData.scrambleSkill);
-    setCurrentScramble(playerData.scrambleSkill);
-    setAvailableSp(playerData.bankedSkillPoints);
-  }
-
   return (
     <div>
       <WrapperBlock color="dgprimary" onClick={toggleUpdate}>

@@ -11,6 +11,7 @@ import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
 import useInput from '../../hooks/useInput';
 import { createTournament } from '../../services/tournamentsApi';
+import { getPlayerByAuth } from '../../services/PlayerApi';
 
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);

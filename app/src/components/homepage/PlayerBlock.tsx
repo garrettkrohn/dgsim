@@ -4,9 +4,32 @@ import Loading from '../../util/Loading';
 import { getPlayer, getPlayerByAuth } from '../../services/PlayerApi';
 import WrapperBlock from '../../util/WrapperBlock';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAtom } from 'jotai/index';
+import {
+  currentPuttAtom,
+  currentScrambleAtom,
+  currentThrowAccuracyAtom,
+  currentThrowPowerAtom,
+  updateAvailableSpAtom,
+  updatePuttAtom,
+  updateScrambleAtom,
+  updateThrowAccuracyAtom,
+  updateThrowPowerAtom,
+} from '../../jotai/Atoms';
 
 const PlayerBlock = () => {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [putt, setPutt] = useAtom(updatePuttAtom);
+  const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
+  const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
+  const [scramble, setScramble] = useAtom(updateScrambleAtom);
+  const [currentPutt, setCurrentPutt] = useAtom(currentPuttAtom);
+  const [currentPower, setCurrentPower] = useAtom(currentThrowPowerAtom);
+  const [currentAccuracy, setCurrentAccuracy] = useAtom(
+    currentThrowAccuracyAtom,
+  );
+  const [currentScramble, setCurrentScramble] = useAtom(currentScrambleAtom);
+  const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
   // const [userMetadata, setUserMetadata] = useState(null);
 
   // useEffect(() => {
@@ -68,6 +91,18 @@ const PlayerBlock = () => {
   if (playerError) return <div>An error has occurred</div>;
 
   if (playerData) {
+    if (putt === -1) {
+      setPutt(playerData.puttSkill);
+      setCurrentPutt(playerData.puttSkill);
+      setThrowAccuracy(playerData.throwAccuracySkill);
+      setCurrentAccuracy(playerData.throwAccuracySkill);
+      setThrowPower(playerData.throwPowerSkill);
+      setCurrentPower(playerData.throwPowerSkill);
+      setScramble(playerData.scrambleSkill);
+      setCurrentScramble(playerData.scrambleSkill);
+      setAvailableSp(playerData.bankedSkillPoints);
+    }
+
     const {
       firstName,
       lastName,
