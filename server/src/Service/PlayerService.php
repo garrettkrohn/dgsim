@@ -62,7 +62,8 @@ class PlayerService extends AbstractMultiTransformer
             throw new BadRequestHttpException('Archetype not found');
         }
 
-        $user = $this->userService->getUserById($createPlayerDto->getUserId());
+//        $user = $this->userService->getUserById($createPlayerDto->getAuth0());
+        $user = $this->userService->getUserByAuth0($createPlayerDto->getAuth0());
 
         $player = new Player();
         $player->setArchetype($archetype);

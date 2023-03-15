@@ -120,7 +120,7 @@ export interface createPlayerParams {
   startSeason: number;
   archetypeId: number;
   bankedSkillPoints: number;
-  userId: number;
+  auth0: string;
 }
 
 export interface createOrGetUserParams {

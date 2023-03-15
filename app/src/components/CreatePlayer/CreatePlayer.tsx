@@ -14,6 +14,7 @@ import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
 import { availableSpAtom, createPlayerAvilableSp } from '../../jotai/Atoms';
 import { Link, useNavigate, useRoute } from '@tanstack/react-router';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function CreatePlayer() {
   const [putt, setPutt] = useState(0);
@@ -111,6 +112,8 @@ function CreatePlayer() {
 
   const navigate = useNavigate();
 
+  const { user } = useAuth0();
+
   const createPlayerMutator: any = useMutation({
     mutationFn: () =>
       createPlayer({
@@ -123,7 +126,8 @@ function CreatePlayer() {
         startSeason: 1,
         archetypeId: archetypeIndex + 1,
         bankedSkillPoints: createPlayerAvilableSp,
-        userId: 1,
+        // @ts-ignore
+        auth0: user.sub,
       }),
     onMutate: () => setPlayerCreating(true),
     onError: (err, variables, context) => {

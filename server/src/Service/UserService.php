@@ -93,4 +93,9 @@ class UserService extends AbstractMultiTransformer
         return $this->transformFromObject($user);
     }
 
+    public function getUserByAuth0(string $auth0): User
+    {
+        return $this->userRepository->findOneBy(['auth0' => $auth0]);
+    }
+
 }
