@@ -55,12 +55,6 @@ const Homepage = () => {
   }
 
   try {
-    //get the user by the token
-  } catch {
-    //create the user if it doesn't exist
-  }
-
-  try {
     //pulling the player from the user
   } catch {
     //reroute to create a player if the player doesn't exist

@@ -122,3 +122,18 @@ export interface createPlayerParams {
   bankedSkillPoints: number;
   userId: number;
 }
+
+export interface createOrGetUserParams {
+  email: string;
+  Auth0: string;
+}
+
+export interface userResource {
+  userId: number;
+  role: {
+    role_id: 2;
+    name: string;
+  };
+  email: string;
+  auth0: string;
+}

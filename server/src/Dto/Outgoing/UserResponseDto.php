@@ -23,6 +23,24 @@ class UserResponseDto
     #[Type('string')]
     public string $auth0;
 
+    public PlayerDto $player;
+
+    /**
+     * @return PlayerDto
+     */
+    public function getPlayer(): PlayerDto
+    {
+        return $this->player;
+    }
+
+    /**
+     * @param PlayerDto $player
+     */
+    public function setPlayer(PlayerDto $player): void
+    {
+        $this->player = $player;
+    }
+
     /**
      * @return int
      */
