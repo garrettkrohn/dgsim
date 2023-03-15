@@ -30,7 +30,7 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
       onClick={() => props.toggleModal()}
     >
       <div className="fixed top-1/4 left-1/2 flex h-96 w-80 -translate-x-1/2 flex-col justify-center bg-dgsecondary">
-        <div className="pt-4 text-2xl">Update Confirmation</div>
+        <div className="pt-4 text-center text-2xl">Update Confirmation</div>
         <UpdateConfirmModalRow
           skillName={'Putt'}
           currentSkillNumber={currentPutt}
@@ -52,7 +52,7 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
           updatedSkillNumber={scramble}
         />
       </div>
-      <div className="fixed">
+      <div className="flex">
         <Button
           label={'Submit Player Update'}
           onClick={() => {}}

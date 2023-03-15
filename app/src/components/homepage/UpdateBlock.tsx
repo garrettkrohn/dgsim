@@ -22,14 +22,16 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../../util/Loading';
 
 const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
-  const [putt, setPutt] = useState(-1);
-  const [throwPower, setThrowPower] = useState(0);
-  const [throwAccuracy, setThrowAccuracy] = useState(0);
-  const [scramble, setScramble] = useState(0);
-  const [currentPutt, setCurrentPutt] = useState(0);
-  const [currentPower, setCurrentPower] = useState(0);
-  const [currentAccuracy, setCurrentAccuracy] = useState(0);
-  const [currentScramble, setCurrentScramble] = useState(0);
+  const [putt, setPutt] = useAtom(updatePuttAtom);
+  const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
+  const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
+  const [scramble, setScramble] = useAtom(updateScrambleAtom);
+  const [currentPutt, setCurrentPutt] = useAtom(currentPuttAtom);
+  const [currentPower, setCurrentPower] = useAtom(currentThrowPowerAtom);
+  const [currentAccuracy, setCurrentAccuracy] = useAtom(
+    currentThrowAccuracyAtom,
+  );
+  const [currentScramble, setCurrentScramble] = useAtom(currentScrambleAtom);
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
 
   const [disableUpdate, setDisableUpdate] = useState(true);
