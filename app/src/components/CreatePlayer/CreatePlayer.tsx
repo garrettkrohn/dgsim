@@ -13,6 +13,7 @@ import UpdateRow from '../homepage/UpdateRow';
 import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
 import { availableSpAtom } from '../../jotai/Atoms';
+import { Link, useNavigate, useRoute } from '@tanstack/react-router';
 
 function CreatePlayer() {
   const [putt, setPutt] = useState(0);
@@ -25,6 +26,7 @@ function CreatePlayer() {
   const [currentScramble, setCurrentScramble] = useState(0);
   const [availableSp, setAvailableSp] = useState(50);
   const [archetypeIndex, setArchetypeIndex] = useState<number>(-1);
+  const [playerCreating, setPlayerCreating] = useState(false);
 
   const {
     isLoading: archetypesAreLoading,
@@ -95,6 +97,8 @@ function CreatePlayer() {
     }
   };
 
+  const navigate = useNavigate();
+
   const createPlayerMutator: any = useMutation({
     mutationFn: () =>
       createPlayer({
@@ -109,12 +113,26 @@ function CreatePlayer() {
         bankedSkillPoints: availableSp,
         userId: 1,
       }),
-    onMutate: () => console.log('mutate'),
+    onMutate: () => setPlayerCreating(true),
     onError: (err, variables, context) => {
       console.log(err, variables, context);
     },
-    onSettled: () => console.log('complete'),
+    onSettled: () => {
+      setPlayerCreating(false);
+      navigate({ to: '/' });
+    },
   });
+
+  if (playerCreating) {
+    return (
+      <div>
+        <div className="text-center text-2xl text-dgsoftwhite">
+          Creating Player...
+        </div>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="text-dgsoftwhite">
