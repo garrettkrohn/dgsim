@@ -19,21 +19,23 @@ class PlayerService extends AbstractMultiTransformer
     private EntityManagerInterface $entityManager;
     private PlayerIngester $playerIngester;
     private ArchetypeService $archetypeService;
+    private UserService $userService;
 
     /**
      * @param PlayerRepository $playerRepository
      * @param EntityManagerInterface $entityManager
      * @param PlayerIngester $playerIngester
      * @param ArchetypeService $archetypeService
+     * @param UserService $userService
      */
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerIngester $playerIngester, ArchetypeService $archetypeService)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerIngester $playerIngester, ArchetypeService $archetypeService, UserService $userService)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerIngester = $playerIngester;
         $this->archetypeService = $archetypeService;
+        $this->userService = $userService;
     }
-
 
     public function getAllPlayers(): iterable
     {
@@ -51,25 +53,28 @@ class PlayerService extends AbstractMultiTransformer
         return $playerNamesArray;
     }
 
-    public function createNewPlayer(CreatePlayerDto $createPlayerDtoDto): ?PlayerDto
+    public function createNewPlayer(CreatePlayerDto $createPlayerDto): ?PlayerDto
     {
         //will eventually need to add a user look up
-        $archetype = $this->archetypeService->getArchetype($createPlayerDtoDto->archetypeId);
+        $archetype = $this->archetypeService->getArchetype($createPlayerDto->archetypeId);
         if (!$archetype) {
             throw new BadRequestHttpException('Archetype not found');
         }
 
+        $user = $this->userService->getUserById($createPlayerDto->getUserId());
+
         $player = new Player();
         $player->setArchetype($archetype);
-        $player->setFirstName($createPlayerDtoDto->getFirstName());
-        $player->setLastName($createPlayerDtoDto->getLastName());
-        $player->setPuttSkill($createPlayerDtoDto->getPuttSkill());
-        $player->setThrowPowerSkill($createPlayerDtoDto->getThrowPowerSkill());
-        $player->setThrowAccuracySkill($createPlayerDtoDto->getThrowAccuracySkill());
-        $player->setScrambleSkill($createPlayerDtoDto->getScrambleSkill());
-        $player->setStartSeason($createPlayerDtoDto->getStartSeason());
+        $player->setFirstName($createPlayerDto->getFirstName());
+        $player->setLastName($createPlayerDto->getLastName());
+        $player->setPuttSkill($createPlayerDto->getPuttSkill());
+        $player->setThrowPowerSkill($createPlayerDto->getThrowPowerSkill());
+        $player->setThrowAccuracySkill($createPlayerDto->getThrowAccuracySkill());
+        $player->setScrambleSkill($createPlayerDto->getScrambleSkill());
+        $player->setStartSeason($createPlayerDto->getStartSeason());
         $player->setActive(true);
-        $player->setBankedSkillPoints($createPlayerDtoDto->getBankedSkillPoints());
+        $player->setBankedSkillPoints($createPlayerDto->getBankedSkillPoints());
+        $player->setPlayerUser($user);
 
 
         $this->entityManager->persist($player);

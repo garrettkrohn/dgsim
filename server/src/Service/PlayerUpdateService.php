@@ -19,6 +19,8 @@ class PlayerUpdateService extends PlayerService
     private PlayerUpdateLogsRepository $playerUpdateLogsRepository;
     private PlayerIngester $playerIngester;
     private ArchetypeService $archetypeService;
+    private UserService $userService;
+
 
     /**
      * @param PlayerRepository $playerRepository
@@ -26,15 +28,16 @@ class PlayerUpdateService extends PlayerService
      * @param PlayerUpdateLogsRepository $playerUpdateLogsRepository
      * @param PlayerIngester $playerIngester
      * @param ArchetypeService $archetypeService
+     * @param UserService $userService
      */
-    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerIngester $playerIngester, ArchetypeService $archetypeService)
+    public function __construct(PlayerRepository $playerRepository, EntityManagerInterface $entityManager, PlayerUpdateLogsRepository $playerUpdateLogsRepository, PlayerIngester $playerIngester, ArchetypeService $archetypeService, UserService $userService)
     {
         $this->playerRepository = $playerRepository;
         $this->entityManager = $entityManager;
         $this->playerUpdateLogsRepository = $playerUpdateLogsRepository;
         $this->playerIngester = $playerIngester;
         $this->archetypeService = $archetypeService;
-        parent::__construct($playerRepository, $entityManager, $playerIngester, $archetypeService);
+        parent::__construct($playerRepository, $entityManager, $playerIngester, $archetypeService, $userService);
 
     }
 

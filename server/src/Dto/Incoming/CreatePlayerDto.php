@@ -10,31 +10,31 @@ class CreatePlayerDto
 {
     #[NotNull]
     #[Type('string')]
-    public string $first_name;
+    public string $firstName;
 
     #[NotNull]
     #[Type('string')]
-    public string $last_name;
+    public string $lastName;
 
     #[NotNull]
     #[Type('int')]
-    public int $putt_skill;
+    public int $puttSkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $throw_power_skill;
+    public int $throwPowerSkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $throw_accuracy_skill;
+    public int $throwAccuracySkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $scramble_skill;
+    public int $scrambleSkill;
 
     #[NotNull]
     #[Type('int')]
-    public int $start_season;
+    public int $startSeason;
 
     #[NotNull]
     #[Type('int')]
@@ -42,22 +42,26 @@ class CreatePlayerDto
 
     #[NotNull]
     #[Type('int')]
-    public int $banked_skill_points;
+    public int $bankedSkillPoints;
+
+    #[NotNull]
+    #[Type('int')]
+    public int $userId;
 
     /**
      * @return string
      */
     public function getFirstName(): string
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
     /**
-     * @param string $first_name
+     * @param string $firstName
      */
-    public function setFirstName(string $first_name): void
+    public function setFirstName(string $firstName): void
     {
-        $this->first_name = $first_name;
+        $this->firstName = $firstName;
     }
 
     /**
@@ -65,15 +69,15 @@ class CreatePlayerDto
      */
     public function getLastName(): string
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
     /**
-     * @param string $last_name
+     * @param string $lastName
      */
-    public function setLastName(string $last_name): void
+    public function setLastName(string $lastName): void
     {
-        $this->last_name = $last_name;
+        $this->lastName = $lastName;
     }
 
     /**
@@ -81,15 +85,15 @@ class CreatePlayerDto
      */
     public function getPuttSkill(): int
     {
-        return $this->putt_skill;
+        return $this->puttSkill;
     }
 
     /**
-     * @param int $putt_skill
+     * @param int $puttSkill
      */
-    public function setPuttSkill(int $putt_skill): void
+    public function setPuttSkill(int $puttSkill): void
     {
-        $this->putt_skill = $putt_skill;
+        $this->puttSkill = $puttSkill;
     }
 
     /**
@@ -97,15 +101,15 @@ class CreatePlayerDto
      */
     public function getThrowPowerSkill(): int
     {
-        return $this->throw_power_skill;
+        return $this->throwPowerSkill;
     }
 
     /**
-     * @param int $throw_power_skill
+     * @param int $throwPowerSkill
      */
-    public function setThrowPowerSkill(int $throw_power_skill): void
+    public function setThrowPowerSkill(int $throwPowerSkill): void
     {
-        $this->throw_power_skill = $throw_power_skill;
+        $this->throwPowerSkill = $throwPowerSkill;
     }
 
     /**
@@ -113,15 +117,15 @@ class CreatePlayerDto
      */
     public function getThrowAccuracySkill(): int
     {
-        return $this->throw_accuracy_skill;
+        return $this->throwAccuracySkill;
     }
 
     /**
-     * @param int $throw_accuracy_skill
+     * @param int $throwAccuracySkill
      */
-    public function setThrowAccuracySkill(int $throw_accuracy_skill): void
+    public function setThrowAccuracySkill(int $throwAccuracySkill): void
     {
-        $this->throw_accuracy_skill = $throw_accuracy_skill;
+        $this->throwAccuracySkill = $throwAccuracySkill;
     }
 
     /**
@@ -129,15 +133,15 @@ class CreatePlayerDto
      */
     public function getScrambleSkill(): int
     {
-        return $this->scramble_skill;
+        return $this->scrambleSkill;
     }
 
     /**
-     * @param int $scramble_skill
+     * @param int $scrambleSkill
      */
-    public function setScrambleSkill(int $scramble_skill): void
+    public function setScrambleSkill(int $scrambleSkill): void
     {
-        $this->scramble_skill = $scramble_skill;
+        $this->scrambleSkill = $scrambleSkill;
     }
 
     /**
@@ -145,15 +149,15 @@ class CreatePlayerDto
      */
     public function getStartSeason(): int
     {
-        return $this->start_season;
+        return $this->startSeason;
     }
 
     /**
-     * @param int $start_season
+     * @param int $startSeason
      */
-    public function setStartSeason(int $start_season): void
+    public function setStartSeason(int $startSeason): void
     {
-        $this->start_season = $start_season;
+        $this->startSeason = $startSeason;
     }
 
     /**
@@ -177,16 +181,33 @@ class CreatePlayerDto
      */
     public function getBankedSkillPoints(): int
     {
-        return $this->banked_skill_points;
+        return $this->bankedSkillPoints;
     }
 
     /**
-     * @param int $banked_skill_points
+     * @param int $bankedSkillPoints
      */
-    public function setBankedSkillPoints(int $banked_skill_points): void
+    public function setBankedSkillPoints(int $bankedSkillPoints): void
     {
-        $this->banked_skill_points = $banked_skill_points;
+        $this->bankedSkillPoints = $bankedSkillPoints;
     }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserId(int $userId): void
+    {
+        $this->userId = $userId;
+    }
+
 
 
 }

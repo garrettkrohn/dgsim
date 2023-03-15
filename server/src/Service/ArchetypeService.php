@@ -15,6 +15,11 @@ class ArchetypeService extends AbstractMultiTransformer
         $this->archetypeRepository = $archetypeRepository;
     }
 
+    public function getAllArchetypes(): iterable
+    {
+        $allArchetypes = $this->archetypeRepository->findAll();
+        return $this->transformFromObjects($allArchetypes);
+    }
 
     public function getArchetype(int $archetypeId): ?Archetype
     {

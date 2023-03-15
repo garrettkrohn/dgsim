@@ -96,3 +96,29 @@ export interface createTournamentParams {
   season: number;
   numberOfRounds: number;
 }
+
+export interface archetypeResource {
+  archetypeId: number;
+  name: string;
+  minPuttSkill: number;
+  minThrowPowerSkill: number;
+  minThrowAccuracySkill: number;
+  minScrambleSkill: number;
+  maxPuttSkill: number;
+  maxThrowPowerSkill: number;
+  maxThrowAccuracySkill: number;
+  maxScrambleSkill: number;
+}
+
+export interface createPlayerParams {
+  firstName: string;
+  lastName: string;
+  puttSkill: number;
+  throwPowerSkill: number;
+  throwAccuracySkill: number;
+  scrambleSkill: number;
+  startSeason: number;
+  archetypeId: number;
+  bankedSkillPoints: number;
+  userId: number;
+}

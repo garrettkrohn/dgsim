@@ -6,6 +6,7 @@ use App\Dto\Incoming\CreatePlayerDto;
 use App\Dto\Incoming\UpdatePlayerDto;
 use App\Exception\InvalidRequestDataException;
 use App\Serialization\SerializationService;
+use App\Service\ArchetypeService;
 use App\Service\PlayerService;
 use App\Service\PlayerTournamentService;
 use App\Service\PlayerUpdateService;
@@ -20,20 +21,17 @@ class PlayerController extends ApiController
     private PlayerUpdateService $playerUpdateService;
     private PlayerTournamentService $playerTournamentService;
     private SerializationService $serializationService;
+    private ArchetypeService $archetypeService;
 
-    /**
-     * @param PlayerService $playerService
-     * @param PlayerUpdateService $playerUpdateService
-     * @param PlayerTournamentService $playerTournamentService
-     * @param SerializationService $serializationService
-     */
     public function __construct(PlayerService $playerService, PlayerUpdateService $playerUpdateService,
-                                PlayerTournamentService $playerTournamentService, SerializationService $serializationService)
+                                PlayerTournamentService $playerTournamentService, SerializationService $serializationService,
+                                ArchetypeService $archetypeService)
     {
         parent::__construct($serializationService);
         $this->playerService = $playerService;
         $this->playerUpdateService = $playerUpdateService;
         $this->playerTournamentService = $playerTournamentService;
+        $this->archetypeService = $archetypeService;
     }
 
 
@@ -86,6 +84,12 @@ class PlayerController extends ApiController
     public function getAllUpdatesByPlayerId(int $id): Response
     {
         return $this->json($this->playerUpdateService->getAllUpdatesByPlayerId($id));
+    }
+
+    #[Route('api/archetypes', methods: ('GET'))]
+    public function getAllArchetypes(): Response
+    {
+        return $this->json($this->archetypeService->getAllArchetypes());
     }
 
 }

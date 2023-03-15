@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 
 const Dropdown = (props: {
-  items: string[];
+  items: string[] | undefined;
   setIndex: Function;
   title: string;
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     setShowDropdown(!showDropdown);
   };
+
+  if (props.items === undefined) {
+    return <div>error loading archetypes</div>;
+  }
 
   return (
     <div className="flex justify-center">
@@ -56,9 +61,9 @@ const Dropdown = (props: {
                 href="#"
                 className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                 role="menuitem"
-                onClick={() => {
+                onClick={event => {
                   props.setIndex(index);
-                  toggleDropdown();
+                  toggleDropdown(event);
                 }}
               >
                 {item}

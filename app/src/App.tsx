@@ -12,6 +12,7 @@ import TournamentsSelector from './components/tournaments/TournamentsSelector';
 import StandingsSelector from './components/standings/StandingsSelector';
 import PageLayout from './components/PageLayout';
 import Admin from './components/admin/Admin';
+import CreatePlayer from './components/CreatePlayer/CreatePlayer';
 
 const rootRoute = new RootRoute({
   component: () => {
@@ -74,12 +75,23 @@ const adminRoute = new Route({
   errorComponent: () => 'Oh crap!',
 });
 
+const createPlayerRoute = new Route({
+  getParentRoute: () => rootRoute,
+  path: 'create',
+  component: () => {
+    return <CreatePlayer />;
+    // return <JSONPlaceholderPhoto photoId={20} />;
+  },
+  errorComponent: () => 'Oh crap!',
+});
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   scheduleRoute,
   tournamentsRoute,
   standingsRoute,
   adminRoute,
+  createPlayerRoute,
 ]);
 
 // Set up a Router instance
