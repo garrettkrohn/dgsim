@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
-import { useQuery } from '@tanstack/react-query';
-import { getAllTournaments } from '../../services/tournamentsApi';
-import { getArchetypes } from '../../services/PlayerApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  createTournament,
+  getAllTournaments,
+} from '../../services/tournamentsApi';
+import { createPlayer, getArchetypes } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import Dropdown from '../../util/Dropdown';
 import WrapperBlock from '../../util/WrapperBlock';
@@ -11,7 +14,7 @@ import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
 import { availableSpAtom } from '../../jotai/Atoms';
 
-const CreatePlayer = () => {
+function CreatePlayer() {
   const [putt, setPutt] = useState(0);
   const [throwPower, setThrowPower] = useState(0);
   const [throwAccuracy, setThrowAccuracy] = useState(0);
@@ -92,9 +95,26 @@ const CreatePlayer = () => {
     }
   };
 
-  const handleSubmitPlayer = () => {
-    console.log('submit');
-  };
+  const createPlayerMutator: any = useMutation({
+    mutationFn: () =>
+      createPlayer({
+        firstName: playerFirstName,
+        lastName: playerLastName,
+        puttSkill: putt,
+        throwPowerSkill: throwPower,
+        throwAccuracySkill: throwAccuracy,
+        scrambleSkill: scramble,
+        startSeason: 1,
+        archetypeId: archetypeIndex + 1,
+        bankedSkillPoints: availableSp,
+        userId: 1,
+      }),
+    onMutate: () => console.log('mutate'),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => console.log('complete'),
+  });
 
   return (
     <div className="text-dgsoftwhite">
@@ -197,11 +217,11 @@ const CreatePlayer = () => {
       </div>
       <Button
         label="Submit Player"
-        onClick={handleSubmitPlayer}
+        onClick={createPlayerMutator.mutate}
         disable={false}
       />
     </div>
   );
-};
+}
 
 export default CreatePlayer;
