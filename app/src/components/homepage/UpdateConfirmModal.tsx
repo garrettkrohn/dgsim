@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAtom } from 'jotai/index';
 import {
-  availableSpAtom,
+  updateAvailableSpAtom,
   currentPuttAtom,
   currentScrambleAtom,
   currentThrowAccuracyAtom,
@@ -19,7 +19,7 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [throwPower] = useAtom(updateThrowPowerAtom);
   const [throwAccuracy] = useAtom(updateThrowAccuracyAtom);
   const [scramble] = useAtom(updateScrambleAtom);
-  const [availableSp] = useAtom(availableSpAtom);
+  const [availableSp] = useAtom(updateAvailableSpAtom);
   const [currentPutt] = useAtom(currentPuttAtom);
   const [currentPower] = useAtom(currentThrowPowerAtom);
   const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);

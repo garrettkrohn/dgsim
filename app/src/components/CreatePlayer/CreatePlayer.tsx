@@ -12,7 +12,10 @@ import WrapperBlock from '../../util/WrapperBlock';
 import UpdateRow from '../homepage/UpdateRow';
 import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
-import { availableSpAtom, createPlayerAvilableSp } from '../../jotai/Atoms';
+import {
+  updateAvailableSpAtom,
+  createPlayerAvailableSp,
+} from '../../jotai/Atoms';
 import { Link, useNavigate, useRoute } from '@tanstack/react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -25,8 +28,9 @@ function CreatePlayer() {
   const [currentPower, setCurrentPower] = useState(0);
   const [currentAccuracy, setCurrentAccuracy] = useState(0);
   const [currentScramble, setCurrentScramble] = useState(0);
-  const [createPlayerAvilableSp, setCreatePlayerAvilableSp] =
-    useAtom(availableSpAtom);
+  const [createPlayerAvilableSp, setCreatePlayerAvilableSp] = useAtom(
+    updateAvailableSpAtom,
+  );
   const [archetypeIndex, setArchetypeIndex] = useState<number>(-1);
   const [playerCreating, setPlayerCreating] = useState(false);
   const [disableButton, setDisableButton] = useState(true);

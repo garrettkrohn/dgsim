@@ -9,24 +9,28 @@ import {
   updateThrowAccuracyAtom,
   updateThrowPowerAtom,
   updateScrambleAtom,
-  availableSpAtom,
+  updateAvailableSpAtom,
   currentPuttAtom,
   currentThrowPowerAtom,
   currentThrowAccuracyAtom,
   currentScrambleAtom,
 } from '../../jotai/Atoms';
 import WrapperBlock from '../../util/WrapperBlock';
+import { useQuery } from '@tanstack/react-query';
+import { getPlayerByAuth } from '../../services/PlayerApi';
+import { useAuth0 } from '@auth0/auth0-react';
+import Loading from '../../util/Loading';
 
 const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
-  const [putt, setPutt] = useAtom(updatePuttAtom);
-  const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
-  const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
-  const [scramble, setScramble] = useAtom(updateScrambleAtom);
-  const [availableSp] = useAtom(availableSpAtom);
-  const [currentPutt] = useAtom(currentPuttAtom);
-  const [currentPower] = useAtom(currentThrowPowerAtom);
-  const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
-  const [currentScramble] = useAtom(currentScrambleAtom);
+  const [putt, setPutt] = useState(-1);
+  const [throwPower, setThrowPower] = useState(0);
+  const [throwAccuracy, setThrowAccuracy] = useState(0);
+  const [scramble, setScramble] = useState(0);
+  const [currentPutt, setCurrentPutt] = useState(0);
+  const [currentPower, setCurrentPower] = useState(0);
+  const [currentAccuracy, setCurrentAccuracy] = useState(0);
+  const [currentScramble, setCurrentScramble] = useState(0);
+  const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
 
   const [disableUpdate, setDisableUpdate] = useState(true);
 
@@ -35,6 +39,24 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   const toggleUpdate = () => {
     setShowUpdate(!showUpdate);
   };
+
+  const { user } = useAuth0();
+
+  const {
+    isLoading: playerIsLoading,
+    error: playerError,
+    data: playerData,
+    refetch,
+  } = useQuery({
+    queryKey: [`player`],
+    //@ts-ignore
+    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (
@@ -56,6 +78,22 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
     currentScramble,
   ]);
 
+  if (playerIsLoading) {
+    return <Loading />;
+  }
+
+  if (playerData && putt === -1) {
+    setPutt(playerData.puttSkill);
+    setCurrentPutt(playerData.puttSkill);
+    setThrowAccuracy(playerData.throwAccuracySkill);
+    setCurrentAccuracy(playerData.throwAccuracySkill);
+    setThrowPower(playerData.throwPowerSkill);
+    setCurrentPower(playerData.throwPowerSkill);
+    setScramble(playerData.scrambleSkill);
+    setCurrentScramble(playerData.scrambleSkill);
+    setAvailableSp(playerData.bankedSkillPoints);
+  }
+
   return (
     <div>
       <WrapperBlock color="dgprimary" onClick={toggleUpdate}>
@@ -63,8 +101,7 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
           Update Player
         </div>
         <div className="container flex flex-row justify-evenly p-1">
-          <div>Bank: 10</div>
-          <div>NewSp: 10</div>
+          <div>Bank: {playerData?.bankedSkillPoints}</div>
           <div>Total: {availableSp}</div>
         </div>
       </WrapperBlock>
