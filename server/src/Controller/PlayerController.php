@@ -73,7 +73,7 @@ class PlayerController extends ApiController
     {
         /** @var CreateUserDto $dto */
         $dto = $this->getValidatedDto($request, CreateUserDto::class);
-        return $this->json($this->playerService->getPlayerByAuth($dto));
+        return $this->json($this->playerService->getPlayerByAuth($dto->getAuth0()));
     }
 
     /**

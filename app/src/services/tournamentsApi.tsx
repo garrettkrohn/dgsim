@@ -108,9 +108,9 @@ export async function getTournamentTitles(
 }
 
 export async function getLastTournament(
-  playerId: number,
+  Auth0: string,
 ): Promise<playerTournamentResource> {
-  return await fetch(`http://localhost:8000/api/lastTournament/1`, {
+  return await fetch(`http://localhost:8000/api/lastTournament/${Auth0}`, {
     headers: {
       'Content-Type': 'application/json',
     },
