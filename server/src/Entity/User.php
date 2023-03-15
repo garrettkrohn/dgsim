@@ -30,6 +30,9 @@ class User
     #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
     private Collection $player;
 
+    #[ORM\Column]
+    private ?string $auth0 = null;
+
     public function __construct()
     {
         $this->player = new ArrayCollection();
@@ -105,4 +108,22 @@ class User
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getAuth0(): string
+    {
+        return $this->auth0;
+    }
+
+    /**
+     * @param string $auth0
+     */
+    public function setAuth0(string $auth0): void
+    {
+        $this->auth0 = $auth0;
+    }
+
+
 }

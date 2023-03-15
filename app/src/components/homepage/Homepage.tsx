@@ -9,7 +9,6 @@ import { getAllTournaments } from '../../services/tournamentsApi';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
 
-
 const Homepage = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -18,7 +17,6 @@ const Homepage = () => {
   const toggleConfirmModal = () => {
     setShowConfirmModal(!showConfirmModal);
   };
-
 
   //calls the tournaments call when the homepage is loaded!
   const {
@@ -49,7 +47,11 @@ const Homepage = () => {
   }, []);
 
   if (!isAuthenticated) {
-    return <div className="text-dgsoftwhite">please log in</div>;
+    return (
+      <div className="text-center text-2xl text-dgsoftwhite">
+        Please log in.
+      </div>
+    );
   }
 
   try {
