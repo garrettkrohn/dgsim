@@ -1,4 +1,9 @@
-import { archetypeResource, createPlayerParams, playerResource } from './DTOs';
+import {
+  archetypeResource,
+  createPlayerParams,
+  getUserByAuthParams,
+  playerResource,
+} from './DTOs';
 
 export async function getPlayer(playerId: number): Promise<playerResource> {
   return await fetch(`http://localhost:8000/api/players/${playerId}`, {
@@ -18,13 +23,15 @@ export async function getPlayer(playerId: number): Promise<playerResource> {
     });
 }
 
-export async function getPlayerByAuth(auth0: string): Promise<playerResource> {
+export async function getPlayerByAuth(
+  params: getUserByAuthParams,
+): Promise<playerResource> {
   return await fetch(`http://localhost:8000/api/playersAuth`, {
     headers: {
       'Content-Type': 'application/json',
     },
-    method: 'GET',
-    body: JSON.stringify(auth0),
+    method: 'POST',
+    body: JSON.stringify(params),
   })
     .then(response => response.json())
     .then((data: playerResource) => {

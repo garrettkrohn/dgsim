@@ -48,7 +48,8 @@ const PlayerBlock = () => {
     refetch,
   } = useQuery({
     queryKey: [`player`],
-    queryFn: () => getPlayerByAuth(user.sub),
+    //@ts-ignore
+    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
     enabled: false,
   });
 
@@ -56,7 +57,13 @@ const PlayerBlock = () => {
     refetch();
   }, []);
 
-  if (playerIsLoading) return <Loading />;
+  if (playerIsLoading)
+    return (
+      <div>
+        <div className="text-center text-dgsoftwhite">Player is loading</div>
+        <Loading />
+      </div>
+    );
 
   if (playerError) return <div>An error has occurred</div>;
 

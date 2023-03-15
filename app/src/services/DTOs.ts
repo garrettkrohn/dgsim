@@ -136,3 +136,7 @@ export interface userResource {
   email: string;
   auth0: string;
 }
+
+export interface getUserByAuthParams {
+  Auth0: string;
+}
