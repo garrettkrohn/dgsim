@@ -5,7 +5,11 @@ import {
   createTournament,
   getAllTournaments,
 } from '../../services/tournamentsApi';
-import { createPlayer, getArchetypes } from '../../services/PlayerApi';
+import {
+  createPlayer,
+  getArchetypes,
+  getPlayerByAuth,
+} from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import Dropdown from '../../util/Dropdown';
 import WrapperBlock from '../../util/WrapperBlock';
@@ -43,6 +47,18 @@ function CreatePlayer() {
   } = useQuery({
     queryKey: [`archetypes`],
     queryFn: () => getArchetypes(),
+    enabled: false,
+  });
+
+  const {
+    isLoading: playerIsLoading,
+    error: playerError,
+    data: playerData,
+    refetch: refetchPlayer,
+  } = useQuery({
+    queryKey: [`player`],
+    //@ts-ignore
+    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
     enabled: false,
   });
 
@@ -139,6 +155,7 @@ function CreatePlayer() {
     },
     onSettled: () => {
       setPlayerCreating(false);
+      refetchPlayer();
       navigate({ to: '/' });
     },
   });

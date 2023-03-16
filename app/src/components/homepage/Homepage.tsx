@@ -26,23 +26,13 @@ function Homepage() {
   };
 
   //calls the tournaments call when the homepage is loaded!
-  const {
-    isLoading: tournamentsAreLoading,
-    error: tournamentsError,
-    data: tournamentsData,
-    refetch: refetchTournaments,
-  } = useQuery({
+  const { refetch: refetchTournaments } = useQuery({
     queryKey: [`seasons/tournament/title`],
     queryFn: () => getAllTournaments(),
     enabled: false,
   });
 
-  const {
-    isLoading: standingsAreLoading,
-    error: standingsError,
-    data: standingsData,
-    refetch: refetchStandings,
-  } = useQuery({
+  const { refetch: refetchStandings } = useQuery({
     queryKey: [`standings/season`],
     queryFn: () => getSeasonLeaderboards(),
     enabled: false,
@@ -52,16 +42,24 @@ function Homepage() {
     isLoading: playerIsLoading,
     error: playerError,
     data: playerData,
+    refetch: refetchPlayer,
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
     queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+    enabled: false,
   });
 
   useEffect(() => {
     refetchStandings();
     refetchTournaments();
-  }, []);
+  }, [refetchStandings, refetchTournaments]);
+
+  useEffect(() => {
+    if (user) {
+      refetchPlayer();
+    }
+  }, [refetchPlayer, user]);
 
   const createOrGetUserCall: any = useMutation({
     mutationFn: () =>
@@ -78,7 +76,6 @@ function Homepage() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      console.log(user.sub);
       createOrGetUserCall.mutate();
     }
   }, [isAuthenticated, user]);
