@@ -104,6 +104,7 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
       </div>
     );
   }
+  return <div></div>;
 };
 
 export default UpdateConfirmModal;
