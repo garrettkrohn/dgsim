@@ -141,11 +141,21 @@ class SimulationIterators {
     public function playoffIterator(iterable $playerArray, iterable $holeSimArray,
                                     $allHoles, Tournament $tournament): void
     {
-        $tiedPlayerArray[] = $playerArray;
+        $tiedPlayerArray = [];
+        foreach($playerArray as $player) {
+            $tiedPlayerArray[] = $player;
+        }
         $tied = true;
+        $holeIndex = -1;
         while ($tied) {
+            if ($holeIndex === 17) {
+                $holeIndex = 0;
+            } else {
+                $holeIndex++;
+
+            }
             //simulate the first hole
-            $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[0], $tournament);
+            $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[$holeIndex], $tournament);
 
             //get all player tournaments
             $allPlayertournaments = $tournament->getPlayerTournaments();
@@ -176,7 +186,7 @@ class SimulationIterators {
 
             unset($tiedPlayerArray);
 
-            $tiedPlayerArray[] = $this->checkForTiedPlayers($roundsToCompare, $playerArray, $topScore);
+            $tiedPlayerArray = $this->checkForTiedPlayers($roundsToCompare, $playerArray, $topScore);
 
             if (count($tiedPlayerArray) === 1) {
                 $tied = false;
@@ -189,7 +199,7 @@ class SimulationIterators {
 
         }
 
-        private function checkForTiedPlayers($rounds, $playerArray, $topScore): iterable
+        private function checkForTiedPlayers($rounds, $playerArray, $topScore): array
         {
             $returnArray = [];
             foreach($rounds as $round) {
