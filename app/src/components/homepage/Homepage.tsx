@@ -12,6 +12,9 @@ import {
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createOrGetUser } from '../../services/UserApi';
+import { getArchetypes, getPlayerByAuth } from '../../services/PlayerApi';
+import Loading from '../../util/Loading';
+import CreatePlayer from '../CreatePlayer/CreatePlayer';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -45,6 +48,16 @@ function Homepage() {
     enabled: false,
   });
 
+  const {
+    isLoading: playerIsLoading,
+    error: playerError,
+    data: playerData,
+  } = useQuery({
+    queryKey: [`player`],
+    //@ts-ignore
+    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+  });
+
   useEffect(() => {
     refetchStandings();
     refetchTournaments();
@@ -74,6 +87,19 @@ function Homepage() {
     return (
       <div className="text-center text-2xl text-dgsoftwhite">
         Please log in.
+      </div>
+    );
+  }
+
+  if (playerIsLoading) {
+    return <Loading />;
+  }
+
+  if (!playerData) {
+    return (
+      <div className="text-center text-dgsoftwhite">
+        No active player found, please create one.
+        <CreatePlayer />
       </div>
     );
   }
