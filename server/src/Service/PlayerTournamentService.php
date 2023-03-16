@@ -79,10 +79,14 @@ class PlayerTournamentService extends AbstractMultiTransformer
         return $dto;
     }
 
-    public function getMostRecentTournament(string $auth0): PlayerTournamentResponseDto
+    public function getMostRecentTournament(string $auth0): PlayerTournamentResponseDto | null
     {
         $player = $this->playerService->getPlayerByAuthPlayer($auth0);
         $pt = $this->playerTournamentRepository->findOneBy(['player' => $player], ['player_tournament_id' => 'desc']);
+
+        if (!$pt) {
+            return null;
+        }
 
         return $this->transformFromObject($pt);
     }

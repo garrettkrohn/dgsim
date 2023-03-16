@@ -95,10 +95,14 @@ class PlayerService extends AbstractMultiTransformer
         return $this->playerRepository->findOneBy(array('player_id' => $id));
     }
 
-    public function getPlayerByAuth(string $auth0): PlayerDto
+    public function getPlayerByAuth(string $auth0): PlayerDto | null
     {
         $user = $this->userService->getUserByAuth0($auth0);
         $player = $this->playerRepository->findOneBy(['playerUser' => $user, 'active' => true]);
+
+        if (!$player) {
+            return null;
+        }
 
         return $this->transformFromObject($player);
     }

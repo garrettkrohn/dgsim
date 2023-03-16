@@ -12,6 +12,9 @@ import {
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createOrGetUser } from '../../services/UserApi';
+import { getArchetypes, getPlayerByAuth } from '../../services/PlayerApi';
+import Loading from '../../util/Loading';
+import CreatePlayer from '../CreatePlayer/CreatePlayer';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -23,32 +26,40 @@ function Homepage() {
   };
 
   //calls the tournaments call when the homepage is loaded!
-  const {
-    isLoading: tournamentsAreLoading,
-    error: tournamentsError,
-    data: tournamentsData,
-    refetch: refetchTournaments,
-  } = useQuery({
+  const { refetch: refetchTournaments } = useQuery({
     queryKey: [`seasons/tournament/title`],
     queryFn: () => getAllTournaments(),
     enabled: false,
   });
 
-  const {
-    isLoading: standingsAreLoading,
-    error: standingsError,
-    data: standingsData,
-    refetch: refetchStandings,
-  } = useQuery({
+  const { refetch: refetchStandings } = useQuery({
     queryKey: [`standings/season`],
     queryFn: () => getSeasonLeaderboards(),
+    enabled: false,
+  });
+
+  const {
+    isLoading: playerIsLoading,
+    error: playerError,
+    data: playerData,
+    refetch: refetchPlayer,
+  } = useQuery({
+    queryKey: [`player`],
+    //@ts-ignore
+    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
     enabled: false,
   });
 
   useEffect(() => {
     refetchStandings();
     refetchTournaments();
-  }, []);
+  }, [refetchStandings, refetchTournaments]);
+
+  useEffect(() => {
+    if (user) {
+      refetchPlayer();
+    }
+  }, [refetchPlayer, user]);
 
   const createOrGetUserCall: any = useMutation({
     mutationFn: () =>
@@ -65,7 +76,6 @@ function Homepage() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      console.log(user.sub);
       createOrGetUserCall.mutate();
     }
   }, [isAuthenticated, user]);
@@ -74,6 +84,23 @@ function Homepage() {
     return (
       <div className="text-center text-2xl text-dgsoftwhite">
         Please log in.
+      </div>
+    );
+  }
+
+  if (playerIsLoading) {
+    return <Loading />;
+  }
+
+  if (playerError) {
+    return <div>Ope, there was an error</div>;
+  }
+
+  if (!playerData) {
+    return (
+      <div className="text-center text-dgsoftwhite">
+        No active player found, please create one.
+        <CreatePlayer />
       </div>
     );
   }
