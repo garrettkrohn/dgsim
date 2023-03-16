@@ -8,9 +8,10 @@ import Loading from '../../util/Loading';
 import TournamentRow from '../tournaments/TournamentRow';
 import ThinDivider from '../../util/ThinDivider';
 import WrapperBlock from '../../util/WrapperBlock';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const LastTournamentBlock = () => {
-  //api call to bring in last playerTournament, as well as the course par
+  const { user } = useAuth0();
 
   const {
     isLoading: playerTournamentisLoading,
@@ -19,7 +20,8 @@ const LastTournamentBlock = () => {
     refetch,
   } = useQuery({
     queryKey: [`lastTournament`],
-    queryFn: () => getLastTournament(1),
+    //@ts-ignore
+    queryFn: () => getLastTournament(user.sub),
     enabled: false,
   });
 

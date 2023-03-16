@@ -4,21 +4,23 @@ import UpdateBlock from './UpdateBlock';
 import React, { useEffect, useState } from 'react';
 import UpdateConfirmModal from './UpdateConfirmModal';
 import LastTournamentBlock from './LastTournamentBlock';
-import { useQuery } from '@tanstack/react-query';
-import { getAllTournaments } from '../../services/tournamentsApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  createTournament,
+  getAllTournaments,
+} from '../../services/tournamentsApi';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
+import { createOrGetUser } from '../../services/UserApi';
 
-
-const Homepage = () => {
+function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   const toggleConfirmModal = () => {
     setShowConfirmModal(!showConfirmModal);
   };
-
 
   //calls the tournaments call when the homepage is loaded!
   const {
@@ -48,20 +50,32 @@ const Homepage = () => {
     refetchTournaments();
   }, []);
 
+  const createOrGetUserCall: any = useMutation({
+    mutationFn: () =>
+      createOrGetUser({
+        // @ts-ignore
+        Auth0: user.sub,
+      }),
+    onMutate: () => console.log('mutate'),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => console.log('complete'),
+  });
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log(user.sub);
+      createOrGetUserCall.mutate();
+    }
+  }, [isAuthenticated, user]);
+
   if (!isAuthenticated) {
-    return <div className="text-dgsoftwhite">please log in</div>;
-  }
-
-  try {
-    //get the user by the token
-  } catch {
-    //create the user if it doesn't exist
-  }
-
-  try {
-    //pulling the player from the user
-  } catch {
-    //reroute to create a player if the player doesn't exist
+    return (
+      <div className="text-center text-2xl text-dgsoftwhite">
+        Please log in.
+      </div>
+    );
   }
 
   return (
@@ -77,6 +91,6 @@ const Homepage = () => {
       <LastTournamentBlock />
     </div>
   );
-};
+}
 
 export default Homepage;

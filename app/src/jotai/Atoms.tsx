@@ -1,12 +1,12 @@
 import { atom } from 'jotai/index';
 
-export const updatePuttAtom = atom(48);
-export const updateThrowPowerAtom = atom(10);
-export const updateThrowAccuracyAtom = atom(10);
-export const updateScrambleAtom = atom(10);
-export const availableSpAtom = atom(33);
-export const currentPuttAtom = atom(48);
-export const currentThrowPowerAtom = atom(10);
-export const currentThrowAccuracyAtom = atom(10);
-export const currentScrambleAtom = atom(10);
-export const createPlayerAvilableSp = atom(33);
+export const updatePuttAtom = atom(-1);
+export const updateThrowPowerAtom = atom(0);
+export const updateThrowAccuracyAtom = atom(0);
+export const updateScrambleAtom = atom(0);
+export const updateAvailableSpAtom = atom(0);
+export const currentPuttAtom = atom(0);
+export const currentThrowPowerAtom = atom(0);
+export const currentThrowAccuracyAtom = atom(0);
+export const currentScrambleAtom = atom(0);
+export const createPlayerAvailableSp = atom(0);

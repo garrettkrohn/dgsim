@@ -16,12 +16,6 @@ class User
     #[ORM\Column]
     private ?int $user_id = null;
 
-    #[ORM\Column(length: 25)]
-    private ?string $username = null;
-
-    #[ORM\Column(length: 25)]
-    private ?string $password = null;
-
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'role_id')]
     private ?Role $role = null;
@@ -29,6 +23,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'playerUser', targetEntity: Player::class)]
     #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'player_id')]
     private Collection $player;
+
+    #[ORM\Column]
+    private string $auth0;
 
     public function __construct()
     {
@@ -38,30 +35,6 @@ class User
     public function getUserId(): ?int
     {
         return $this->user_id;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
     }
 
     public function getRole(): ?Role
@@ -105,4 +78,21 @@ class User
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getAuth0(): string
+    {
+        return $this->auth0;
+    }
+
+    /**
+     * @param string $auth0
+     */
+    public function setAuth0(string $auth0): void
+    {
+        $this->auth0 = $auth0;
+    }
+
 }

@@ -45,8 +45,8 @@ class CreatePlayerDto
     public int $bankedSkillPoints;
 
     #[NotNull]
-    #[Type('int')]
-    public int $userId;
+    #[Type('string')]
+    public string $auth0;
 
     /**
      * @return string
@@ -193,19 +193,19 @@ class CreatePlayerDto
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getUserId(): int
+    public function getAuth0(): string
     {
-        return $this->userId;
+        return $this->auth0;
     }
 
     /**
-     * @param int $userId
+     * @param string $auth0
      */
-    public function setUserId(int $userId): void
+    public function setAuth0(string $auth0): void
     {
-        $this->userId = $userId;
+        $this->auth0 = $auth0;
     }
 
 

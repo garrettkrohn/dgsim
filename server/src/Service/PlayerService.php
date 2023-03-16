@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Incoming\CreatePlayerDto;
+use App\Dto\Incoming\CreateUserDto;
 use App\Dto\Outgoing\FloorCeilingDto;
 use App\Dto\Outgoing\PlayerDto;
 use App\Entity\Player;
@@ -61,7 +62,8 @@ class PlayerService extends AbstractMultiTransformer
             throw new BadRequestHttpException('Archetype not found');
         }
 
-        $user = $this->userService->getUserById($createPlayerDto->getUserId());
+//        $user = $this->userService->getUserById($createPlayerDto->getAuth0());
+        $user = $this->userService->getUserByAuth0($createPlayerDto->getAuth0());
 
         $player = new Player();
         $player->setArchetype($archetype);
@@ -75,7 +77,6 @@ class PlayerService extends AbstractMultiTransformer
         $player->setActive(true);
         $player->setBankedSkillPoints($createPlayerDto->getBankedSkillPoints());
         $player->setPlayerUser($user);
-
 
         $this->entityManager->persist($player);
         $this->entityManager->flush();
@@ -92,6 +93,20 @@ class PlayerService extends AbstractMultiTransformer
     public function getPlayer(int $id): Player
     {
         return $this->playerRepository->findOneBy(array('player_id' => $id));
+    }
+
+    public function getPlayerByAuth(string $auth0): PlayerDto
+    {
+        $user = $this->userService->getUserByAuth0($auth0);
+        $player = $this->playerRepository->findOneBy(['playerUser' => $user, 'active' => true]);
+
+        return $this->transformFromObject($player);
+    }
+
+    public function getPlayerByAuthPlayer(string $auth0): Player
+    {
+        $user = $this->userService->getUserByAuth0($auth0);
+        return $this->playerRepository->findOneBy(['playerUser' => $user, 'active' => true]);
     }
 
     public function getAllActivePlayerEntities(): iterable

@@ -49,7 +49,20 @@ export interface playerResource {
   startSeason: number;
   isActive: boolean;
   bankedSkillPoints: number;
-  archetype: object;
+  archetype: archetypeResource;
+}
+
+export interface archetypeResource {
+  archetype_id: number;
+  name: string;
+  min_putt_skill: number;
+  min_throw_power_skill: number;
+  min_throw_accuracy_skill: number;
+  min_scramble_skill: number;
+  max_putt_skill: number;
+  max_throw_power_skill: number;
+  max_throw_accuracy_skill: number;
+  max_scramble_skill: number;
 }
 
 export interface courseResource {
@@ -120,5 +133,37 @@ export interface createPlayerParams {
   startSeason: number;
   archetypeId: number;
   bankedSkillPoints: number;
+  auth0: string;
+}
+
+export interface createOrGetUserParams {
+  Auth0: string;
+}
+
+export interface userResource {
   userId: number;
+  role: {
+    role_id: 2;
+    name: string;
+  };
+  email: string;
+  auth0: string;
+}
+
+export interface getUserByAuthParams {
+  Auth0: string;
+}
+
+export interface updatePlayerParams {
+  firstName: string;
+  lastName: string;
+  puttSkill: number;
+  throwPowerSkill: number;
+  throwAccuracySkill: number;
+  scrambleSkill: number;
+  startSeason: number;
+  bankedSkillPoints: number;
+  archetypeId: number;
+  playerId: number;
+  auth0: string;
 }

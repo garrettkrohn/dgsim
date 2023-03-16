@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/20/solid';
 import { useAtom } from 'jotai';
-import { availableSpAtom } from '../../jotai/Atoms';
+import { updateAvailableSpAtom } from '../../jotai/Atoms';
 
 const UpdateInput = (props: {
   updateNumber: number;
@@ -10,7 +10,7 @@ const UpdateInput = (props: {
   setSkill: Function;
   currentNumber: number;
 }) => {
-  const [availableSp, setAvailableSp] = useAtom(availableSpAtom);
+  const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
   const [incrementDisable, setIncrementDisable] = useState(false);
   const [decrementDisable, setDecrementDisable] = useState(false);
 

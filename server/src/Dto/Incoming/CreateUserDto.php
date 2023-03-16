@@ -9,43 +9,24 @@ class CreateUserDto
 {
     #[NotNull]
     #[Type('string')]
-    public string $username;
-
-    #[NotNull]
-    #[Type('string')]
-    public string $password;
+    public string $auth0;
 
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function getAuth0(): string
     {
-        return $this->username;
+        return $this->auth0;
     }
 
     /**
-     * @param string $username
+     * @param string $auth0
      */
-    public function setUsername(string $username): void
+    public function setAuth0(string $auth0): void
     {
-        $this->username = $username;
+        $this->auth0 = $auth0;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
 
 
 }

@@ -7,7 +7,9 @@ use App\Dto\Outgoing\UserResponseDto;
 use App\Entity\User;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Promise\Create;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,8 +59,7 @@ class UserService extends AbstractMultiTransformer
     public function createNewUser(CreateUserDto $createUserDto): UserResponseDto
     {
         $newUser = new User();
-        $newUser->setUsername($createUserDto->getUsername());
-        $newUser->setPassword($createUserDto->getPassword());
+        $newUser->setAuth0($createUserDto->getAuth0());
         $role = $this->roleService->getRole(2);
         $newUser->setRole($role);
 
@@ -77,11 +78,24 @@ class UserService extends AbstractMultiTransformer
         $dto = new UserResponseDto();
         $role = $this->roleService->getRoleDto($object->getRole()->getRoleId());
         $dto->setUserId($object->getUserId());
-        $dto->setUsername($object->getUsername());
-        $dto->setPassword($object->getPassword());
+        $dto->setAuth0($object->getAuth0());
         $dto->setRole($role);
         return $dto;
     }
 
+    public function getOrCreateUser( CreateUserDto $dto): UserResponseDto
+    {
+            $user =$this->userRepository->findOneBy(['auth0' => $dto->getAuth0()]);
+            if ($user === null) {
+                $user = $this->createNewUser($dto);
+            }
+
+        return $this->transformFromObject($user);
+    }
+
+    public function getUserByAuth0(string $auth0): User
+    {
+        return $this->userRepository->findOneBy(['auth0' => $auth0]);
+    }
 
 }
