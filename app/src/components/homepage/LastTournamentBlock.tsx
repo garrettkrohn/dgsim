@@ -32,14 +32,19 @@ const LastTournamentBlock = () => {
   if (playerTournamentisLoading)
     return (
       <div>
-        <div className="flex justify-center bg-dgsecondary text-dgsoftwhite">
-          Last Tournament
-        </div>
         <Loading />
       </div>
     );
 
   if (playerTournamentrror) return <div>An error has occurred</div>;
+
+  if (!playerTournamentData) {
+    return (
+      <WrapperBlock color="dgsecondary">
+        <div className="text-center text-dgsoftwhite">No tournaments, yet!</div>
+      </WrapperBlock>
+    );
+  }
 
   if (playerTournamentData) {
     return (

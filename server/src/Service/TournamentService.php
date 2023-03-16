@@ -124,7 +124,7 @@ class TournamentService extends AbstractMultiTransformer
         return $returnArray;
     }
 
-    public function getLastPlayerTournament(string $auth0): PlayerTournamentResponseDto
+    public function getLastPlayerTournament(string $auth0): PlayerTournamentResponseDto | null
     {
         return $this->playerTournamentService->getMostRecentTournament($auth0);
     }

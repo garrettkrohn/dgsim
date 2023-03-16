@@ -95,6 +95,10 @@ function Homepage() {
     return <Loading />;
   }
 
+  if (playerError) {
+    return <div>Ope, there was an error</div>;
+  }
+
   if (!playerData) {
     return (
       <div className="text-center text-dgsoftwhite">
