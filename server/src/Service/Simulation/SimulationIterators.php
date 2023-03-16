@@ -141,11 +141,92 @@ class SimulationIterators {
     public function playoffIterator(iterable $playerArray, iterable $holeSimArray,
                                     $allHoles, Tournament $tournament): void
     {
-        //iterate through holes
-        for($h = 0; $h < count($holeSimArray); $h++) {
+        $tiedPlayerArray[] = $playerArray;
+        $tied = true;
+        while ($tied) {
+            //simulate the first hole
+            $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[0], $tournament);
+
+            //get all player tournaments
+            $allPlayertournaments = $tournament->getPlayerTournaments();
+
+            /** @var Round[] $roundsToCompare */
+            $roundsToCompare = [];
+
+            //get all tournament rounds
+            foreach ($allPlayertournaments as $pt) {
+                $allRounds = $pt->getRound();
+                $addRound = $allRounds->findFirst(function (int $key, Round $value): bool {
+                    return $value->getRoundType() == 'playoff';
+                });
+                if ($addRound !== null) {
+                    $roundsToCompare[] = $addRound;
+                }
+            }
+
+            //sort the rounds descending
+            usort($roundsToCompare, function ($a, $b) {
+                if ($a->getRoundTotal() == $b->getRoundTotal()) {
+                    return 0;
+                }
+                return ($a < $b) ? -1 : 1;
+            });
+
+            $topScore = $roundsToCompare[0]->getRoundTotal();
+
+            unset($tiedPlayerArray);
+
+            $tiedPlayerArray[] = $this->checkForTiedPlayers($roundsToCompare, $playerArray, $topScore);
+
+            if (count($tiedPlayerArray) === 1) {
+                $tied = false;
+            }
+        }
+        //playoff over
+        //reassign place finishes
+
+        $this->entityManager->flush();
+
+        }
+
+        private function checkForTiedPlayers($rounds, $playerArray, $topScore): iterable
+        {
+            $returnArray = [];
+            foreach($rounds as $round) {
+                if ($round->getRoundTotal() == $topScore) {
+                    $playerId = $round->getPlayerTournament()->getPlayer()->getPlayerId();
+                    $returnArray[] = $this->findPlayerSimObjectByPlayerId($playerArray, $playerId);
+                }
+            }
+            return $returnArray;
+        }
+
+    /**
+     * @param PlayerSimulationObject[] $array
+     * @param int $id
+     * @return PlayerSimulationObject | null
+     */
+        private function findPlayerSimObjectByPlayerId(iterable $array, int $id): PlayerSimulationObject | null
+        {
+            foreach ($array as $element) {
+                if ($id === $element->getPlayerId()) {
+                    return $element;
+                }
+            }
+            return null;
+        }
+
+    /**
+     * @param PlayerSimulationObject[] $playerArray
+     * @param HoleSimResponseDto $hole
+     * @param Tournament $tournament
+     * @return void
+     */
+        private function playoffPlayerIterator(iterable $playerArray, HoleSimResponseDto$hole, Tournament $tournament): void
+        {
             //iterate through players
             for ($p = 0; $p < count($playerArray); $p++) {
-                $holeResult = $this->parSwitcher($playerArray[$p], $holeSimArray[$h]);
+                $holeResult = $this->parSwitcher($playerArray[$p], $hole);
                 $player = $playerArray[$p];
 
                 $thisPlayoffRound = $this->getPlayoffRound($tournament, $player);
@@ -158,58 +239,9 @@ class SimulationIterators {
 
                 $average = $this->getAverageLuck($thisPlayoffRound);
                 $thisPlayoffRound->setLuckScore($average);
-                
+
                 $this->entityManager->persist($thisPlayoffRound);
             }
-            //check if there is still a tie
-            $allPlayertournaments = $tournament->getPlayerTournaments();
-
-            /** @var Round[] $roundsToCompare */
-            $roundsToCompare = [];
-
-            foreach ($allPlayertournaments as $pt) {
-                $allRounds = $pt->getRound();
-                $addRound = $allRounds->findFirst(function(int $key, Round $value):bool {
-                    return $value->getRoundType() == 'playoff';
-                });
-                if ($addRound !== null) {
-                    $roundsToCompare[] = $addRound;
-                }
-            }
-
-            //sort the rounds descending
-            usort($roundsToCompare, function($a, $b) {
-                if ($a->getRoundTotal() == $b->getRoundTotal()) {
-                    return 0;
-                }
-                return ($a < $b) ? -1 : 1;
-            });
-
-            //stops the iteration if there is a clear winner
-            if ($roundsToCompare[0]->getRoundTotal() !== $roundsToCompare[1]->getRoundTotal()) {
-                break;
-            }
-
-            $topScore = $roundsToCompare[0]->getRoundTotal();
-
-            foreach($roundsToCompare as $round) {
-                if ($round->getRoundTotal() < $topScore) {
-                    //get index
-                    \array_filter($playerArray, static function ($element, $round) {
-                        return $element->getPlayerId() === $round->getPlayerTournament()->getPlayer()->getPlayerId();
-                    });
-                }
-
-            }
-
-
-        }
-
-        //playoff over
-        //reassign place finishes
-
-        $this->entityManager->flush();
-
         }
 
         private function getPlayoffRound(Tournament $tournament, PlayerSimulationObject $player): Round
