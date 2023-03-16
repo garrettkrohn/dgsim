@@ -141,8 +141,9 @@ class SimulationIterators {
     public function playoffIterator(iterable $playerArray, iterable $holeSimArray,
                                     $allHoles, Tournament $tournament): void
     {
-        //simulate holes until there is no longer a tie
+        //iterate through holes
         for($h = 0; $h < count($holeSimArray); $h++) {
+            //iterate through players
             for ($p = 0; $p < count($playerArray); $p++) {
                 $holeResult = $this->parSwitcher($playerArray[$p], $holeSimArray[$h]);
                 $player = $playerArray[$p];
@@ -160,11 +161,13 @@ class SimulationIterators {
                 
                 $this->entityManager->persist($thisPlayoffRound);
             }
-            $playerTournamentWithPlayoffCollection = $tournament->getPlayerTournaments();
+            //check if there is still a tie
+            $allPlayertournaments = $tournament->getPlayerTournaments();
 
+            /** @var Round[] $roundsToCompare */
             $roundsToCompare = [];
 
-            foreach ($playerTournamentWithPlayoffCollection as $pt) {
+            foreach ($allPlayertournaments as $pt) {
                 $allRounds = $pt->getRound();
                 $addRound = $allRounds->findFirst(function(int $key, Round $value):bool {
                     return $value->getRoundType() == 'playoff';
@@ -174,9 +177,32 @@ class SimulationIterators {
                 }
             }
 
+            //sort the rounds descending
+            usort($roundsToCompare, function($a, $b) {
+                if ($a->getRoundTotal() == $b->getRoundTotal()) {
+                    return 0;
+                }
+                return ($a < $b) ? -1 : 1;
+            });
+
+            //stops the iteration if there is a clear winner
             if ($roundsToCompare[0]->getRoundTotal() !== $roundsToCompare[1]->getRoundTotal()) {
                 break;
             }
+
+            $topScore = $roundsToCompare[0]->getRoundTotal();
+
+            foreach($roundsToCompare as $round) {
+                if ($round->getRoundTotal() < $topScore) {
+                    //get index
+                    \array_filter($playerArray, static function ($element, $round) {
+                        return $element->getPlayerId() === $round->getPlayerTournament()->getPlayer()->getPlayerId();
+                    });
+                }
+
+            }
+
+
         }
 
         //playoff over

@@ -73,6 +73,12 @@ class TournamentBuilder
             $allHolesSimObjects, $numberOfRounds, $tournament, $allHoles, $allPlayers);
     }
 
+    /**Takes a tournament, assesses the leaderboard, updates the places on that tournament
+     * It also runs playoff simulations, and includes those in the tournament
+     *
+     * @param int $tournamentId
+     * @return array
+     */
     public function buildLeaderboard(int $tournamentId):array
     {
         $tournament = $this->tournamentRepository->findOneBy(['tournament_id' => $tournamentId]);
@@ -93,8 +99,16 @@ class TournamentBuilder
             return ($a < $b) ? -1 : 1;
         });
 
+        //logic for playoffs
+        //array of players who are tied
+        //simulate one hole
+        //check if there is a clear winner or loser
+        //two arrays, still in it and done
+        //repeat as needed
+
         $tiedForFirst = [];
 
+        //if there is one tie, get others if there are any
         if ($leaderboard[0]->score == $leaderboard[1]->score) {
             $tiedForFirst = $this->checkTieForFirst($leaderboard);
         }
@@ -125,17 +139,17 @@ class TournamentBuilder
     public function testCheckTie(): array {
         $leaderboard = [];
 
-        $lb1 = new StandingsDto();
+        $lb1 = new leaderboardDto();
         $lb1->score = 200;
         $lb1->playerTournamentId = 1;
         $leaderboard[] = $lb1;
 
-        $lb2 = new StandingsDto();
+        $lb2 = new leaderboardDto();
         $lb2->score = 200;
         $lb2->playerTournamentId = 2;
         $leaderboard[] = $lb2;
 
-        $lb3 = new StandingsDto();
+        $lb3 = new leaderboardDto();
         $lb3->score = 205;
         $lb3->playerTournamentId = 3;
         $leaderboard[] = $lb3;
@@ -165,7 +179,8 @@ class TournamentBuilder
 
         $tournamentWithPlayoff = $this->createPlayoffRounds($playerSimArray, $tournament);
 
-        $this->iterators->playoffIterator($playerSimArray, $holeSimArray, $allHoles, $tournamentWithPlayoff);
+        $this->iterators->playoffIterator($playerSimArray, $holeSimArray, $allHoles,
+            $tournamentWithPlayoff);
 
     }
     /**

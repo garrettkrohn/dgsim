@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\Incoming\CreateTournamentDto;
 use App\Dto\Outgoing\HoleResultDto;
+use App\Dto\Outgoing\leaderboardDto;
 use App\Dto\Outgoing\StandingsDto;
 use App\Dto\Outgoing\TournamentResponseDto;
 use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
@@ -61,12 +62,12 @@ class SimulationService
     {
         $leaderboard = [];
 
-        $lb1 = new StandingsDto();
+        $lb1 = new leaderboardDto();
         $lb1->score = 216;
         $lb1->playerTournamentId = 393;
         $leaderboard[] = $lb1;
 
-        $lb2 = new StandingsDto();
+        $lb2 = new leaderboardDto();
         $lb2->score = 216;
         $lb2->playerTournamentId = 392;
         $leaderboard[] = $lb2;
