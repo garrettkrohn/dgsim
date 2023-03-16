@@ -3,6 +3,7 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Incoming\CreateTournamentDto;
+use App\Dto\Outgoing\leaderboardDto;
 use App\Dto\Outgoing\StandingsDto;
 use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
 use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
@@ -79,9 +80,9 @@ class TournamentBuilder
 
         $leaderboard = [];
         foreach($playerTournaments as $pt) {
-            $leaderboardPlayer = new StandingsDto();
-            $leaderboardPlayer->score = $pt->getTotalScore();
-            $leaderboardPlayer->playerTournamentId = $pt->getPlayerTournamentId();
+            $leaderboardPlayer = new leaderboardDto();
+            $leaderboardPlayer->setScore($pt->getTotalScore());
+            $leaderboardPlayer->setPlayerTournamentId($pt->getPlayerTournamentId());
             $leaderboard[] = $leaderboardPlayer;
         }
 
@@ -99,7 +100,8 @@ class TournamentBuilder
         }
 
         for ($x = 0; $x < count($leaderboard); $x++) {
-            $playerTournament = $this->playerTournamentRepository->findOneBy(['player_tournament_id' => $leaderboard[$x]->playerTournamentId]);
+            $playerTournament = $this->playerTournamentRepository->findOneBy(
+                ['player_tournament_id' => $leaderboard[$x]->playerTournamentId]);
             $playerTournament->setPlace($x + 1);
             $playerTournament->setTourPoints(count($leaderboard) - $x);
         }
