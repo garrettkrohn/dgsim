@@ -43,17 +43,18 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const updatePlayerCall: any = useMutation({
     mutationFn: () =>
       updatePlayer({
-        firstName: playerData.firstName,
-        lastName: playerData.lastName,
+        firstName: playerData ? playerData.firstName : '',
+        lastName: playerData ? playerData.lastName : '',
         puttSkill: putt,
         throwPowerSkill: throwPower,
         throwAccuracySkill: throwAccuracy,
         scrambleSkill: scramble,
-        startSeason: playerData.startSeason,
+        startSeason: playerData ? playerData.startSeason : 0,
         bankedSkillPoints: availableSp,
-        archetypeId: playerData.archetype.archetype_id,
-        playerId: playerData?.playerId,
-        auth0: user.sub,
+        archetypeId: playerData ? playerData.archetype.archetype_id : 0,
+        playerId: playerData ? playerData?.playerId : 0,
+        //@ts-ignore
+        auth0: user ? user.sub : 'error',
       }),
     onMutate: () => console.log('mutate'),
     onError: (err, variables, context) => {

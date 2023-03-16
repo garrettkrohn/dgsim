@@ -34,8 +34,8 @@ const Navbar = () => {
           ))}
         </div>
         <div className="p-4">Disc Golf Sim League</div>
+        {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </div>
-      {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </div>
   );
 };

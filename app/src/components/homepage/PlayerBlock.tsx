@@ -83,7 +83,6 @@ const PlayerBlock = () => {
   if (playerIsLoading)
     return (
       <div>
-        <div className="text-center text-dgsoftwhite">Player is loading</div>
         <Loading />
       </div>
     );
