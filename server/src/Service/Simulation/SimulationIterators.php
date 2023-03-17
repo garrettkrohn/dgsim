@@ -147,39 +147,24 @@ class SimulationIterators {
         }
         $tied = true;
         $holeIndex = -1;
+
         while ($tied) {
             if ($holeIndex === 17) {
                 $holeIndex = 0;
             } else {
                 $holeIndex++;
-
             }
             //simulate the first hole
             $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[$holeIndex], $tournament);
 
-            //get all player tournaments
-            $allPlayertournaments = $tournament->getPlayerTournaments();
-
-            /** @var Round[] $roundsToCompare */
-            $roundsToCompare = [];
-
-            //get all tournament rounds
-            foreach ($allPlayertournaments as $pt) {
-                $allRounds = $pt->getRound();
-                $addRound = $allRounds->findFirst(function (int $key, Round $value): bool {
-                    return $value->getRoundType() == 'playoff';
-                });
-                if ($addRound !== null) {
-                    $roundsToCompare[] = $addRound;
-                }
-            }
+           $roundsToCompare = $this->getPlayoffRounds($tournament);
 
             //sort the rounds descending
             usort($roundsToCompare, function ($a, $b) {
                 if ($a->getRoundTotal() == $b->getRoundTotal()) {
                     return 0;
                 }
-                return ($a < $b) ? -1 : 1;
+                return ($a > $b) ? -1 : 1;
             });
 
             $topScore = $roundsToCompare[0]->getRoundTotal();
@@ -192,11 +177,68 @@ class SimulationIterators {
                 $tied = false;
             }
         }
-        //playoff over
         //reassign place finishes
+
+        $calculateRoundArray = [];
+
+        $roundsToAssign = $this->getPlayoffRounds($tournament);
+
+        foreach ($roundsToAssign as $round) {
+            $roundResults = new roundCalculation();
+            $roundResults->setHolesPlayed(count($round->getHoleResults()));
+            $roundResults->setRoundTotal($round->getRoundTotal());
+            $roundResults->setPlayerTournamentId($round->getPlayerTournament()->getPlayerTournamentId());
+            $calculateRoundArray[] = $roundResults;
+        }
+
+        $mostHolesPlayed = 0;
+
+        foreach ($calculateRoundArray as $round) {
+            if ($round->getHolesPlayed() > 0) {
+                $mostHolesPlayed = $round->getHolesPlayed();
+            }
+        }
+
+        //figure out all possible length of holes
+
+        $arrayNumberOfHolesPlayed = [];
+        foreach ($calculateRoundArray as $round) {
+            $arrayNumberOfHolesPlayed[] = $round->getHolesPlayed();
+        }
+
+        $uniqueArray = array_unique($arrayNumberOfHolesPlayed, SORT_REGULAR);
+
+        usort($uniqueArray, function ($a, $b) {
+            if ($a == $b) {
+                return 0;
+            }
+            return ($a > $b) ? -1 : 1;
+        });
+
+
 
         $this->entityManager->flush();
 
+        }
+
+        private function getPlayoffRounds($tournament): array
+        {
+            $allPlayerTournaments = $tournament->getPlayerTournaments();
+
+            /** @var Round[] $roundsToCompare */
+            $roundsToCompare = [];
+
+            //get all tournament rounds
+            foreach ($allPlayerTournaments as $pt) {
+                $allRounds = $pt->getRound();
+                $addRound = $allRounds->findFirst(function (int $key, Round $value): bool {
+                    return $value->getRoundType() == 'playoff';
+                });
+                if ($addRound !== null) {
+                    $roundsToCompare[] = $addRound;
+                }
+            }
+            return $roundsToCompare;
         }
 
         private function checkForTiedPlayers($rounds, $playerArray, $topScore): array
@@ -278,3 +320,6 @@ class SimulationIterators {
 
 
 }
+
+
+
