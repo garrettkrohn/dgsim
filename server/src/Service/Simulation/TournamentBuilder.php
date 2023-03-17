@@ -4,9 +4,6 @@ namespace App\Service\Simulation;
 
 use App\Dto\Incoming\CreateTournamentDto;
 use App\Dto\Outgoing\leaderboardDto;
-use App\Dto\Outgoing\StandingsDto;
-use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
-use App\Dto\Outgoing\Transformer\PlayerResponseDtoTransformer;
 use App\Entity\PlayerTournament;
 use App\Entity\Round;
 use App\Entity\Tournament;
@@ -17,8 +14,6 @@ use App\Service\HoleService;
 use App\Service\HoleSimService;
 use App\Service\PlayerService;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Integer;
-use Symfony\Component\HttpFoundation\Request;
 
 class TournamentBuilder
 {
@@ -88,7 +83,7 @@ class TournamentBuilder
         foreach($playerTournaments as $pt) {
             $leaderboardPlayer = new leaderboardDto();
             $leaderboardPlayer->setScore($pt->getTotalScore());
-            $leaderboardPlayer->setPlayerTournamentId($pt->getPlayerTournamentId());
+            $leaderboardPlayer->setPlayerTournament($pt);
             $leaderboard[] = $leaderboardPlayer;
         }
 
@@ -99,31 +94,34 @@ class TournamentBuilder
             return ($a < $b) ? -1 : 1;
         });
 
-        //logic for playoffs
-        //array of players who are tied
-        //simulate one hole
-        //check if there is a clear winner or loser
-        //two arrays, still in it and done
-        //repeat as needed
+        for ($x = 0; $x < count($leaderboard); $x++) {
+            $playerTournament = $this->playerTournamentRepository->findOneBy(
+                ['player_tournament_id' => $leaderboard[$x]->getPlayerTournament()->getPlayerTournamentId()]);
+            $playerTournament->setPlace($x + 1);
+            $playerTournament->setTourPoints(count($leaderboard) - $x);
+        }
+        $this->entityManager->flush();
 
         $tiedForFirst = [];
 
         //if there is one tie, get others if there are any
         if ($leaderboard[0]->score == $leaderboard[1]->score) {
             $tiedForFirst = $this->checkTieForFirst($leaderboard);
+            $playerTournaments = [];
+            foreach($tiedForFirst as $dto) {
+                $player = $this->playerService->getPlayer($dto->getPlayerTournament()->getPlayerTournamentId());
+                $playerTournaments[] = $this->playerTournamentRepository->findBy(['player' => $player, 'tournament' => $tournament]);
+            }
+            $this->simulationPlayoff($playerTournaments, $tournament);
         }
-
-        for ($x = 0; $x < count($leaderboard); $x++) {
-            $playerTournament = $this->playerTournamentRepository->findOneBy(
-                ['player_tournament_id' => $leaderboard[$x]->playerTournamentId]);
-            $playerTournament->setPlace($x + 1);
-            $playerTournament->setTourPoints(count($leaderboard) - $x);
-        }
-        $this->entityManager->flush();
 
         return $leaderboard;
     }
 
+    /**
+     * @param leaderboardDto[] $leaderboardArray
+     * @return leaderboardDto[]
+     */
     public function checkTieForFirst(array $leaderboardArray): array {
         $tiedForFirst = [];
         $firstPlaceScore = $leaderboardArray[0]->score;
@@ -136,27 +134,27 @@ class TournamentBuilder
         return $tiedForFirst;
     }
 
-    public function testCheckTie(): array {
-        $leaderboard = [];
-
-        $lb1 = new leaderboardDto();
-        $lb1->score = 200;
-        $lb1->playerTournamentId = 1;
-        $leaderboard[] = $lb1;
-
-        $lb2 = new leaderboardDto();
-        $lb2->score = 200;
-        $lb2->playerTournamentId = 2;
-        $leaderboard[] = $lb2;
-
-        $lb3 = new leaderboardDto();
-        $lb3->score = 205;
-        $lb3->playerTournamentId = 3;
-        $leaderboard[] = $lb3;
-
-        $returnArray = $this->checkTieForFirst($leaderboard);
-        return $returnArray;
-    }
+//    public function testCheckTie(): array {
+//        $leaderboard = [];
+//
+//        $lb1 = new leaderboardDto();
+//        $lb1->score = 200;
+//        $lb1->playerTournamentId = 1;
+//        $leaderboard[] = $lb1;
+//
+//        $lb2 = new leaderboardDto();
+//        $lb2->score = 200;
+//        $lb2->playerTournamentId = 2;
+//        $leaderboard[] = $lb2;
+//
+//        $lb3 = new leaderboardDto();
+//        $lb3->score = 205;
+//        $lb3->playerTournamentId = 3;
+//        $leaderboard[] = $lb3;
+//
+//        $returnArray = $this->checkTieForFirst($leaderboard);
+//        return $returnArray;
+//    }
 
     /**
      * @param PlayerTournament[] $playerTournamentArray

@@ -2,6 +2,7 @@
 
 namespace App\Dto\Outgoing;
 
+use App\Entity\PlayerTournament;
 use App\Entity\Role;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
@@ -13,8 +14,8 @@ class leaderboardDto
     public int $score;
 
     #[NotNull]
-    #[Type('int')]
-    public int $playerTournamentId;
+    #[Type('PlayerTournament')]
+    public PlayerTournament $playerTournament;
 
     /**
      * @return int
@@ -33,20 +34,21 @@ class leaderboardDto
     }
 
     /**
-     * @return int
+     * @return PlayerTournament
      */
-    public function getPlayerTournamentId(): int
+    public function getPlayerTournament(): PlayerTournament
     {
-        return $this->playerTournamentId;
+        return $this->playerTournament;
     }
 
     /**
-     * @param int $playerTournamentId
+     * @param PlayerTournament $playerTournament
      */
-    public function setPlayerTournamentId(int $playerTournamentId): void
+    public function setPlayerTournament(PlayerTournament $playerTournament): void
     {
-        $this->playerTournamentId = $playerTournamentId;
+        $this->playerTournament = $playerTournament;
     }
+
 
 
 }
