@@ -3,90 +3,40 @@
 namespace App\Service\Simulation;
 
 class RoundCalculation {
-    private int $holesPlayed;
-    private int $roundTotal;
-    private iterable $rounds;
-    private int $playerTournamentId;
-    private int $finalPlace;
+  private PlayerSimulationObject $playerSimulationObject;
+  private int $score;
 
     /**
-     * @return int
+     * @return PlayerSimulationObject
      */
-    public function getFinalPlace(): int
+    public function getPlayerSimulationObject(): PlayerSimulationObject
     {
-        return $this->finalPlace;
+        return $this->playerSimulationObject;
     }
 
     /**
-     * @param int $finalPlace
+     * @param PlayerSimulationObject $playerSimulationObject
      */
-    public function setFinalPlace(int $finalPlace): void
+    public function setPlayerSimulationObject(PlayerSimulationObject $playerSimulationObject): void
     {
-        $this->finalPlace = $finalPlace;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPlayerTournamentId(): int
-    {
-        return $this->playerTournamentId;
-    }
-
-    /**
-     * @param int $playerTournamentId
-     */
-    public function setPlayerTournamentId(int $playerTournamentId): void
-    {
-        $this->playerTournamentId = $playerTournamentId;
+        $this->playerSimulationObject = $playerSimulationObject;
     }
 
     /**
      * @return int
      */
-    public function getHolesPlayed(): int
+    public function getScore(): int
     {
-        return $this->holesPlayed;
+        return $this->score;
     }
 
     /**
-     * @param int $holesPlayed
+     * @param int $score
      */
-    public function setHolesPlayed(int $holesPlayed): void
+    public function setScore(int $score): void
     {
-        $this->holesPlayed = $holesPlayed;
+        $this->score = $score;
     }
 
-    /**
-     * @return int
-     */
-    public function getRoundTotal(): int
-    {
-        return $this->roundTotal;
-    }
-
-    /**
-     * @param int $roundTotal
-     */
-    public function setRoundTotal(int $roundTotal): void
-    {
-        $this->roundTotal = $roundTotal;
-    }
-
-    /**
-     * @return iterable
-     */
-    public function getRounds(): iterable
-    {
-        return $this->rounds;
-    }
-
-    /**
-     * @param iterable $rounds
-     */
-    public function setRounds(iterable $rounds): void
-    {
-        $this->rounds = $rounds;
-    }
 
 }
