@@ -170,7 +170,7 @@ class SimulationIterators {
             }
 
             /** @var RoundCalculation[] $dto */
-            $holeResults = $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[$holeIndex], $tournament);
+            $holeResults = $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[$holeIndex], $tournament, $allHoles[$holeIndex]);
 
 //            $roundsToCompare = $this->getPlayoffRounds($tournament);
 
@@ -268,9 +268,10 @@ class SimulationIterators {
      * @param PlayerSimulationObject[] $playerArray
      * @param HoleSimResponseDto $hole
      * @param Tournament $tournament
+     * @param Hole $holeObject
      * @return RoundCalculation[]
      */
-        private function playoffPlayerIterator(iterable $playerArray, HoleSimResponseDto$hole, Tournament $tournament): array
+        private function playoffPlayerIterator(iterable $playerArray, HoleSimResponseDto$hole, Tournament $tournament, Hole $holeObject): array
         {
             $returnArray = [];
             //iterate through players
@@ -286,6 +287,7 @@ class SimulationIterators {
                 $thisPlayoffRound = $this->getPlayoffRound($tournament, $player);
 
                 $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $thisPlayoffRound);
+                $holePersist->setHole($holeObject);
                 $thisPlayoffRound->addHoleResult($holePersist);
 
                 $currentRoundTotal = $thisPlayoffRound->getRoundTotal();

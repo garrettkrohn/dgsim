@@ -109,8 +109,8 @@ class TournamentBuilder
             $tiedForFirst = $this->checkTieForFirst($leaderboard);
             $playerTournaments = [];
             foreach($tiedForFirst as $dto) {
-                $player = $this->playerService->getPlayer($dto->getPlayerTournament()->getPlayerTournamentId());
-                $playerTournaments[] = $this->playerTournamentRepository->findBy(['player' => $player, 'tournament' => $tournament]);
+                $player = $this->playerService->getPlayer($dto->getPlayerTournament()->getPlayer()->getPlayerId());
+                $playerTournaments[] = $this->playerTournamentRepository->findOneBy(['player' => $player, 'tournament' => $tournament]);
             }
             $this->simulationPlayoff($playerTournaments, $tournament);
         }
@@ -161,11 +161,12 @@ class TournamentBuilder
      * @param Tournament $tournament
      * @return void
      */
-    public function simulationPlayoff(iterable $playerTournamentArray, Tournament $tournament)
+    public function simulationPlayoff(array $playerTournamentArray, Tournament $tournament): void
     {
         $playerArray = [];
         foreach ($playerTournamentArray as $playerTournament) {
-            $playerArray[] = $playerTournament->getPlayer();
+            $player = $playerTournament->getPlayer();
+            $playerArray[] = $player;
         }
 
         $playerDtoArray = $this->playerService->transformFromObjects($playerArray);
