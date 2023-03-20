@@ -96,6 +96,7 @@ export interface allSeasonStandings {
 export interface seasonStandingResource {
   player: playerResource;
   seasonTotal: number;
+  rank: number;
 }
 
 export interface coursesNamesResource {
