@@ -77,6 +77,31 @@ class SeasonLeaderboardService
         //sort
         usort($allSeasonLeaderboards, [$this, "cmp"]);
 
+        $place = 1;
+        $numOfTies = 0;
+        for ($x = 0; $x < count($allSeasonLeaderboards); $x++) {
+            if ($x === 0) {
+                $allSeasonLeaderboards[$x]->setRank($place);
+            } else {
+                $previousScore = $allSeasonLeaderboards[$x-1]->getSeasonTotal();
+                $currentScore = $allSeasonLeaderboards[$x]->getSeasonTotal();
+                if ($previousScore === $currentScore) {
+                    $allSeasonLeaderboards[$x]->setRank($place);
+                    $numOfTies += 1;
+                } else {
+                    $place += 1;
+                    $place += $numOfTies;
+                    $allSeasonLeaderboards[$x]->setRank($place);
+                    $numOfTies = 0;
+                }
+            }
+        }
+
+
+
+
+
+
         return $allSeasonLeaderboards;
     }
 

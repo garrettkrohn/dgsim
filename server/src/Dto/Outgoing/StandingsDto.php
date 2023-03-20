@@ -12,6 +12,24 @@ class StandingsDto
     #[NotNull]
     private PlayerDto $player;
 
+    private int $rank;
+
+    /**
+     * @return int
+     */
+    public function getRank(): int
+    {
+        return $this->rank;
+    }
+
+    /**
+     * @param int $rank
+     */
+    public function setRank(int $rank): void
+    {
+        $this->rank = $rank;
+    }
+
     /**
      * @return PlayerDto
      */
