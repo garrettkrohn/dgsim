@@ -99,23 +99,26 @@ class TournamentBuilder
 
         $place = 1;
         $numOfTies = 0;
+        $tourPoints = count($leaderboard);
         for ($x = 0; $x < count($leaderboard); $x++) {
             if ($x === 0) {
                 $playerTournament = $leaderboard[$x]->getPlayerTournament();
                 $playerTournament->setPlace($place);
-                $playerTournament->setTourPoints(count($leaderboard));
+                $playerTournament->setTourPoints($tourPoints);
             } else if ($x > 0) {
                 $previousPTScore = $leaderboard[$x-1];
                 $currentPTScore = $leaderboard[$x];
                 $playerTournament = $leaderboard[$x]->getPlayerTournament();
                 if ($previousPTScore->getScore() === $currentPTScore->getScore()) {
                     $playerTournament->setPlace($place + $numOfTies);
-                    $playerTournament->setTourPoints(count($leaderboard) - $place);
+                    $playerTournament->setTourPoints($tourPoints);
                     $numOfTies += 1;
                 } else {
+                    $tourPoints -= 1;
+//                    $tourPoints -= $numOfTies;
                     $place += 1;
                     $playerTournament->setPlace($place + $numOfTies);
-                    $playerTournament->setTourPoints(count($leaderboard) - $place);
+                    $playerTournament->setTourPoints($tourPoints -$numOfTies);
                 }
             }
         }
