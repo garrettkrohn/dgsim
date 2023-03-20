@@ -3,6 +3,7 @@
 namespace App\Service\Simulation;
 
 use App\Dto\Outgoing\HoleResultDto;
+use App\Dto\Outgoing\SimulationChanceDto;
 use App\Service\HoleResultService;
 
 class Par3Model extends BaseModel
@@ -25,64 +26,68 @@ class Par3Model extends BaseModel
         return $this->getHoleResult($rng, $oddsOfResultsArray);
     }
 
-    private function getHoleResult($rng, $oddsOfResultsArray): HoleResultDto
+    private function getHoleResult(float $rng, SimulationChanceDto $oddsOfResultsArray): HoleResultDto
     {
-        $benchmark = $oddsOfResultsArray->resultId12;
+        $benchmark = $oddsOfResultsArray->getResultId12();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(5, 2,0, false, false, false, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId11;
+        $benchmark += $oddsOfResultsArray->getResultId11();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(4, 2,0, false,false, false, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId10;
+        $benchmark += $oddsOfResultsArray->getResultId10();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(3, 1,0, false,false, false, true, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId9;
+        $benchmark += $oddsOfResultsArray->getResultId9();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(5, 3,1, false,false, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId8;
+        $benchmark += $oddsOfResultsArray->getResultId8();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(4, 2,1, false,false, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId7;
+        $benchmark += $oddsOfResultsArray->getResultId7();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(3, 1,1, false,false, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId6;
+        $benchmark += $oddsOfResultsArray->getResultId6();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(2, 0,1, false,false, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId5;
+        $benchmark += $oddsOfResultsArray->getResultId5();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(5, 4,0, false,true, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId4;
+        $benchmark += $oddsOfResultsArray->getResultId4();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(4, 3,0, false,true, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId3;
+        $benchmark += $oddsOfResultsArray->getResultId3();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(3, 2,0, false,true, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId2;
+        $benchmark += $oddsOfResultsArray->getResultId2();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(2, 1,0, false,true, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId1;
+        $benchmark += $oddsOfResultsArray->getResultId1();
         if ($rng < $benchmark) {
             return $this->holeResultService->buildHoleResult(2, 1,0, true,true, true, false, $rng);
         }
-        $benchmark += $oddsOfResultsArray->resultId0;
+        $benchmark += $oddsOfResultsArray->getResultId0();
         if ($rng <= $benchmark) {
             return $this->holeResultService->buildHoleResult(1, 0,0, true,true, true, false, $rng);
         }
         else return $this->holeResultService->buildHoleResult(-1,-1,-1,false, false, false, false, $rng);
     }
 
-    private function oddsOfResults($playerSimObject): object
+    /**
+     * @param PlayerHoleObject $playerSimObject
+     * @return SimulationChanceDto
+     */
+    private function oddsOfResults(PlayerHoleObject $playerSimObject): SimulationChanceDto
     {
         $makec1 = $playerSimObject->c1x_putt;
         $missc1 = 1 - $makec1;
@@ -104,20 +109,20 @@ class Par3Model extends BaseModel
         $resultId11 = $missFairway * (1 - $playerSimObject->scramble) * $makec1;
         $resultId12 = $missFairway * (1 - $playerSimObject->scramble) * $missc1;
 
-        $chancesObject = new \stdClass();
-        $chancesObject->resultId0 = $resultId0;
-        $chancesObject->resultId1 = $resultId1;
-        $chancesObject->resultId2 = $resultId2;
-        $chancesObject->resultId3 = $resultId3;
-        $chancesObject->resultId4 = $resultId4;
-        $chancesObject->resultId5 = $resultId5;
-        $chancesObject->resultId6 = $resultId6;
-        $chancesObject->resultId7 = $resultId7;
-        $chancesObject->resultId8 = $resultId8;
-        $chancesObject->resultId9 = $resultId9;
-        $chancesObject->resultId10 = $resultId10;
-        $chancesObject->resultId11 = $resultId11;
-        $chancesObject->resultId12 = $resultId12;
+        $chancesObject = new SimulationChanceDto();
+        $chancesObject->setResultId0($resultId0);
+        $chancesObject->setResultId1($resultId1);
+        $chancesObject->setResultId2($resultId2);
+        $chancesObject->setResultId3($resultId3);
+        $chancesObject->setResultId4($resultId4);
+        $chancesObject->setResultId5($resultId5);
+        $chancesObject->setResultId6($resultId6);
+        $chancesObject->setResultId7($resultId7);
+        $chancesObject->setResultId8($resultId8);
+        $chancesObject->setResultId9($resultId9);
+        $chancesObject->setResultId10($resultId10);
+        $chancesObject->setResultId11($resultId11);
+        $chancesObject->setResultId12($resultId12);
 
         return $chancesObject;
     }
