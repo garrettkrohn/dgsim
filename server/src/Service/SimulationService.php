@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\Incoming\CreateTournamentDto;
 use App\Dto\Outgoing\HoleResultDto;
+use App\Dto\Outgoing\leaderboardDto;
 use App\Dto\Outgoing\StandingsDto;
 use App\Dto\Outgoing\TournamentResponseDto;
 use App\Dto\Outgoing\Transformer\HoleSimResponseDtoTransformer;
@@ -37,7 +38,9 @@ class SimulationService
     private TournamentService $tournamentService;
     private PlayerTournamentRepository $playerTournamentRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository, TournamentBuilder $tournamentBuilder, \App\Service\TournamentService $tournamentService, PlayerTournamentRepository $playerTournamentRepository)
+    public function __construct(EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository,
+                                TournamentBuilder $tournamentBuilder, \App\Service\TournamentService $tournamentService,
+                                PlayerTournamentRepository $playerTournamentRepository)
     {
         $this->entityManager = $entityManager;
         $this->tournamentRepository = $tournamentRepository;
@@ -61,21 +64,27 @@ class SimulationService
     {
         $leaderboard = [];
 
-        $lb1 = new StandingsDto();
+        $lb1 = new leaderboardDto();
         $lb1->score = 216;
-        $lb1->playerTournamentId = 393;
+        $lb1->playerTournamentId = 633;
         $leaderboard[] = $lb1;
 
-        $lb2 = new StandingsDto();
+        $lb2 = new leaderboardDto();
         $lb2->score = 216;
-        $lb2->playerTournamentId = 392;
+        $lb2->playerTournamentId = 635;
         $leaderboard[] = $lb2;
+
+        $lb3 = new leaderboardDto();
+        $lb3->score = 216;
+        $lb3->playerTournamentId = 642;
+        $leaderboard[] = $lb3;
 
         $playerTournamentArray = [];
         $playerTournamentArray[] = $this->playerTournamentRepository->find($leaderboard[0]->playerTournamentId);
         $playerTournamentArray[] = $this->playerTournamentRepository->find($leaderboard[1]->playerTournamentId);
+        $playerTournamentArray[] = $this->playerTournamentRepository->find($leaderboard[2]->playerTournamentId);
 
-        $tournament = $this->tournamentRepository->find(68);
+        $tournament = $this->tournamentRepository->find(90);
 
         $this->tournamentBuilder->simulationPlayoff($playerTournamentArray, $tournament);
 

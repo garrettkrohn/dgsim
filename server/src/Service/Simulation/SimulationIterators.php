@@ -11,6 +11,7 @@ use App\Entity\Player;
 use App\Entity\PlayerTournament;
 use App\Entity\Round;
 use App\Entity\Tournament;
+use App\Repository\PlayerRepository;
 use App\Repository\PlayerTournamentRepository;
 use App\Repository\RoundRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,8 +24,18 @@ class SimulationIterators {
     private PlayerTournamentRepository $playerTournamentRepository;
     private EntityManagerInterface $entityManager;
     private RoundRepository $roundRepository;
+    private PlayerRepository $playerRepository;
 
-    public function __construct(Par3Model $par3Model, Par4Model $par4Model, Par5Model $par5Model, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, RoundRepository $roundRepository)
+    /**
+     * @param Par3Model $par3Model
+     * @param Par4Model $par4Model
+     * @param Par5Model $par5Model
+     * @param PlayerTournamentRepository $playerTournamentRepository
+     * @param EntityManagerInterface $entityManager
+     * @param RoundRepository $roundRepository
+     * @param PlayerRepository $playerRepository
+     */
+    public function __construct(Par3Model $par3Model, Par4Model $par4Model, Par5Model $par5Model, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, RoundRepository $roundRepository, PlayerRepository $playerRepository)
     {
         $this->par3Model = $par3Model;
         $this->par4Model = $par4Model;
@@ -32,7 +43,9 @@ class SimulationIterators {
         $this->playerTournamentRepository = $playerTournamentRepository;
         $this->entityManager = $entityManager;
         $this->roundRepository = $roundRepository;
+        $this->playerRepository = $playerRepository;
     }
+
 
     /**
      * @param PlayerSimulationObject[] $playerArray
@@ -141,15 +154,140 @@ class SimulationIterators {
     public function playoffIterator(iterable $playerArray, iterable $holeSimArray,
                                     $allHoles, Tournament $tournament): void
     {
-        //simulate holes until there is no longer a tie
-        for($h = 0; $h < count($holeSimArray); $h++) {
+        /**@var PlayerSimulationObject[] $tiedPlayerArray */
+        $tiedPlayerArray = [];
+        foreach($playerArray as $player) {
+            $tiedPlayerArray[] = $player;
+        }
+        $tied = true;
+        $holeIndex = -1;
+
+        while ($tied) {
+            if ($holeIndex === 17) {
+                $holeIndex = 0;
+            } else {
+                $holeIndex++;
+            }
+
+            /** @var RoundCalculation[] $dto */
+            $holeResults = $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[$holeIndex], $tournament, $allHoles[$holeIndex]);
+
+//            $roundsToCompare = $this->getPlayoffRounds($tournament);
+
+            //sort the rounds descending
+            usort($holeResults, function ($a, $b) {
+                if ($a->getScore() == $b->getScore()) {
+                    return 0;
+                }
+                return ($a < $b) ? -1 : 1;
+            });
+
+            $topScore = $holeResults[0]->getScore();
+
+            unset($tiedPlayerArray);
+
+            $tiedPlayerArray = $this->checkForTiedPlayers($holeResults, $playerArray, $topScore, $tournament);
+
+            if (count($tiedPlayerArray) === 1) {
+                $tied = false;
+                $this->persistPlayerPlace(1, $tiedPlayerArray[0]->getPlayerId(), $tournament);
+            }
+        }
+
+        $this->entityManager->flush();
+
+        }
+
+        private function getPlayoffRounds($tournament): array
+        {
+            $allPlayerTournaments = $tournament->getPlayerTournaments();
+
+            /** @var Round[] $roundsToCompare */
+            $roundsToCompare = [];
+
+            //get all tournament rounds
+            foreach ($allPlayerTournaments as $pt) {
+                $allRounds = $pt->getRound();
+                $addRound = $allRounds->findFirst(function (int $key, Round $value): bool {
+                    return $value->getRoundType() == 'playoff';
+                });
+                if ($addRound !== null) {
+                    $roundsToCompare[] = $addRound;
+                }
+            }
+            return $roundsToCompare;
+        }
+
+    /**
+     * @param RoundCalculation[] $rounds
+     * @param PlayerSimulationObject[] $playerArray
+     * @param int $topScore
+     * @param Tournament $tournament
+     * @return array
+     */
+        private function checkForTiedPlayers( iterable $rounds, iterable $playerArray, int $topScore, Tournament $tournament): array
+        {
+            $returnArray = [];
+            foreach($rounds as $round) {
+                if ($round->getScore() == $topScore) {
+                    $playerId = $round->getPlayerSimulationObject()->getPlayerId();
+                    $returnArray[] = $this->findPlayerSimObjectByPlayerId($playerArray, $playerId);
+                } else {
+                    //persist 2nd place for that player
+                    $this->persistPlayerPlace(2, $round->getPlayerSimulationObject()->getPlayerId(), $tournament);
+
+                }
+            }
+            return $returnArray;
+        }
+
+        private function persistPlayerPlace(int $place, int $playerId, Tournament $tournament): void
+        {
+            $playerObject = $this->playerRepository->find($playerId);
+            $playerTournament = $this->playerTournamentRepository->findOneBy(['tournament' => $tournament, 'player' => $playerObject]);
+            $playerTournament->setPlace($place);
+            $this->entityManager->persist($playerTournament);
+        }
+
+    /**
+     * @param PlayerSimulationObject[] $array
+     * @param int $id
+     * @return PlayerSimulationObject | null
+     */
+        private function findPlayerSimObjectByPlayerId(iterable $array, int $id): PlayerSimulationObject | null
+        {
+            foreach ($array as $element) {
+                if ($id === $element->getPlayerId()) {
+                    return $element;
+                }
+            }
+            return null;
+        }
+
+    /**
+     * @param PlayerSimulationObject[] $playerArray
+     * @param HoleSimResponseDto $hole
+     * @param Tournament $tournament
+     * @param Hole $holeObject
+     * @return RoundCalculation[]
+     */
+        private function playoffPlayerIterator(iterable $playerArray, HoleSimResponseDto$hole, Tournament $tournament, Hole $holeObject): array
+        {
+            $returnArray = [];
+            //iterate through players
             for ($p = 0; $p < count($playerArray); $p++) {
-                $holeResult = $this->parSwitcher($playerArray[$p], $holeSimArray[$h]);
+                $holeResult = $this->parSwitcher($playerArray[$p], $hole);
                 $player = $playerArray[$p];
+
+                $dto = new RoundCalculation();
+                $dto->setPlayerSimulationObject($player);
+                $dto->setScore($holeResult->getScore());
+                $returnArray[] = $dto;
 
                 $thisPlayoffRound = $this->getPlayoffRound($tournament, $player);
 
                 $holePersist = $this->convertHoleResultDtoToHoleResults($holeResult, $thisPlayoffRound);
+                $holePersist->setHole($holeObject);
                 $thisPlayoffRound->addHoleResult($holePersist);
 
                 $currentRoundTotal = $thisPlayoffRound->getRoundTotal();
@@ -157,33 +295,10 @@ class SimulationIterators {
 
                 $average = $this->getAverageLuck($thisPlayoffRound);
                 $thisPlayoffRound->setLuckScore($average);
-                
+
                 $this->entityManager->persist($thisPlayoffRound);
             }
-            $playerTournamentWithPlayoffCollection = $tournament->getPlayerTournaments();
-
-            $roundsToCompare = [];
-
-            foreach ($playerTournamentWithPlayoffCollection as $pt) {
-                $allRounds = $pt->getRound();
-                $addRound = $allRounds->findFirst(function(int $key, Round $value):bool {
-                    return $value->getRoundType() == 'playoff';
-                });
-                if ($addRound !== null) {
-                    $roundsToCompare[] = $addRound;
-                }
-            }
-
-            if ($roundsToCompare[0]->getRoundTotal() !== $roundsToCompare[1]->getRoundTotal()) {
-                break;
-            }
-        }
-
-        //playoff over
-        //reassign place finishes
-
-        $this->entityManager->flush();
-
+            return $returnArray;
         }
 
         private function getPlayoffRound(Tournament $tournament, PlayerSimulationObject $player): Round
@@ -210,3 +325,6 @@ class SimulationIterators {
 
 
 }
+
+
+
