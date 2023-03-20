@@ -38,7 +38,9 @@ class SimulationService
     private TournamentService $tournamentService;
     private PlayerTournamentRepository $playerTournamentRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository, TournamentBuilder $tournamentBuilder, \App\Service\TournamentService $tournamentService, PlayerTournamentRepository $playerTournamentRepository)
+    public function __construct(EntityManagerInterface $entityManager, TournamentRepository $tournamentRepository,
+                                TournamentBuilder $tournamentBuilder, \App\Service\TournamentService $tournamentService,
+                                PlayerTournamentRepository $playerTournamentRepository)
     {
         $this->entityManager = $entityManager;
         $this->tournamentRepository = $tournamentRepository;

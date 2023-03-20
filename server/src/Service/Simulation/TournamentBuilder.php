@@ -36,7 +36,10 @@ class TournamentBuilder
      * @param EntityManagerInterface $entityManager
      * @param HoleSimService $holeSimService
      */
-    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService, SimulationIterators $iterators, TournamentRepository $tournamentRepository, PlayerTournamentRepository $playerTournamentRepository, EntityManagerInterface $entityManager, HoleSimService $holeSimService)
+    public function __construct(CourseService $courseService, PlayerService $playerService, HoleService $holeService,
+                                SimulationIterators $iterators, TournamentRepository $tournamentRepository,
+                                PlayerTournamentRepository $playerTournamentRepository,
+                                EntityManagerInterface $entityManager, HoleSimService $holeSimService)
     {
         $this->courseService = $courseService;
         $this->playerService = $playerService;
@@ -94,12 +97,29 @@ class TournamentBuilder
             return ($a < $b) ? -1 : 1;
         });
 
+        $place = 1;
+        $numOfTies = 0;
         for ($x = 0; $x < count($leaderboard); $x++) {
-            $playerTournament = $this->playerTournamentRepository->findOneBy(
-                ['player_tournament_id' => $leaderboard[$x]->getPlayerTournament()->getPlayerTournamentId()]);
-            $playerTournament->setPlace($x + 1);
-            $playerTournament->setTourPoints(count($leaderboard) - $x);
+            if ($x === 0) {
+                $playerTournament = $leaderboard[$x]->getPlayerTournament();
+                $playerTournament->setPlace($place);
+                $playerTournament->setTourPoints(count($leaderboard));
+            } else if ($x > 0) {
+                $previousPTScore = $leaderboard[$x-1];
+                $currentPTScore = $leaderboard[$x];
+                $playerTournament = $leaderboard[$x]->getPlayerTournament();
+                if ($previousPTScore->getScore() === $currentPTScore->getScore()) {
+                    $playerTournament->setPlace($place + $numOfTies);
+                    $playerTournament->setTourPoints(count($leaderboard) - $place);
+                    $numOfTies += 1;
+                } else {
+                    $place += 1;
+                    $playerTournament->setPlace($place + $numOfTies);
+                    $playerTournament->setTourPoints(count($leaderboard) - $place);
+                }
+            }
         }
+
         $this->entityManager->flush();
 
         $tiedForFirst = [];
@@ -110,7 +130,8 @@ class TournamentBuilder
             $playerTournaments = [];
             foreach($tiedForFirst as $dto) {
                 $player = $this->playerService->getPlayer($dto->getPlayerTournament()->getPlayer()->getPlayerId());
-                $playerTournaments[] = $this->playerTournamentRepository->findOneBy(['player' => $player, 'tournament' => $tournament]);
+                $playerTournaments[] = $this->playerTournamentRepository->
+                findOneBy(['player' => $player, 'tournament' => $tournament]);
             }
             $this->simulationPlayoff($playerTournaments, $tournament);
         }

@@ -25,7 +25,8 @@ class TournamentController extends ApiController
      * @param SimulationService $simulationService
      * @param SerializationService $serializationService
      */
-    public function __construct(TournamentService $tournamentService, SimulationService $simulationService, SerializationService $serializationService)
+    public function __construct(TournamentService $tournamentService, SimulationService $simulationService,
+                                SerializationService $serializationService)
     {
         $this->tournamentService = $tournamentService;
         $this->simulationService = $simulationService;
