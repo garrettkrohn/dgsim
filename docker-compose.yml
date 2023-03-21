@@ -33,6 +33,12 @@ services:
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
 ###< doctrine/doctrine-bundle ###
+  phpunit:
+    image: php:8.1-cli
+    volumes:
+      - .:/app/server
+    working_dir: /server
+    entrypoint: vendor/bin/phpunit
 
 volumes:
   ###> doctrine/doctrine-bundle ###

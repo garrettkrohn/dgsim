@@ -55,6 +55,7 @@ const LastTournamentBlock = () => {
         <TournamentRow
           playerTournament={playerTournamentData}
           roundsDisplay={true}
+          courseParMultiplied={playerTournamentData.rounds.length}
         />
         <ThinDivider />
       </WrapperBlock>
