@@ -16,7 +16,6 @@ import { getPlayerByAuth } from '../../services/PlayerApi';
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
   const [disableButton, setDisableButton] = useState(false);
-  const [formIsValid, setFormIsValid] = useState(false);
 
   const toggleButton = () => {
     setDisableButton(!disableButton);
@@ -81,10 +80,8 @@ function Admin() {
 
   useEffect(() => {
     if (tournamentNameIsValid && seasonNumberIsValid && numberOfRoundsIsValid) {
-      setFormIsValid(true);
       setDisableButton(false);
     } else {
-      setFormIsValid(false);
       setDisableButton(true);
     }
   }, [tournamentNameIsValid, seasonNumberIsValid, numberOfRoundsIsValid]);
