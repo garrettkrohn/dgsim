@@ -16,6 +16,7 @@ import { getPlayerByAuth } from '../../services/PlayerApi';
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
   const [disableButton, setDisableButton] = useState(false);
+  const [formIsValid, setFormIsValid] = useState(false);
 
   const toggleButton = () => {
     setDisableButton(!disableButton);
@@ -35,9 +36,9 @@ function Admin() {
     valueChangeHandler: setSeasonNumber,
     inputBlurHandler: seasonNumberBlur,
     hasError: seasonNumberError,
-    isValid: SeasonNumberIsValid,
+    isValid: seasonNumberIsValid,
     reset: seasonNumberReset,
-  } = useInput((value: string) => value.trim() !== '');
+  } = useInput((value: number) => value);
 
   const {
     value: numberOfRounds,
@@ -46,7 +47,7 @@ function Admin() {
     hasError: numberOfRoundsError,
     isValid: numberOfRoundsIsValid,
     reset: numberOfRoundsReset,
-  } = useInput((value: string) => value.trim() !== '');
+  } = useInput((value: number) => value);
 
   const {
     isLoading: coursesAreLoading,
@@ -78,6 +79,16 @@ function Admin() {
     onSettled: () => toggleButton(),
   });
 
+  useEffect(() => {
+    if (tournamentNameIsValid && seasonNumberIsValid && numberOfRoundsIsValid) {
+      setFormIsValid(true);
+      setDisableButton(false);
+    } else {
+      setFormIsValid(false);
+      setDisableButton(true);
+    }
+  }, [tournamentNameIsValid, seasonNumberIsValid, numberOfRoundsIsValid]);
+
   if (coursesAreLoading) {
     return <Loading />;
   }
@@ -106,28 +117,37 @@ function Admin() {
               type="text"
               id="name"
               value={tournamentName}
-              className="rounded px-3 text-black"
+              className={`rounded px-3 text-black ${
+                tournamentNameError ? 'border-2 border-red-400' : ''
+              }`}
               onChange={setTournamentName}
+              onBlur={tournamentBlur}
             />
           </div>
           <div className="flex justify-between py-1">
             <label>Season Number:</label>
             <input
-              className="rounded px-3 text-black"
+              className={`rounded px-3 text-black ${
+                seasonNumberError ? 'border-2 border-red-400' : ''
+              }`}
               type="text"
               id="name"
               value={seasonNumber}
               onChange={setSeasonNumber}
+              onBlur={seasonNumberBlur}
             />
           </div>
           <div className="flex justify-between py-1">
             <label>Number of Rounds:</label>
             <input
-              className="rounded px-3 text-black"
+              className={`rounded px-3 text-black ${
+                numberOfRoundsError ? 'border-2 border-red-400' : ''
+              }`}
               type="text"
               id="name"
               value={numberOfRounds}
               onChange={setNumberOfRounds}
+              onBlur={numberOfRoundsBlur}
             />
           </div>
           <div className="flex justify-between py-1">
