@@ -15,7 +15,7 @@ const UpdateInput = (props: {
   const [decrementDisable, setDecrementDisable] = useState(false);
 
   const checkIncrementDisable = () => {
-    if (availableSp - props.incrementCost < 0) {
+    if (availableSp - props.incrementCost < 0 || props.updateNumber === 100) {
       setIncrementDisable(true);
     } else {
       setIncrementDisable(false);
