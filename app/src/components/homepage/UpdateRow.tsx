@@ -17,9 +17,33 @@ const UpdateRow = (props: {
     } else if (props.skillNumber === 50) {
       setIncrementCost(2);
       setDecrementCost(1);
-    } else if (props.skillNumber > 50) {
+    } else if (props.skillNumber < 60) {
       setIncrementCost(2);
       setDecrementCost(2);
+    } else if (props.skillNumber === 60) {
+      setIncrementCost(3);
+      setDecrementCost(2);
+    } else if (props.skillNumber < 70) {
+      setIncrementCost(3);
+      setDecrementCost(3);
+    } else if (props.skillNumber === 70) {
+      setIncrementCost(4);
+      setDecrementCost(3);
+    } else if (props.skillNumber < 80) {
+      setIncrementCost(4);
+      setDecrementCost(4);
+    } else if (props.skillNumber === 80) {
+      setIncrementCost(5);
+      setDecrementCost(4);
+    } else if (props.skillNumber < 90) {
+      setIncrementCost(5);
+      setDecrementCost(5);
+    } else if (props.skillNumber === 90) {
+      setIncrementCost(6);
+      setDecrementCost(5);
+    } else if (props.skillNumber > 90) {
+      setIncrementCost(6);
+      setDecrementCost(6);
     }
   };
 

@@ -15,7 +15,7 @@ const UpdateInput = (props: {
   const [decrementDisable, setDecrementDisable] = useState(false);
 
   const checkIncrementDisable = () => {
-    if (availableSp - props.incrementCost < 0) {
+    if (availableSp - props.incrementCost < 0 || props.updateNumber === 100) {
       setIncrementDisable(true);
     } else {
       setIncrementDisable(false);
@@ -51,7 +51,7 @@ const UpdateInput = (props: {
       <div className="">
         <button
           disabled={decrementDisable}
-          className="h-16 w-16 rounded-lg bg-dgsoftwhite"
+          className="h-16 w-16 rounded-lg bg-dgsoftwhite disabled:bg-gray-500"
           onClick={decrement}
         >
           <ArrowLeftIcon className="text-dgprimary" />
@@ -63,7 +63,7 @@ const UpdateInput = (props: {
       <div>
         <button
           disabled={incrementDisable}
-          className="h-16 w-16 rounded-lg bg-dgsoftwhite"
+          className="h-16 w-16 rounded-lg bg-dgsoftwhite disabled:bg-gray-500"
           onClick={increment}
         >
           <ArrowRightIcon className="w-100 disabled text-dgprimary disabled:bg-red-50" />
