@@ -6,6 +6,7 @@ import { playerTournamentResource, roundResource } from '../../services/DTOs';
 const TournamentRow = (props: {
   playerTournament: playerTournamentResource;
   roundsDisplay: boolean;
+  courseParMultiplied: number;
 }) => {
   const { playerTournament, roundsDisplay } = props;
   const [showRounds, setShowRounds] = useState(roundsDisplay);
@@ -43,7 +44,7 @@ const TournamentRow = (props: {
             {playerTournament.playerResponseDto.lastName}
           </div>
           <div className="pr-2 pb-2">
-            {playerTournament.totalScore - playerTournament.coursePar * 4}
+            {playerTournament.totalScore - props.courseParMultiplied}
           </div>
         </div>
 

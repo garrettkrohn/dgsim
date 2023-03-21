@@ -26,6 +26,10 @@ const TournamentTemplate = (props: {
 
   playerTournaments.sort(compare);
 
+  const numberOfRounds =
+    playerTournaments[playerTournaments.length - 1].rounds.length;
+  const courseParMultiplied = numberOfRounds * playerTournaments[0].coursePar;
+
   return (
     <div className="font-main text-lg">
       <div className="flex flex-col items-center bg-dgsecondary text-dgsoftwhite">
@@ -46,6 +50,7 @@ const TournamentTemplate = (props: {
           key={index}
           playerTournament={pt}
           roundsDisplay={false}
+          courseParMultiplied={courseParMultiplied}
         />
       ))}
     </div>
