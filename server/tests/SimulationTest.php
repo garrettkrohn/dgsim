@@ -2,12 +2,55 @@
 
 namespace App\Tests;
 
+use App\Dto\Outgoing\HoleSimResponseDto;
 use App\Dto\Outgoing\SimulationChanceDto;
+use App\Service\Simulation\BaseModel;
+use App\Service\Simulation\PlayerHoleObject;
 use App\Service\Simulation\PlayerSimulationObject;
 use Monolog\Test\TestCase;
 
 class SimulationTest extends TestCase
 {
+
+    private BaseModel $baseModel;
+
+    /**
+     * @param BaseModel $baseModel
+     */
+    public function __construct(BaseModel $baseModel)
+    {
+        $this->baseModel = $baseModel;
+    }
+
+
+    public function testAverageObjects()
+    {
+        $playerSimObject = new PlayerSimulationObject(
+            0,
+            .5,
+            .5,
+            .5,
+            .5,
+            .5,
+            .5,
+            .5,
+            .5,
+            .5,
+        );
+
+        $holeSimObject = new HoleSimResponseDto();
+        $holeSimObject->setCourseId(1);
+        $holeSimObject->setPar(3);
+        $holeSimObject->setParked(.5);
+        $holeSimObject->setC1(.5);
+        $holeSimObject->setC2(.5);
+        $holeSimObject->setScramble(.5);
+
+        $result = $this->baseModel->averageObjects($playerSimObject, $holeSimObject);
+
+        $expectedResult = new PlayerHoleObject(.5, .5, .5, .5, .5, .5, .5, .5, .5);
+        self::assertEquals($result, $expectedResult);
+    }
 
     public function testGetHoleResultPar3()
     {
