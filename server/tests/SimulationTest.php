@@ -7,21 +7,12 @@ use App\Dto\Outgoing\SimulationChanceDto;
 use App\Service\Simulation\BaseModel;
 use App\Service\Simulation\PlayerHoleObject;
 use App\Service\Simulation\PlayerSimulationObject;
+use GuzzleHttp\Client;
 use Monolog\Test\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class SimulationTest extends TestCase
 {
-
-    private BaseModel $baseModel;
-
-    /**
-     * @param BaseModel $baseModel
-     */
-    public function __construct(BaseModel $baseModel)
-    {
-        $this->baseModel = $baseModel;
-    }
-
 
     public function testAverageObjects()
     {
@@ -46,7 +37,8 @@ class SimulationTest extends TestCase
         $holeSimObject->setC2(.5);
         $holeSimObject->setScramble(.5);
 
-        $result = $this->baseModel->averageObjects($playerSimObject, $holeSimObject);
+        $baseModel = new BaseModel();
+        $result = $baseModel->averageObjects($playerSimObject, $holeSimObject);
 
         $expectedResult = new PlayerHoleObject(.5, .5, .5, .5, .5, .5, .5, .5, .5);
         self::assertEquals($result, $expectedResult);
