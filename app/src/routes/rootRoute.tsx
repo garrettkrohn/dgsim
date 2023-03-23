@@ -1,5 +1,5 @@
 import { Outlet, RootRoute } from '@tanstack/react-router';
-import PageLayout from '../components/PageLayout';
+import PageLayout from '../util/PageLayout';
 import React from 'react';
 
 const rootRoute = new RootRoute({

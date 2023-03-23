@@ -22,6 +22,7 @@ import {
 } from '../../jotai/Atoms';
 import { Link, useNavigate, useRoute } from '@tanstack/react-router';
 import { useAuth0 } from '@auth0/auth0-react';
+import ButtonWrapper from '../../util/ButtonWrapper';
 
 function CreatePlayer() {
   const [putt, setPutt] = useState(0);
@@ -174,7 +175,7 @@ function CreatePlayer() {
   return (
     <div className="text-dgsoftwhite">
       <WrapperBlock color="dgprimary">
-        <div>Create a Player</div>
+        <div className="text-center">Create a Player</div>
       </WrapperBlock>
       <form>
         <div className="flex justify-between py-1">
@@ -272,11 +273,11 @@ function CreatePlayer() {
           />
         </WrapperBlock>
       </div>
-      <Button
-        label="Submit Player"
-        onClick={createPlayerMutator.mutate}
-        disable={disableButton}
-      />
+      <ButtonWrapper>
+        <button onClick={createPlayerMutator.mutate} disabled={disableButton}>
+          Submit Player
+        </button>
+      </ButtonWrapper>
     </div>
   );
 }
