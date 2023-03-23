@@ -2,9 +2,17 @@
 
 namespace App\Service\Simulation;
 
+use App\Dto\Outgoing\PlayerDto;
+
 class PlayerIngester
 {
-    public function convertPlayer($player, $FLOOR_CEILING): PlayerSimulationObject {
+
+    /**
+     * @param PlayerDto $player
+     * @param $FLOOR_CEILING
+     * @return PlayerSimulationObject
+     */
+    public function convertPlayer(PlayerDto $player, $FLOOR_CEILING): PlayerSimulationObject {
 
         $c1x_putt = $this->convertPlayerSkillToOdds($FLOOR_CEILING->c1xFloorCeiling[0], $FLOOR_CEILING->c1xFloorCeiling[1],$player->puttSkill);
         $c2_putt = $this->convertPlayerSkillToOdds($FLOOR_CEILING->c2FloorCeiling[0], $FLOOR_CEILING->c2FloorCeiling[1], $player->puttSkill);
@@ -20,7 +28,7 @@ class PlayerIngester
     }
 
     //takes in the skill floor, skill ceiling, 0-100 skill and spits out the odds
-    private function convertPlayerSkillToOdds($skillFloor, $skillCeiling, $skill):float {
+    public function convertPlayerSkillToOdds($skillFloor, $skillCeiling, $skill):float {
         $increment = (($skillCeiling - $skillFloor) /100);
         $result = ($skillFloor + ($skill * $increment));
         return round($result, 4, 1);
