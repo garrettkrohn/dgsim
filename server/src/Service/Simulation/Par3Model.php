@@ -26,7 +26,7 @@ class Par3Model extends BaseModel
         return $this->getHoleResult($rng, $oddsOfResultsArray);
     }
 
-    private function getHoleResult(float $rng, SimulationChanceDto $oddsOfResultsArray): HoleResultDto
+    public function getHoleResult(float $rng, SimulationChanceDto $oddsOfResultsArray): HoleResultDto
     {
         $benchmark = $oddsOfResultsArray->getResultId12();
         if ($rng < $benchmark) {
@@ -87,7 +87,7 @@ class Par3Model extends BaseModel
      * @param PlayerHoleObject $playerSimObject
      * @return SimulationChanceDto
      */
-    private function oddsOfResults(PlayerHoleObject $playerSimObject): SimulationChanceDto
+    public function oddsOfResults(PlayerHoleObject $playerSimObject): SimulationChanceDto
     {
         $makec1 = $playerSimObject->c1x_putt;
         $missc1 = 1 - $makec1;
@@ -123,6 +123,9 @@ class Par3Model extends BaseModel
         $chancesObject->setResultId10($resultId10);
         $chancesObject->setResultId11($resultId11);
         $chancesObject->setResultId12($resultId12);
+
+        $check = ($resultId0 + $resultId1 + $resultId2 + $resultId3 + $resultId4 + $resultId5 + $resultId6 +
+        $resultId7 + $resultId8 + $resultId9 + $resultId10 + $resultId11 + $resultId12);
 
         return $chancesObject;
     }
