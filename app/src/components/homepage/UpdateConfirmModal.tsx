@@ -62,11 +62,16 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
         //@ts-ignore
         auth0: user ? user.sub : 'error',
       }),
-    onMutate: () => console.log('mutate'),
+    onMutate: () => {
+      console.log('mutate');
+      // window.location.reload();
+    },
     onError: (err, variables, context) => {
       console.log(err, variables, context);
     },
-    onSettled: () => refetch(),
+    onSettled: () => {
+      refetch();
+    },
   });
 
   if (playerData) {
