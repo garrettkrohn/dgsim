@@ -20,7 +20,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getPlayerByAuth } from '../../services/PlayerApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../../util/Loading';
-import ButtonWrapper from '../../util/ButtonWrapper';
 
 const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   const [putt, setPutt] = useAtom(updatePuttAtom);
@@ -129,14 +128,11 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
               setSkillNumber={setScramble}
               currentNumber={currentScramble}
             />
-            <ButtonWrapper>
-              <button
-                onClick={() => props.toggleUpdateModal}
-                disabled={disableUpdate}
-              >
-                Submit Player Update
-              </button>
-            </ButtonWrapper>
+            <Button
+              label="Submit Player Update"
+              onClick={props.toggleUpdateModal}
+              disable={disableUpdate}
+            />
           </WrapperBlock>
           <Divider color="dgbackground" />
         </>

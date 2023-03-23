@@ -12,7 +12,6 @@ import Loading from '../../util/Loading';
 import useInput from '../../hooks/useInput';
 import { createTournament } from '../../services/tournamentsApi';
 import { getPlayerByAuth } from '../../services/PlayerApi';
-import ButtonWrapper from '../../util/ButtonWrapper';
 
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
@@ -162,10 +161,11 @@ function Admin() {
               ''
             )}
           </div>
-          <ButtonWrapper>
+          <div className="flex justify-center py-1">
             <button
               disabled={disableButton}
               type="submit"
+              className='disabled:text-opacity-10" rounded-md bg-dgtertiary py-2 px-5 text-dgsoftwhite disabled:bg-opacity-10'
               onClick={e => {
                 e.preventDefault();
                 console.log('clicked');
@@ -174,7 +174,7 @@ function Admin() {
             >
               Simulate Tournament
             </button>
-          </ButtonWrapper>
+          </div>
         </form>
         <WrapperBlock color="dgsecondary">
           <div className="text-center">Player Update Numbers</div>

@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
+  createTournament,
+  getAllTournaments,
+} from '../../services/tournamentsApi';
+import {
   createPlayer,
   getArchetypes,
   getPlayerByAuth,
@@ -10,11 +14,14 @@ import Loading from '../../util/Loading';
 import Dropdown from '../../util/Dropdown';
 import WrapperBlock from '../../util/WrapperBlock';
 import UpdateRow from '../homepage/UpdateRow';
+import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
-import { updateAvailableSpAtom } from '../../jotai/Atoms';
+import {
+  updateAvailableSpAtom,
+  createPlayerAvailableSp,
+} from '../../jotai/Atoms';
 import { Link, useNavigate, useRoute } from '@tanstack/react-router';
 import { useAuth0 } from '@auth0/auth0-react';
-import ButtonWrapper from '../../util/ButtonWrapper';
 
 function CreatePlayer() {
   const [putt, setPutt] = useState(0);
@@ -167,7 +174,7 @@ function CreatePlayer() {
   return (
     <div className="text-dgsoftwhite">
       <WrapperBlock color="dgprimary">
-        <div className="text-center">Create a Player</div>
+        <div>Create a Player</div>
       </WrapperBlock>
       <form>
         <div className="flex justify-between py-1">
@@ -265,11 +272,11 @@ function CreatePlayer() {
           />
         </WrapperBlock>
       </div>
-      <ButtonWrapper>
-        <button onClick={createPlayerMutator.mutate} disabled={disableButton}>
-          Submit Player
-        </button>
-      </ButtonWrapper>
+      <Button
+        label="Submit Player"
+        onClick={createPlayerMutator.mutate}
+        disable={disableButton}
+      />
     </div>
   );
 }
