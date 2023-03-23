@@ -2,15 +2,12 @@
 
 namespace App\Tests;
 
+use App\Entity\Player;
 use PHPUnit\Framework\TestCase;
 
 class TestPlayerService extends TestCase
 {
 
-    public function test()
-    {
-        self::assertEquals(1,1);
-    }
 
 
 
