@@ -23,7 +23,7 @@ const UpdateInput = (props: {
   };
 
   const checkDecrementDisable = () => {
-    if (props.updateNumber - props.decrementCost < props.currentNumber) {
+    if (props.updateNumber - 1 < props.currentNumber) {
       setDecrementDisable(true);
     } else {
       setDecrementDisable(false);
@@ -33,7 +33,13 @@ const UpdateInput = (props: {
   useEffect(() => {
     checkIncrementDisable();
     checkDecrementDisable();
-  }, [availableSp, props.updateNumber, props.incrementCost]);
+  }, [
+    availableSp,
+    props.updateNumber,
+    props.incrementCost,
+    props.decrementCost,
+    props.currentNumber,
+  ]);
 
   const increment = () => {
     props.setSkill(props.updateNumber + 1);

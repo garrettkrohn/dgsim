@@ -33,10 +33,9 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   );
   const [currentScramble, setCurrentScramble] = useAtom(currentScrambleAtom);
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
-
   const [disableUpdate, setDisableUpdate] = useState(true);
-
   const [showUpdate, setShowUpdate] = useState(false);
+  // const [updateSpAvailable, setUpdateSpAvailable] = useState(0);
 
   const toggleUpdate = () => {
     setShowUpdate(!showUpdate);
@@ -84,63 +83,74 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
     return <Loading />;
   }
 
-  return (
-    <div>
-      <WrapperBlock color="dgprimary" onClick={toggleUpdate}>
-        <div className="container flex justify-center p-2 font-bold">
-          Update Player
-        </div>
-        <div className="container flex flex-row justify-evenly p-1">
-          <div>Bank: {playerData?.bankedSkillPoints}</div>
-          <div>Total: {availableSp}</div>
-        </div>
-      </WrapperBlock>
-      <Divider color="dgbackground" />
-      {showUpdate ? (
-        <>
-          <WrapperBlock color="dgprimary">
-            <div className="flex justify-evenly">
-              <div>Skill:</div>
-              <div>Update:</div>
-              <div>Cost:</div>
-            </div>
-            <UpdateRow
-              skillName="Putt"
-              skillNumber={putt}
-              setSkillNumber={setPutt}
-              currentNumber={currentPutt}
-            />
-            <UpdateRow
-              skillName="ThrowPwr"
-              skillNumber={throwPower}
-              setSkillNumber={setThrowPower}
-              currentNumber={currentPower}
-            />
-            <UpdateRow
-              skillName="ThrowAcc"
-              skillNumber={throwAccuracy}
-              setSkillNumber={setThrowAccuracy}
-              currentNumber={currentAccuracy}
-            />
-            <UpdateRow
-              skillName="Scramble"
-              skillNumber={scramble}
-              setSkillNumber={setScramble}
-              currentNumber={currentScramble}
-            />
-            <Button
-              label="Submit Player Update"
-              onClick={props.toggleUpdateModal}
-              disable={disableUpdate}
-            />
-          </WrapperBlock>
-          <Divider color="dgbackground" />
-        </>
-      ) : (
-        ''
-      )}
-    </div>
-  );
+  if (playerData) {
+    const {
+      bankedSkillPoints,
+      puttSkill,
+      throwAccuracySkill,
+      throwPowerSkill,
+      scrambleSkill,
+    } = playerData;
+    return (
+      <div>
+        <WrapperBlock color="dgprimary" onClick={toggleUpdate}>
+          <div className="container flex justify-center p-2 font-bold">
+            Update Player
+          </div>
+          <div className="container flex flex-row justify-evenly p-1">
+            <div>Bank: {bankedSkillPoints}</div>
+            <div>Total: {availableSp}</div>
+          </div>
+        </WrapperBlock>
+        <Divider color="dgbackground" />
+        {showUpdate ? (
+          <>
+            <WrapperBlock color="dgprimary">
+              <div className="flex justify-evenly">
+                <div>Skill:</div>
+                <div>Update:</div>
+                <div>Cost:</div>
+              </div>
+              <UpdateRow
+                skillName="Putt"
+                skillNumber={putt}
+                setSkillNumber={setPutt}
+                currentNumber={puttSkill}
+              />
+              <UpdateRow
+                skillName="ThrowPwr"
+                skillNumber={throwPower}
+                setSkillNumber={setThrowPower}
+                currentNumber={throwPowerSkill}
+              />
+              <UpdateRow
+                skillName="ThrowAcc"
+                skillNumber={throwAccuracy}
+                setSkillNumber={setThrowAccuracy}
+                currentNumber={throwAccuracySkill}
+              />
+              <UpdateRow
+                skillName="Scramble"
+                skillNumber={scramble}
+                setSkillNumber={setScramble}
+                currentNumber={scrambleSkill}
+              />
+              <Button
+                label="Submit Player Update"
+                onClick={props.toggleUpdateModal}
+                disable={disableUpdate}
+              />
+            </WrapperBlock>
+            <Divider color="dgbackground" />
+          </>
+        ) : (
+          ''
+        )}
+      </div>
+    );
+  }
+
+  return <div></div>;
 };
 
 export default UpdateBlock;
