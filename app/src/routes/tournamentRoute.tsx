@@ -12,3 +12,5 @@ const tournamentsRoute = new Route({
   },
   errorComponent: () => <Error />,
 });
+
+export default tournamentsRoute;
