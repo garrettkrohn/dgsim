@@ -92,7 +92,6 @@ const PlayerBlock = () => {
             <div>Throw Acc: {scrambleSkill}</div>
           </div>
         </div>
-        <div></div>
       </WrapperBlock>
     );
   }
