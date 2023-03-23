@@ -15,7 +15,6 @@ import { createOrGetUser } from '../../services/UserApi';
 import { getArchetypes, getPlayerByAuth } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
-import ButtonWrapper from '../../util/ButtonWrapper';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);

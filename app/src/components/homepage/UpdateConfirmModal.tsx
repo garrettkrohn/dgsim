@@ -17,7 +17,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createTournament } from '../../services/tournamentsApi';
 import { getPlayerByAuth, updatePlayer } from '../../services/PlayerApi';
 import { useAuth0 } from '@auth0/auth0-react';
-import ButtonWrapper from '../../util/ButtonWrapper';
 
 const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [putt] = useAtom(updatePuttAtom);
@@ -92,16 +91,15 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
             currentSkillNumber={currentScramble}
             updatedSkillNumber={scramble}
           />
-          <ButtonWrapper>
-            <button
+          <div className="flex justify-center">
+            <Button
+              label={'Submit Player Update'}
               onClick={() => {
                 updatePlayerCall.mutate();
               }}
-              disabled={false}
-            >
-              Submit Player Update
-            </button>
-          </ButtonWrapper>
+              disable={false}
+            />
+          </div>
         </div>
       </div>
     );
