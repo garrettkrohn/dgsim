@@ -30,7 +30,5 @@ class TestPlayerIngester extends TestCase
 class PlayerIngesterTest extends PlayerIngester
 {
     public function __construct()
-    {
-
-    }
+    {}
 }
