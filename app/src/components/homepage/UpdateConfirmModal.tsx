@@ -17,6 +17,9 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createTournament } from '../../services/tournamentsApi';
 import { getPlayerByAuth, updatePlayer } from '../../services/PlayerApi';
 import { useAuth0 } from '@auth0/auth0-react';
+import Loading from '../../util/Loading';
+import Homepage from './Homepage';
+import { useNavigate } from '@tanstack/react-router';
 
 const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [putt] = useAtom(updatePuttAtom);
@@ -29,11 +32,14 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
   const [currentScramble] = useAtom(currentScrambleAtom);
 
+  const navigate = useNavigate({ from: '/' });
+
   const { user } = useAuth0();
   const {
     isLoading: playerIsLoading,
     error: playerError,
     data: playerData,
+    refetch,
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
@@ -60,7 +66,7 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
     onError: (err, variables, context) => {
       console.log(err, variables, context);
     },
-    onSettled: () => console.log('complete'),
+    onSettled: () => refetch(),
   });
 
   if (playerData) {
