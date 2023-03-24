@@ -79,9 +79,7 @@ const PlayerBlock = () => {
     } = playerData;
     return (
       <WrapperBlock color="dgsecondary">
-        <div className="container flex justify-center">
-          {firstName + ' ' + lastName}
-        </div>
+        <div className="flex justify-center">{firstName + ' ' + lastName}</div>
         <div className="flex justify-evenly">
           <div className="flex flex-col">
             <div>Putt: {puttSkill}</div>

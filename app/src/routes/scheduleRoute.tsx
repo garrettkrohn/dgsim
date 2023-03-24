@@ -7,7 +7,7 @@ const scheduleRoute = new Route({
   getParentRoute: () => rootRoute,
   path: 'schedule',
   component: () => {
-    return <div>schedule</div>;
+    return <div className="text-dgsoftwhite">schedule</div>;
   },
   errorComponent: () => <Error />,
 });

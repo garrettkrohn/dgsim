@@ -13,25 +13,25 @@ class HoleResult
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
     #[ORM\Column]
-    private ?int $hole_result_id = null;
+    private ?int $holeResultId = null;
 
     #[ORM\Column]
     private ?int $score = null;
 
     #[ORM\Column]
-    private ?int $c1_putts = null;
+    private ?int $c1Putts = null;
 
     #[ORM\Column]
-    private ?int $c2_putts = null;
+    private ?int $c2Putts = null;
 
     #[ORM\Column]
     private ?bool $parked = null;
 
     #[ORM\Column]
-    private ?bool $c1_in_regulation = null;
+    private ?bool $c1InRegulation = null;
 
     #[ORM\Column]
-    private ?bool $c2_in_regulation = null;
+    private ?bool $c2InRegulation = null;
 
     #[ORM\Column]
     private ?bool $scramble = null;
@@ -49,7 +49,7 @@ class HoleResult
 
     public function getHoleResultId(): ?int
     {
-        return $this->hole_result_id;
+        return $this->holeResultId;
     }
 
     public function getScore(): ?int
@@ -66,24 +66,24 @@ class HoleResult
 
     public function getC1Putts(): ?int
     {
-        return $this->c1_putts;
+        return $this->c1Putts;
     }
 
-    public function setC1Putts(int $c1_putts): self
+    public function setC1Putts(int $c1Putts): self
     {
-        $this->c1_putts = $c1_putts;
+        $this->c1Putts = $c1Putts;
 
         return $this;
     }
 
     public function getC2Putts(): ?int
     {
-        return $this->c2_putts;
+        return $this->c2Putts;
     }
 
-    public function setC2Putts(int $c2_putts): self
+    public function setC2Putts(int $c2Putts): self
     {
-        $this->c2_putts = $c2_putts;
+        $this->c2Putts = $c2Putts;
 
         return $this;
     }
@@ -126,24 +126,24 @@ class HoleResult
 
     public function isC1InRegulation(): ?bool
     {
-        return $this->c1_in_regulation;
+        return $this->c1InRegulation;
     }
 
-    public function setC1InRegulation(bool $c1_in_regulation): self
+    public function setC1InRegulation(bool $c1InRegulation): self
     {
-        $this->c1_in_regulation = $c1_in_regulation;
+        $this->c1InRegulation = $c1InRegulation;
 
         return $this;
     }
 
     public function isC2InRegulation(): ?bool
     {
-        return $this->c2_in_regulation;
+        return $this->c2InRegulation;
     }
 
-    public function setC2InRegulation(bool $c2_in_regulation): self
+    public function setC2InRegulation(bool $c2InRegulation): self
     {
-        $this->c2_in_regulation = $c2_in_regulation;
+        $this->c2InRegulation = $c2InRegulation;
 
         return $this;
     }

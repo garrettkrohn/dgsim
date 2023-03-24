@@ -31,8 +31,8 @@ export interface holeResultResource {
   c1Putts: number;
   c2Putts: number;
   parked: boolean;
-  c1inRegulation: boolean;
-  c2inRegulation: boolean;
+  c1InRegulation: boolean;
+  c2InRegulation: boolean;
   scramble: boolean;
   luck: number;
   par: number;
