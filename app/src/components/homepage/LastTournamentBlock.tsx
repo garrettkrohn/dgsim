@@ -47,6 +47,14 @@ const LastTournamentBlock = () => {
   }
 
   if (playerTournamentData) {
+    let numberOfRounds = 0;
+    playerTournamentData.rounds.forEach(round => {
+      if (round.roundType === 'tournament') {
+        numberOfRounds++;
+      }
+    });
+    let courseParMultiplied = playerTournamentData.coursePar * numberOfRounds;
+
     return (
       <WrapperBlock color="dgsecondary">
         <div className="flex justify-center bg-dgsecondary text-dgsoftwhite">
@@ -55,7 +63,7 @@ const LastTournamentBlock = () => {
         <TournamentRow
           playerTournament={playerTournamentData}
           roundsDisplay={true}
-          courseParMultiplied={playerTournamentData.rounds.length}
+          courseParMultiplied={courseParMultiplied}
         />
         <ThinDivider />
       </WrapperBlock>

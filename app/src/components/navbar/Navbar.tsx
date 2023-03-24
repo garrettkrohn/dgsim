@@ -17,7 +17,7 @@ const Navbar = () => {
   const { user, isAuthenticated } = useAuth0();
 
   return (
-    <div className="bg-dgblack font-main uppercase text-dgsoftwhite">
+    <div className="bg-dgblack px-5 font-main uppercase text-dgsoftwhite">
       <div className="flex justify-between">
         <div className=" p-5 lg:hidden" onClick={toggleMenu}>
           <Bars3Icon className="h-5" />
