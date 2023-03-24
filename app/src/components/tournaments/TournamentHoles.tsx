@@ -24,6 +24,14 @@ const TournamentHoles = (props: { round: any }) => {
     return '';
   };
 
+  const missOrMakeFormatting = (boolean: boolean) => {
+    if (boolean) {
+      return <div className="bg-green-900">X</div>;
+    } else {
+      return <div className="bg-red-900">O</div>;
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-row lg:hidden">
@@ -49,8 +57,9 @@ const TournamentHoles = (props: { round: any }) => {
           <div>C1P:</div>
           <div>C2P:</div>
           <div>Parked:</div>
-          <div>c1Reg:</div>
-          <div>c2Reg:</div>
+          <div>C1Reg:</div>
+          <div>C2Reg:</div>
+          <div>Scramble: </div>
         </div>
         <div className="hidden w-full grid-flow-row grid-cols-18 text-center lg:grid">
           {props.round.holeResults.map(
@@ -66,9 +75,10 @@ const TournamentHoles = (props: { round: any }) => {
                 </div>
                 <div>{hole.c1Putts}</div>
                 <div>{hole.c2Putts}</div>
-                <div>{hole.parked ? 'X' : 'O'}</div>
-                <div>{hole.c1InRegulation ? 'X' : 'O'}</div>
-                <div>{hole.c2InRegulation ? 'X' : 'O'}</div>
+                <div>{missOrMakeFormatting(hole.parked)}</div>
+                <div>{missOrMakeFormatting(hole.c1InRegulation)}</div>
+                <div>{missOrMakeFormatting(hole.c2InRegulation)}</div>
+                <div>{missOrMakeFormatting(hole.scramble)}</div>
               </div>
             ),
           )}
