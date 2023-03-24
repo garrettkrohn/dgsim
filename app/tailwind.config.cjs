@@ -25,6 +25,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         '18': 'repeat(18, minmax(0, 1fr))'
+      },
+      gridTemplateRows: {
+        '8': 'repeat(8, minmax(0, 1fr))'
       }
     },
   },
