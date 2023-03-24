@@ -11,7 +11,7 @@ jobs:
       - checkout # check out the code in the project directory
       - run: echo "hello world" # run the `echo`
       - run: cd app/
-      - run: ll
+      - run: ls
 
 workflows:
   my-workflow:
