@@ -55,7 +55,11 @@ const TournamentRow = (props: {
             <div className="grid grid-flow-col grid-rows-1 bg-black text-center">
               {props.playerTournament.rounds.map(
                 (r: roundResource, y: number) => (
-                  <div key={y} className="">
+                  <div
+                    key={y}
+                    className="hover:cursor-pointer"
+                    onClick={() => handleRoundSelect(y)}
+                  >
                     <div
                       key={r.roundId}
                       className={colorSelected(y)}

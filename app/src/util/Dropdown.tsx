@@ -17,7 +17,7 @@ const Dropdown = (props: {
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="">
       <div
         className="flex items-center divide-x divide-gray-100 overflow-hidden rounded-md border bg-dgsecondary"
         onClick={toggleDropdown}
