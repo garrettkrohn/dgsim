@@ -26,7 +26,7 @@ const TournamentHoles = (props: { round: any }) => {
 
   return (
     <div>
-      <div className="flex flex-row">
+      <div className="flex flex-row lg:hidden">
         <div className="flex flex-col">
           <div>F9:</div>
           <div>B9:</div>
@@ -36,6 +36,40 @@ const TournamentHoles = (props: { round: any }) => {
             (hole: holeResultResource, index: number) => (
               <div key={index} className={' ' + generateHoleResultColor(hole)}>
                 {hole.score}
+              </div>
+            ),
+          )}
+        </div>
+      </div>
+      <div className="hidden lg:flex">
+        <div className="flex-col">
+          <div>Hole:</div>
+          <div>Par:</div>
+          <div>Score:</div>
+          <div>C1P:</div>
+          <div>C2P:</div>
+          <div>Parked:</div>
+          <div>c1Reg:</div>
+          <div>c2Reg:</div>
+          <div></div>
+        </div>
+        <div className="grid-rows-8 hidden w-full grid-flow-row grid-cols-18 text-center lg:grid">
+          {props.round.holeResults.map(
+            (hole: holeResultResource, index: number) => (
+              <div>
+                <div>{index + 1}</div>
+                <div>{hole.par}</div>
+                <div
+                  key={index}
+                  className={' ' + generateHoleResultColor(hole)}
+                >
+                  {hole.score}
+                </div>
+                <div>{hole.c1Putts}</div>
+                <div>{hole.c2Putts}</div>
+                <div>{hole.parked ? 'X' : ''}</div>
+                <div>{hole.c1inRegulation ? 'X' : ''}</div>
+                <div>{hole.c2inRegulation ? 'X' : ''}</div>
               </div>
             ),
           )}

@@ -28,8 +28,6 @@ const TournamentRow = (props: {
     }
   };
 
-  //course par multiplied is hard coded, have to figure out how to count rounds not including playoffs
-  //I'll need to figure out this if I want to vary the number of rounds
   return (
     <>
       <div
