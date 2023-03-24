@@ -1,61 +1,21 @@
 version: 2.1
+
 jobs:
-  build:
-    working_directory: ~/app
+  hello-job:
     docker:
-      - image: circleci/node:12-browsers
+      - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
     steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            - v1-dependencies-
-      - run:
-          name: Install dependencies
-          command: npm install
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Build
-          command: |
-            if [ $CIRCLE_BRANCH = 'circleci-project-setup' ]; then
-              npm run build
-            fi
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  deploy:
-    working_directory: ~/repo
-    docker:
-      - image: innovatorjapan/awscli:latest
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Deploy
-          command: |
-            if [ $CIRCLE_BRANCH = 'circleci-project-setup' ]; then
-              aws s3 sync build s3://example-react-app-from-ekpono --delete --exact-timestamps;
-            fi
+      - checkout # check out the code in the project directory
+      - run: echo "hello world" # run the `echo` command
+
 workflows:
-  build_and_deploy:
+  my-workflow:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
-# # PHP CircleCI 2.0 configuration file
+      - hello-job
+      # # PHP CircleCI 2.0 configuration file
 # # See: https://circleci.com/docs/2.0/language-php/
 # version: 2
 
