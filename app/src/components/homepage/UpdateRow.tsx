@@ -49,7 +49,7 @@ const UpdateRow = (props: {
 
   useEffect(() => {
     setCorrectCost();
-  }, [props.skillNumber]);
+  }, [props.skillNumber, props.currentNumber]);
 
   return (
     <div className="grid grid-cols-5 items-center justify-items-center gap-1 py-2">

@@ -8,7 +8,7 @@ import { tournamentResource } from '../../services/DTOs';
 import Loading from '../../util/Loading';
 import Dropdown from '../../util/Dropdown';
 
-export default function TournamentsSelector(props: { tournamentId: number }) {
+export default function TournamentsSelector() {
   const [showTournaments, setShowTournaments] = useState(false);
   const [selectedTournamentId, setSelectedTournamentId] = useState<number>(-1);
 

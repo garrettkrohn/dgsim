@@ -13,7 +13,7 @@ const WrapperBlock: React.FC<Props> = ({ children, color, onClick }) => {
     }
   };
 
-  const style = 'container p-2 text-dgsoftwhite bg-' + color;
+  const style = `container p-2 text-dgsoftwhite bg-${color}`;
   return (
     <div className={style} onClick={handleClick}>
       <div>{children}</div>
