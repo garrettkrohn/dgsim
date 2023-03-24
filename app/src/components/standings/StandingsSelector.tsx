@@ -52,8 +52,8 @@ const StandingsSelector = () => {
     });
 
     return (
-      <>
-        <div className="flex h-16 flex-row justify-evenly bg-dgbackground text-dgsoftwhite">
+      <div>
+        <div className="flex h-16 flex-row justify-evenly bg-dgbackground py-2 text-dgsoftwhite">
           <Dropdown
             items={items}
             setIndex={setSelectedSeasonIndex}
@@ -63,7 +63,7 @@ const StandingsSelector = () => {
         <StandingsTemplate
           allSeasonStandings={standingsData[selectedSeasonIndex]}
         />
-      </>
+      </div>
     );
   }
 

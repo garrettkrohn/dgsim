@@ -19,6 +19,11 @@ const StandingsTemplate = (props: {
       </div>
       <Divider color={'dgbackground'} />
       <div>
+        <div className="flex justify-between px-36 text-dgsoftwhite">
+          <div>Place</div>
+          <div>Name</div>
+          <div>Tour Points</div>
+        </div>
         {props.allSeasonStandings.standings.map((standing, index) => (
           <StandingsRow seasonStanding={standing} key={index} />
         ))}
