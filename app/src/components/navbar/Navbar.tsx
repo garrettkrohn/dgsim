@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <div className="bg-dgblack font-main uppercase text-dgsoftwhite">
       <div className="flex justify-between">
-        <div className=" p-5 sm:hidden" onClick={toggleMenu}>
+        <div className=" p-5 lg:hidden" onClick={toggleMenu}>
           <Bars3Icon className="h-5" />
         </div>
         {showMenu ? (
@@ -26,7 +26,7 @@ const Navbar = () => {
         ) : (
           ''
         )}
-        <div className="hidden sm:flex sm:flex-row">
+        <div className="hidden lg:flex lg:flex-row">
           {menuItems.map(item => (
             <div key={item.name} className="p-5 ">
               {item.name}
