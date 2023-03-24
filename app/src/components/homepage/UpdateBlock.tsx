@@ -94,10 +94,8 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
     return (
       <div>
         <WrapperBlock color="dgprimary" onClick={toggleUpdate}>
-          <div className="container flex justify-center p-2 font-bold">
-            Update Player
-          </div>
-          <div className="container flex flex-row justify-evenly p-1">
+          <div className="flex justify-center p-2 font-bold">Update Player</div>
+          <div className="flex flex-row justify-evenly p-1">
             <div>Bank: {bankedSkillPoints}</div>
             <div>Total: {availableSp}</div>
           </div>
