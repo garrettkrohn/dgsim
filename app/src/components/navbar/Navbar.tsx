@@ -5,6 +5,7 @@ import menuItems from '../../constants/MenuItems';
 import LoginButton from '../../util/LoginButton';
 import LogoutButton from '../../util/LogoutButton';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from '@tanstack/react-router';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -29,7 +30,9 @@ const Navbar = () => {
         <div className="hidden lg:flex lg:flex-row">
           {menuItems.map(item => (
             <div key={item.name} className="p-5 ">
-              {item.name}
+              <Link to={item.route} search={} params={}>
+                {item.name}
+              </Link>
             </div>
           ))}
         </div>
