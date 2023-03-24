@@ -57,6 +57,9 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
 
   useEffect(() => {
     refetch();
+    if (availableSp !== 0) {
+      setShowUpdate(true);
+    }
   }, []);
 
   useEffect(() => {
