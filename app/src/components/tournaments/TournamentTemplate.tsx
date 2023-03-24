@@ -40,7 +40,7 @@ const TournamentTemplate = (props: {
         <div>Season: {props.tournament.season}</div>
       </div>
       <Divider color={'dgbackground'} />
-      <div className="flex flex-row justify-between bg-dgbackground text-dgsoftwhite">
+      <div className="flex flex-row justify-between bg-dgbackground text-dgsoftwhite lg:px-36">
         <div>Place:</div>
         <div>Name:</div>
         <div>Total:</div>
