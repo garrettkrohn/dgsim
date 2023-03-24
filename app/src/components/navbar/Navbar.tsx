@@ -30,9 +30,7 @@ const Navbar = () => {
         <div className="hidden lg:flex lg:flex-row">
           {menuItems.map(item => (
             <div key={item.name} className="p-5 ">
-              <Link to={item.route} search={} params={}>
-                {item.name}
-              </Link>
+              <Link to={item.route}>{item.name}</Link>
             </div>
           ))}
         </div>

@@ -132,11 +132,11 @@ class SimulationIterators {
     {
         $holeResult = new HoleResult();
         $holeResult->setScore($hole->score);
-        $holeResult->setC1Putts($hole->c1_putts);
-        $holeResult->setC2Putts($hole->c2_putts);
+        $holeResult->setC1Putts($hole->c1Putts);
+        $holeResult->setC2Putts($hole->c2Putts);
         $holeResult->setParked($hole->parked);
-        $holeResult->setC1InRegulation($hole->c1_in_regulation);
-        $holeResult->setC2InRegulation($hole->c2_in_regulation);
+        $holeResult->setC1InRegulation($hole->c1InRegulation);
+        $holeResult->setC2InRegulation($hole->c2InRegulation);
         $holeResult->setScramble($hole->scramble);
         $holeResult->setRound($round);
         $holeResult->setLuck($hole->luck);
