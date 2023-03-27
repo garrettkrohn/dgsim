@@ -5,14 +5,11 @@ import React, { useEffect, useState } from 'react';
 import UpdateConfirmModal from './UpdateConfirmModal';
 import LastTournamentBlock from './LastTournamentBlock';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import {
-  createTournament,
-  getAllTournaments,
-} from '../../services/tournamentsApi';
+import { getAllTournaments } from '../../services/tournamentsApi';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import { createOrGetUser } from '../../services/UserApi';
-import { getArchetypes, getPlayerByAuth } from '../../services/PlayerApi';
+import { getPlayerByAuth } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
 

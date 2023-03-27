@@ -11,7 +11,7 @@ const StandingsRow = (props: { seasonStanding: seasonStandingResource }) => {
 
   return (
     <div className="grid bg-dgbackground text-dgsoftwhite">
-      <div className="flex flex-row justify-between py-2">
+      <div className="flex flex-row justify-between py-2 px-36">
         <div className="px-4">{rank}</div>
         <div className="px-4">
           {firstName} {lastName}

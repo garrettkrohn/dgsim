@@ -18,7 +18,7 @@ import {
 } from '../../jotai/Atoms';
 
 const PlayerBlock = () => {
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { user } = useAuth0();
   const [putt, setPutt] = useAtom(updatePuttAtom);
   const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
   const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
@@ -30,39 +30,6 @@ const PlayerBlock = () => {
   );
   const [currentScramble, setCurrentScramble] = useAtom(currentScrambleAtom);
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
-  // const [userMetadata, setUserMetadata] = useState(null);
-
-  // useEffect(() => {
-  //   const getUserMetadata = async () => {
-  //     const domain = 'dev-mychhcrwjquf7khu.us.auth0.com';
-  //
-  //     try {
-  //       const accessToken = await getAccessTokenSilently({
-  //         authorizationParams: {
-  //           audience: `https://${domain}/api/v2/`,
-  //           scope: 'read:current_user',
-  //         },
-  //       });
-  //
-  //       // @ts-ignore
-  //       const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
-  //
-  //       const metadataResponse = await fetch(userDetailsByIdUrl, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
-  //
-  //       const { user_metadata } = await metadataResponse.json();
-  //
-  //       setUserMetadata(user_metadata);
-  //     } catch (e: any) {
-  //       console.log(e.message);
-  //     }
-  //   };
-  //
-  //   getUserMetadata();
-  // }, [getAccessTokenSilently, user?.sub]);
 
   const {
     isLoading: playerIsLoading,
@@ -112,16 +79,7 @@ const PlayerBlock = () => {
     } = playerData;
     return (
       <WrapperBlock color="dgsecondary">
-        {/*<div>*/}
-        {/*  {userMetadata ? (*/}
-        {/*    <pre>{JSON.stringify(userMetadata, null, 2)}</pre>*/}
-        {/*  ) : (*/}
-        {/*    'No user metadata defined'*/}
-        {/*  )}*/}
-        {/*</div>*/}
-        <div className="container flex justify-center">
-          {firstName + ' ' + lastName}
-        </div>
+        <div className="flex justify-center">{firstName + ' ' + lastName}</div>
         <div className="flex justify-evenly">
           <div className="flex flex-col">
             <div>Putt: {puttSkill}</div>
@@ -132,7 +90,6 @@ const PlayerBlock = () => {
             <div>Throw Acc: {scrambleSkill}</div>
           </div>
         </div>
-        <div></div>
       </WrapperBlock>
     );
   }

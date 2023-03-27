@@ -8,13 +8,6 @@ use App\Repository\HoleResultRepository;
 
 class HoleResultService extends AbstractMultiTransformer
 {
-    private HoleResultRepository $holeResultRepository;
-
-    public function __construct(HoleResultRepository $holeResultRepository)
-    {
-        $this->holeResultRepository = $holeResultRepository;
-    }
-
     /**
      * @param HoleResult $object
      * @return HoleResultDto

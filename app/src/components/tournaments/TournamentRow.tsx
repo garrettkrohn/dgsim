@@ -28,8 +28,6 @@ const TournamentRow = (props: {
     }
   };
 
-  //course par multiplied is hard coded, have to figure out how to count rounds not including playoffs
-  //I'll need to figure out this if I want to vary the number of rounds
   return (
     <>
       <div
@@ -37,7 +35,10 @@ const TournamentRow = (props: {
         className="grid bg-dgbackground text-dgsoftwhite"
       >
         <ThinDivider />
-        <div className="flex justify-between pt-2" onClick={toggleShowRounds}>
+        <div
+          className="lg: flex justify-between px-36 pt-2"
+          onClick={toggleShowRounds}
+        >
           <div className="pl-2">{props.playerTournament.place}</div>
           <div>
             {playerTournament.playerResponseDto.firstName}{' '}
@@ -51,10 +52,14 @@ const TournamentRow = (props: {
         {showRounds ? (
           <>
             <ThinDivider />
-            <div className="grid grid-flow-col grid-cols-5 grid-rows-2 bg-black text-center">
+            <div className="grid grid-flow-col grid-rows-1 bg-black text-center">
               {props.playerTournament.rounds.map(
                 (r: roundResource, y: number) => (
-                  <>
+                  <div
+                    key={y}
+                    className="hover:cursor-pointer"
+                    onClick={() => handleRoundSelect(y)}
+                  >
                     <div
                       key={r.roundId}
                       className={colorSelected(y)}
@@ -65,11 +70,13 @@ const TournamentRow = (props: {
                     <div key={y} className={colorSelected(y)}>
                       {r.roundTotal}
                     </div>
-                  </>
+                  </div>
                 ),
               )}
-              <div> Total</div>
-              {props.playerTournament.totalScore}
+              <div>
+                <div> Total</div>
+                {props.playerTournament.totalScore}
+              </div>
             </div>
             <TournamentHoles
               round={props.playerTournament.rounds[selectedRound]}

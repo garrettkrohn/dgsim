@@ -13,11 +13,11 @@ class HoleResultDto
 
     #[NotNull]
     #[Type('int')]
-    public int $c1_putts;
+    public int $c1Putts;
 
     #[NotNull]
     #[Type('int')]
-    public int $c2_putts;
+    public int $c2Putts;
 
     #[NotNull]
     #[Type('bool')]
@@ -25,11 +25,11 @@ class HoleResultDto
 
     #[NotNull]
     #[Type('bool')]
-    public bool $c1_in_regulation;
+    public bool $c1InRegulation;
 
     #[NotNull]
     #[Type('bool')]
-    public bool $c2_in_regulation;
+    public bool $c2InRegulation;
 
     #[NotNull]
     #[Type('bool')]
@@ -80,15 +80,15 @@ class HoleResultDto
      */
     public function getC1Putts(): int
     {
-        return $this->c1_putts;
+        return $this->c1Putts;
     }
 
     /**
-     * @param int $c1_putts
+     * @param int $c1Putts
      */
-    public function setC1Putts(int $c1_putts): void
+    public function setC1Putts(int $c1Putts): void
     {
-        $this->c1_putts = $c1_putts;
+        $this->c1Putts = $c1Putts;
     }
 
     /**
@@ -96,15 +96,15 @@ class HoleResultDto
      */
     public function getC2Putts(): int
     {
-        return $this->c2_putts;
+        return $this->c2Putts;
     }
 
     /**
-     * @param int $c2_putts
+     * @param int $c2Putts
      */
-    public function setC2Putts(int $c2_putts): void
+    public function setC2Putts(int $c2Putts): void
     {
-        $this->c2_putts = $c2_putts;
+        $this->c2Putts = $c2Putts;
     }
 
     /**
@@ -128,15 +128,15 @@ class HoleResultDto
      */
     public function isC1InRegulation(): bool
     {
-        return $this->c1_in_regulation;
+        return $this->c1InRegulation;
     }
 
     /**
-     * @param bool $c1_in_regulation
+     * @param bool $c1InRegulation
      */
-    public function setC1InRegulation(bool $c1_in_regulation): void
+    public function setC1InRegulation(bool $c1InRegulation): void
     {
-        $this->c1_in_regulation = $c1_in_regulation;
+        $this->c1InRegulation = $c1InRegulation;
     }
 
     /**
@@ -144,15 +144,15 @@ class HoleResultDto
      */
     public function isC2InRegulation(): bool
     {
-        return $this->c2_in_regulation;
+        return $this->c2InRegulation;
     }
 
     /**
-     * @param bool $c2_in_regulation
+     * @param bool $c2InRegulation
      */
-    public function setC2InRegulation(bool $c2_in_regulation): void
+    public function setC2InRegulation(bool $c2InRegulation): void
     {
-        $this->c2_in_regulation = $c2_in_regulation;
+        $this->c2InRegulation = $c2InRegulation;
     }
 
     /**

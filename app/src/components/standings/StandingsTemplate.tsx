@@ -2,6 +2,7 @@ import React from 'react';
 import { allSeasonStandings } from '../../services/DTOs';
 import Divider from '../../util/Divider';
 import StandingsRow from './StandingsRow';
+import ThinDivider from '../../util/ThinDivider';
 
 const StandingsTemplate = (props: {
   allSeasonStandings: allSeasonStandings | undefined;
@@ -19,6 +20,13 @@ const StandingsTemplate = (props: {
       </div>
       <Divider color={'dgbackground'} />
       <div>
+        <div className="flex justify-between px-36 text-dgsoftwhite">
+          <div>Place:</div>
+          <div>Name:</div>
+          <div>Tour Points:</div>
+        </div>
+        <ThinDivider />
+
         {props.allSeasonStandings.standings.map((standing, index) => (
           <StandingsRow seasonStanding={standing} key={index} />
         ))}
