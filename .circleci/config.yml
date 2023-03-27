@@ -4,7 +4,7 @@ orbs:
   node: circleci/node@5.0.2
 
 jobs:
-  build_and_test: # this can be any name you choose
+  build_front_end: # this can be any name you choose
     working_directory: ~/dgsim/app
     executor: node/default # use the default executor defined within the orb
     steps:
@@ -19,83 +19,35 @@ jobs:
           root: ~/project
           paths:
             - .
+  build_and_test_backend:
+    working_directory: ~/dgsim/server
+    docker:
+      - image: circleci/php:7/4-node-browsers
+    steps:
+      - checkout:
+        path: ~/dgsim
+      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
+      - run: sudo docker-php-ext-install zip
 
-  # hello-job:
-  #   docker:
-  #     - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
-  #       auth:
-  #         username: mydockerhub-user
-  #         password: $DOCKERHUB_PASSWORD # context / project UI env-var reference
-  #   steps:
-  #     - checkout # check out the code in the project directory
-  #     - run: echo "hello world" # run the `echo`
-  #     - run: ls
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            # "composer.lock" can be used if it is committed to the repo
+            - v1-dependencies-{{ checksum "composer.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run:
+          name: "Install Dependencies"
+          command: composer install -n --prefer-dist
+
+      - save_cache:
+          key: v1-dependencies-{{ checksum "composer.json" }}
+          paths:
+            - ./vendor
 
 workflows:
   my-workflow:
     jobs:
-      - build_and_test
-      # # PHP CircleCI 2.0 configuration file
-# # See: https://circleci.com/docs/2.0/language-php/
-# version: 2
-
-# # Define a job to be invoked later in a workflow.
-# # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-# jobs:
-#   build:
-#     working_directory: ~/server
-#     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-#     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-#     docker:
-#       # Specify the version you desire here
-#       - image: circleci/php:7.1-node-browsers
-
-#       # Specify service dependencies here if necessary
-#       # CircleCI maintains a library of pre-built images
-#       # documented at https://circleci.com/docs/2.0/circleci-images/
-#       # Using the RAM variation mitigates I/O contention
-#       # for database intensive operations.
-#       # - image: circleci/mysql:5.7-ram
-#       #
-#       # - image: redis:2.8.19
-
-#     # Add steps to the job
-#     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-#     steps:
-#       - checkout
-
-#       - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-#       - run: sudo docker-php-ext-install zip
-
-#       # Download and cache dependencies
-#       - restore_cache:
-#           keys:
-#             # "composer.lock" can be used if it is committed to the repo
-#             - v1-dependencies-{{ checksum "composer.json" }}
-#             # fallback to using the latest cache if no exact match is found
-#             - v1-dependencies-
-
-#       - run: composer install -n --prefer-dist
-
-#       - save_cache:
-#           key: v1-dependencies-{{ checksum "composer.json" }}
-#           paths:
-#             - ./vendor
-#       - restore_cache:
-#           keys:
-#             - node-v1-{{ checksum "package.json" }}
-#             - node-v1-
-#       - run: yarn install
-#       - save_cache:
-#           key: node-v1-{{ checksum "package.json" }}
-#           paths:
-#             - node_modules
-
-#       # prepare the database
-#       - run: touch storage/testing.sqlite
-#       - run: php artisan migrate --env=testing --database=sqlite_testing --force
-
-#       # run tests with phpunit or codecept
-#       #- run: ./vendor/bin/phpunit
-#       - run: ./vendor/bin/codecept build
-#       - run: ./vendor/bin/codecept run
+      - build_front_end
+      - buld_and_test_backend
