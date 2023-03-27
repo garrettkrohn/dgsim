@@ -35,7 +35,7 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - hello-job
+      - build_and_test
       # # PHP CircleCI 2.0 configuration file
 # # See: https://circleci.com/docs/2.0/language-php/
 # version: 2
