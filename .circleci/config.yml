@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: "Run tests"
-          command: composer test
+          command: composer exec phpunit
 
 workflows:
   my-workflow:
