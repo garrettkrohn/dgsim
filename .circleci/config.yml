@@ -13,7 +13,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - save_cache:
-        key: npm-cache
+          key: npm-cache
       - run:
           command: npm run build
           name: Build app
