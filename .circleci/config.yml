@@ -49,5 +49,5 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      - build_front_end
+      # - build_front_end
       - build_and_test_backend
