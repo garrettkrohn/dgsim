@@ -12,7 +12,7 @@ jobs:
           path: ~/dgsim
       - node/install-packages:
           pkg-manager: npm
-      - save_cache:
+      - restore_cache:
           key: npm-cache
       - run:
           command: npm run build
