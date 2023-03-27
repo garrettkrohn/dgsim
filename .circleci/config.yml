@@ -19,7 +19,6 @@ jobs:
           root: ~/project
           paths:
             - .
-
   build_and_test_backend:
     working_directory: ~/dgsim/server
     docker:
