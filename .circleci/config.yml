@@ -5,11 +5,11 @@ orbs:
 
 jobs:
   build_and_test: # this can be any name you choose
-    working_directory: ~/DGSIM/app
+    working_directory: ~/dgsim/app
     executor: node/default # use the default executor defined within the orb
     steps:
       - checkout:
-          path: ~/app
+          path: ~/dgsim
       - node/install-packages:
           pkg-manager: npm
       - run:
