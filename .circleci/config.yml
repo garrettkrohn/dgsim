@@ -22,7 +22,7 @@ jobs:
   build_and_test_backend:
     working_directory: ~/dgsim/server
     docker:
-      - image: circleci/php:7/4-node-browsers
+      - image: cming/php:8.2.4
     steps:
       - checkout:
           path: ~/dgsim
