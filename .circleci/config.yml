@@ -12,6 +12,8 @@ jobs:
           path: ~/dgsim
       - node/install-packages:
           pkg-manager: npm
+      - save_cache:
+        key: npm-cache
       - run:
           command: npm run build
           name: Build app
@@ -19,6 +21,10 @@ jobs:
           root: ~/project
           paths:
             - .
+      - save_cache:
+          key: npm-cache
+          path: ./node_modules
+
   build_and_test_backend:
     working_directory: ~/dgsim/server
     docker:
