@@ -24,8 +24,8 @@ jobs:
     docker:
       - image: cming/php:8.2.4
         auth:
-          username: gkrohn # can specify string literal values
-          password: Imbras2z. # or project environment variable reference
+          username: mydockerhub-user # can specify string literal values
+          password: $DOCKERHUB_PASSSWORD # or project environment variable reference
     steps:
       - checkout:
           path: ~/dgsim
