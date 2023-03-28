@@ -5,6 +5,7 @@ import indexRoute from './indexRoute';
 import scheduleRoute from './scheduleRoute';
 import standingsRoute from './standingsRoute';
 import rootRoute from './rootRoute';
+import tournamentReplayRoute from './tournamentReplay';
 import { Router } from '@tanstack/react-router';
 
 const routeTree = rootRoute.addChildren([
@@ -14,6 +15,7 @@ const routeTree = rootRoute.addChildren([
   standingsRoute,
   adminRoute,
   createPlayerRoute,
+  tournamentReplayRoute,
 ]);
 
 export const router = new Router({
