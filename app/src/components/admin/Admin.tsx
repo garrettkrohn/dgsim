@@ -99,7 +99,7 @@ function Admin() {
     return <div>ope, there was an error</div>;
   }
 
-  if (user.sub !== 'google-oauth2|115993548271312276661') {
+  if (user?.sub !== 'google-oauth2|115993548271312276661') {
     return (
       <div className="text-center text-dgsoftwhite">
         you do not have admin access
