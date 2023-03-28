@@ -68,17 +68,15 @@ const Replay = () => {
         <div>Replay</div>
         <div>{tournamentsData[0].tournamentName}</div>
         {tournamentsData[0].playerTournaments.map((pt, index) => (
-          <div key={index}>
-            <span>
-              {pt.rounds[roundIndex].holeResults[holeIndex - 2]
-                ? pt.rounds[roundIndex].holeResults[holeIndex - 2].score
-                : ''}
-            </span>
+          <div key={index} className="border-2 py-1">
+            {pt.playerResponseDto.lastName}{' '}
+            {pt.rounds[roundIndex].holeResults[holeIndex - 2]
+              ? pt.rounds[roundIndex].holeResults[holeIndex - 2].score
+              : ''}
             {pt.rounds[roundIndex].holeResults[holeIndex - 1]
               ? pt.rounds[roundIndex].holeResults[holeIndex - 1].score
               : ''}
             {pt.rounds[roundIndex].holeResults[holeIndex].score}
-            {pt.playerResponseDto.lastName}{' '}
             {calculateTotal(pt.rounds[roundIndex])}
             through {holeIndex + 1} holes
           </div>
