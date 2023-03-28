@@ -12,10 +12,15 @@ import Loading from '../../util/Loading';
 import useInput from '../../hooks/useInput';
 import { createTournament } from '../../services/tournamentsApi';
 import { getPlayerByAuth } from '../../services/PlayerApi';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
   const [disableButton, setDisableButton] = useState(false);
+
+  const { isAuthenticated, user } = useAuth0();
+
+  console.log(user);
 
   const toggleButton = () => {
     setDisableButton(!disableButton);
@@ -94,6 +99,13 @@ function Admin() {
     return <div>ope, there was an error</div>;
   }
 
+  if (user.sub !== 'google-oauth2|115993548271312276661') {
+    return (
+      <div className="text-center text-dgsoftwhite">
+        you do not have admin access
+      </div>
+    );
+  }
   if (coursesData) {
     const items = coursesData.map(item => {
       return item.courseName;
