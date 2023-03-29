@@ -33,7 +33,6 @@ const Replay = () => {
     playerTournament: playerTournamentResource,
   ) => {
     let roundTotalSoFar = calculateTotal(playerTournament.rounds[roundIndex]);
-    // console.log(playerTournament.playerResponseDto.lastName, roundTotalSoFar);
     if (roundIndex > 0) {
       for (let i = roundIndex - 1; i > -1; i--) {
         if (playerTournament.rounds[i].roundType === 'tournament') {
@@ -45,17 +44,10 @@ const Replay = () => {
             playerTournament.rounds[i].roundTotal,
             playerTournament.rounds[i].roundTotal - playerTournament.coursePar,
           );
-          // console.log(
-          //   playerTournament.playerResponseDto.lastName,
-          //   roundTotal,
-          //   roundPar,
-          //   roundTotal - roundPar,
-          // );
           roundTotalSoFar += roundTotal - roundPar;
         }
       }
     }
-    // console.log(playerTournament.playerResponseDto.lastName, roundTotalSoFar);
     return roundTotalSoFar;
   };
 
