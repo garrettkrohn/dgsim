@@ -10,9 +10,9 @@ import {
 import ThinDivider from '../../util/ThinDivider';
 
 const Replay = () => {
-  const [roundIndex, setRoundIndex] = useState(3);
-  const [holeIndex, setHoleIndex] = useState(14);
-  const [tournamentIndex, setTournamentIndex] = useState(0);
+  const [roundIndex, setRoundIndex] = useState(0);
+  const [holeIndex, setHoleIndex] = useState(-1);
+  const [tournamentIndex, setTournamentIndex] = useState(2);
 
   const {
     isLoading: tournamentsAreLoading,
@@ -129,16 +129,20 @@ const Replay = () => {
     }
   };
 
+  const decrementHoleIndex = () => {
+    setHoleIndex(holeIndex - 1);
+  };
+
   if (tournamentsData) {
     tournamentsData[tournamentIndex].playerTournaments.sort(compareScore);
     return (
-      <div className="text-dgsoftwhite">
+      <div className="max-w-5xl text-dgsoftwhite">
         <div>Replay</div>
         <div>{tournamentsData[tournamentIndex].tournamentName}</div>
         <div className="text-center">Round: {roundIndex + 1}</div>
-        <div className="grid grid-flow-col">
+        <div className="grid grid-flow-col grid-cols-9 text-center">
           <div>Place:</div>
-          <div>Name:</div>
+          <div className="col-span-2">Name:</div>
           <div>Tourny Score:</div>
           <div>Round Score:</div>
           <div>Hole: {holeIndex - 1 > 0 ? holeIndex - 1 : 'X'}</div>
@@ -147,11 +151,11 @@ const Replay = () => {
           <div>Through:</div>
         </div>
         {tournamentsData[tournamentIndex].playerTournaments.map((pt, index) => (
-          <div key={index} className="py-1">
+          <div key={index} className="py-1 text-center">
             {pt.rounds[roundIndex] ? (
-              <div className="grid grid-flow-col pl-2">
+              <div className="grid grid-flow-col grid-cols-9 pl-2">
                 <div>{index + 1}</div>
-                <div className="px-2">
+                <div className="col-span-2 px-2">
                   {pt.playerResponseDto.firstName}{' '}
                   {pt.playerResponseDto.lastName}{' '}
                 </div>
@@ -210,6 +214,11 @@ const Replay = () => {
         <div>
           <button className="bg-dgtertiary" onClick={incrementHoleIndex}>
             increment
+          </button>
+        </div>
+        <div>
+          <button className="bg-dgtertiary" onClick={decrementHoleIndex}>
+            decrement
           </button>
         </div>
         <div>
