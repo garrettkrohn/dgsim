@@ -10,8 +10,8 @@ import {
 import ThinDivider from '../../util/ThinDivider';
 
 const Replay = () => {
-  const [roundIndex, setRoundIndex] = useState(0);
-  const [holeIndex, setHoleIndex] = useState(0);
+  const [roundIndex, setRoundIndex] = useState(3);
+  const [holeIndex, setHoleIndex] = useState(14);
 
   const {
     isLoading: tournamentsAreLoading,
@@ -38,10 +38,6 @@ const Replay = () => {
     }
 
     return totalSoFar - parSoFar;
-  };
-
-  const incrementHoleIndex = () => {
-    setHoleIndex(holeIndex + 1);
   };
 
   const compareScore = (
@@ -83,12 +79,37 @@ const Replay = () => {
 
   if (tournamentsError) return <div>An error has occurred</div>;
 
+  const incrementHoleIndex = () => {
+    if (tournamentsData) {
+      if (
+        roundIndex === tournamentsData[0].playerTournaments[0].rounds.length &&
+        holeIndex + 1 ===
+          tournamentsData[0].playerTournaments[0].rounds[roundIndex].holeResults
+            .length
+      ) {
+        console.log('done');
+      } else {
+        if (
+          holeIndex + 1 ===
+          tournamentsData[0].playerTournaments[0].rounds[roundIndex].holeResults
+            .length
+        ) {
+          setHoleIndex(0);
+          setRoundIndex(roundIndex + 1);
+        } else {
+          setHoleIndex(holeIndex + 1);
+        }
+      }
+    }
+  };
+
   if (tournamentsData) {
     tournamentsData[0].playerTournaments.sort(compareScore);
     return (
       <div className="text-dgsoftwhite">
         <div>Replay</div>
         <div>{tournamentsData[0].tournamentName}</div>
+        <div className="text-center">Round: {roundIndex + 1}</div>
         <div className="grid grid-flow-col">
           <div>Place:</div>
           <div>Name:</div>
@@ -157,7 +178,13 @@ const Replay = () => {
           </button>
         </div>
         <div>
-          <button className="bg-dgtertiary" onClick={() => setHoleIndex(0)}>
+          <button
+            className="bg-dgtertiary"
+            onClick={() => {
+              setHoleIndex(0);
+              setRoundIndex(0);
+            }}
+          >
             reset
           </button>
         </div>
