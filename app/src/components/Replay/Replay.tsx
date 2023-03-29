@@ -9,6 +9,7 @@ import {
 } from '../../services/DTOs';
 import ThinDivider from '../../util/ThinDivider';
 import Dropdown from '../../util/Dropdown';
+import Button from '../../util/Button';
 
 const Replay = () => {
   const [roundIndex, setRoundIndex] = useState(0);
@@ -228,16 +229,24 @@ const Replay = () => {
             <ThinDivider />
           </div>
         ))}
-        <div>
-          <button className="bg-dgtertiary" onClick={incrementHoleIndex}>
-            increment
-          </button>
-        </div>
-        <div>
-          <button className="bg-dgtertiary" onClick={decrementHoleIndex}>
-            decrement
-          </button>
-        </div>
+        <Button
+          onClick={incrementHoleIndex}
+          disable={false}
+          label="increment"
+        />
+        <Button
+          onClick={decrementHoleIndex}
+          disable={false}
+          label="decrement"
+        />
+        <Button
+          onClick={() => {
+            setHoleIndex(-1);
+            setRoundIndex(0);
+          }}
+          label="reset"
+          disable={false}
+        />
         <div>
           <button
             className="bg-dgtertiary"
