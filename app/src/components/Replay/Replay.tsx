@@ -28,6 +28,20 @@ const Replay = () => {
     refetch();
   }, []);
 
+  const calculateTournamentTotal = (
+    playerTournament: playerTournamentResource,
+  ) => {
+    let roundTotalSoFar = calculateTotal(playerTournament.rounds[roundIndex]);
+    if (roundIndex > 0) {
+      for (let i = roundIndex; i > 0; i--) {
+        const roundTotal = playerTournament.rounds[i].roundTotal;
+        const roundPar = playerTournament.coursePar;
+        roundTotalSoFar += roundTotal - roundPar;
+      }
+    }
+    return roundTotalSoFar;
+  };
+
   const calculateTotal = (round: roundResource) => {
     let totalSoFar = 0;
     let parSoFar = 0;
@@ -44,10 +58,7 @@ const Replay = () => {
     a: playerTournamentResource,
     b: playerTournamentResource,
   ) => {
-    return (
-      calculateTotal(a.rounds[roundIndex]) -
-      calculateTotal(b.rounds[roundIndex])
-    );
+    return calculateTournamentTotal(a) - calculateTournamentTotal(b);
   };
 
   const generateHoleResultColor = (hole: holeResultResource): string => {
@@ -113,7 +124,8 @@ const Replay = () => {
         <div className="grid grid-flow-col">
           <div>Place:</div>
           <div>Name:</div>
-          <div>Score:</div>
+          <div>Tourny Score:</div>
+          <div>Round Score:</div>
           <div>Hole: {holeIndex - 1 > 0 ? holeIndex - 1 : 'X'}</div>
           <div>Hole: {holeIndex > 0 ? holeIndex : 'X'}</div>
           <div>Hole: {holeIndex + 1}</div>
@@ -126,6 +138,7 @@ const Replay = () => {
               <div className="px-2">
                 {pt.playerResponseDto.firstName} {pt.playerResponseDto.lastName}{' '}
               </div>
+              <div>{calculateTournamentTotal(pt)}</div>
               <div className="px-2">
                 {calculateTotal(pt.rounds[roundIndex])}
               </div>
