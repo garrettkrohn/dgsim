@@ -8,6 +8,7 @@ import {
   roundResource,
 } from '../../services/DTOs';
 import ThinDivider from '../../util/ThinDivider';
+import Dropdown from '../../util/Dropdown';
 
 const Replay = () => {
   const [roundIndex, setRoundIndex] = useState(0);
@@ -133,10 +134,26 @@ const Replay = () => {
     setHoleIndex(holeIndex - 1);
   };
 
+  const selectNewTournament = (index: number) => {
+    setTournamentIndex(index);
+    setHoleIndex(-1);
+    setRoundIndex(0);
+  };
+
   if (tournamentsData) {
     tournamentsData[tournamentIndex].playerTournaments.sort(compareScore);
+    const items = tournamentsData.map(item => {
+      return item.season + ' - ' + item.tournamentName;
+    });
     return (
       <div className="max-w-5xl text-dgsoftwhite">
+        <div className="flex h-16 flex-row justify-evenly bg-dgbackground py-2 text-dgsoftwhite">
+          <Dropdown
+            items={items}
+            setIndex={selectNewTournament}
+            title={'Select Tournament'}
+          />
+        </div>
         <div>Replay</div>
         <div>{tournamentsData[tournamentIndex].tournamentName}</div>
         <div className="text-center">Round: {roundIndex + 1}</div>
