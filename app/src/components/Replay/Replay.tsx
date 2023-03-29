@@ -12,6 +12,7 @@ import ThinDivider from '../../util/ThinDivider';
 const Replay = () => {
   const [roundIndex, setRoundIndex] = useState(3);
   const [holeIndex, setHoleIndex] = useState(14);
+  const [tournamentIndex, setTournamentIndex] = useState(0);
 
   const {
     isLoading: tournamentsAreLoading,
@@ -32,13 +33,29 @@ const Replay = () => {
     playerTournament: playerTournamentResource,
   ) => {
     let roundTotalSoFar = calculateTotal(playerTournament.rounds[roundIndex]);
+    // console.log(playerTournament.playerResponseDto.lastName, roundTotalSoFar);
     if (roundIndex > 0) {
-      for (let i = roundIndex; i > 0; i--) {
-        const roundTotal = playerTournament.rounds[i].roundTotal;
-        const roundPar = playerTournament.coursePar;
-        roundTotalSoFar += roundTotal - roundPar;
+      for (let i = roundIndex - 1; i > -1; i--) {
+        if (playerTournament.rounds[i].roundType === 'tournament') {
+          const roundTotal = playerTournament.rounds[i].roundTotal;
+          const roundPar = playerTournament.coursePar;
+          console.log(roundPar);
+          console.log(
+            playerTournament.playerResponseDto.lastName,
+            playerTournament.rounds[i].roundTotal,
+            playerTournament.rounds[i].roundTotal - playerTournament.coursePar,
+          );
+          // console.log(
+          //   playerTournament.playerResponseDto.lastName,
+          //   roundTotal,
+          //   roundPar,
+          //   roundTotal - roundPar,
+          // );
+          roundTotalSoFar += roundTotal - roundPar;
+        }
       }
     }
+    // console.log(playerTournament.playerResponseDto.lastName, roundTotalSoFar);
     return roundTotalSoFar;
   };
 
@@ -58,6 +75,9 @@ const Replay = () => {
     a: playerTournamentResource,
     b: playerTournamentResource,
   ) => {
+    if (!a.rounds[roundIndex] || !b.rounds[roundIndex]) {
+      return -1;
+    }
     return calculateTournamentTotal(a) - calculateTournamentTotal(b);
   };
 
@@ -93,19 +113,22 @@ const Replay = () => {
   const incrementHoleIndex = () => {
     if (tournamentsData) {
       if (
-        roundIndex === tournamentsData[0].playerTournaments[0].rounds.length &&
+        roundIndex ===
+          tournamentsData[tournamentIndex].playerTournaments[0].rounds.length &&
         holeIndex + 1 ===
-          tournamentsData[0].playerTournaments[0].rounds[roundIndex].holeResults
-            .length
+          tournamentsData[tournamentIndex].playerTournaments[0].rounds[
+            roundIndex
+          ].holeResults.length
       ) {
         console.log('done');
       } else {
         if (
           holeIndex + 1 ===
-          tournamentsData[0].playerTournaments[0].rounds[roundIndex].holeResults
-            .length
+          tournamentsData[tournamentIndex].playerTournaments[0].rounds[
+            roundIndex
+          ].holeResults.length
         ) {
-          setHoleIndex(0);
+          setHoleIndex(-1);
           setRoundIndex(roundIndex + 1);
         } else {
           setHoleIndex(holeIndex + 1);
@@ -115,11 +138,11 @@ const Replay = () => {
   };
 
   if (tournamentsData) {
-    tournamentsData[0].playerTournaments.sort(compareScore);
+    tournamentsData[tournamentIndex].playerTournaments.sort(compareScore);
     return (
       <div className="text-dgsoftwhite">
         <div>Replay</div>
-        <div>{tournamentsData[0].tournamentName}</div>
+        <div>{tournamentsData[tournamentIndex].tournamentName}</div>
         <div className="text-center">Round: {roundIndex + 1}</div>
         <div className="grid grid-flow-col">
           <div>Place:</div>
@@ -131,56 +154,63 @@ const Replay = () => {
           <div>Hole: {holeIndex + 1}</div>
           <div>Through:</div>
         </div>
-        {tournamentsData[0].playerTournaments.map((pt, index) => (
+        {tournamentsData[tournamentIndex].playerTournaments.map((pt, index) => (
           <div key={index} className="py-1">
-            <div className="grid grid-flow-col pl-2">
-              <div>{index + 1}</div>
-              <div className="px-2">
-                {pt.playerResponseDto.firstName} {pt.playerResponseDto.lastName}{' '}
+            {pt.rounds[roundIndex] ? (
+              <div className="grid grid-flow-col pl-2">
+                <div>{index + 1}</div>
+                <div className="px-2">
+                  {pt.playerResponseDto.firstName}{' '}
+                  {pt.playerResponseDto.lastName}{' '}
+                </div>
+                <div>{calculateTournamentTotal(pt)}</div>
+                <div className="px-2">
+                  {calculateTotal(pt.rounds[roundIndex])}
+                </div>
+                <div
+                  className={
+                    'px-2' + pt.rounds[roundIndex].holeResults[holeIndex - 2]
+                      ? generateHoleResultColor(
+                          pt.rounds[roundIndex].holeResults[holeIndex - 2],
+                        )
+                      : ''
+                  }
+                >
+                  {pt.rounds[roundIndex].holeResults[holeIndex - 2]
+                    ? pt.rounds[roundIndex].holeResults[holeIndex - 2].score
+                    : 'X'}
+                </div>
+                <div
+                  className={
+                    'px-2' + pt.rounds[roundIndex].holeResults[holeIndex - 1]
+                      ? generateHoleResultColor(
+                          pt.rounds[roundIndex].holeResults[holeIndex - 1],
+                        )
+                      : ''
+                  }
+                >
+                  {pt.rounds[roundIndex].holeResults[holeIndex - 1]
+                    ? pt.rounds[roundIndex].holeResults[holeIndex - 1].score
+                    : 'X'}
+                </div>
+                <div
+                  className={
+                    'px-2' + pt.rounds[roundIndex].holeResults[holeIndex]
+                      ? generateHoleResultColor(
+                          pt.rounds[roundIndex].holeResults[holeIndex],
+                        )
+                      : 'X'
+                  }
+                >
+                  {pt.rounds[roundIndex].holeResults[holeIndex]
+                    ? pt.rounds[roundIndex].holeResults[holeIndex].score
+                    : 'X'}
+                </div>
+                {holeIndex + 1} holes
               </div>
-              <div>{calculateTournamentTotal(pt)}</div>
-              <div className="px-2">
-                {calculateTotal(pt.rounds[roundIndex])}
-              </div>
-              <div
-                className={
-                  'px-2' + pt.rounds[roundIndex].holeResults[holeIndex - 2]
-                    ? generateHoleResultColor(
-                        pt.rounds[roundIndex].holeResults[holeIndex - 2],
-                      )
-                    : ''
-                }
-              >
-                {pt.rounds[roundIndex].holeResults[holeIndex - 2]
-                  ? pt.rounds[roundIndex].holeResults[holeIndex - 2].score
-                  : 'X'}
-              </div>
-              <div
-                className={
-                  'px-2' + pt.rounds[roundIndex].holeResults[holeIndex - 1]
-                    ? generateHoleResultColor(
-                        pt.rounds[roundIndex].holeResults[holeIndex - 1],
-                      )
-                    : ''
-                }
-              >
-                {pt.rounds[roundIndex].holeResults[holeIndex - 1]
-                  ? pt.rounds[roundIndex].holeResults[holeIndex - 1].score
-                  : 'X'}
-              </div>
-              <div
-                className={
-                  'px-2' + pt.rounds[roundIndex].holeResults[holeIndex]
-                    ? generateHoleResultColor(
-                        pt.rounds[roundIndex].holeResults[holeIndex],
-                      )
-                    : ''
-                }
-              >
-                {pt.rounds[roundIndex].holeResults[holeIndex].score}
-              </div>
-              {holeIndex + 1} holes
-            </div>
+            ) : (
+              ''
+            )}
 
             <ThinDivider />
           </div>
@@ -194,7 +224,7 @@ const Replay = () => {
           <button
             className="bg-dgtertiary"
             onClick={() => {
-              setHoleIndex(0);
+              setHoleIndex(-1);
               setRoundIndex(0);
             }}
           >
