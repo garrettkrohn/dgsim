@@ -10,11 +10,13 @@ import {
 import ThinDivider from '../../util/ThinDivider';
 import Dropdown from '../../util/Dropdown';
 import Button from '../../util/Button';
+import TournamentTemplate from '../tournaments/TournamentTemplate';
 
 const Replay = () => {
   const [roundIndex, setRoundIndex] = useState(0);
   const [holeIndex, setHoleIndex] = useState(-1);
   const [tournamentIndex, setTournamentIndex] = useState(2);
+  const [tournamentComplete, setTournamentComplete] = useState(false);
 
   const {
     isLoading: tournamentsAreLoading,
@@ -108,13 +110,14 @@ const Replay = () => {
     if (tournamentsData) {
       if (
         roundIndex ===
-          tournamentsData[tournamentIndex].playerTournaments[0].rounds.length &&
+          tournamentsData[tournamentIndex].playerTournaments[0].rounds.length -
+            1 &&
         holeIndex + 1 ===
           tournamentsData[tournamentIndex].playerTournaments[0].rounds[
             roundIndex
           ].holeResults.length
       ) {
-        console.log('done');
+        setTournamentComplete(true);
       } else {
         if (
           holeIndex + 1 ===
@@ -163,6 +166,20 @@ const Replay = () => {
     const items = tournamentsData.map(item => {
       return item.season + ' - ' + item.tournamentName;
     });
+
+    if (tournamentComplete) {
+      return (
+        <div>
+          <TournamentTemplate tournament={tournamentsData[tournamentIndex]} />
+          <Button
+            label="back to replay"
+            onClick={() => setTournamentComplete(false)}
+            disable={false}
+          />
+        </div>
+      );
+    }
+
     return (
       <div className="max-w-5xl text-dgsoftwhite">
         <div className="flex h-16 flex-row justify-evenly bg-dgbackground py-2 text-dgsoftwhite">
@@ -267,6 +284,11 @@ const Replay = () => {
         <Button
           onClick={() => console.log(roundIndex, holeIndex)}
           label="log indexes"
+          disable={false}
+        />
+        <Button
+          onClick={() => setTournamentComplete(true)}
+          label="tournament complete"
           disable={false}
         />
       </div>
