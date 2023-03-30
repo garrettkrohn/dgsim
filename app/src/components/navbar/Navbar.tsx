@@ -8,6 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from '@tanstack/react-router';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createOrGetUser, getUser } from '../../services/UserApi';
+import UserIcon from './UserIcon';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -58,7 +59,8 @@ const Navbar = () => {
           ))}
         </div>
         <div className="p-4">Disc Golf Sim League</div>
-        {mutatedUser ? 'user' : 'no user'}
+        {mutatedUser ? <UserIcon user={mutatedUser} /> : ''}
+
         {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </div>
     </div>
