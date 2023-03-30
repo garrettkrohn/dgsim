@@ -132,7 +132,24 @@ const Replay = () => {
   };
 
   const decrementHoleIndex = () => {
-    setHoleIndex(holeIndex - 1);
+    if (tournamentsData) {
+      if (roundIndex === 0 && holeIndex === -1) {
+        setHoleIndex(-1);
+        console.log(roundIndex, holeIndex, 'too low');
+      } else {
+        if (holeIndex === -1 && roundIndex !== 0) {
+          setRoundIndex(roundIndex - 1);
+          setHoleIndex(
+            tournamentsData[tournamentIndex].playerTournaments[0].rounds[0]
+              .holeResults.length - 1,
+          );
+        } else {
+          console.log('run');
+          setHoleIndex(holeIndex - 1);
+        }
+      }
+    }
+    // setHoleIndex(holeIndex - 1);
   };
 
   const selectNewTournament = (index: number) => {
@@ -247,17 +264,11 @@ const Replay = () => {
           label="reset"
           disable={false}
         />
-        <div>
-          <button
-            className="bg-dgtertiary"
-            onClick={() => {
-              setHoleIndex(-1);
-              setRoundIndex(0);
-            }}
-          >
-            reset
-          </button>
-        </div>
+        <Button
+          onClick={() => console.log(roundIndex, holeIndex)}
+          label="log indexes"
+          disable={false}
+        />
       </div>
     );
   }
