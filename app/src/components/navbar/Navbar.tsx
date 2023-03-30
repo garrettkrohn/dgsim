@@ -60,7 +60,6 @@ const Navbar = () => {
         </div>
         <div className="p-4">Disc Golf Sim League</div>
         {mutatedUser ? <UserIcon user={mutatedUser} /> : ''}
-
         {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </div>
     </div>
