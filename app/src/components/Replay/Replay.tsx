@@ -284,6 +284,7 @@ const Replay = () => {
       </div>
     );
   }
+  return <div></div>;
 };
 
 export default Replay;
