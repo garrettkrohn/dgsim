@@ -7,7 +7,7 @@ const Button = (props: {
 }) => {
   // @ts-ignore
   return (
-    <div className="flex justify-center py-1">
+    <div className="flex justify-center py-1 px-2">
       <button
         className="rounded-md bg-dgtertiary py-2 px-5 text-dgsoftwhite disabled:bg-opacity-10 disabled:text-opacity-10"
         onClick={() => props.onClick()}
