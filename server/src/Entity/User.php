@@ -27,6 +27,12 @@ class User
     #[ORM\Column]
     private string $auth0;
 
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $mainColorHex = null;
+
+    #[ORM\Column(length: 6, nullable: true)]
+    private ?string $textColorHex = null;
+
     public function __construct()
     {
         $this->player = new ArrayCollection();
@@ -93,6 +99,30 @@ class User
     public function setAuth0(string $auth0): void
     {
         $this->auth0 = $auth0;
+    }
+
+    public function getMainColorHex(): ?string
+    {
+        return $this->mainColorHex;
+    }
+
+    public function setMainColorHex(?string $mainColorHex): self
+    {
+        $this->mainColorHex = $mainColorHex;
+
+        return $this;
+    }
+
+    public function getTextColorHex(): ?string
+    {
+        return $this->textColorHex;
+    }
+
+    public function setTextColorHex(?string $textColorHex): self
+    {
+        $this->textColorHex = $textColorHex;
+
+        return $this;
     }
 
 }
