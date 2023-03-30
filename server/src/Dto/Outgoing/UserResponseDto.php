@@ -25,6 +25,48 @@ class UserResponseDto
 
     public PlayerDto $player;
 
+    #[NotNull]
+    #[Type('string')]
+    public string $mainColorHex;
+
+    #[NotNull]
+    #[Type('string')]
+    public string $textColorHex;
+
+    /**
+     * @return string
+     */
+    public function getMainColorHex(): string
+    {
+        return $this->mainColorHex;
+    }
+
+    /**
+     * @param string $mainColorHex
+     */
+    public function setMainColorHex(string $mainColorHex): void
+    {
+        $this->mainColorHex = $mainColorHex;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextColorHex(): string
+    {
+        return $this->textColorHex;
+    }
+
+    /**
+     * @param string $textColorHex
+     */
+    public function setTextColorHex(string $textColorHex): void
+    {
+        $this->textColorHex = $textColorHex;
+    }
+
+
+
     /**
      * @return PlayerDto
      */

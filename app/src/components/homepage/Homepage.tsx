@@ -8,7 +8,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
-import { createOrGetUser } from '../../services/UserApi';
+import { createOrGetUser, getUser } from '../../services/UserApi';
 import { getPlayerByAuth } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
@@ -49,10 +49,23 @@ function Homepage() {
     enabled: false,
   });
 
+  const {
+    isLoading: userIsLoading,
+    error: userError,
+    data: userData,
+    refetch: refetchUser,
+  } = useQuery({
+    queryKey: [`user`],
+    //@ts-ignore
+    queryFn: () => getUser({ Auth0: user.sub }),
+    enabled: false,
+  });
+
   useEffect(() => {
     refetchStandings();
     refetchTournaments();
-  }, [refetchStandings, refetchTournaments]);
+    refetchUser();
+  }, [refetchStandings, refetchTournaments, refetchUser]);
 
   useEffect(() => {
     if (user) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import MobileMenu from './MobileMenu';
 import menuItems from '../../constants/MenuItems';
@@ -6,6 +6,8 @@ import LoginButton from '../../util/LoginButton';
 import LogoutButton from '../../util/LogoutButton';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { getUser } from '../../services/UserApi';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -15,6 +17,22 @@ const Navbar = () => {
   };
 
   const { user, isAuthenticated } = useAuth0();
+
+  const {
+    isLoading: userIsLoading,
+    error: userError,
+    data: userData,
+    refetch: refetchUser,
+  } = useQuery({
+    queryKey: [`user`],
+    //@ts-ignore
+    queryFn: () => getUser({ Auth0: user.sub }),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    refetchUser();
+  }, [refetchUser]);
 
   return (
     <div className="bg-dgblack px-5 font-main uppercase text-dgsoftwhite">
@@ -37,6 +55,7 @@ const Navbar = () => {
           ))}
         </div>
         <div className="p-4">Disc Golf Sim League</div>
+        {userData ? 'user' : 'no user'}
         {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </div>
     </div>

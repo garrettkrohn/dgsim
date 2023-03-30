@@ -80,6 +80,10 @@ class UserService extends AbstractMultiTransformer
         $dto->setUserId($object->getUserId());
         $dto->setAuth0($object->getAuth0());
         $dto->setRole($role);
+        if ($object->getMainColorHex() && $object->getTextColorHex()) {
+            $dto->setMainColorHex($object->getMainColorHex());
+            $dto->setTextColorHex($object->getTextColorHex());
+        }
         return $dto;
     }
 
@@ -96,6 +100,12 @@ class UserService extends AbstractMultiTransformer
     public function getUserByAuth0(string $auth0): User
     {
         return $this->userRepository->findOneBy(['auth0' => $auth0]);
+    }
+
+    public function getUserResponseByAuth0(string $auth0): UserResponseDto
+    {
+        $user = $this->userRepository->findOneBy(['auth0' => $auth0]);
+        return $this->transformFromObject($user);
     }
 
 }

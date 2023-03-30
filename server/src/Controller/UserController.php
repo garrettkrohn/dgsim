@@ -52,16 +52,22 @@ class UserController extends ApiController
         return new JsonResponse($response);
     }
 
-    #[Route('/api/users/{id}', methods: ['GET'])]
-    public function getUserById(int $id): Response
-    {
-        return $this->json($this->userService->getUserDtoById($id));
-    }
+//    #[Route('/api/users/{id}', methods: ['GET'])]
+//    public function getUserById(int $id): Response
+//    {
+//        return $this->json($this->userService->getUserDtoById($id));
+//    }
 
     #[Route('/api/users/{id}', methods: ['DELETE'])]
     public function deleteUserById(int $id): Response
     {
         return $this->json($this->userService->deleteUser($id));
+    }
+
+    #[Route('api/users/{auth0}', methods: ('GET'))]
+    public function getUserByAuth(string $auth0): Response
+    {
+        return $this->json($this->userService->getUserResponseByAuth0($auth0));
     }
 
 }
