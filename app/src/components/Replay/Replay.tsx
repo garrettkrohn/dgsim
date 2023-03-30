@@ -42,12 +42,6 @@ const Replay = () => {
         if (playerTournament.rounds[i].roundType === 'tournament') {
           const roundTotal = playerTournament.rounds[i].roundTotal;
           const roundPar = playerTournament.coursePar;
-          console.log(roundPar);
-          console.log(
-            playerTournament.playerResponseDto.lastName,
-            playerTournament.rounds[i].roundTotal,
-            playerTournament.rounds[i].roundTotal - playerTournament.coursePar,
-          );
           roundTotalSoFar += roundTotal - roundPar;
         }
       }
@@ -181,116 +175,114 @@ const Replay = () => {
     }
 
     return (
-      <div className="max-w-5xl text-dgsoftwhite">
-        <div className="flex h-16 flex-row justify-evenly bg-dgbackground py-2 text-dgsoftwhite">
-          <Dropdown
-            items={items}
-            setIndex={selectNewTournament}
-            title={'Select Tournament'}
-          />
-        </div>
-        <div>Replay</div>
-        <div>{tournamentsData[tournamentIndex].tournamentName}</div>
-        <div className="text-center">Round: {roundIndex + 1}</div>
-        <div className="grid grid-flow-col grid-cols-9 text-center">
-          <div>Place:</div>
-          <div className="col-span-2">Name:</div>
-          <div>Tourny Score:</div>
-          <div>Round Score:</div>
-          <div>Hole: {holeIndex - 1 > 0 ? holeIndex - 1 : 'X'}</div>
-          <div>Hole: {holeIndex > 0 ? holeIndex : 'X'}</div>
-          <div>Hole: {holeIndex + 1}</div>
-          <div>Through:</div>
-        </div>
-        {tournamentsData[tournamentIndex].playerTournaments.map((pt, index) => (
-          <div key={index} className="py-1 text-center">
-            {pt.rounds[roundIndex] ? (
-              <div className="grid grid-flow-col grid-cols-9 pl-2">
-                <div>{index + 1}</div>
-                <div className="col-span-2 px-2">
-                  {pt.playerResponseDto.firstName}{' '}
-                  {pt.playerResponseDto.lastName}{' '}
-                </div>
-                <div>{calculateTournamentTotal(pt)}</div>
-                <div className="px-2">
-                  {calculateTotal(pt.rounds[roundIndex])}
-                </div>
-                <div
-                  className={
-                    'px-2' + pt.rounds[roundIndex].holeResults[holeIndex - 2]
-                      ? generateHoleResultColor(
-                          pt.rounds[roundIndex].holeResults[holeIndex - 2],
-                        )
-                      : ''
-                  }
-                >
-                  {pt.rounds[roundIndex].holeResults[holeIndex - 2]
-                    ? pt.rounds[roundIndex].holeResults[holeIndex - 2].score
-                    : 'X'}
-                </div>
-                <div
-                  className={
-                    'px-2' + pt.rounds[roundIndex].holeResults[holeIndex - 1]
-                      ? generateHoleResultColor(
-                          pt.rounds[roundIndex].holeResults[holeIndex - 1],
-                        )
-                      : ''
-                  }
-                >
-                  {pt.rounds[roundIndex].holeResults[holeIndex - 1]
-                    ? pt.rounds[roundIndex].holeResults[holeIndex - 1].score
-                    : 'X'}
-                </div>
-                <div
-                  className={
-                    'px-2' + pt.rounds[roundIndex].holeResults[holeIndex]
-                      ? generateHoleResultColor(
-                          pt.rounds[roundIndex].holeResults[holeIndex],
-                        )
-                      : 'X'
-                  }
-                >
-                  {pt.rounds[roundIndex].holeResults[holeIndex]
-                    ? pt.rounds[roundIndex].holeResults[holeIndex].score
-                    : 'X'}
-                </div>
-                {holeIndex + 1} holes
-              </div>
-            ) : (
-              ''
-            )}
-
-            <ThinDivider />
+      <div className="flex justify-center">
+        <div className="max-w-5xl text-dgsoftwhite ">
+          <div className="flex h-16 flex-row justify-evenly bg-dgbackground py-2 text-dgsoftwhite">
+            <Dropdown
+              items={items}
+              setIndex={selectNewTournament}
+              title={'Select Tournament'}
+            />
           </div>
-        ))}
-        <Button
-          onClick={incrementHoleIndex}
-          disable={false}
-          label="increment"
-        />
-        <Button
-          onClick={decrementHoleIndex}
-          disable={false}
-          label="decrement"
-        />
-        <Button
-          onClick={() => {
-            setHoleIndex(-1);
-            setRoundIndex(0);
-          }}
-          label="reset"
-          disable={false}
-        />
-        <Button
-          onClick={() => console.log(roundIndex, holeIndex)}
-          label="log indexes"
-          disable={false}
-        />
-        <Button
-          onClick={() => setTournamentComplete(true)}
-          label="tournament complete"
-          disable={false}
-        />
+          <div>Replay</div>
+          <div>{tournamentsData[tournamentIndex].tournamentName}</div>
+          <div className="text-center">Round: {roundIndex + 1}</div>
+          <div className="grid grid-flow-col grid-cols-9 text-center">
+            <div>Place:</div>
+            <div className="col-span-2">Name:</div>
+            <div>Tourny Score:</div>
+            <div>Round Score:</div>
+            <div>Hole: {holeIndex - 1 > 0 ? holeIndex - 1 : 'X'}</div>
+            <div>Hole: {holeIndex > 0 ? holeIndex : 'X'}</div>
+            <div>Hole: {holeIndex + 1}</div>
+            <div>Through:</div>
+          </div>
+          {tournamentsData[tournamentIndex].playerTournaments.map(
+            (pt, index) => (
+              <div key={index} className="py-1 text-center">
+                {pt.rounds[roundIndex] ? (
+                  <div className="grid grid-flow-col grid-cols-9 pl-2">
+                    <div>{index + 1}</div>
+                    <div className="col-span-2 px-2">
+                      {pt.playerResponseDto.firstName}{' '}
+                      {pt.playerResponseDto.lastName}{' '}
+                    </div>
+                    <div>{calculateTournamentTotal(pt)}</div>
+                    <div className="px-2">
+                      {calculateTotal(pt.rounds[roundIndex])}
+                    </div>
+                    <div
+                      className={
+                        'px-2' +
+                        pt.rounds[roundIndex].holeResults[holeIndex - 2]
+                          ? generateHoleResultColor(
+                              pt.rounds[roundIndex].holeResults[holeIndex - 2],
+                            )
+                          : ''
+                      }
+                    >
+                      {pt.rounds[roundIndex].holeResults[holeIndex - 2]
+                        ? pt.rounds[roundIndex].holeResults[holeIndex - 2].score
+                        : 'X'}
+                    </div>
+                    <div
+                      className={
+                        'px-2' +
+                        pt.rounds[roundIndex].holeResults[holeIndex - 1]
+                          ? generateHoleResultColor(
+                              pt.rounds[roundIndex].holeResults[holeIndex - 1],
+                            )
+                          : ''
+                      }
+                    >
+                      {pt.rounds[roundIndex].holeResults[holeIndex - 1]
+                        ? pt.rounds[roundIndex].holeResults[holeIndex - 1].score
+                        : 'X'}
+                    </div>
+                    <div
+                      className={
+                        'px-2' + pt.rounds[roundIndex].holeResults[holeIndex]
+                          ? generateHoleResultColor(
+                              pt.rounds[roundIndex].holeResults[holeIndex],
+                            )
+                          : 'X'
+                      }
+                    >
+                      {pt.rounds[roundIndex].holeResults[holeIndex]
+                        ? pt.rounds[roundIndex].holeResults[holeIndex].score
+                        : 'X'}
+                    </div>
+                    {holeIndex + 1} holes
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                <ThinDivider />
+              </div>
+            ),
+          )}
+          <div className="flex flex-row justify-center">
+            <Button
+              onClick={decrementHoleIndex}
+              disable={false}
+              label="Rewind"
+            />
+            <Button
+              onClick={() => {
+                setHoleIndex(-1);
+                setRoundIndex(0);
+              }}
+              label="Reset"
+              disable={false}
+            />
+            <Button
+              onClick={incrementHoleIndex}
+              disable={false}
+              label="Simulate Hole"
+            />
+          </div>
+        </div>
       </div>
     );
   }
