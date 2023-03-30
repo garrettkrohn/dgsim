@@ -73,7 +73,7 @@ function Homepage() {
     }
   }, [refetchPlayer, user]);
 
-  const createOrGetUserCall: any = useMutation({
+  const { data: mutatedUser, mutate } = useMutation({
     mutationFn: () =>
       createOrGetUser({
         // @ts-ignore
@@ -88,7 +88,7 @@ function Homepage() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      createOrGetUserCall.mutate();
+      mutate();
     }
   }, [isAuthenticated, user]);
 

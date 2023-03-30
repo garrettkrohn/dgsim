@@ -6,8 +6,8 @@ import LoginButton from '../../util/LoginButton';
 import LogoutButton from '../../util/LogoutButton';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
-import { getUser } from '../../services/UserApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { createOrGetUser, getUser } from '../../services/UserApi';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -18,21 +18,24 @@ const Navbar = () => {
 
   const { user, isAuthenticated } = useAuth0();
 
-  const {
-    isLoading: userIsLoading,
-    error: userError,
-    data: userData,
-    refetch: refetchUser,
-  } = useQuery({
-    queryKey: [`user`],
-    //@ts-ignore
-    queryFn: () => getUser({ Auth0: user.sub }),
-    enabled: false,
+  const { data: mutatedUser, mutate } = useMutation({
+    mutationFn: () =>
+      createOrGetUser({
+        // @ts-ignore
+        Auth0: user.sub,
+      }),
+    onMutate: () => console.log('mutate'),
+    onError: (err, variables, context) => {
+      console.log(err, variables, context);
+    },
+    onSettled: () => console.log('complete'),
   });
 
   useEffect(() => {
-    refetchUser();
-  }, [refetchUser]);
+    if (isAuthenticated && user) {
+      mutate();
+    }
+  }, [isAuthenticated, user]);
 
   return (
     <div className="bg-dgblack px-5 font-main uppercase text-dgsoftwhite">
@@ -55,7 +58,7 @@ const Navbar = () => {
           ))}
         </div>
         <div className="p-4">Disc Golf Sim League</div>
-        {userData ? 'user' : 'no user'}
+        {mutatedUser ? 'user' : 'no user'}
         {isAuthenticated ? <LogoutButton /> : <LoginButton />}
       </div>
     </div>

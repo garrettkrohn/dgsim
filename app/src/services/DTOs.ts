@@ -147,8 +147,9 @@ export interface userResource {
     role_id: 2;
     name: string;
   };
-  email: string;
   auth0: string;
+  mainColorHex: string;
+  textColorHex: string;
 }
 
 export interface getUserByAuthParams {
