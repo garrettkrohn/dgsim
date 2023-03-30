@@ -20,8 +20,6 @@ function Admin() {
 
   const { isAuthenticated, user } = useAuth0();
 
-  console.log(user);
-
   const toggleButton = () => {
     setDisableButton(!disableButton);
   };
