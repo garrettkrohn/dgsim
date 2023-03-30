@@ -20,8 +20,6 @@ function Admin() {
 
   const { isAuthenticated, user } = useAuth0();
 
-  console.log(user);
-
   const toggleButton = () => {
     setDisableButton(!disableButton);
   };
@@ -120,7 +118,7 @@ function Admin() {
           <div className="text-center">Create Tournament</div>
         </WrapperBlock>
         <form className="text-dgsoftwhite">
-          <div className="flex justify-between py-1">
+          <div className="flex justify-center py-1">
             <label>Tournament Name:</label>
             <input
               type="text"
@@ -133,7 +131,7 @@ function Admin() {
               onBlur={tournamentBlur}
             />
           </div>
-          <div className="flex justify-between py-1">
+          <div className="flex justify-center py-1">
             <label>Season Number:</label>
             <input
               className={`rounded px-3 text-black ${
@@ -146,7 +144,7 @@ function Admin() {
               onBlur={seasonNumberBlur}
             />
           </div>
-          <div className="flex justify-between py-1">
+          <div className="flex justify-center py-1">
             <label>Number of Rounds:</label>
             <input
               className={`rounded px-3 text-black ${
@@ -159,7 +157,7 @@ function Admin() {
               onBlur={numberOfRoundsBlur}
             />
           </div>
-          <div className="flex justify-between py-1">
+          <div className="flex justify-center py-1">
             <div>Select a Course:</div>
             {coursesAreLoading ? <Loading /> : ''}
             {coursesError ? <div>ope, there was an error</div> : ''}

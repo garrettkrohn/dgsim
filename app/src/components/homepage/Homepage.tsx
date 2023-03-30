@@ -12,6 +12,8 @@ import { createOrGetUser } from '../../services/UserApi';
 import { getPlayerByAuth } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
+import Button from '../../util/Button';
+import { Link } from '@tanstack/react-router';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -113,6 +115,24 @@ function Homepage() {
         ''
       )}
       <LastTournamentBlock />
+      {user?.sub === 'google-oauth2|115993548271312276661' ? (
+        <div>
+          <Link
+            to={'/admin'}
+            search={{}}
+            params={{}}
+            onError={() => console.log('error')}
+          >
+            <Button
+              disable={false}
+              onClick={() => console.log('clicked')}
+              label="Admin Page"
+            />
+          </Link>
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   );
 }
