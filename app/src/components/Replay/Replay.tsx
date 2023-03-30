@@ -132,7 +132,6 @@ const Replay = () => {
     if (tournamentsData) {
       if (roundIndex === 0 && holeIndex === -1) {
         setHoleIndex(-1);
-        console.log(roundIndex, holeIndex, 'too low');
       } else {
         if (holeIndex === -1 && roundIndex !== 0) {
           setRoundIndex(roundIndex - 1);
@@ -141,7 +140,6 @@ const Replay = () => {
               .holeResults.length - 1,
           );
         } else {
-          console.log('run');
           setHoleIndex(holeIndex - 1);
         }
       }
