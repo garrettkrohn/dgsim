@@ -8,7 +8,11 @@ import {
 export async function getTournament(
   tournamentId: number,
 ): Promise<tournamentResource> {
-  return await fetch(`http://localhost:8000/api/tournaments/${tournamentId}`, {
+  const url = `${
+    import.meta.env.VITE_BACK_END_URL
+  }/api/tournaments/${tournamentId}`;
+
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -26,7 +30,8 @@ export async function getTournament(
 }
 
 export async function getAllTournaments(): Promise<tournamentResource[]> {
-  return await fetch(`http://localhost:8000/api/tournaments`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/tournaments`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
