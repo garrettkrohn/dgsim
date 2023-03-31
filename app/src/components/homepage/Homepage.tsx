@@ -14,6 +14,7 @@ import Loading from '../../util/Loading';
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
 import Button from '../../util/Button';
 import { Link } from '@tanstack/react-router';
+import Error from '../../util/Error';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -92,7 +93,7 @@ function Homepage() {
   }
 
   if (playerError) {
-    return <div>Ope, there was an error</div>;
+    return <Error />;
   }
 
   if (!playerData) {

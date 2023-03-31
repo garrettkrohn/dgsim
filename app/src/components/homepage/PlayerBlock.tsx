@@ -16,6 +16,7 @@ import {
   updateThrowAccuracyAtom,
   updateThrowPowerAtom,
 } from '../../jotai/Atoms';
+import Error from '../../util/Error';
 
 const PlayerBlock = () => {
   const { user } = useAuth0();
@@ -54,7 +55,7 @@ const PlayerBlock = () => {
       </div>
     );
 
-  if (playerError) return <div>An error has occurred</div>;
+  if (playerError) return <Error />;
 
   if (playerData) {
     if (putt === -1) {
