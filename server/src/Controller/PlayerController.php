@@ -106,10 +106,10 @@ class PlayerController extends ApiController
         return $this->json($this->archetypeService->getAllArchetypes());
     }
 
-    #[Route('api/replenish', methods: ('GET'))]
-    public function replenishBank(): Response
+    #[Route('api/replenish/{num}', methods: ('GET'))]
+    public function replenishBank(int $num): Response
     {
-        return $this->json($this->playerService->replenishBank());
+        return $this->json($this->playerService->replenishBank($num));
     }
 
 }
