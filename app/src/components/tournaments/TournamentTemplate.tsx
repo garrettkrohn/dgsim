@@ -5,6 +5,7 @@ import {
   playerTournamentResource,
   tournamentResource,
 } from '../../services/DTOs';
+import Error from '../../util/Error';
 
 const TournamentTemplate = (props: {
   tournament: tournamentResource | undefined;
@@ -19,7 +20,7 @@ const TournamentTemplate = (props: {
   }
 
   if (!props.tournament) {
-    return <div>ope, there was an error</div>;
+    return <Error />;
   }
 
   const playerTournaments = props.tournament.playerTournaments;

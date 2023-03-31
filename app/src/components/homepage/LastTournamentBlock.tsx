@@ -9,6 +9,7 @@ import TournamentRow from '../tournaments/TournamentRow';
 import ThinDivider from '../../util/ThinDivider';
 import WrapperBlock from '../../util/WrapperBlock';
 import { useAuth0 } from '@auth0/auth0-react';
+import Error from '../../util/Error';
 
 const LastTournamentBlock = () => {
   const { user } = useAuth0();
@@ -36,7 +37,7 @@ const LastTournamentBlock = () => {
       </div>
     );
 
-  if (playerTournamentrror) return <div>An error has occurred</div>;
+  if (playerTournamentrror) return <Error />;
 
   if (!playerTournamentData) {
     return (

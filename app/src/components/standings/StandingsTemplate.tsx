@@ -3,12 +3,13 @@ import { allSeasonStandings } from '../../services/DTOs';
 import Divider from '../../util/Divider';
 import StandingsRow from './StandingsRow';
 import ThinDivider from '../../util/ThinDivider';
+import Error from '../../util/Error';
 
 const StandingsTemplate = (props: {
   allSeasonStandings: allSeasonStandings | undefined;
 }) => {
   if (!props.allSeasonStandings) {
-    return <div>ope, there was an error</div>;
+    return <Error />;
   }
 
   return (

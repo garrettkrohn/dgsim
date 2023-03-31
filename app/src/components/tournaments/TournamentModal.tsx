@@ -1,6 +1,7 @@
 import React from 'react';
 import ThinDivider from '../../util/ThinDivider';
 import { tournamentResource } from '../../services/DTOs';
+import Error from '../../util/Error';
 
 /**Iterative reusable modal component
  *
@@ -15,7 +16,7 @@ const TournamentModal = (props: {
   selectItem: Function;
 }) => {
   if (!props.items) {
-    return <div>ope, there was an error</div>;
+    return <Error />;
   }
 
   return (

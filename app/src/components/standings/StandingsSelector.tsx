@@ -9,6 +9,7 @@ import StandingsModal from './StandingsModal';
 import Dropdown from '../../util/Dropdown';
 import { Simulate } from 'react-dom/test-utils';
 import select = Simulate.select;
+import Error from '../../util/Error';
 
 const StandingsSelector = () => {
   const [seasonNumber, setSeasonNumber] = useState(1);
@@ -39,7 +40,7 @@ const StandingsSelector = () => {
   }
 
   if (standingsError) {
-    return <div>ope, something went wrong</div>;
+    return <Error />;
   }
 
   if (standingsData) {

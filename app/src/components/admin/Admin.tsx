@@ -13,6 +13,7 @@ import useInput from '../../hooks/useInput';
 import { createTournament } from '../../services/tournamentsApi';
 import { getPlayerByAuth } from '../../services/PlayerApi';
 import { useAuth0 } from '@auth0/auth0-react';
+import Error from '../../util/Error';
 
 function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
@@ -94,7 +95,7 @@ function Admin() {
   }
 
   if (coursesError) {
-    return <div>ope, there was an error</div>;
+    return <Error />;
   }
 
   if (user?.sub !== 'google-oauth2|115993548271312276661') {

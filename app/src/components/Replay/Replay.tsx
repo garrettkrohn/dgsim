@@ -11,6 +11,7 @@ import ThinDivider from '../../util/ThinDivider';
 import Dropdown from '../../util/Dropdown';
 import Button from '../../util/Button';
 import TournamentTemplate from '../tournaments/TournamentTemplate';
+import Error from '../../util/Error';
 
 const Replay = () => {
   const [roundIndex, setRoundIndex] = useState(0);
@@ -98,7 +99,7 @@ const Replay = () => {
 
   if (tournamentsAreLoading) return <Loading />;
 
-  if (tournamentsError) return <div>An error has occurred</div>;
+  if (tournamentsError) return <Error />;
 
   const incrementHoleIndex = () => {
     if (tournamentsData) {
