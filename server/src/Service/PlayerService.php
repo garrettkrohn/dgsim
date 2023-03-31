@@ -162,6 +162,18 @@ class PlayerService extends AbstractMultiTransformer
         return $allPlayersConverted;
     }
 
+    public function replenishBank(): iterable
+    {
+        /** @var Player[] $players */
+        $players = $this->getAllActivePlayerEntities();
+        foreach ($players as $player) {
+            $player->setBankedSkillPoints($player->getBankedSkillPoints() + 30);
+            $this->entityManager->persist($player);
+        }
+        $this->entityManager->flush();
+        return $this->transformFromObjects($players);
+    }
+
     /**
      * @param Player $object
      * @return PlayerDto

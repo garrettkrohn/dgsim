@@ -11,6 +11,7 @@ use App\Repository\PlayerRepository;
 use App\Repository\PlayerUpdateLogsRepository;
 use App\Service\Simulation\PlayerIngester;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class PlayerUpdateService extends PlayerService
 {
