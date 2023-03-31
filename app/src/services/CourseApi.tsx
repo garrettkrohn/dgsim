@@ -1,7 +1,8 @@
 import { coursesNamesResource } from './DTOs';
 
 export async function getAllCourseNames(): Promise<coursesNamesResource[]> {
-  return await fetch(`http://localhost:8000/api/courses/names`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/courses/names`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },

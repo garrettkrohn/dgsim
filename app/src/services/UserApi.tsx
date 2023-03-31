@@ -3,7 +3,8 @@ import { createOrGetUserParams, userResource } from './DTOs';
 export async function createOrGetUser(
   params: createOrGetUserParams,
 ): Promise<userResource> {
-  return await fetch(`http://localhost:8000/api/users`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/users`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
