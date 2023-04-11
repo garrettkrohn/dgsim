@@ -80,6 +80,10 @@ class UserService extends AbstractMultiTransformer
         $dto->setUserId($object->getUserId());
         $dto->setAuth0($object->getAuth0());
         $dto->setRole($role);
+        $dto->setBackgroundColor($object->getBackgroundColor());
+        $dto->setForegroundColor($object->getForegroundColor());
+        $dto->setAvatarBackgroundColor($object->getAvatarBackgroundColor());
+        $dto->setAvatarTextColor($object->getAvatarTextColor());
         return $dto;
     }
 
