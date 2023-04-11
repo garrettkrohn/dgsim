@@ -8,7 +8,11 @@ import {
 export async function getTournament(
   tournamentId: number,
 ): Promise<tournamentResource> {
-  return await fetch(`http://localhost:8000/api/tournaments/${tournamentId}`, {
+  const url = `${
+    import.meta.env.VITE_BACK_END_URL
+  }/api/tournaments/${tournamentId}`;
+
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -26,7 +30,8 @@ export async function getTournament(
 }
 
 export async function getAllTournaments(): Promise<tournamentResource[]> {
-  return await fetch(`http://localhost:8000/api/tournaments`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/tournaments`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -44,7 +49,8 @@ export async function getAllTournaments(): Promise<tournamentResource[]> {
 }
 
 export async function getSeasons(): Promise<number[]> {
-  return await fetch(`http://localhost:8000/api/seasons`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/seasons`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -64,15 +70,15 @@ export async function getSeasons(): Promise<number[]> {
 export async function getTournamentBySeason(
   seasonNumber: number,
 ): Promise<tournamentResource[]> {
-  return await fetch(
-    `http://localhost:8000/api/tournaments/seasons/${seasonNumber}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET',
+  const url = `${
+    import.meta.env.VITE_BACK_END_URL
+  }/api/seasons/${seasonNumber}`;
+  return await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+    method: 'GET',
+  })
     .then(response => response.json())
     .then((data: tournamentResource[]) => {
       console.log('Success:', data);
@@ -87,15 +93,15 @@ export async function getTournamentBySeason(
 export async function getTournamentTitles(
   seasonNumber: number,
 ): Promise<tournamentTitleResource[]> {
-  return await fetch(
-    `http://localhost:8000/api/tournaments/titles/${seasonNumber}`,
-    {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'GET',
+  const url = `${
+    import.meta.env.VITE_BACK_END_URL
+  }/api/tournaments/titles/${seasonNumber}`;
+  return await fetch(url, {
+    headers: {
+      'Content-Type': 'application/json',
     },
-  )
+    method: 'GET',
+  })
     .then(response => response.json())
     .then((data: tournamentTitleResource[]) => {
       console.log('Success:', data);
@@ -110,7 +116,11 @@ export async function getTournamentTitles(
 export async function getLastTournament(
   Auth0: string,
 ): Promise<playerTournamentResource> {
-  return await fetch(`http://localhost:8000/api/lastTournament/${Auth0}`, {
+  const url = `${
+    import.meta.env.VITE_BACK_END_URL
+  }/api/lastTournament/${Auth0}`;
+
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -130,7 +140,8 @@ export async function getLastTournament(
 export async function createTournament(
   params: createTournamentParams,
 ): Promise<tournamentResource> {
-  return await fetch(`http://localhost:8000/api/tournaments`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/tournaments`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },

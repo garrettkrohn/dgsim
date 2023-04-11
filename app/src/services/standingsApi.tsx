@@ -1,7 +1,8 @@
 import { allSeasonStandings } from './DTOs';
 
 export async function getSeasonLeaderboards(): Promise<allSeasonStandings[]> {
-  return await fetch(`http://localhost:8000/api/leaderboards/season`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/leaderboards/season`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },

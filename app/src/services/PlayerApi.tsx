@@ -7,7 +7,8 @@ import {
 } from './DTOs';
 
 export async function getPlayer(playerId: number): Promise<playerResource> {
-  return await fetch(`http://localhost:8000/api/players/${playerId}`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/players/${playerId}`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -27,7 +28,8 @@ export async function getPlayer(playerId: number): Promise<playerResource> {
 export async function getPlayerByAuth(
   params: getUserByAuthParams,
 ): Promise<playerResource> {
-  return await fetch(`http://localhost:8000/api/playersAuth`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/playersAuth`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -46,7 +48,8 @@ export async function getPlayerByAuth(
 }
 
 export async function getArchetypes(): Promise<archetypeResource[]> {
-  return await fetch(`http://localhost:8000/api/archetypes`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/archetypes`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -66,7 +69,8 @@ export async function getArchetypes(): Promise<archetypeResource[]> {
 export async function createPlayer(
   params: createPlayerParams,
 ): Promise<playerResource> {
-  return await fetch(`http://localhost:8000/api/players`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/players`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -87,7 +91,8 @@ export async function createPlayer(
 export async function updatePlayer(
   params: updatePlayerParams,
 ): Promise<playerResource> {
-  return await fetch(`http://localhost:8000/api/players`, {
+  const url = `${import.meta.env.VITE_BACK_END_URL}/api/players`;
+  return await fetch(url, {
     headers: {
       'Content-Type': 'application/json',
     },
