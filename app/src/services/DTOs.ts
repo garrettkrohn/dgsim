@@ -168,3 +168,15 @@ export interface updatePlayerParams {
   playerId: number;
   auth0: string;
 }
+
+export interface updateUserColorsParams {
+  auth0: string;
+  backgroundColor: string;
+  foregroundColor: string;
+}
+
+export interface updateAvatarColorsParams {
+  auth0: string;
+  avatarBackgroundColor: string;
+  avatarTextColor: string;
+}

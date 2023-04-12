@@ -7,8 +7,6 @@ class UpdateUserColors
     private string $auth0;
     private string $backgroundColor;
     private string $foregroundColor;
-    private string $avatarBackground;
-    private string $avatarTextColor;
 
     /**
      * @return string
@@ -57,39 +55,5 @@ class UpdateUserColors
     {
         $this->foregroundColor = $foregroundColor;
     }
-
-    /**
-     * @return string
-     */
-    public function getAvatarBackground(): string
-    {
-        return $this->avatarBackground;
-    }
-
-    /**
-     * @param string $avatarBackground
-     */
-    public function setAvatarBackground(string $avatarBackground): void
-    {
-        $this->avatarBackground = $avatarBackground;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAvatarTextColor(): string
-    {
-        return $this->avatarTextColor;
-    }
-
-    /**
-     * @param string $avatarTextColor
-     */
-    public function setAvatarTextColor(string $avatarTextColor): void
-    {
-        $this->avatarTextColor = $avatarTextColor;
-    }
-
-
 
 }

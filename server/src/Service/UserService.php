@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\Incoming\CreateUserDto;
+use App\Dto\Incoming\UpdateAvatarColors;
 use App\Dto\Incoming\UpdateUserColors;
 use App\Dto\Outgoing\UserResponseDto;
 use App\Entity\User;
@@ -75,14 +76,25 @@ class UserService extends AbstractMultiTransformer
         $user = $this->userRepository->findOneBy(['auth0' => $updateUserColors->getAuth0()]);
         $user->setBackgroundColor($updateUserColors->getBackgroundColor());
         $user->setForegroundColor($updateUserColors->getForegroundColor());
-        $user->setAvatarBackgroundColor($updateUserColors->getAvatarBackground());
-        $user->setAvatarTextColor($updateUserColors->getAvatarTextColor());
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
         return $this->transformFromObject($user);
     }
+
+    public function updateAvatarColors(UpdateAvatarColors $updateAvatarColors): UserResponseDto
+    {
+        $user = $this->userRepository->findOneBy(['auth0' => $updateAvatarColors->getAuth0()]);
+        $user->setAvatarBackgroundColor($updateAvatarColors->getAvatarBackgroundColor());
+        $user->setAvatarTextColor($updateAvatarColors->getAvatarTextColor());
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return $this->transformFromObject($user);
+    }
+
 
     /**
      * @param User $object
