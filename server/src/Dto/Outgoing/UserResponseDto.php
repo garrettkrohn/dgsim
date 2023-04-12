@@ -10,7 +10,7 @@ class UserResponseDto
 {
     #[NotNull]
     #[Type('int')]
-    public int $user_id;
+    public int $userid;
 
     #[NotNull]
     public RoleResponseDto $role;
@@ -114,17 +114,17 @@ class UserResponseDto
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getUserid(): int
     {
-        return $this->user_id;
+        return $this->userid;
     }
 
     /**
-     * @param int $user_id
+     * @param int $userid
      */
-    public function setUserId(int $user_id): void
+    public function setUserid(int $userid): void
     {
-        $this->user_id = $user_id;
+        $this->userid = $userid;
     }
 
     /**

@@ -104,7 +104,7 @@ class UserService extends AbstractMultiTransformer
     {
         $dto = new UserResponseDto();
         $role = $this->roleService->getRoleDto($object->getRole()->getRoleId());
-        $dto->setUserId($object->getUserId());
+        $dto->setUserid($object->getUserId());
         $dto->setAuth0($object->getAuth0());
         $dto->setRole($role);
         $dto->setBackgroundColor($object->getBackgroundColor());

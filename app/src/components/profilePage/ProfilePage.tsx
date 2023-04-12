@@ -7,13 +7,17 @@ import { updateAvatarColors, updateUserColors } from '../../services/UserApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../../util/Loading';
 import Error from '../../util/Error';
+import { loggedInUser } from '../../jotai/Atoms';
+import { useAtom } from 'jotai/index';
+import colors from 'tailwindcss/colors';
 
 const ProfilePage = () => {
   const [backgroundColor, setBackgroundColor] = useState('#FF0000');
   const [foregroundColor, setForegroundColor] = useState('#000000');
   const [avatarBackground, setAvatarBackground] = useState('#FF0000');
   const [avatarText, setAvatarText] = useState('#000000');
-  const { user } = useAuth0();
+  const { user: authUser } = useAuth0();
+  const [user, setUser] = useAtom(loggedInUser);
 
   const handleBackgroundChangeComplete = (event: any) => {
     setBackgroundColor(event.hex);
@@ -40,7 +44,7 @@ const ProfilePage = () => {
     mutationFn: () =>
       updateUserColors({
         // @ts-ignore
-        auth0: user.sub,
+        auth0: authUser.sub,
         backgroundColor: backgroundColor,
         foregroundColor: foregroundColor,
       }),
@@ -48,7 +52,11 @@ const ProfilePage = () => {
     onError: (err, variables, context) => {
       console.log(err, variables, context);
     },
-    onSettled: () => console.log('success'),
+    onSettled: () => {
+      // @ts-ignore
+      setUser(colorsData);
+      console.log(user);
+    },
   });
 
   const {
@@ -60,7 +68,7 @@ const ProfilePage = () => {
     mutationFn: () =>
       updateAvatarColors({
         // @ts-ignore
-        auth0: user.sub,
+        auth0: authUser.sub,
         avatarBackgroundColor: avatarBackground,
         avatarTextColor: avatarText,
       }),
