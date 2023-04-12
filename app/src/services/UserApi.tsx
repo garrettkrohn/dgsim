@@ -5,7 +5,7 @@ import {
   userResource,
 } from './DTOs';
 
-export async function createOrGetUser(
+export async function CreateOrGetUser(
   params: createOrGetUserParams,
 ): Promise<userResource> {
   const url = `${import.meta.env.VITE_BACK_END_URL}/api/users`;

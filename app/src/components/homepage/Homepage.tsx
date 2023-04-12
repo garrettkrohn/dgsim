@@ -8,24 +8,27 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import { useAuth0 } from '@auth0/auth0-react';
-import { createOrGetUser } from '../../services/UserApi';
+import { CreateOrGetUser } from '../../services/UserApi';
 import { getPlayerByAuth } from '../../services/PlayerApi';
 import Loading from '../../util/Loading';
 import CreatePlayer from '../CreatePlayer/CreatePlayer';
 import Button from '../../util/Button';
 import { Link } from '@tanstack/react-router';
 import Error from '../../util/Error';
+import { loggedInUser } from '../../jotai/Atoms';
+import { useAtom } from 'jotai/index';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const { isAuthenticated, user } = useAuth0();
+  const [user, setUser] = useAtom(loggedInUser);
+
+  const { isAuthenticated, user: Auth0User } = useAuth0();
 
   const toggleConfirmModal = () => {
     setShowConfirmModal(!showConfirmModal);
   };
 
-  //calls the tournaments call when the homepage is loaded!
   const { refetch: refetchTournaments } = useQuery({
     queryKey: [`seasons/tournament/title`],
     queryFn: () => getAllTournaments(),
@@ -46,7 +49,7 @@ function Homepage() {
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
-    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+    queryFn: () => getPlayerByAuth({ Auth0: Auth0User.sub }),
     enabled: false,
   });
 
@@ -56,27 +59,36 @@ function Homepage() {
   }, [refetchStandings, refetchTournaments]);
 
   useEffect(() => {
-    if (user) {
+    if (Auth0User) {
       refetchPlayer();
     }
-  }, [refetchPlayer, user]);
+  }, [refetchPlayer, Auth0User]);
 
-  const createOrGetUserCall: any = useMutation({
+  // @ts-ignore
+  const { mutate, data: userData } = useMutation({
     mutationFn: () =>
-      createOrGetUser({
+      CreateOrGetUser({
         // @ts-ignore
-        Auth0: user.sub,
+        Auth0: Auth0User.sub,
       }),
-    onMutate: () => console.log('mutate'),
+    onMutate: () => console.log('mutate user'),
     onError: (err, variables, context) => {
       console.log(err, variables, context);
     },
-    onSettled: () => console.log('complete'),
+    onSettled: () => {
+      console.log('user Data Received');
+    },
   });
 
   useEffect(() => {
+    if (userData) {
+      setUser(userData);
+    }
+  }, [userData]);
+
+  useEffect(() => {
     if (isAuthenticated && user) {
-      createOrGetUserCall.mutate();
+      mutate();
     }
   }, [isAuthenticated, user]);
 
@@ -116,7 +128,7 @@ function Homepage() {
         ''
       )}
       <LastTournamentBlock />
-      {user?.sub === 'google-oauth2|115993548271312276661' ? (
+      {Auth0User?.sub === 'google-oauth2|115993548271312276661' ? (
         <div>
           <Link
             to={'/admin'}

@@ -26,3 +26,5 @@ const defaultUser = {
 };
 
 export const loggedInUser = atom(defaultUser as userResource);
+
+export const customColors = atom(false);

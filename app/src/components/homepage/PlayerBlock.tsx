@@ -10,6 +10,7 @@ import {
   currentScrambleAtom,
   currentThrowAccuracyAtom,
   currentThrowPowerAtom,
+  loggedInUser,
   updateAvailableSpAtom,
   updatePuttAtom,
   updateScrambleAtom,
@@ -17,9 +18,10 @@ import {
   updateThrowPowerAtom,
 } from '../../jotai/Atoms';
 import Error from '../../util/Error';
+import Avatar from '../../util/Avatar';
 
 const PlayerBlock = () => {
-  const { user } = useAuth0();
+  const { user: Auth0User } = useAuth0();
   const [putt, setPutt] = useAtom(updatePuttAtom);
   const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
   const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
@@ -32,6 +34,8 @@ const PlayerBlock = () => {
   const [currentScramble, setCurrentScramble] = useAtom(currentScrambleAtom);
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
 
+  const [user, setUser] = useAtom(loggedInUser);
+
   const {
     isLoading: playerIsLoading,
     error: playerError,
@@ -40,13 +44,13 @@ const PlayerBlock = () => {
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
-    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+    queryFn: () => getPlayerByAuth({ Auth0: Auth0User.sub }),
     enabled: false,
   });
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [user]);
 
   if (playerIsLoading)
     return (
@@ -80,7 +84,12 @@ const PlayerBlock = () => {
     } = playerData;
     return (
       <WrapperBlock color="dgsecondary">
-        <div className="flex justify-center">{firstName + ' ' + lastName}</div>
+        <div className="flex justify-center">
+          <Avatar />
+          <div className="flex justify-center px-4">
+            {firstName + ' ' + lastName}
+          </div>
+        </div>
         <div className="flex justify-evenly">
           <div className="flex flex-col">
             <div>Putt: {puttSkill}</div>

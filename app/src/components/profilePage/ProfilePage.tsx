@@ -76,7 +76,11 @@ const ProfilePage = () => {
     onError: (err, variables, context) => {
       console.log(err, variables, context);
     },
-    onSettled: () => console.log('success'),
+    onSettled: () => {
+      // @ts-ignore
+      setUser(avatarData);
+      console.log(user);
+    },
   });
 
   return (
