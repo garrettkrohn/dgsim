@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // @ts-ignore
 import { SliderPicker } from 'react-color';
 import Button from '../../util/Button';
@@ -77,11 +77,15 @@ const ProfilePage = () => {
       console.log(err, variables, context);
     },
     onSettled: () => {
-      // @ts-ignore
-      setUser(avatarData);
-      console.log(user);
+      console.log('avatar received');
     },
   });
+
+  useEffect(() => {
+    if (avatarData) {
+      setUser(avatarData);
+    }
+  }, [avatarData]);
 
   return (
     <div className="flex justify-evenly text-dgsoftwhite">

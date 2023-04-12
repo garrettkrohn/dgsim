@@ -82,7 +82,9 @@ function Homepage() {
 
   useEffect(() => {
     if (userData) {
-      setUser(userData);
+      if (userData?.userId !== user.userId && userData) {
+        setUser(userData);
+      }
     }
   }, [userData]);
 
