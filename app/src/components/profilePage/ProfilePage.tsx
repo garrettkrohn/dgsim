@@ -43,13 +43,13 @@ const ProfilePage = () => {
               onChangeComplete={handleForegroundChangeComplete}
             />
           </div>
-          <div className="flex flex-col">
-            <div>Preview</div>
+          <div>Preview:</div>
+          <div className="flex flex-row">
             <div
               style={{
                 backgroundColor: backgroundColor,
-                width: 250,
-                height: 250,
+                width: 200,
+                height: 200,
               }}
             >
               Background
@@ -57,13 +57,18 @@ const ProfilePage = () => {
             <div
               style={{
                 backgroundColor: foregroundColor,
-                width: 250,
-                height: 250,
+                width: 200,
+                height: 200,
               }}
             >
               Foreground
             </div>
           </div>
+          <Button
+            label="Save Colors"
+            onClick={() => console.log('run')}
+            disable={false}
+          />
         </div>
       </div>
       <div>
@@ -84,11 +89,13 @@ const ProfilePage = () => {
           </div>
           <div className="flex flex-col">
             <div>Preview</div>
-            <div
-              className="h-24 w-24 rounded-3xl text-center text-7xl"
-              style={{ background: avatarBackground, color: avatarText }}
-            >
-              AB
+            <div className="flex justify-center">
+              <div
+                className="h-24 w-24 rounded-3xl text-center text-7xl"
+                style={{ background: avatarBackground, color: avatarText }}
+              >
+                AB
+              </div>
             </div>
           </div>
           <Button

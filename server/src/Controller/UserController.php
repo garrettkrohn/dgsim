@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\Incoming\CreatePlayerDto;
 use App\Dto\Incoming\CreateUserDto;
+use App\Dto\Incoming\UpdateUserColors;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Exception\InvalidRequestDataException;
@@ -62,6 +63,19 @@ class UserController extends ApiController
     public function deleteUserById(int $id): Response
     {
         return $this->json($this->userService->deleteUser($id));
+    }
+
+    /**
+     * @throws JsonExceptionAlias
+     * @throws InvalidRequestDataException
+     */
+    #[Route('/api/users/colors', methods: ['POST'])]
+    public function updateUserColors(Request $request): Response
+    {
+        /** @var UpdateUserColors $dto */
+        $dto = $this->getValidatedDto($request, UpdateUserColors::class);
+        return $this->json($this->userService->updateUserColors($dto));
+
     }
 
 }
