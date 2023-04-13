@@ -19,10 +19,10 @@ const defaultUser = {
     name: 'user',
   },
   auth0: 'auth',
-  avatarBackgroundColor: '#FF0000',
-  avatarTextColor: '#000000',
-  backgroundColor: '#FF0000',
-  foregroundColor: '#FF0000',
+  avatarBackgroundColor: '',
+  avatarTextColor: '',
+  backgroundColor: '',
+  foregroundColor: '',
 };
 
 export const loggedInUser = atom(defaultUser as userResource);

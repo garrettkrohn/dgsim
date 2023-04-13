@@ -28,6 +28,7 @@ const Avatar = () => {
     isLoading: playerIsLoading,
     error: playerError,
     data: playerData,
+    refetch: playerRefetch,
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
@@ -35,7 +36,18 @@ const Avatar = () => {
       // @ts-ignore
       getPlayerByAuth({ Auth0: auth0User.sub });
     },
+    enabled: false,
   });
+
+  useEffect(() => {
+    if (auth0User) {
+      playerRefetch();
+    }
+  }, [auth0User]);
+
+  if (backgroundColor === '') {
+    return <Loading />;
+  }
 
   if (playerIsLoading) {
     return <Loading />;

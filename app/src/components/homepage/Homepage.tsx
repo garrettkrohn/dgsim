@@ -20,9 +20,7 @@ import { useAtom } from 'jotai/index';
 
 function Homepage() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
   const [user, setUser] = useAtom(loggedInUser);
-
   const { isAuthenticated, user: Auth0User } = useAuth0();
 
   const toggleConfirmModal = () => {
@@ -81,18 +79,18 @@ function Homepage() {
   });
 
   useEffect(() => {
-    if (userData) {
-      if (userData?.userId !== user.userId && userData) {
-        setUser(userData);
-      }
-    }
-  }, [userData]);
-
-  useEffect(() => {
     if (isAuthenticated && user) {
       mutate();
     }
   }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    if (userData) {
+      if (userData.userId !== user.userId) {
+        setUser(userData);
+      }
+    }
+  }, [userData]);
 
   if (!isAuthenticated) {
     return (
