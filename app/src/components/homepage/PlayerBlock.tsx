@@ -10,6 +10,7 @@ import {
   currentScrambleAtom,
   currentThrowAccuracyAtom,
   currentThrowPowerAtom,
+  customColors,
   loggedInUser,
   updateAvailableSpAtom,
   updatePuttAtom,
@@ -35,6 +36,8 @@ const PlayerBlock = () => {
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
 
   const [user, setUser] = useAtom(loggedInUser);
+  const [backgroundColor, setBackroundColor] = useState('dgsecondary');
+  const [displayCustomColors, setDisplayCustomColors] = useAtom(customColors);
 
   const {
     isLoading: playerIsLoading,
@@ -50,7 +53,14 @@ const PlayerBlock = () => {
 
   useEffect(() => {
     refetch();
-  }, [user]);
+
+    if (user && displayCustomColors) {
+      setBackroundColor(user.backgroundColor);
+      console.log(backgroundColor);
+    } else {
+      setBackroundColor('dgsecondary');
+    }
+  }, [user, displayCustomColors]);
 
   if (playerIsLoading)
     return (
@@ -82,8 +92,9 @@ const PlayerBlock = () => {
       throwAccuracySkill,
       scrambleSkill,
     } = playerData;
+
     return (
-      <WrapperBlock color="dgsecondary">
+      <WrapperBlock color={backgroundColor}>
         <div className="flex justify-center">
           <Avatar />
           <div className="flex justify-center px-4">

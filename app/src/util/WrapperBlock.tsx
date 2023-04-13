@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -13,8 +13,14 @@ const WrapperBlock: React.FC<Props> = ({ children, color, onClick }) => {
     }
   };
 
+  const style = `p-2 text-dgsoftwhite bg-${color}`;
+
   return (
-    <div className={`p-2 text-dgsoftwhite bg-${color}`} onClick={handleClick}>
+    <div
+      className={style}
+      onClick={handleClick}
+      style={{ backgroundColor: color }}
+    >
       <div>{children}</div>
     </div>
   );

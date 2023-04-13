@@ -53,11 +53,15 @@ const ProfilePage = () => {
       console.log(err, variables, context);
     },
     onSettled: () => {
-      // @ts-ignore
-      setUser(colorsData);
-      console.log(user);
+      console.log('colors received');
     },
   });
+
+  useEffect(() => {
+    if (colorsData) {
+      setUser(colorsData);
+    }
+  }, [colorsData]);
 
   const {
     data: avatarData,

@@ -120,7 +120,6 @@ function Homepage() {
   return (
     <div>
       <PlayerBlock />
-      <Divider color="dgbackground" />
       <UpdateBlock toggleUpdateModal={toggleConfirmModal} />
       {showConfirmModal ? (
         <UpdateConfirmModal toggleModal={toggleConfirmModal} />
