@@ -172,8 +172,6 @@ class SimulationIterators {
             /** @var RoundCalculation[] $dto */
             $holeResults = $this->playoffPlayerIterator($tiedPlayerArray, $holeSimArray[$holeIndex], $tournament, $allHoles[$holeIndex]);
 
-//            $roundsToCompare = $this->getPlayoffRounds($tournament);
-
             //sort the rounds descending
             usort($holeResults, function ($a, $b) {
                 if ($a->getScore() == $b->getScore()) {
