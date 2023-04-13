@@ -154,7 +154,6 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
                 disable={disableUpdate}
               />
             </WrapperBlock>
-            <Divider color="dgbackground" />
           </>
         ) : (
           ''
