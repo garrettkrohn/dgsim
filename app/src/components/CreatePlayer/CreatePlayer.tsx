@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import useInput from '../../hooks/useInput';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import {
-  createTournament,
-  getAllTournaments,
-} from '../../services/tournamentsApi';
-import {
   createPlayer,
   getArchetypes,
   getPlayerByAuth,
@@ -16,11 +12,8 @@ import WrapperBlock from '../../util/WrapperBlock';
 import UpdateRow from '../homepage/UpdateRow';
 import Button from '../../util/Button';
 import { useAtom } from 'jotai/index';
-import {
-  updateAvailableSpAtom,
-  createPlayerAvailableSp,
-} from '../../jotai/Atoms';
-import { Link, useNavigate, useRoute } from '@tanstack/react-router';
+import { updateAvailableSpAtom } from '../../jotai/Atoms';
+import { useNavigate } from '@tanstack/react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 
 function CreatePlayer() {
@@ -50,12 +43,7 @@ function CreatePlayer() {
     enabled: false,
   });
 
-  const {
-    isLoading: playerIsLoading,
-    error: playerError,
-    data: playerData,
-    refetch: refetchPlayer,
-  } = useQuery({
+  const { refetch: refetchPlayer } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
     queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
@@ -69,19 +57,13 @@ function CreatePlayer() {
   const {
     value: playerFirstName,
     valueChangeHandler: setPlayerFirstName,
-    inputBlurHandler: playerFirstNameBlur,
-    hasError: playerFirstNameError,
     isValid: playerFirstNameIsValid,
-    reset: playerFirstNameReset,
   } = useInput((value: string) => value.trim() !== '');
 
   const {
     value: playerLastName,
     valueChangeHandler: setPlayerLastName,
-    inputBlurHandler: playerLastNameBlur,
-    hasError: playerLastNameError,
     isValid: playerLastNameIsValid,
-    reset: playerLastNameReset,
   } = useInput((value: string) => value.trim() !== '');
 
   const items = archetypesData?.map(item => {

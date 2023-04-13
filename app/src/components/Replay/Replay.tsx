@@ -145,7 +145,6 @@ const Replay = () => {
         }
       }
     }
-    // setHoleIndex(holeIndex - 1);
   };
 
   const selectNewTournament = (index: number) => {

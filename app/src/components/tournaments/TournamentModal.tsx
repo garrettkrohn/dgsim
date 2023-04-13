@@ -4,7 +4,6 @@ import { tournamentResource } from '../../services/DTOs';
 import Error from '../../util/Error';
 
 /**Iterative reusable modal component
- *
  * @param props
  * @constructor
  */

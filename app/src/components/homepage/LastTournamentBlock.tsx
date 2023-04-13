@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  getAllTournaments,
-  getLastTournament,
-} from '../../services/tournamentsApi';
+import { getLastTournament } from '../../services/tournamentsApi';
 import Loading from '../../util/Loading';
 import TournamentRow from '../tournaments/TournamentRow';
 import ThinDivider from '../../util/ThinDivider';

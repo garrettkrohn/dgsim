@@ -10,7 +10,6 @@ export const currentPuttAtom = atom(0);
 export const currentThrowPowerAtom = atom(0);
 export const currentThrowAccuracyAtom = atom(0);
 export const currentScrambleAtom = atom(0);
-export const createPlayerAvailableSp = atom(0);
 
 const defaultUser = {
   userId: 0,

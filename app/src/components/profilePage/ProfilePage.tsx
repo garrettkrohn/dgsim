@@ -8,7 +8,6 @@ import Loading from '../../util/Loading';
 import Error from '../../util/Error';
 import { customColors, loggedInUser } from '../../jotai/Atoms';
 import { useAtom } from 'jotai/index';
-import colors from 'tailwindcss/colors';
 
 const ProfilePage = () => {
   const [backgroundColor, setBackgroundColor] = useState('#FF0000');

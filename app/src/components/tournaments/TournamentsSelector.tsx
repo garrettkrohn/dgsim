@@ -2,19 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { getAllTournaments } from '../../services/tournamentsApi';
 import TournamentTemplate from './TournamentTemplate';
 import React, { useEffect, useState } from 'react';
-import TournamentModal from './TournamentModal';
-import Button from '../../util/Button';
-import { tournamentResource } from '../../services/DTOs';
 import Loading from '../../util/Loading';
 import Dropdown from '../../util/Dropdown';
 
 export default function TournamentsSelector() {
-  const [showTournaments, setShowTournaments] = useState(false);
   const [selectedTournamentId, setSelectedTournamentId] = useState<number>(-1);
-
-  const toggleShowSeasons = () => {
-    setShowTournaments(!showTournaments);
-  };
 
   const {
     isLoading: tournamentsAreLoading,
