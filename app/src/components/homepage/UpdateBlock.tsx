@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Divider from '../../util/Divider';
 import UpdateRow from './UpdateRow';
 import Button from '../../util/Button';
-import LastTournamentBlock from './LastTournamentBlock';
 import { useAtom } from 'jotai';
 import {
   updatePuttAtom,
