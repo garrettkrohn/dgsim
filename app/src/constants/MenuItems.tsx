@@ -5,6 +5,7 @@ const menuItems = [
   { name: 'Standings', route: '/standings' },
   // { name: 'Admin', route: '/admin' },
   { name: 'replay', route: '/replay' },
+  { name: 'profile', route: '/profile' },
 ];
 
 export default menuItems;

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Divider from '../../util/Divider';
 import UpdateRow from './UpdateRow';
 import Button from '../../util/Button';
-import LastTournamentBlock from './LastTournamentBlock';
 import { useAtom } from 'jotai';
 import {
   updatePuttAtom,
@@ -14,6 +12,8 @@ import {
   currentThrowPowerAtom,
   currentThrowAccuracyAtom,
   currentScrambleAtom,
+  loggedInUser,
+  customColors,
 } from '../../jotai/Atoms';
 import WrapperBlock from '../../util/WrapperBlock';
 import { useQuery } from '@tanstack/react-query';
@@ -35,13 +35,16 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
   const [disableUpdate, setDisableUpdate] = useState(true);
   const [showUpdate, setShowUpdate] = useState(false);
-  // const [updateSpAvailable, setUpdateSpAvailable] = useState(0);
+
+  const [user, setUser] = useAtom(loggedInUser);
+  const [backgroundColor, setBackroundColor] = useState('dgprimary');
+  const [displayCustomColors, setDisplayCustomColors] = useAtom(customColors);
 
   const toggleUpdate = () => {
     setShowUpdate(!showUpdate);
   };
 
-  const { user } = useAuth0();
+  const { user: auth0User } = useAuth0();
 
   const {
     isLoading: playerIsLoading,
@@ -51,7 +54,7 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
-    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+    queryFn: () => getPlayerByAuth({ Auth0: auth0User.sub }),
     enabled: false,
   });
 
@@ -82,6 +85,14 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
     currentScramble,
   ]);
 
+  useEffect(() => {
+    if (user && displayCustomColors) {
+      setBackroundColor(user.foregroundColor);
+    } else {
+      setBackroundColor('dgprimary');
+    }
+  }, [user, displayCustomColors]);
+
   if (playerIsLoading) {
     return <Loading />;
   }
@@ -96,17 +107,16 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
     } = playerData;
     return (
       <div>
-        <WrapperBlock color="dgprimary" onClick={toggleUpdate}>
+        <WrapperBlock color={backgroundColor} onClick={toggleUpdate}>
           <div className="flex justify-center p-2 font-bold">Update Player</div>
           <div className="flex flex-row justify-evenly p-1">
             <div>Bank: {bankedSkillPoints}</div>
             <div>Total: {availableSp}</div>
           </div>
         </WrapperBlock>
-        <Divider color="dgbackground" />
         {showUpdate ? (
           <>
-            <WrapperBlock color="dgprimary">
+            <WrapperBlock color={backgroundColor}>
               <div className="flex justify-evenly">
                 <div>Skill:</div>
                 <div>Update:</div>
@@ -142,7 +152,6 @@ const UpdateBlock = (props: { toggleUpdateModal: Function }) => {
                 disable={disableUpdate}
               />
             </WrapperBlock>
-            <Divider color="dgbackground" />
           </>
         ) : (
           ''

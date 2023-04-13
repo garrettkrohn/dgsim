@@ -27,6 +27,18 @@ class User
     #[ORM\Column]
     private string $auth0;
 
+    #[ORM\Column(length: 7, nullable: true)]
+    private ?string $backgroundColor = null;
+
+    #[ORM\Column(length: 7, nullable: true)]
+    private ?string $foregroundColor = null;
+
+    #[ORM\Column(length: 7, nullable: true)]
+    private ?string $avatarBackgroundColor = null;
+
+    #[ORM\Column(length: 7, nullable: true)]
+    private ?string $avatarTextColor = null;
+
     public function __construct()
     {
         $this->player = new ArrayCollection();
@@ -93,6 +105,54 @@ class User
     public function setAuth0(string $auth0): void
     {
         $this->auth0 = $auth0;
+    }
+
+    public function getBackgroundColor(): ?string
+    {
+        return $this->backgroundColor;
+    }
+
+    public function setBackgroundColor(?string $backgroundColor): self
+    {
+        $this->backgroundColor = $backgroundColor;
+
+        return $this;
+    }
+
+    public function getForegroundColor(): ?string
+    {
+        return $this->foregroundColor;
+    }
+
+    public function setForegroundColor(?string $foregroundColor): self
+    {
+        $this->foregroundColor = $foregroundColor;
+
+        return $this;
+    }
+
+    public function getAvatarBackgroundColor(): ?string
+    {
+        return $this->avatarBackgroundColor;
+    }
+
+    public function setAvatarBackgroundColor(?string $avatarBackgroundColor): self
+    {
+        $this->avatarBackgroundColor = $avatarBackgroundColor;
+
+        return $this;
+    }
+
+    public function getAvatarTextColor(): ?string
+    {
+        return $this->avatarTextColor;
+    }
+
+    public function setAvatarTextColor(?string $avatarTextColor): self
+    {
+        $this->avatarTextColor = $avatarTextColor;
+
+        return $this;
     }
 
 }

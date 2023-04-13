@@ -10,6 +10,8 @@ import {
   currentScrambleAtom,
   currentThrowAccuracyAtom,
   currentThrowPowerAtom,
+  customColors,
+  loggedInUser,
   updateAvailableSpAtom,
   updatePuttAtom,
   updateScrambleAtom,
@@ -17,9 +19,10 @@ import {
   updateThrowPowerAtom,
 } from '../../jotai/Atoms';
 import Error from '../../util/Error';
+import Avatar from '../../util/Avatar';
 
 const PlayerBlock = () => {
-  const { user } = useAuth0();
+  const { user: Auth0User } = useAuth0();
   const [putt, setPutt] = useAtom(updatePuttAtom);
   const [throwPower, setThrowPower] = useAtom(updateThrowPowerAtom);
   const [throwAccuracy, setThrowAccuracy] = useAtom(updateThrowAccuracyAtom);
@@ -32,6 +35,10 @@ const PlayerBlock = () => {
   const [currentScramble, setCurrentScramble] = useAtom(currentScrambleAtom);
   const [availableSp, setAvailableSp] = useAtom(updateAvailableSpAtom);
 
+  const [user, setUser] = useAtom(loggedInUser);
+  const [backgroundColor, setBackroundColor] = useState('dgsecondary');
+  const [displayCustomColors, setDisplayCustomColors] = useAtom(customColors);
+
   const {
     isLoading: playerIsLoading,
     error: playerError,
@@ -40,13 +47,20 @@ const PlayerBlock = () => {
   } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
-    queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
+    queryFn: () => getPlayerByAuth({ Auth0: Auth0User.sub }),
     enabled: false,
   });
 
   useEffect(() => {
     refetch();
-  }, []);
+
+    if (user && displayCustomColors) {
+      setBackroundColor(user.backgroundColor);
+      console.log(backgroundColor);
+    } else {
+      setBackroundColor('dgsecondary');
+    }
+  }, [user, displayCustomColors]);
 
   if (playerIsLoading)
     return (
@@ -78,9 +92,15 @@ const PlayerBlock = () => {
       throwAccuracySkill,
       scrambleSkill,
     } = playerData;
+
     return (
-      <WrapperBlock color="dgsecondary">
-        <div className="flex justify-center">{firstName + ' ' + lastName}</div>
+      <WrapperBlock color={backgroundColor}>
+        <div className="flex justify-center">
+          <Avatar />
+          <div className="flex justify-center px-4">
+            {firstName + ' ' + lastName}
+          </div>
+        </div>
         <div className="flex justify-evenly">
           <div className="flex flex-col">
             <div>Putt: {puttSkill}</div>

@@ -6,6 +6,9 @@ import LoginButton from '../../util/LoginButton';
 import LogoutButton from '../../util/LogoutButton';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from '@tanstack/react-router';
+import Avatar from '../../util/Avatar';
+import { useAtom } from 'jotai/index';
+import { customColors } from '../../jotai/Atoms';
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);

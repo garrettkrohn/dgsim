@@ -144,11 +144,14 @@ export interface createOrGetUserParams {
 export interface userResource {
   userId: number;
   role: {
-    role_id: 2;
+    roleid: 2;
     name: string;
   };
-  email: string;
   auth0: string;
+  avatarBackgroundColor: string;
+  avatarTextColor: string;
+  backgroundColor: string;
+  foregroundColor: string;
 }
 
 export interface getUserByAuthParams {
@@ -167,4 +170,16 @@ export interface updatePlayerParams {
   archetypeId: number;
   playerId: number;
   auth0: string;
+}
+
+export interface updateUserColorsParams {
+  auth0: string;
+  backgroundColor: string;
+  foregroundColor: string;
+}
+
+export interface updateAvatarColorsParams {
+  auth0: string;
+  avatarBackgroundColor: string;
+  avatarTextColor: string;
 }

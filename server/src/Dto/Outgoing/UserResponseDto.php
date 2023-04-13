@@ -10,20 +10,90 @@ class UserResponseDto
 {
     #[NotNull]
     #[Type('int')]
-    public int $user_id;
+    public int $userid;
 
     #[NotNull]
     public RoleResponseDto $role;
 
     #[NotNull]
     #[Type('string')]
-    public string $email;
-
-    #[NotNull]
-    #[Type('string')]
     public string $auth0;
 
     public PlayerDto $player;
+
+    public string $backgroundColor;
+
+    public string $foregroundColor;
+
+    public string $avatarBackgroundColor;
+
+    public string $avatarTextColor;
+
+    /**
+     * @return string
+     */
+    public function getBackgroundColor(): string
+    {
+        return $this->backgroundColor;
+    }
+
+    /**
+     * @param string $backgroundColor
+     */
+    public function setBackgroundColor(string $backgroundColor): void
+    {
+        $this->backgroundColor = $backgroundColor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getForegroundColor(): string
+    {
+        return $this->foregroundColor;
+    }
+
+    /**
+     * @param string $foregroundColor
+     */
+    public function setForegroundColor(string $foregroundColor): void
+    {
+        $this->foregroundColor = $foregroundColor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarBackgroundColor(): string
+    {
+        return $this->avatarBackgroundColor;
+    }
+
+    /**
+     * @param string $avatarBackgroundColor
+     */
+    public function setAvatarBackgroundColor(string $avatarBackgroundColor): void
+    {
+        $this->avatarBackgroundColor = $avatarBackgroundColor;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatarTextColor(): string
+    {
+        return $this->avatarTextColor;
+    }
+
+    /**
+     * @param string $avatarTextColor
+     */
+    public function setAvatarTextColor(string $avatarTextColor): void
+    {
+        $this->avatarTextColor = $avatarTextColor;
+    }
+
+
 
     /**
      * @return PlayerDto
@@ -44,17 +114,17 @@ class UserResponseDto
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getUserid(): int
     {
-        return $this->user_id;
+        return $this->userid;
     }
 
     /**
-     * @param int $user_id
+     * @param int $userid
      */
-    public function setUserId(int $user_id): void
+    public function setUserid(int $userid): void
     {
-        $this->user_id = $user_id;
+        $this->userid = $userid;
     }
 
     /**
@@ -71,22 +141,6 @@ class UserResponseDto
     public function setRole(RoleResponseDto $role): void
     {
         $this->role = $role;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
     }
 
     /**

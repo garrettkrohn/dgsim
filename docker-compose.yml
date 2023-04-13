@@ -29,6 +29,7 @@ services:
       # You should definitely change the password in production
       POSTGRES_PASSWORD: 'testingpass'
     volumes:
+#      - dgsim-db-migration:/var/lib/postgresql/data:rw
       - dgsim-db-data:/var/lib/postgresql/data:rw
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
@@ -42,5 +43,6 @@ services:
 
 volumes:
   ###> doctrine/doctrine-bundle ###
-  dgsim-db-data:
+#  dgsim-db-data:
+  dgsim-db-migration:
 ###< doctrine/doctrine-bundle ###
