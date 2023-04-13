@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// @ts-ignore
 import { SliderPicker } from 'react-color';
 import Button from '../../util/Button';
 import { useMutation } from '@tanstack/react-query';
