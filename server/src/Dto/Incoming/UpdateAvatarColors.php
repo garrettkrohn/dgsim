@@ -2,10 +2,21 @@
 
 namespace App\Dto\Incoming;
 
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Type;
+
 class UpdateAvatarColors
 {
+    #[NotNull]
+    #[Type('string')]
     private string $auth0;
+
+    #[NotNull]
+    #[Type('string')]
     private string $avatarBackgroundColor;
+
+    #[NotNull]
+    #[Type('string')]
     private string $avatarTextColor;
 
     /**
