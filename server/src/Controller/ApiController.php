@@ -10,8 +10,6 @@ use JsonException;
 
 class ApiController extends AbstractController
 {
-    protected const BASE_URL = '/api';
-
     private SerializationService $serializationService;
 
     public function __construct(SerializationService $serializationService) {

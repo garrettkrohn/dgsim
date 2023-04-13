@@ -124,9 +124,6 @@ class Par3Model extends BaseModel
         $chancesObject->setResultId11($resultId11);
         $chancesObject->setResultId12($resultId12);
 
-        $check = ($resultId0 + $resultId1 + $resultId2 + $resultId3 + $resultId4 + $resultId5 + $resultId6 +
-        $resultId7 + $resultId8 + $resultId9 + $resultId10 + $resultId11 + $resultId12);
-
         return $chancesObject;
     }
 }

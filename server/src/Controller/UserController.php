@@ -50,8 +50,8 @@ class UserController extends ApiController
     {
         /** @var CreateUserDto $dto */
         $dto = $this->getValidatedDto($request, CreateUserDto::class);
-        $response = $this->userService->getOrCreateUser($dto);
-        return new JsonResponse($response);
+        return $this->json($this->userService->getOrCreateUser($dto));
+
     }
 
     #[Route('/api/users/{id}', methods: ['GET'])]

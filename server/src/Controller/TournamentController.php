@@ -78,13 +78,6 @@ class TournamentController extends ApiController
 
     }
 
-    #[Route('api/test', methods: ('GET'))]
-    public function test(): Response
-    {
-        $return = $this->simulationService->test();
-        return new JsonResponse($return);
-    }
-
     #[Route('api/seasons', methods: ('GET'))]
     public function getAvailableSeasons(): Response
     {

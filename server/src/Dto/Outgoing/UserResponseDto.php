@@ -19,14 +19,23 @@ class UserResponseDto
     #[Type('string')]
     public string $auth0;
 
+    #[NotNull]
     public PlayerDto $player;
 
+    #[NotNull]
+    #[Type('string')]
     public string $backgroundColor;
 
+    #[NotNull]
+    #[Type('string')]
     public string $foregroundColor;
 
+    #[NotNull]
+    #[Type('string')]
     public string $avatarBackgroundColor;
 
+    #[NotNull]
+    #[Type('string')]
     public string $avatarTextColor;
 
     /**
