@@ -3,16 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getSeasonLeaderboards } from '../../services/standingsApi';
 import Loading from '../../util/Loading';
 import StandingsTemplate from './StandingsTemplate';
-import { allSeasonStandings } from '../../services/DTOs';
-import Button from '../../util/Button';
-import StandingsModal from './StandingsModal';
 import Dropdown from '../../util/Dropdown';
-import { Simulate } from 'react-dom/test-utils';
-import select = Simulate.select;
 import Error from '../../util/Error';
 
 const StandingsSelector = () => {
-  const [seasonNumber, setSeasonNumber] = useState(1);
   const [showSeasons, setShowSeasons] = useState(false);
   const [selectedSeasonIndex, setSelectedSeasonIndex] = useState(-1);
 

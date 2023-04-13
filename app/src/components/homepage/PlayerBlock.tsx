@@ -1,7 +1,7 @@
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import Loading from '../../util/Loading';
-import { getPlayer, getPlayerByAuth } from '../../services/PlayerApi';
+import { getPlayerByAuth } from '../../services/PlayerApi';
 import WrapperBlock from '../../util/WrapperBlock';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAtom } from 'jotai/index';

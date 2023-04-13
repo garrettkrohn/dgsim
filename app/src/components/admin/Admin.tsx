@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import WrapperBlock from '../../util/WrapperBlock';
 import Dropdown from '../../util/Dropdown';
-import {
-  defaultContext,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { getAllCourseNames } from '../../services/CourseApi';
 import Loading from '../../util/Loading';
 import useInput from '../../hooks/useInput';
 import { createTournament } from '../../services/tournamentsApi';
-import { getPlayerByAuth } from '../../services/PlayerApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import Error from '../../util/Error';
 
@@ -19,7 +13,7 @@ function Admin() {
   const [selectedCourseIndex, setSelectedCourseIndex] = useState<number>(0);
   const [disableButton, setDisableButton] = useState(false);
 
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
 
   const toggleButton = () => {
     setDisableButton(!disableButton);
@@ -31,7 +25,6 @@ function Admin() {
     inputBlurHandler: tournamentBlur,
     hasError: tournamentNameError,
     isValid: tournamentNameIsValid,
-    reset: tournamentNameReset,
   } = useInput((value: string) => value.trim() !== '');
 
   const {
@@ -40,7 +33,6 @@ function Admin() {
     inputBlurHandler: seasonNumberBlur,
     hasError: seasonNumberError,
     isValid: seasonNumberIsValid,
-    reset: seasonNumberReset,
   } = useInput((value: number) => value);
 
   const {
@@ -49,7 +41,6 @@ function Admin() {
     inputBlurHandler: numberOfRoundsBlur,
     hasError: numberOfRoundsError,
     isValid: numberOfRoundsIsValid,
-    reset: numberOfRoundsReset,
   } = useInput((value: number) => value);
 
   const {

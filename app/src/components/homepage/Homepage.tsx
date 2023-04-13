@@ -1,5 +1,4 @@
 import PlayerBlock from './PlayerBlock';
-import Divider from '../../util/Divider';
 import UpdateBlock from './UpdateBlock';
 import React, { useEffect, useState } from 'react';
 import UpdateConfirmModal from './UpdateConfirmModal';

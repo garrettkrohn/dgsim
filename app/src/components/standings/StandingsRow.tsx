@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  allSeasonStandings,
-  seasonStandingResource,
-} from '../../services/DTOs';
+import { seasonStandingResource } from '../../services/DTOs';
 import ThinDivider from '../../util/ThinDivider';
 
 const StandingsRow = (props: { seasonStanding: seasonStandingResource }) => {

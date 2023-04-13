@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAtom } from 'jotai/index';
 import {
   updateAvailableSpAtom,
@@ -14,11 +14,8 @@ import {
 import UpdateConfirmModalRow from './UpdateConfirmModalRow';
 import Button from '../../util/Button';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { createTournament } from '../../services/tournamentsApi';
 import { getPlayerByAuth, updatePlayer } from '../../services/PlayerApi';
 import { useAuth0 } from '@auth0/auth0-react';
-import Loading from '../../util/Loading';
-import Homepage from './Homepage';
 import { useNavigate } from '@tanstack/react-router';
 
 const UpdateConfirmModal = (props: { toggleModal: Function }) => {
@@ -32,15 +29,8 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
   const [currentAccuracy] = useAtom(currentThrowAccuracyAtom);
   const [currentScramble] = useAtom(currentScrambleAtom);
 
-  const navigate = useNavigate({ from: '/' });
-
   const { user } = useAuth0();
-  const {
-    isLoading: playerIsLoading,
-    error: playerError,
-    data: playerData,
-    refetch,
-  } = useQuery({
+  const { data: playerData, refetch } = useQuery({
     queryKey: [`player`],
     //@ts-ignore
     queryFn: () => getPlayerByAuth({ Auth0: user.sub }),
@@ -64,7 +54,6 @@ const UpdateConfirmModal = (props: { toggleModal: Function }) => {
       }),
     onMutate: () => {
       console.log('mutate');
-      // window.location.reload();
     },
     onError: (err, variables, context) => {
       console.log(err, variables, context);
